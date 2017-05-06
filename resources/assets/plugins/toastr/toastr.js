@@ -18,10 +18,10 @@
             var listener;
             var toastId = 0;
             var toastType = {
-                error: 'error',
+                error: 'erro',
                 info: 'info',
-                success: 'success',
-                warning: 'warning'
+                success: 'sucesso',
+                warning: 'alerta'
             };
 
             var toastr = {
