@@ -29,7 +29,12 @@ export default {
 
     check(){
         return axios.get('/api/auth/check').then(response =>  {
-            return !!response.data.authenticated;
+          if (response.data.user !== null) {
+            let user = JSON.stringify(response.data.user)
+            Ls.set('auth.user', user);
+          }
+
+          return !!response.data.authenticated;
         }).catch(error => {
             console.log('Error', error.message);
         });

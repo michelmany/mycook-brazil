@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Laraspace\User;
+use App\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -14,7 +14,14 @@ class UsersTableSeeder extends Seeder
     {
         User::create([
             'email' => 'erik.figueiredo@gmail.com',
-            'name' => 'Jane Doe',
+            'name' => 'Erik Figueiredo',
+            'role' => 'admin',
+            'password' => bcrypt('123456')
+        ]);
+
+        User::create([
+            'email' => 'michel@nitdesign.com.br',
+            'name' => 'Michel Moraes',
             'role' => 'admin',
             'password' => bcrypt('123456')
         ]);
@@ -23,14 +30,14 @@ class UsersTableSeeder extends Seeder
             'email' => 'shane@laraspace.in',
             'name' => 'Shane White',
             'role' => 'user',
-            'password' => bcrypt('hank@123')
+            'password' => bcrypt('123456')
         ]);
 
         User::create([
             'email' => 'adam@laraspace.in',
             'name' => 'Adam David',
             'role' => 'user',
-            'password' => bcrypt('jesse@123')
+            'password' => bcrypt('123456')
         ]);
     }
 }

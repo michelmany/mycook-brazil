@@ -45,7 +45,7 @@
 
                 if (!this.errors.any()) {
                     Auth.login(this.loginData).then(() => {
-                        this.$router.push('/dashboard/basic')
+                        this.$router.push('/')
                     })
                 }
             }

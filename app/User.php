@@ -14,7 +14,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['mail_md5'];
+    protected $appends = ['email_md5'];
 
     /**
      * The attributes that are mass assignable.
@@ -34,7 +34,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function getMailMd5Attribute($value)
+    public function getEmailMd5Attribute($value)
     {
          return md5($this->attributes['email']);
     }
