@@ -11,6 +11,6 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/dashboard/{vue?}', function () {
+Route::get('/painel/{vue?}', function () {
     return view('admin');
 })->where('vue', '[\/\w\.-]*')->name('dashboard');
