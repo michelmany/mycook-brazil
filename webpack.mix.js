@@ -48,6 +48,7 @@ mix.combine([
 ],'public/assets/js/core/plugins.js')
 
 .js('resources/assets/js/app.js','public/assets/js/')
+.version()
 
 .sass('resources/assets/sass/laraspace.scss', 'public/assets/css/')
 
