@@ -1,11 +1,11 @@
 <template>
     <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
-            <input type="email" class="form-control form-control-danger" placeholder="Enter email" name="email"
+            <input type="email" class="form-control form-control-danger" placeholder="Seu email..." name="email"
                    v-model="loginData.email" v-validate data-vv-rules="required|email">
         </div>
         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
-            <input type="password" class="form-control form-control-danger" placeholder="Enter Password" name="password"
+            <input type="password" class="form-control form-control-danger" placeholder="Sua senha..." name="password"
                    v-model="loginData.password" v-validate data-vv-rules="required">
         </div>
         <div class="other-actions row">
@@ -14,15 +14,15 @@
                     <label class="c-input c-checkbox">
                         <input type="checkbox" name="remember" v-model="loginData.remember">
                         <span class="c-indicator"></span>
-                        Remember Me
+                        Lembrar de mim?
                     </label>
                 </div>
             </div>
             <div class="col-sm-6 text-sm-right">
-                <a href="#" class="forgot-link">Forgot Password?</a>
+                <a href="#" class="forgot-link">Recuperar senha?</a>
             </div>
         </div>
-        <button class="btn btn-theme btn-full">Login</button>
+        <button class="btn btn-theme btn-full">Acessar</button>
     </form>
 </template>
 
@@ -45,7 +45,7 @@
 
                 if (!this.errors.any()) {
                     Auth.login(this.loginData).then(() => {
-                        this.$router.push('/dashboard/basic')
+                        this.$router.push('/')
                     })
                 }
             }

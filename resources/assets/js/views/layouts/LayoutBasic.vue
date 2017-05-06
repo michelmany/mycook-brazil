@@ -1,6 +1,6 @@
 <template>
     <div class="template-container">
-        <site-header></site-header>
+        <site-header :user-data="user"></site-header>
         <site-sidebar type="basic"></site-sidebar>
         <transition name="fade" mode="out-in">
             <router-view></router-view>
@@ -20,7 +20,8 @@
     export default {
         data() {
             return {
-                'header': 'header'
+                'header': 'header',
+                'user' : {}
             }
         },
         components: {

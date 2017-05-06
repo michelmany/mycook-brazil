@@ -14,6 +14,7 @@ import Basic from './views/admin/dashboard/Basic.vue'
 
 //Layouts
 import LayoutBasic from './views/layouts/LayoutBasic.vue'
+import LayoutLogin from './views/layouts/LayoutLogin.vue'
 
 /*
  |--------------------------------------------------------------------------
@@ -47,17 +48,6 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
 
-            {
-                path: 'login',
-                component: Login,
-                name: 'login'
-            },
-            {
-                path: 'register',
-                component: Register,
-                name: 'register'
-            },
-
             //Dashboard
             {
                 path: '',
@@ -66,6 +56,24 @@ const routes = [
             }
         ]
     },
+
+      {
+        path: '/', component: LayoutLogin,  // Change the desired Layout here
+        meta: { requiresAuth: false },
+        children: [
+
+          {
+            path: 'login',
+            component: Login,
+            name: 'login'
+          },
+          {
+            path: 'register',
+            component: Register,
+            name: 'register'
+          },
+        ]
+      },
 
     /*
      |--------------------------------------------------------------------------
@@ -89,8 +97,9 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(m => m.meta.requiresAuth)){
 
         return AuthService.check().then(authenticated => {
+            console.log(authenticated);
             if(!authenticated){
-                return next({ path : '/login'})
+              return next({ path : '/login'})
             }
 
             return next()

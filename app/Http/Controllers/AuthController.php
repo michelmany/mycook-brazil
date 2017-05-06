@@ -31,12 +31,12 @@ class AuthController extends Controller
     {
 
         try {
-            JWTAuth::parseToken()->authenticate();
+            $user = JWTAuth::parseToken()->authenticate();
         } catch (JWTException $e) {
-            return response(['authenticated' => false]);
+            return response(['authenticated' => false, 'user'=>null]);
         }
 
-        return response(['authenticated' => true]);
+        return response(['authenticated' => true, 'user'=>$user]);
     }
 
     public function logout()

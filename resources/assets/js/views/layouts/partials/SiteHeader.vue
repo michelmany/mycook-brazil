@@ -30,7 +30,7 @@
                 </div>
             </li>
             <li>
-                <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="avatar"><img src="/assets/img/avatars/avatar.png" alt="Avatar"></a>
+                <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="avatar"><img :src="'https://secure.gravatar.com/avatar/'+user.email_md5+'.jpg'" alt="Avatar"></a>
                 <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                     <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i> Settings</router-link>
                     <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i> Logout</a>
@@ -45,11 +45,13 @@
 
     import Layout from '../../../helpers/layout'
     import Auth from '../../../services/auth'
+    import Ls from '../../../services/ls'
 
     export default {
         data() {
             return {
-                'header' : 'header'
+              'header' : 'header',
+              user: {}
             }
         },
         methods : {
@@ -61,7 +63,15 @@
                     this.$router.replace('/login')
                 })
             }
+        },
+      mounted() {
+        let user = Ls.get('auth.user');
+
+        if (user !== null) {
+          this.user = JSON.parse(user);
+          console.log(this.user)
         }
+      }
 
     }
 </script>
