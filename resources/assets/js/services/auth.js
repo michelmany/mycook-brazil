@@ -6,13 +6,13 @@ export default {
 
         return axios.post('/api/auth/login', loginData).then(response =>  {
             Ls.set('auth.token',response.data.token)
-            toastr['success']('Logged In!', 'Success');
+            toastr['success']('Logado com sucesso!', 'Success');
         }).catch(error => {
             if (error.response.status == 401) {
-                toastr['error']('Invalid Credentials', 'Error');
+                toastr['error']('Email ou senha inválido', 'Error');
             } else {
                 // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
+                console.log('Erro', error.message);
             }
         });
 
@@ -23,7 +23,7 @@ export default {
             Ls.remove('auth.token')
             toastr['success']('Logged out!', 'Success');
         }).catch(error => {
-            console.log('Error', error.message);
+            console.log('Erro', error.message);
         });
     },
 
@@ -36,7 +36,7 @@ export default {
 
           return !!response.data.authenticated;
         }).catch(error => {
-            console.log('Error', error.message);
+            console.log('Erro', error.message);
         });
     },
 
