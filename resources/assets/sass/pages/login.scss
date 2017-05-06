@@ -84,9 +84,7 @@
     position: relative;
 
     &::before {
-        background-image: url('/assets/img/skynight.jpg');
-        background-position: center top;
-        background-size: cover;
+        background-color: #778188;
         content: '';
         height: 100%;
         left: 0;

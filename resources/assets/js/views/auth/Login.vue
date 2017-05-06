@@ -33,8 +33,8 @@
         data() {
             return {
                 loginData: {
-                    email: 'admin@laraspace.in',
-                    password: 'admin@123',
+                    email: '',
+                    password: '',
                     remember: ''
                 }
             }
@@ -45,7 +45,7 @@
 
                 if (!this.errors.any()) {
                     Auth.login(this.loginData).then(() => {
-                        this.$router.push('/admin/dashboard/basic')
+                        this.$router.push('/dashboard/basic')
                     })
                 }
             }
