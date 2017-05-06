@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Space\Demo;
+namespace App\Space\Demo;
 
 use Illuminate\Database\Eloquent\Model;
 

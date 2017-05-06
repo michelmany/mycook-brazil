@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Laraspace\Http\Requests;
+use App\Http\Requests;
 
 class FrontendController extends Controller
 {

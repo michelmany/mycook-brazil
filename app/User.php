@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace;
+namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -8,6 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['mail_md5'];
 
     /**
      * The attributes that are mass assignable.
@@ -26,4 +33,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getMailMd5Attribute($value)
+    {
+         return md5($this->attributes['email']);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use Laraspace\Space\Settings\Setting;
+use App\Space\Settings\Setting;
 
 /**
  * Set Active Path

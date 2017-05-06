@@ -20,3 +20,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('check','AuthController@check');
 });
 
+
+Route::group(['prefix' => 'v1', 'namespace'=>'Api'], function () {
+    Route::resource('users','UsersController');
+});
+
