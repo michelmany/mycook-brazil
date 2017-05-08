@@ -1,10 +1,13 @@
-// variables.scss - All Variables for Laraspace Admin Theme
+// variables.scss - All Variables for Mycook Admin and Front Themes
+
 
 /*
 |--------------------------------------------------------------------------
 | Primary Skin Colors
 |--------------------------------------------------------------------------
 */
+
+$mc-color-orange: #F95700;
 
 $ls-color-yellow: #ffde00;
 $ls-color-black: #333;
@@ -25,7 +28,7 @@ $ls-color-orange: #f0ad4e;
 */
 
 $white: #fff;
-$brand-primary:             $ls-color-blue !default;
+$brand-primary:             $mc-color-orange !default;
 $brand-secondary:           $ls-color-black !default;
 $brand-success:             $ls-color-green !default;
 $brand-info:                $ls-color-light-blue !default;
@@ -90,6 +93,7 @@ $code-color : $ls-color-primary;
 
 // -- Font Color
 $base-font-family : 'Roboto',sans-serif;
+$base-front-font-family : 'DINPro-Regular',sans-serif;
 $base-font-color : lighten($ls-color-black,15%);
 $heading-font-color : $ls-color-black;
 $font-family-base : $base-font-family;

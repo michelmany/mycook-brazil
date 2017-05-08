@@ -1,0 +1,43 @@
+.btn-outline-white {
+
+    color: #fff;
+    background-image: none;
+    background-color: transparent;
+    border-color: white;
+    border-width: 2px;
+    font-family: DINPro-Bold;
+    font-size: 16px;
+    letter-spacing: -0.2px;
+    padding: 12px 20px;
+
+    &:hover {
+      color: $mc-color-orange;
+      background-color: white;
+      border-color: white;
+    }
+
+    &:focus,
+    &.focus {
+      box-shadow: 0 0 0 2px rgba(white, .5);
+    }
+
+    &.disabled,
+    &:disabled {
+      color: white;
+      background-color: transparent;
+    }
+
+    &:active,
+    &.active,
+    .show > &.dropdown-toggle {
+      color: $mc-color-orange;
+      background-color: white;
+      border-color: white;
+    }
+
+}
+
+
+$btn-primary-color:              $white !default;
+$btn-primary-bg:                 $brand-primary !default;
+$btn-primary-border:             $btn-primary-bg !default;

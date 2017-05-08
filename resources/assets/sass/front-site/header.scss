@@ -1,0 +1,22 @@
+.header-site {  
+    line-height: 2;
+    
+    .navbar-inverse {
+        background: $brand-primary;
+        background-image: linear-gradient(-180deg, $brand-primary 72%, #D54B00 100%);
+    }
+
+    .navbar {
+        &__logo {
+            max-width: 148px;
+            margin: 9px 0;
+        }
+    }
+
+    .nav-link {
+        font-family: DINPro-Medium;
+        font-size: 16px;
+        color: #fff;
+        letter-spacing: 0;
+    }
+}

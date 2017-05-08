@@ -26,11 +26,11 @@
 @import "../plugins/metisMenu/metisMenu.scss";
 
 // Option Skin.
-@import 'skins/skin-tyrell';
-@import 'skins/skin-arryn';
-@import 'skins/skin-targaryen';
-@import 'skins/skin-lannister';
-@import 'skins/skin-stark';
+// @import 'skins/skin-tyrell';
+// @import 'skins/skin-arryn';
+// @import 'skins/skin-targaryen';
+// @import 'skins/skin-lannister';
+// @import 'skins/skin-stark';
 
 // Content Styles
 @import 'base';
@@ -60,8 +60,9 @@
 @import 'pages/user-profile';
 @import 'pages/404';
 
-//Front
-@import "front";
-
-@import "demo";
+//Front Site
+@import "front-site/fonts";
+@import "front-site/header";
+@import "front-site/buttons";
+@import "front-site/hero-image";
 

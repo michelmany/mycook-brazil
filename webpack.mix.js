@@ -50,7 +50,7 @@ mix.combine([
 .js('resources/assets/js/app.js','public/assets/js/')
 .version()
 
-.sass('resources/assets/sass/laraspace.scss', 'public/assets/css/')
+.sass('resources/assets/sass/mycook.scss', 'public/assets/css/')
 
 // .version();
 
