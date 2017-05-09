@@ -1,14 +1,18 @@
 //Front Site
 
-//BASE
 @import "variables";
+
+// Plugins
+@import '../../plugins/bootstrap/scss/bootstrap';
+
+// Base
 @import "base/fonts";
 
-//PARTIALS
+// Partials
 @import "partials/header";
 
-//COMPONENTS
+// Components
 @import "components/buttons";
 
-//MODULES
+// Modules
 @import "modules/hero-image";
