@@ -50,7 +50,8 @@ mix.combine([
 .js('resources/assets/js/app.js','public/assets/js/')
 .version()
 
-.sass('resources/assets/sass/mycook.scss', 'public/assets/css/')
+.sass('resources/assets/sass/painel/mycook.scss', 'public/assets/css/')
+.sass('resources/assets/sass/front/style.scss', 'public/assets/css/')
 
 // .version();
 
