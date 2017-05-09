@@ -12,6 +12,7 @@ import AuthService from './services/auth'
 //Dashboard
 import Basic from './views/admin/dashboard/Basic.vue'
 import Users from './views/admin/users/index.vue'
+import UsersView from './views/admin/users/view.vue'
 
 //Layouts
 import LayoutBasic from './views/layouts/LayoutBasic.vue'
@@ -61,6 +62,11 @@ const routes = [
             path: 'admin/users',
             component: Users,
             name: 'users-list',
+        },
+        {
+            path: 'admin/users/:id/ver',
+            component: UsersView,
+            name: 'users-view',
         }
       ]
     },
