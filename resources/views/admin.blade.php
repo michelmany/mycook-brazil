@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <base href="/painel">
-    <title>Laraspace - Laravel Admin</title>
+    <title>MYCOOK - Painel Admin</title>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
     <script src="/assets/js/core/pace.js"></script>
     <link href="{{mix("/assets/css/mycook.css")}}" rel="stylesheet" type="text/css">

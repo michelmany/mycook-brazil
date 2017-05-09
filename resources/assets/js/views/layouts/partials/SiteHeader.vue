@@ -1,8 +1,8 @@
 <template>
     <header class="site-header">
         <a href="#" class="brand-main">
-            <img src="/assets/img/logo-desk.png" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
-            <img src="/assets/img/logo-mobile.png" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
+            <img src="/assets/img/logo_white.png" id="logo-desk" alt="Mycook Logo" class="hidden-sm-down">
+            <img src="/assets/img/logo-mobile.png" id="logo-mobile" alt="Mycook Logo" class="hidden-md-up">
         </a>
 
         <a href="#" class="nav-toggle" @click="onNavToggle">
