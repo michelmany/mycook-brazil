@@ -4585,27 +4585,11 @@ module.exports = function(Chart) {
 	function initConfig(config) {
 		config = config || {};
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 		// Do NOT use configMerge() for the data object because this method merges arrays
 		// and so would change references to labels and datasets, preventing data updates.
 		var data = config.data = config.data || {};
 		data.datasets = data.datasets || [];
 		data.labels = data.labels || [];
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(161),
-  /* template */
-  __webpack_require__(287),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/components/BarGraph.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] BarGraph.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 		config.options = helpers.configMerge(
 			Chart.defaults.global,
@@ -4642,23 +4626,7 @@ if (Component.options.functional) {console.error("[vue-loader] BarGraph.vue: fun
 	Chart.Controller = function(item, config, instance) {
 		var me = this;
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 		config = initConfig(config);
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(163),
-  /* template */
-  __webpack_require__(282),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/components/LineGraph.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] LineGraph.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 		var context = platform.acquireContext(item, config);
 		var canvas = context && context.canvas;
@@ -4696,24 +4664,8 @@ if (Component.options.functional) {console.error("[vue-loader] LineGraph.vue: fu
 			return me;
 		}
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 		me.initialize();
 		me.update();
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(164),
-  /* template */
-  __webpack_require__(274),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/components/PieGraph.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] PieGraph.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 		return me;
 	};
@@ -4994,25 +4946,9 @@ if (Component.options.functional) {console.error("[vue-loader] PieGraph.vue: fun
 				return;
 			}
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 			for (var i = 0, ilen = me.data.datasets.length; i < ilen; ++i) {
 				me.getDatasetMeta(i).controller.update();
 			}
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(182),
-  /* template */
-  __webpack_require__(278),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/partials/SiteFooter.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SiteFooter.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 			plugins.notify(me, 'afterDatasetsUpdate');
 		},
@@ -5033,26 +4969,10 @@ if (Component.options.functional) {console.error("[vue-loader] SiteFooter.vue: f
 				}
 			};
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 			if (animationOptions && ((typeof duration !== 'undefined' && duration !== 0) || (typeof duration === 'undefined' && animationOptions.duration !== 0))) {
 				var animation = new Chart.Animation();
 				animation.numSteps = (duration || animationOptions.duration) / 16.66; // 60 fps
 				animation.easing = animationOptions.easing;
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(183),
-  /* template */
-  __webpack_require__(273),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/partials/SiteHeader.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SiteHeader.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 				// render function
 				animation.render = function(chartInstance, animationObject) {
@@ -12295,25 +12215,9 @@ module.exports = function(Chart) {
 			callback: Chart.Ticks.formatters.linear
 		},
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 		pointLabels: {
 			// Number - Point label font size in pixels
 			fontSize: 10,
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(185),
-  /* template */
-  __webpack_require__(298),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/partials/SiteSidebar.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SiteSidebar.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 			// Function - Used to convert point labels
 			callback: function(label) {
@@ -57149,23 +57053,7 @@ function initEvents (vm) {
   }
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 var target;
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(162),
-  /* template */
-  __webpack_require__(279),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/components/DoughnutGraph.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] DoughnutGraph.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function add (event, fn, once$$1) {
   if (once$$1) {
@@ -57193,7 +57081,6 @@ function eventsMixin (Vue) {
   Vue.prototype.$on = function (event, fn) {
     var this$1 = this;
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
     var vm = this;
     if (Array.isArray(event)) {
       for (var i = 0, l = event.length; i < l; i++) {
@@ -57209,21 +57096,6 @@ function eventsMixin (Vue) {
     }
     return vm
   };
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(296),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/Settings.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Settings.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   Vue.prototype.$once = function (event, fn) {
     var vm = this;
@@ -57300,23 +57172,7 @@ if (Component.options.functional) {console.error("[vue-loader] Settings.vue: fun
   };
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 /*  */
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(165),
-  /* template */
-  __webpack_require__(276),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/basic-ui/Buttons.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Buttons.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 /**
  * Runtime helper for resolving raw children VNodes into a slot object.
@@ -57354,25 +57210,9 @@ function resolveSlots (
   return slots
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 function isWhitespace (node) {
   return node.isComment || node.text === ' '
 }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(297),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/basic-ui/Cards.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Cards.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function resolveScopedSlots (
   fns
@@ -57388,24 +57228,8 @@ function resolveScopedSlots (
 
 var activeInstance = null;
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 function initLifecycle (vm) {
   var options = vm.$options;
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(305),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/basic-ui/Tables.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Tables.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   // locate first non-abstract parent
   var parent = options.parent;
@@ -57430,7 +57254,6 @@ if (Component.options.functional) {console.error("[vue-loader] Tables.vue: funct
   vm._isBeingDestroyed = false;
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 function lifecycleMixin (Vue) {
   Vue.prototype._update = function (vnode, hydrating) {
     var vm = this;
@@ -57470,21 +57293,6 @@ function lifecycleMixin (Vue) {
     // updated hook is called by the scheduler to ensure that children are
     // updated in a parent's updated hook.
   };
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(280),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/basic-ui/Tabs.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Tabs.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   Vue.prototype.$forceUpdate = function () {
     var vm = this;
@@ -57572,26 +57380,10 @@ function mountComponent (
       var startTag = "vue-perf-start:" + id;
       var endTag = "vue-perf-end:" + id;
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
       mark(startTag);
       var vnode = vm._render();
       mark(endTag);
       measure((name + " render"), startTag, endTag);
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(304),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/basic-ui/Typography.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Typography.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
       mark(startTag);
       vm._update(vnode, hydrating);
@@ -57616,7 +57408,6 @@ if (Component.options.functional) {console.error("[vue-loader] Typography.vue: f
   return vm
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 function updateChildComponent (
   vm,
   propsData,
@@ -57632,21 +57423,6 @@ function updateChildComponent (
     parentVnode.data.scopedSlots || // has new scoped slots
     vm.$scopedSlots !== emptyObject // has old scoped slots
   );
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(166),
-  /* template */
-  __webpack_require__(300),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/components/Datatables.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Datatables.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   vm.$options._parentVnode = parentVnode;
   vm.$vnode = parentVnode; // update vm's placeholder node without re-render
@@ -57712,7 +57488,6 @@ function activateChildComponent (vm, direct) {
   }
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 function deactivateChildComponent (vm, direct) {
   if (direct) {
     vm._directInactive = true;
@@ -57728,21 +57503,6 @@ function deactivateChildComponent (vm, direct) {
     callHook(vm, 'deactivated');
   }
 }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(167),
-  /* template */
-  __webpack_require__(288),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/components/Graphs.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Graphs.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function callHook (vm, hook) {
   var handlers = vm.$options[hook];
@@ -57765,7 +57525,6 @@ function callHook (vm, hook) {
 
 var MAX_UPDATE_COUNT = 100;
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 var queue = [];
 var activatedChildren = [];
 var has = {};
@@ -57773,21 +57532,6 @@ var circular = {};
 var waiting = false;
 var flushing = false;
 var index = 0;
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(168),
-  /* template */
-  __webpack_require__(289),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/components/Notifications.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Notifications.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 /**
  * Reset the scheduler's state.
@@ -57842,25 +57586,9 @@ function flushSchedulerQueue () {
     }
   }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
   // keep copies of post queues before resetting state
   var activatedQueue = activatedChildren.slice();
   var updatedQueue = queue.slice();
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(169),
-  /* template */
-  __webpack_require__(290),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/dashboard/Basic.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Basic.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   resetSchedulerState();
 
@@ -57886,7 +57614,6 @@ function callUpdateHooks (queue) {
   }
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 /**
  * Queue a kept-alive component that was activated during patch.
  * The queue will be processed after the entire tree has been patched.
@@ -57897,21 +57624,6 @@ function queueActivatedComponent (vm) {
   vm._inactive = false;
   activatedChildren.push(vm);
 }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(170),
-  /* template */
-  __webpack_require__(301),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/dashboard/Ecommerce.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Ecommerce.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function callActivatedHooks (queue) {
   for (var i = 0; i < queue.length; i++) {
@@ -57950,23 +57662,7 @@ function queueWatcher (watcher) {
 
 /*  */
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 var uid$2 = 0;
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(171),
-  /* template */
-  __webpack_require__(293),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/dashboard/Finance.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Finance.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 /**
  * A watcher parses an expression, collects dependencies,
@@ -58067,7 +57763,6 @@ Watcher.prototype.addDep = function addDep (dep) {
 Watcher.prototype.cleanupDeps = function cleanupDeps () {
     var this$1 = this;
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
   var i = this.deps.length;
   while (i--) {
     var dep = this$1.deps[i];
@@ -58084,21 +57779,6 @@ Watcher.prototype.cleanupDeps = function cleanupDeps () {
   this.newDeps = tmp;
   this.newDeps.length = 0;
 };
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(172),
-  /* template */
-  __webpack_require__(303),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/forms/Advanced.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Advanced.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 /**
  * Subscriber interface.
@@ -58155,27 +57835,11 @@ Watcher.prototype.evaluate = function evaluate () {
   this.dirty = false;
 };
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 /**
  * Depend on all deps collected by this watcher.
  */
 Watcher.prototype.depend = function depend () {
     var this$1 = this;
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(173),
-  /* template */
-  __webpack_require__(286),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/forms/Editors.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Editors.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   var i = this.deps.length;
   while (i--) {
@@ -58204,7 +57868,6 @@ Watcher.prototype.teardown = function teardown () {
   }
 };
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 /**
  * Recursively traverse an object to evoke all converted
  * getters, so that every nested property inside the object
@@ -58215,21 +57878,6 @@ function traverse (val) {
   seenObjects.clear();
   _traverse(val, seenObjects);
 }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(295),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/forms/FormLayouts.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormLayouts.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function _traverse (val, seen) {
   var i, keys;
@@ -58263,7 +57911,6 @@ var sharedPropertyDefinition = {
   set: noop
 };
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 function proxy (target, sourceKey, key) {
   sharedPropertyDefinition.get = function proxyGetter () {
     return this[sourceKey][key]
@@ -58273,21 +57920,6 @@ function proxy (target, sourceKey, key) {
   };
   Object.defineProperty(target, key, sharedPropertyDefinition);
 }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(174),
-  /* template */
-  __webpack_require__(281),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/forms/FormValidation.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormValidation.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function initState (vm) {
   vm._watchers = [];
@@ -58351,25 +57983,9 @@ function initProps (vm, propsOptions) {
     }
   };
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
   for (var key in propsOptions) loop( key );
   observerState.shouldConvert = true;
 }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(283),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/forms/General.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] General.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function initData (vm) {
   var data = vm.$options.data;
@@ -58399,34 +58015,9 @@ function initData (vm) {
       proxy(vm, "_data", keys[i]);
     }
   }
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
   // observe data
   observe(data, true /* asRootData */);
 }
-=======
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 260 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(175),
-  /* template */
-  __webpack_require__(284),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/forms/VeeValidate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] VeeValidate.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function getData (data, vm) {
   try {
@@ -58457,7 +58048,6 @@ function initComputed (vm, computed) {
     // create internal watcher for the computed property.
     watchers[key] = new Watcher(vm, getter, noop, computedWatcherOptions);
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
     // component-defined computed properties are already defined on the
     // component prototype. We only need to define computed properties defined
     // at instantiation here.
@@ -58472,21 +58062,6 @@ function initComputed (vm, computed) {
     }
   }
 }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(176),
-  /* template */
-  __webpack_require__(285),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/auth/Login.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function defineComputed (target, key, userDef) {
   if (typeof userDef === 'function') {
@@ -58542,7 +58117,6 @@ function initMethods (vm, methods) {
   }
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 function initWatch (vm, watch) {
   for (var key in watch) {
     var handler = watch[key];
@@ -58555,21 +58129,6 @@ function initWatch (vm, watch) {
     }
   }
 }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(275),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/auth/Register.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function createWatcher (vm, key, handler) {
   var options;
@@ -58627,23 +58186,7 @@ function stateMixin (Vue) {
   };
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 /*  */
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(177),
-  /* template */
-  __webpack_require__(299),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/errors/404.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] 404.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function initProvide (vm) {
   var provide = vm.$options.provide;
@@ -58703,23 +58246,7 @@ function resolveInject (inject, vm) {
   }
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 /*  */
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(277),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/front/Home.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Home.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function createFunctionalComponent (
   Ctor,
@@ -58738,7 +58265,6 @@ function createFunctionalComponent (
     if (isDef(data.attrs)) { mergeProps(props, data.attrs); }
     if (isDef(data.props)) { mergeProps(props, data.props); }
   }
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
   // ensure the createElement function in functional components
   // gets a unique context - this is necessary for correct named slot check
   var _context = Object.create(context);
@@ -58761,30 +58287,6 @@ function createFunctionalComponent (
   }
   return vnode
 }
-=======
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 265 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(178),
-  /* template */
-  __webpack_require__(272),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/LayoutBasic.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] LayoutBasic.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function mergeProps (to, from) {
   for (var key in from) {
@@ -58829,7 +58331,6 @@ var componentVNodeHooks = {
     );
   },
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
   insert: function insert (vnode) {
     var context = vnode.context;
     var componentInstance = vnode.componentInstance;
@@ -58850,21 +58351,6 @@ var componentVNodeHooks = {
       }
     }
   },
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(292),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/LayoutFront.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] LayoutFront.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   destroy: function destroy (vnode) {
     var componentInstance = vnode.componentInstance;
@@ -58880,7 +58366,6 @@ if (Component.options.functional) {console.error("[vue-loader] LayoutFront.vue: 
 
 var hooksToMerge = Object.keys(componentVNodeHooks);
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 function createComponent (
   Ctor,
   data,
@@ -58891,21 +58376,6 @@ function createComponent (
   if (isUndef(Ctor)) {
     return
   }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(179),
-  /* template */
-  __webpack_require__(291),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/LayoutHorizontal.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] LayoutHorizontal.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   var baseCtor = context.$options._base;
 
@@ -58937,23 +58407,7 @@ if (Component.options.functional) {console.error("[vue-loader] LayoutHorizontal.
   // component constructor creation
   resolveConstructorOptions(Ctor);
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
   data = data || {};
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(180),
-  /* template */
-  __webpack_require__(294),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/LayoutIconSidebar.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] LayoutIconSidebar.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   // transform component v-model data into props & events
   if (isDef(data.model)) {
@@ -58968,27 +58422,11 @@ if (Component.options.functional) {console.error("[vue-loader] LayoutIconSidebar
     return createFunctionalComponent(Ctor, propsData, data, context, children)
   }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
   // extract listeners, since these needs to be treated as
   // child component listeners instead of DOM listeners
   var listeners = data.on;
   // replace with listeners with .native modifier
   data.on = data.nativeOn;
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(181),
-  /* template */
-  __webpack_require__(271),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/LayoutLogin.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] LayoutLogin.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
   if (isTrue(Ctor.options.abstract)) {
     // abstract components do not keep anything
@@ -59036,7 +58474,6 @@ function createComponentInstanceForVnode (
   return new vnodeComponentOptions.Ctor(options)
 }
 
-<<<<<<< Updated upstream:public/assets/js/app.7a09b3380aafec5dfa09.js
 function mergeHooks (data) {
   if (!data.hook) {
     data.hook = {};
@@ -59048,21 +58485,6 @@ function mergeHooks (data) {
     data.hook[key] = fromParent ? mergeHook$1(ours, fromParent) : ours;
   }
 }
-=======
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(184),
-  /* template */
-  __webpack_require__(302),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/partials/SiteHeaderBottom.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SiteHeaderBottom.vue: functional components are not supported with templates, they should use render functions.")}
->>>>>>> Stashed changes:public/assets/js/app.js
 
 function mergeHook$1 (one, two) {
   return function (a, b, c, d) {
@@ -65379,7 +64801,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\components\\BarGraph.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/components/BarGraph.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BarGraph.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65418,7 +64840,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\components\\LineGraph.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/components/LineGraph.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] LineGraph.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65457,7 +64879,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\components\\PieGraph.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/components/PieGraph.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PieGraph.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65807,7 +65229,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\views\\admin\\dashboard\\Basic.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/admin/dashboard/Basic.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Basic.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65842,7 +65264,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\views\\auth\\Login.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/auth/Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65877,7 +65299,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\views\\auth\\Register.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/auth/Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65912,7 +65334,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\views\\errors\\404.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/errors/404.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] 404.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65947,7 +65369,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\views\\layouts\\LayoutBasic.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/LayoutBasic.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] LayoutBasic.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -65982,7 +65404,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\views\\layouts\\LayoutLogin.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/LayoutLogin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] LayoutLogin.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -66017,7 +65439,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\views\\layouts\\partials\\SiteFooter.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/partials/SiteFooter.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteFooter.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -66052,7 +65474,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\views\\layouts\\partials\\SiteHeader.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/partials/SiteHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -66087,7 +65509,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\Users\\erik_\\Documents\\dev\\projetos\\freela\\nitdesign\\mycook\\mycook\\resources\\assets\\js\\views\\layouts\\partials\\SiteSidebar.vue"
+Component.options.__file = "/Users/michelmoraes/Projects/nitdesign/mycook/resources/assets/js/views/layouts/partials/SiteSidebar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteSidebar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -66109,7 +65531,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/sass/laraspace.scss":
+/***/ "./resources/assets/sass/mycook.scss":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -66120,7 +65542,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./resources/assets/js/app.js");
-module.exports = __webpack_require__("./resources/assets/sass/laraspace.scss");
+module.exports = __webpack_require__("./resources/assets/sass/mycook.scss");
 
 
 /***/ })
