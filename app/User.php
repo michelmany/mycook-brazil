@@ -14,7 +14,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['email_md5'];
+    protected $appends = [];
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'cpf', 'avatar',  'active',  'role', 'email', 'password',
     ];
 
     /**
@@ -34,8 +34,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function getEmailMd5Attribute($value)
+    public function getAvatarAttribute()
     {
-         return md5($this->attributes['email']);
+        if (!$this->attributes['avatar']) {
+            $avatar = md5($this->attributes['email']);
+            return 'https://secure.gravatar.com/avatar/'. $avatar .'.jpg';
+        }
+        return $this->attributes['avatar'];
     }
 }
