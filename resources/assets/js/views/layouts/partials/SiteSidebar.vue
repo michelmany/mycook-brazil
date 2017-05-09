@@ -3,11 +3,10 @@
         <div class="sidebar-body scroll-pane">
             <ul class="metismenu side-nav" id="menu">
                 <li :class="{ active : isActive('/') }">
-                    <a href="#" aria-expanded="true"><i class="fa fa-dashboard"></i> Painel <span class="fa arrow fa-fw"></span></a>
+                    <a href="#" aria-expanded="true"><i class="fa fa-dashboard"></i> Administraçao <span class="fa arrow fa-fw"></span></a>
                     <ul aria-expanded="true">
-                        <router-link to="/" tag="li"><a>Home</a></router-link>
-                        <router-link to="/ecommerce" tag="li"><a>Ecommerce</a></router-link>
-                        <router-link to="/finance" tag="li"><a>Finance</a></router-link>
+                        <router-link to="/" tag="li" exact><a>Home</a></router-link>
+                        <router-link to="/admin/users" tag="li" exact><a>Usuários</a></router-link>
                     </ul>
                 </li>
             </ul>

@@ -11,6 +11,7 @@ import AuthService from './services/auth'
 
 //Dashboard
 import Basic from './views/admin/dashboard/Basic.vue'
+import Users from './views/admin/users/index.vue'
 
 //Layouts
 import LayoutBasic from './views/layouts/LayoutBasic.vue'
@@ -44,36 +45,43 @@ const routes = [
      |--------------------------------------------------------------------------|
      */
     {
-        path: '/', component: LayoutBasic,  // Change the desired Layout here
-        meta: { requiresAuth: true },
-        children: [
+      path: '/', component: LayoutBasic,  // Change the desired Layout here
+      meta: { requiresAuth: true },
+      children: [
 
-            //Dashboard
-            {
-                path: '',
-                component: Basic,
-                name: 'dashboard',
-            }
-        ]
+        //Dashboard
+        {
+            path: '',
+            component: Basic,
+            name: 'dashboard',
+        },
+
+        //Admin
+        {
+            path: 'admin/users',
+            component: Users,
+            name: 'users-list',
+        }
+      ]
     },
 
-      {
-        path: '/', component: LayoutLogin,  // Change the desired Layout here
-        meta: { requiresAuth: false },
-        children: [
+    {
+      path: '/', component: LayoutLogin,  // Change the desired Layout here
+      meta: { requiresAuth: false },
+      children: [
 
-          {
-            path: 'login',
-            component: Login,
-            name: 'login'
-          },
-          {
-            path: 'register',
-            component: Register,
-            name: 'register'
-          },
-        ]
-      },
+        {
+          path: 'login',
+          component: Login,
+          name: 'login'
+        },
+        {
+          path: 'register',
+          component: Register,
+          name: 'register'
+        },
+      ]
+    },
 
     /*
      |--------------------------------------------------------------------------
