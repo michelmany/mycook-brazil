@@ -1,3 +1,13 @@
-body {
-    background: royalblue;
-}
+//Front Site
+
+//BASE
+@import "base/fonts";
+
+//PARTIALS
+@import "front-site/header";
+
+//COMPONENTS
+@import "front-site/buttons";
+
+//MODULES
+@import "front-site/hero-image";
