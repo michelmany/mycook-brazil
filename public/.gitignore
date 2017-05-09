@@ -1,0 +1,4 @@
+mix-manifest.json
+assets/css/mycook.*.css
+assets/js/app.*.js
+assets/js/core/plugins.*.js
