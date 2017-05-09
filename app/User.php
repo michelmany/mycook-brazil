@@ -38,7 +38,7 @@ class User extends Authenticatable
     {
         if (!$this->attributes['avatar']) {
             $avatar = md5($this->attributes['email']);
-            return 'https://secure.gravatar.com/avatar/'. $avatar .'.jpg';
+            return 'https://secure.gravatar.com/avatar/'. $avatar;
         }
         return $this->attributes['avatar'];
     }

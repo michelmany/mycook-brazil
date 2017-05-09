@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin\V1;
 
 use ErikFig\Http\Controllers\ApiControllerTrait;
 use App\Http\Controllers\Controller;
