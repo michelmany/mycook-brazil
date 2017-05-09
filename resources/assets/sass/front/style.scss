@@ -1,13 +1,14 @@
 //Front Site
 
 //BASE
+@import "variables";
 @import "base/fonts";
 
 //PARTIALS
-@import "front-site/header";
+@import "partials/header";
 
 //COMPONENTS
-@import "front-site/buttons";
+@import "components/buttons";
 
 //MODULES
-@import "front-site/hero-image";
+@import "modules/hero-image";
