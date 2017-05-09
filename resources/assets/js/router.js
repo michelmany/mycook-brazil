@@ -13,6 +13,8 @@ import AuthService from './services/auth'
 import Basic from './views/admin/dashboard/Basic.vue'
 import Users from './views/admin/users/index.vue'
 import UsersView from './views/admin/users/view.vue'
+import UsersEdit from './views/admin/users/edit.vue'
+import UsersDelete from './views/admin/users/delete.vue'
 
 //Layouts
 import LayoutBasic from './views/layouts/LayoutBasic.vue'
@@ -67,6 +69,16 @@ const routes = [
             path: 'admin/users/:id/ver',
             component: UsersView,
             name: 'users-view',
+        },
+        {
+            path: 'admin/users/:id/edit',
+            component: UsersEdit,
+            name: 'users-edit',
+        },
+        {
+            path: 'admin/users/:id/remove',
+            component: UsersDelete,
+            name: 'users-delete',
         }
       ]
     },
@@ -111,7 +123,6 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(m => m.meta.requiresAuth)){
 
         return AuthService.check().then(authenticated => {
-            console.log(authenticated);
             if(!authenticated){
               return next({ path : '/login'})
             }

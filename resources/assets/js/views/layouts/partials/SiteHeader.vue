@@ -30,7 +30,7 @@
                 </div>
             </li>
             <li>
-                <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="avatar"><img :src="user.avatar" alt="Avatar"></a>
+                <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="avatar"><img :src="user.avatar" alt="Avatar" v-if="user.avatar"></a>
                 <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                     <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i> Settings</router-link>
                     <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i> Logout</a>
@@ -69,7 +69,6 @@
 
         if (user !== null) {
           this.user = JSON.parse(user);
-          console.log(this.user)
         }
       }
 

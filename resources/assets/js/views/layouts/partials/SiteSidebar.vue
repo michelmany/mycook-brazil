@@ -6,7 +6,7 @@
                     <a href="#" aria-expanded="true"><i class="fa fa-dashboard"></i> Administraçao <span class="fa arrow fa-fw"></span></a>
                     <ul aria-expanded="true">
                         <router-link to="/" tag="li" exact><a>Home</a></router-link>
-                        <router-link to="/admin/users" tag="li" exact><a>Usuários</a></router-link>
+                        <router-link to="/admin/users" tag="li"><a>Usuários</a></router-link>
                     </ul>
                 </li>
             </ul>
