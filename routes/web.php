@@ -31,8 +31,21 @@ Route::get('/contato', function () {
     // TODO: criar layout da página
 })->name('home');
 
-Route::get('/auth/social/redirect/{provider}', 'SocialAuthController@redirect');
-Route::get('/auth/social/callback/{provider}', 'SocialAuthController@callback');
+Route::group(['prefix'=>'auth'], function () {
+    // Home da sessão autenticação
+    Route::get('/', function() {
+       return view('user.index');
+    });
+
+    // Facebook auth
+    Route::get('/social/redirect/{provider}', 'SocialAuthController@redirect');
+    Route::get('/social/callback/{provider}', 'SocialAuthController@callback');
+
+    // Cadastro de usuário
+    Route::get('/register', 'UserController@registerGet');
+    Route::post('/register', 'UserController@registerPost');
+});
+
 
 Route::get('/me/profile', function() {
     return 'Formulário de edição de perfil do usuário logado';
