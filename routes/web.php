@@ -31,6 +31,9 @@ Route::get('/contato', function () {
     // TODO: criar layout da página
 })->name('home');
 
+Route::get('/auth/social/redirect/{provider}', 'SocialAuthController@redirect');
+Route::get('/auth/social/callback/{provider}', 'SocialAuthController@callback');
+
 Route::get('/painel/{vue?}', function () {
     return view('admin');
 })->where('vue', '[\/\w\.-]*')->name('dashboard');
