@@ -47,7 +47,8 @@ mix.combine([
     pluginPath + 'metisMenu/metisMenu.js',
 ],'public/assets/js/core/plugins.js')
 
-.js('resources/assets/js/app.js','public/assets/js/')
+.js('resources/assets/js/painel/app.js','public/assets/js/painel.js')
+.js('resources/assets/js/front/app.js','public/assets/js/front.js')
 .version()
 
 .sass('resources/assets/sass/painel/mycook.scss', 'public/assets/css/')

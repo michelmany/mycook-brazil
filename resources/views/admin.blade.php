@@ -36,6 +36,6 @@
     </transition>
 </div>
 <script type="text/javascript" src="{{combine_mix('/assets/js/core/plugins.js')}}"></script>
-<script type="text/javascript" src="{{mix("/assets/js/app.js")}}"></script>
+<script type="text/javascript" src="{{mix("/assets/js/painel.js")}}"></script>
 </body>
 </html>
