@@ -1,3 +1,18 @@
-body {
-    background: royalblue;
-}
+//Front Site
+
+@import "variables";
+
+// Plugins
+@import '../../plugins/bootstrap/scss/bootstrap';
+
+// Base
+@import "base/fonts";
+
+// Partials
+@import "partials/header";
+
+// Components
+@import "components/buttons";
+
+// Modules
+@import "modules/hero-image";

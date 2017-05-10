@@ -1,0 +1,105 @@
+// variables.scss - All Variables for Mycook Front
+
+
+/*
+|--------------------------------------------------------------------------
+| Primary Skin Colors
+|--------------------------------------------------------------------------
+*/
+
+$mc-color-orange: #F95700;
+$mc-color-yellow: #ffde00;
+$mc-color-black: #333;
+$mc-color-black--light: #55595c;
+$mc-color-blue: #007dcc;
+$mc-color-green: #4fc47f;
+$mc-color-red: #f35a3d;
+$mc-color-gray--light: #f8f8f8;
+$mc-color-gray--dark: #ddd;
+$mc-color-gray--very-dark: #bababa;
+$mc-color-light-blue: #5BBFDE;
+
+
+/*
+|--------------------------------------------------------------------------
+| Bootstrap Overrides
+|--------------------------------------------------------------------------
+*/
+
+$white: #fff;
+$brand-primary:             $mc-color-orange !default;
+$brand-secondary:           $mc-color-black !default;
+$brand-success:             $mc-color-green !default;
+$brand-info:                $mc-color-light-blue !default;
+$brand-warning:             $mc-color-orange !default;
+$brand-danger:              $mc-color-red !default;
+
+$btn-secondary-color:            $white !default;
+$btn-secondary-bg:               $mc-color-black !default;
+$btn-secondary-border:           $mc-color-black !default;
+
+
+/*
+|--------------------------------------------------------------------------
+| Current Theme Colors
+|--------------------------------------------------------------------------
+*/
+
+$mc-color-primary : $mc-color-orange;
+$mc-color-secondary : $mc-color-black;
+
+//HEADER SECTION
+$header-bg-color: $mc-color-primary;
+$header-font-color : $white;
+$header-buttons-bg-color : $mc-color-black;
+$header-buttons-bg-color--hover : lighten($mc-color-black,5%);
+$header-buttons-font-color : $white;
+
+//SIDEBAR SECTION
+$sidebar-bg-color : $mc-color-secondary;
+$sidebar-font-color : $white;
+$sidemenu-item-bg-color--hover : lighten($mc-color-black,10%);
+$sidemenu-item-bg-color--active : transparent;
+$sidemenu-item-font-color : $white;
+$sidemenu-item-font-color--active : $mc-color-primary;
+$sidemenu-arrow-color : $mc-color-gray--very-dark;
+$sidemenu-submenu-bg : lighten($mc-color-black,3%);
+
+//DROPDOWN
+$dropdown-bg: $mc-color-black;
+$dropdown-link-color : $white;
+$dropdown-border-color : $mc-color-black;
+$dropdown-divider-bg : $mc-color-gray--very-dark;
+$dropdown-header-color: $mc-color-primary;
+$dropdown-header-border-color : $mc-color-gray--very-dark;
+
+//Horizontal Menu
+$header-bottom-bg : $mc-color-black;
+$header-menu-item-font-color : darken($white,10%);
+$header-menu-item-font-color--active : $white;
+$header-menu-item-bg-color--hover : lighten($mc-color-black,10%);
+$header-menu-item-bg-color--active : lighten($mc-color-black,10%);
+
+//MISC
+$code-bg : $mc-color-black;
+$code-color : $mc-color-primary;
+
+/*
+|--------------------------------------------------------------------------
+| Fonts
+|--------------------------------------------------------------------------
+*/
+
+// -- Font Color
+$base-font-family : 'Roboto',sans-serif;
+$base-front-font-family : 'DINPro-Regular',sans-serif;
+$base-font-color : lighten($mc-color-black,15%);
+$heading-font-color : $mc-color-black;
+$font-family-base : $base-font-family;
+
+// -- Sizes
+$font-size-base:  1rem;
+$font-size-section-title : 1.25rem;
+$font-size-semi-section-title : 1.1rem;
+$font-size-page-title : 1.5rem;
+
