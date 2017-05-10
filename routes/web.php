@@ -35,15 +35,25 @@ Route::group(['prefix'=>'auth'], function () {
     // Home da sessão autenticação
     Route::get('/', function() {
        return view('user.index');
-    });
+    })->name('authHome');
+
+    // Login
+    Route::post('/login', 'UserController@login')->name('login');
+    Route::get('/logout', 'UserController@logout')->name('logout');
 
     // Facebook auth
-    Route::get('/social/redirect/{provider}', 'SocialAuthController@redirect');
+    Route::get('/social/redirect/{provider}', 'SocialAuthController@redirect')->name('facebookAuth');
     Route::get('/social/callback/{provider}', 'SocialAuthController@callback');
 
     // Cadastro de usuário
-    Route::get('/register', 'UserController@registerGet');
-    Route::post('/register', 'UserController@registerPost');
+    Route::get('/register', 'UserController@registerGet')->name('register');
+    Route::post('/register', 'UserController@registerPost')->name('registerPost');
+
+    // Resete de senha
+    $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 });
 
 
