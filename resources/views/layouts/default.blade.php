@@ -37,7 +37,7 @@
                         </li>
                     </ul>
 
-                    <a href="#" class="btn btn-outline-white my-2 my-sm-0 ml-sm-3">Entrar ou Cadastrar</a>
+                    <a href="/auth/social/redirect/facebook" class="btn btn-outline-white my-2 my-sm-0 ml-sm-3">Entrar ou Cadastrar</a>
 
                 </div>
             </div>

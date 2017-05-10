@@ -9,6 +9,7 @@
         "erikfig/laravel-crud-traits": "1.*",
         "laracasts/flash": "^2.0",
         "laravel/framework": "5.4.*",
+        "laravel/socialite": "^3.0",
         "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
