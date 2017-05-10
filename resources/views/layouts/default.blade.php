@@ -46,6 +46,6 @@
 
     @yield('content')
 
-    <!--<script type="text/javascript" src="{{mix("/assets/js/app.js")}}"></script>-->
+    <script type="text/javascript" src="{{mix("/assets/js/front.js")}}"></script>
 </body>
 </html>
