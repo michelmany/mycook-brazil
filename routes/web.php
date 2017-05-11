@@ -13,23 +13,23 @@ Route::get('/', function () {
 
 Route::get('/cadastro', function () {
     // TODO: criar layout da página
-})->name('home');
+})->name('cadastro');
 
 Route::get('/quero-vender', function () {
     // TODO: criar layout da página
-})->name('home');
+})->name('queroVender');
 
 Route::get('/sobre', function () {
     // TODO: criar layout da página
-})->name('home');
+})->name('sobre');
 
 Route::get('/como-funciona', function () {
     // TODO: criar layout da página
-})->name('home');
+})->name('comoFunciona');
 
 Route::get('/contato', function () {
     // TODO: criar layout da página
-})->name('home');
+})->name('contato');
 
 Route::group(['prefix'=>'auth'], function () {
     // Home da sessão autenticação

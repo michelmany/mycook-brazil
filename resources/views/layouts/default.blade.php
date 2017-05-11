@@ -21,19 +21,19 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home</a>
+                            <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Sobre mycook</a>
+                            <a class="nav-link" href="{{ route('queroVender') }}">Sobre mycook</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Quero vender no mycook</a>
+                            <a class="nav-link" href="{{ route('sobre') }}">Quero vender no mycook</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Como funciona</a>
+                            <a class="nav-link" href="{{ route('comoFunciona') }}">Como funciona</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contato</a>
+                            <a class="nav-link" href="{{ route('contato') }}">Contato</a>
                         </li>
                     </ul>
 
