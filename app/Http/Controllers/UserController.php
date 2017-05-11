@@ -48,4 +48,14 @@ class UserController extends Controller
         $buyer->user()->associate($user);
         return redirect()->route('authHome');
     }
+
+    public function sellerRegister()
+    {
+        return view('user.seller_register');
+    }
+
+    public function sellerRegisterPost(Request $request)
+    {
+        dd($request->all());
+    }
 }

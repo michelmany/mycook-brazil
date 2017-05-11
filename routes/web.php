@@ -15,9 +15,8 @@ Route::get('/cadastro', function () {
     // TODO: criar layout da página
 })->name('cadastro');
 
-Route::get('/quero-vender', function () {
-    // TODO: criar layout da página
-})->name('queroVender');
+Route::get('/quero-vender', 'UserController@sellerRegister')->name('queroVender');
+Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
 
 Route::get('/sobre', function () {
     // TODO: criar layout da página
