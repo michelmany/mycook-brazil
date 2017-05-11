@@ -11,9 +11,9 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/cadastro', function () {
-    // TODO: criar layout da página
-})->name('cadastro');
+Route::get('/entrar', function () {
+    return view('entrar');
+})->name('entrar');
 
 Route::get('/quero-vender', function () {
     // TODO: criar layout da página

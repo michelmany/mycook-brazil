@@ -6,6 +6,7 @@
 @import '../../plugins/bootstrap/scss/bootstrap';
 
 // Base
+@import "base/base";
 @import "base/fonts";
 
 // Partials
@@ -16,3 +17,4 @@
 
 // Modules
 @import "modules/hero-image";
+@import "modules/hero-pages";
