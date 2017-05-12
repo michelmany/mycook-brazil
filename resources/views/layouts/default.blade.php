@@ -24,10 +24,10 @@
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('queroVender') }}">Sobre mycook</a>
+                            <a class="nav-link" href="{{ route('sobre') }}">Sobre mycook</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('sobre') }}">Quero vender no mycook</a>
+                            <a class="nav-link" href="{{ route('queroVender') }}">Quero vender no mycook</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('comoFunciona') }}">Como funciona</a>

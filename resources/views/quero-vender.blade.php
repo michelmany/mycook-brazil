@@ -1,16 +1,14 @@
 @extends('layouts.default')
-@section('title', 'Entre ou Cadastre-se')
+@section('title', 'Quero vender no mycook')
 @section('content')
 
     <section class="hero-pages" 
         style="background-image: url('/assets/img/placeholder-hero-image.jpg')"">
-
         <div class="hero-pages__mask"></div>
-
         <div class="container">
             <div class="hero-pages__headline ml-auto">@yield('title')</div>
         </div>
-
     </section>
+
 
 @endsection

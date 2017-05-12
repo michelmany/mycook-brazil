@@ -2,6 +2,7 @@
 @section('title', 'Home')
 @section('content')
 
+{{--
     <section class="hero-image">
 
         <div class="hero-image__image" style="background-image: url('/assets/img/placeholder-hero-image.jpg')">
@@ -21,7 +22,7 @@
 
             </div>
         </div>
-
+--}}
         
     </section>
 
