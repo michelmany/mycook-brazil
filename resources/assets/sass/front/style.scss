@@ -4,6 +4,7 @@
 
 // Plugins
 @import '../../plugins/bootstrap/scss/bootstrap';
+@import '../../plugins/fontawesome/font-awesome';
 
 // Base
 @import "base/base";
@@ -14,7 +15,11 @@
 
 // Components
 @import "components/buttons";
+@import "components/forms";
 
 // Modules
 @import "modules/hero-image";
 @import "modules/hero-pages";
+
+// Pages
+@import "pages/cadastro";

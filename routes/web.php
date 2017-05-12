@@ -16,22 +16,22 @@ Route::get('/entrar', function () {
 })->name('entrar');
 
 Route::get('/quero-vender', function () {
-    // TODO: criar layout da página
+    return view('quero-vender');
 })->name('queroVender');
 
 Route::get('/sobre', function () {
-    // TODO: criar layout da página
+    return view('sobre');
 })->name('sobre');
 
 Route::get('/como-funciona', function () {
-    // TODO: criar layout da página
+    return view('como-funciona');
 })->name('comoFunciona');
 
 Route::get('/contato', function () {
-    // TODO: criar layout da página
+    return view('contato');
 })->name('contato');
 
-Route::group(['prefix'=>'auth'], function () {
+Route::group(['prefix'=>'entrar'], function () {
     // Home da sessão autenticação
     Route::get('/', function() {
        return view('user.index');
