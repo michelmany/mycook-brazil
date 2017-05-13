@@ -24,11 +24,6 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function registerGet()
-    {
-        return view('user.register');
-    }
-
     public function registerPost(BuyerRequest $request)
     {
         $user = User::create([

@@ -46,7 +46,6 @@ Route::group(['prefix'=>'entrar'], function () {
     Route::get('/social/callback/{provider}', 'SocialAuthController@callback');
 
     // Cadastro de usuário
-    Route::get('/register', 'UserController@registerGet')->name('register');
     Route::post('/register', 'UserController@registerPost')->name('registerPost');
 
     // Resete de senha
