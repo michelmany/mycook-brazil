@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\Buyer;
-use App\Http\Requests\BuyerRequest;
 use App\User;
+use App\Seller;
+use App\Http\Requests\BuyerRequest;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -42,5 +44,27 @@ class UserController extends Controller
 
         $buyer->user()->associate($user);
         return redirect()->route('authHome');
+    }
+
+    public function sellerRegister()
+    {
+        return view('user.seller_register');
+    }
+
+    public function sellerRegisterPost(Request $request)
+    {
+        $data = $request->all();
+
+        $email = $data['user']['email'];
+        $password = bcrypt(bin2hex(openssl_random_pseudo_bytes(8)));
+
+        $user = User::firstOrCreate(
+            [ 'email' => $email],
+            array_merge($data['user'], ['password' => $password])
+        );
+        Address::create(array_merge($data['address'], ['user_id'=>$user['id']]));
+        Seller::create(array_merge($data['buyer'], ['user_id'=>$user['id']]));
+
+        return redirect()->route('queroVender');
     }
 }
