@@ -1,0 +1,46 @@
+// base.scss - Basic Style Rules..
+
+html, body {
+    height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: $mc-color-gray--light;
+    font-family: $base-front-font-family;
+    color: $base-font-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $heading-font-color;
+    font-weight: normal;
+}
+
+a {
+    color: $mc-color-black--light;
+
+    &:hover, &:focus {
+        color: lighten($mc-color-black--light, 10%);
+        text-decoration: none;
+        outline: none;
+    }
+
+}
+
+mark, .mark {
+    background-color: $mc-color-primary;
+}
+
+code, .code {
+    background-color: $code-bg;
+    color: $mc-color-primary;
+}
+
+:active, :focus, :hover {
+    outline: 0;
+}
+
+.text-default {
+    color: $mc-color-black !important;
+}

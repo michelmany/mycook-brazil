@@ -11,26 +11,26 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/cadastro', function () {
-    // TODO: criar layout da página
-})->name('cadastro');
+Route::get('/entrar', function () {
+    return view('entrar');
+})->name('entrar');
 
 Route::get('/quero-vender', 'UserController@sellerRegister')->name('queroVender');
 Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
 
 Route::get('/sobre', function () {
-    // TODO: criar layout da página
+    return view('sobre');
 })->name('sobre');
 
 Route::get('/como-funciona', function () {
-    // TODO: criar layout da página
+    return view('como-funciona');
 })->name('comoFunciona');
 
 Route::get('/contato', function () {
-    // TODO: criar layout da página
+    return view('contato');
 })->name('contato');
 
-Route::group(['prefix'=>'auth'], function () {
+Route::group(['prefix'=>'entrar'], function () {
     // Home da sessão autenticação
     Route::get('/', function() {
        return view('user.index');
