@@ -21,19 +21,20 @@
     }
 
     .page-copyright {
-        font-size: 14px;
+        font-size: 12px;
         margin-top: 50px;
         text-align: center;
+        opacity: 0.5;
         p {
             margin-bottom: 10px;
         }
     }
 
     a {
-        color: $ls-color-primary;
+        color: #fff;
 
         &:hover {
-            color: darken($ls-color-primary, 5%);
+            color: darken(#fff, 30%);
         }
     }
 
@@ -112,7 +113,7 @@
 
     img {
         height: auto;
-        width: 300px;
+        width: 164px;
     }
 }
 

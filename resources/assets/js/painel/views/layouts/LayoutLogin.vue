@@ -2,12 +2,11 @@
     <div class="login-wrapper">
         <div class="login-box">
             <div class="brand-main">
-                <a href="/">My Cook</a>
+                <a href="/"><img src="/assets/img/logo_white.png" alt="Mycook Logo"></a>
             </div>
             <router-view></router-view>
             <div class="page-copyright">
-                <p>Powered by <a href="https://www.nitdesign.com.br/" target="_blank">NitDesign</a></p>
-                <p>NitDesign © {{ year }}</p>
+                <p>Powered by <a href="https://www.nitdesign.com.br/" target="_blank">NITDESIGN</a></p>
             </div>
         </div>
     </div>

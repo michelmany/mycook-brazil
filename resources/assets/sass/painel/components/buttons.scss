@@ -31,7 +31,7 @@
 }
 
 .btn-theme {
-    @include button-variant($ls-color-secondary, $ls-color-primary, $ls-color-primary);
+    @include button-variant(#fff, $ls-color-primary, $ls-color-primary);
 }
 
 .btn-outline-theme {
