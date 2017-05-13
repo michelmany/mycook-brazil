@@ -32,22 +32,27 @@
                                         {{ csrf_field() }}
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-lg input__entrar" 
-                                                name="name" placeholder="Digite seu nome" value="{{old('name')}}">
+                                                name="name" required placeholder="Digite seu nome" value="{{old('name')}}">
                                             @include('components.error', ['field'=>'name'])
                                         </div>
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-lg input__entrar" 
-                                                name="email" placeholder="Digite seu email" value="{{old('email')}}">
+                                                name="email" required placeholder="Digite seu email" value="{{old('email')}}">
                                             @include('components.error', ['field'=>'email'])
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-lg input__entrar" 
-                                                name="password" placeholder="Digite sua senha mycook" value="{{old('password')}}">
+                                                name="password" required placeholder="Digite sua senha mycook" value="{{old('password')}}">
+                                            @include('components.error', ['field'=>'password'])
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-lg input__entrar" 
+                                                name="password" required placeholder="Confirme sua senha" value="">
                                             @include('components.error', ['field'=>'password'])
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-lg input__entrar" 
-                                                name="phone" placeholder="Digite seu telefone" value="{{old('phone')}}">
+                                                name="phone" required placeholder="Digite seu telefone" value="{{old('phone')}}">
                                             @include('components.error', ['field'=>'phone'])
                                         </div>
                                         <div class="form-check">
@@ -64,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-lg-5 px-0 pt-3 pt-sm-3">
+                <div class="col-md-6 col-lg-5 px-0 pt-3 pt-md-0 pt-sm-3">
 
                     <div class="cadastro__headline text-center">Já sou cadastrado</div>
 
@@ -78,8 +83,7 @@
                                 <input type="email" class="form-control form-control-lg input__entrar" name="email" value="{{ old('email') }}" required autofocus placeholder="Digite seu email">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control form-control-lg input__entrar" 
-                                name="password" required placeholder="Senha">
+                                <input type="password" class="form-control form-control-lg input__entrar" name="password" required placeholder="Digite sua senha">
                             </div>
                             <div class="">
                                 <button class="btn btn-submit-green btn-lg" type="submit">Entrar</button>
