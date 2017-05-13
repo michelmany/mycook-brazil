@@ -15,9 +15,8 @@ Route::get('/entrar', function () {
     return view('entrar');
 })->name('entrar');
 
-Route::get('/quero-vender', function () {
-    return view('quero-vender');
-})->name('queroVender');
+Route::get('/quero-vender', 'UserController@sellerRegister')->name('queroVender');
+Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
 
 Route::get('/sobre', function () {
     return view('sobre');
