@@ -9,4 +9,9 @@ class Address extends Model
     protected $fillable = [
         'cep', 'address', 'number', 'complement', 'neighborhood', 'city', 'state', 'longitude', 'latitude', 'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
