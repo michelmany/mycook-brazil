@@ -81,15 +81,17 @@
             @include('components.error', ['field'=>'instagram'])
         </div>
 
-        <!--<div>
-            <input type="text" name="name" placeholder="Quais pratos deseja vender no mycook?" value="{{old('name')}}">
+        <div>
+            <textarea name="buyer[dishes]" placeholder="Quais pratos deseja vender no mycook?">{{old('name')}}</textarea>
             @include('components.error', ['field'=>'name'])
         </div>
 
         <div>
-            <input type="text" name="name" placeholder="Você cozinha?" value="{{old('name')}}">
+            <p>Você cozinha?</p>
+            <input type="checkbox" name="buyer[type_delivery][]" value="Sob encomenda">Sob encomenda<br>
+            <input type="checkbox" name="buyer[type_delivery][]" value="Pronta entrega">Pronta entrega
             @include('components.error', ['field'=>'name'])
-        </div>-->
+        </div>
 
         <input type="submit" value="Cadastrar">
     </form>

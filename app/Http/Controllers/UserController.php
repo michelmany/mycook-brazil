@@ -54,6 +54,7 @@ class UserController extends Controller
     public function sellerRegisterPost(Request $request)
     {
         $data = $request->all();
+        $data['buyer']['type_delivery'] = implode(',', $data['buyer']['type_delivery']);
 
         $email = $data['user']['email'];
         $password = bcrypt(bin2hex(openssl_random_pseudo_bytes(8)));
