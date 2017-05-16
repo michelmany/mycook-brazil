@@ -3,12 +3,22 @@
         <div class="sidebar-body scroll-pane">
             <ul class="metismenu side-nav" id="menu">
                 <li :class="{ active : isActive('/') }">
-                    <a href="#" aria-expanded="true"><i class="fa fa-dashboard"></i> Administraçao <span class="fa arrow fa-fw"></span></a>
-                    <ul aria-expanded="true">
-                        <router-link to="/" tag="li" exact><a>Home</a></router-link>
-                        <router-link to="/admin/users" tag="li"><a>Usuários</a></router-link>
-                    </ul>
+                    <router-link to="/" tag="li"><a><i class="fa fa-dashboard"></i> Painel </a></router-link>
                 </li>
+                <li :class="">
+                    <router-link to="" tag="li"><a><i class="fa fa-cogs"></i> Vendedores </a></router-link>
+                </li>
+                <li :class="">
+                    <router-link to="" tag="li"><a><i class="fa fa-cogs"></i> Compradores </a></router-link>
+                </li>
+                <li :class="{ active: isActive('/admin/settings') }">
+                    <router-link to="/admin/users" tag="li"><a><i class="fa fa-cogs"></i> Usuários </a></router-link>
+                </li>
+                <li :class="{ active: isActive('/admin/settings') }">
+                    <router-link to="/admin/users" tag="li"><a><i class="fa fa-cogs"></i> Configurações </a></router-link>
+                </li>
+
+
             </ul>
         </div>
     </div>

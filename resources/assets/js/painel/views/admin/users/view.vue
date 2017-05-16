@@ -1,57 +1,59 @@
 <template>
-  <div class="main-content">
-    <div class="page-header">
-      <h3>Detalhes do usuário</h3>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-        <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
-        <li class="breadcrumb-item active">Usuários</li>
-      </ol>
-    </div>
-    <div class="card">
-      <div class="card-block">
-        <div class="row">
-          <div class="col-md-2"><img :src="user.avatar + '?s=200'" class="img-responsive" v-if="user.avatar"></div>
-          <div class="col-md-10">
-            <h5>Perfil</h5>
-            <p><mark>{{ user.name }} <small>{{ user.email }}</small></mark></p>
-            <p>Tipo de usuário: {{ user.role }}</p>
-            <p>Conta ativa?: {{ user.active ? 'sim' : 'não' }}</p>
-            <p>CPF: {{ user.cpf }}</p>
-
-            <hr>
-            <h5>Perfil de vendedor</h5>
-
-            <hr>
-            <h5>Perfil de comprador</h5>
-
-          </div>
+    <div class="main-content">
+        <div class="page-header">
+            <h3>Detalhes do usuário</h3>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+                <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
+                <li class="breadcrumb-item active">Usuários</li>
+            </ol>
         </div>
-      </div>
-      <div class="card-footer">
-        <router-link :to="'/admin/users'" class="btn btn-default">voltar</router-link>
-        <router-link :to="'/admin/users/' + user.id + '/edit'" class="btn btn-info">editar</router-link>
-        <router-link :to="'/admin/users/' + user.id + '/remove'" class="btn btn-danger">remover</router-link>
-      </div>
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img :src="user.avatar + '?s=200'" v-if="user.avatar">
+                    </div>
+                    <div class="col-lg-6 mt-3 mt-lg-0">
+                        <p><small>Nome:</small> {{ user.name }}</p>
+                        <hr>
+                        <p><small>Email:</small> {{ user.email }}</p>
+                        <hr>
+                        <p><small>Função:</small> {{ user.role }}</p>
+                        <hr>
+                        <p><small>Status:</small> {{ user.active ? 'Ativo' : 'Inativo' }}</p>
+                        <hr>
+                        <p><small>CPF:</small> {{ user.cpf }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <router-link :to="'/admin/users'" class="btn btn-default btn-sm">
+                    <i class="fa fa-arrow-left"></i> Voltar</router-link>
+                <router-link :to="'/admin/users/' + user.id + '/edit'" class="btn btn-warning btn-sm">
+                    <i class="fa fa-pencil"></i>Editar</router-link>
+                <router-link :to="'/admin/users/' + user.id + '/remove'" class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i>Excluir</router-link>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import { HttpService } from '../../../services/httpService';
-  export default {
-    data: function () {
-      return {
-        user: {}
-      }
-    },
-    mounted() {
-      let httpService = new HttpService();
-      httpService.build('admin/v1/users/' + this.$route.params['id'])
-      .list()
-      .then((res) => {
-        this.user = res.data;
-      });
+    import { HttpService } from '../../../services/httpService';
+    export default {
+        data: function () {
+            return {
+                user: {}
+            }
+        },
+        mounted() {
+            let httpService = new HttpService();
+            httpService.build('admin/v1/users/' + this.$route.params['id'])
+            .list()
+            .then((res) => {
+                this.user = res.data;
+            });
+        }
     }
-  }
 </script>
