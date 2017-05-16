@@ -47,6 +47,15 @@ mix.combine([
     pluginPath + 'metisMenu/metisMenu.js',
 ],'public/assets/js/core/plugins.js')
 
+.combine([
+    // ** Required Plugins **
+    pluginPath + 'jquery/jquery.js',
+    pluginPath + 'bootstrap/tether.js',
+    pluginPath + 'bootstrap/bootstrap.js',
+    pluginPath + 'customScrollBar/customScrollBar.js',
+
+],'public/assets/js/plugins-front.js')
+
 .js('resources/assets/js/painel/app.js','public/assets/js/painel.js')
 .js('resources/assets/js/front/app.js','public/assets/js/front.js')
 .version()

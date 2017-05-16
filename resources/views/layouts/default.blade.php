@@ -6,6 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="{{mix("/assets/css/style.css")}}" rel="stylesheet" type="text/css">
+    <script>
+      window.Laravel = <?php echo json_encode([
+          'csrfToken' => csrf_token(),
+      ]); ?>
+    </script>
     <title>@yield('title') - MyCook</title>
 </head>
 <body>
@@ -42,10 +47,13 @@
                 </div>
             </div>
         </nav>
+
+
     </header>
 
     @yield('content')
 
+    <script type="text/javascript" src="{{mix("/assets/js/plugins-front.js")}}"></script>
     <script type="text/javascript" src="{{mix("/assets/js/front.js")}}"></script>
 </body>
 </html>

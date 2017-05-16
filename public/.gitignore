@@ -3,4 +3,5 @@ assets/css/mycook.*.css
 assets/css/style.*.css
 assets/js/front.*.js
 assets/js/painel.*.js
+assets/js/plugins-front.*.js
 assets/js/core/plugins.*.js
