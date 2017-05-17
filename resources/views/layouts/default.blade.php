@@ -15,7 +15,7 @@
 </head>
 <body>
     <header class="header-site">
-        <nav class="navbar navbar-toggleable-md navbar-inverse">
+        <nav class="navbar navbar-toggleable-md navbar-inverse ">
             <div class="container">
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -42,7 +42,7 @@
                         </li>
                     </ul>
 
-                    <a href="{{ route('authHome') }}" class="btn btn-outline-white my-2 my-sm-0 ml-sm-3">Entrar ou Cadastrar</a>
+                    <a href="{{ route('authHome') }}" class="btn btn-outline-white my-2 my-lg-0 ml-lg-3">Entrar ou Cadastrar</a>
 
                 </div>
             </div>
