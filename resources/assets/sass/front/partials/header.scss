@@ -19,4 +19,18 @@
         color: #fff;
         letter-spacing: 0;
     }
+
+    .navbar {
+        .container {
+            @media screen and (max-width:575px) {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+    }
+
+    .navbar-toggler {
+        top: 20px;
+
+    }
 }
