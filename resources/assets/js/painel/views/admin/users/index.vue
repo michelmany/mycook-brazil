@@ -13,27 +13,7 @@
                 <div class="card">
                     <div class="card-block">
                         <table id="responsive-datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th style="width: 10px">#</th>
-                                    <th>Nome</th>
-                                    <th>Email</th>
-                                    <th>Função</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
 
-                            <tbody>
-                                <tr v-for="user in users.data" >
-                                    <td>{{ user.id }}</td>
-                                    <td>{{ user.name }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.role }}</td>
-                                    <td style="width: 20px" class="text-center">
-                                        <router-link :to="'/admin/users/'+user.id+'/ver'" class="btn btn-info btn-sm"><i class="fa fa-eye"></i>Detalhes</router-link>
-                                    </td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -55,11 +35,37 @@
             httpService.build('admin/v1/users')
             .list()
             .then((res) => {
-                this.users = res.data;
-            });
+              this.users = res.data.data;
+
+              console.log(this.users);
+              let data = [];
+              res.data.data.forEach((value) => {
+                let action = `<a href="/painel/admin/users/${value.id}/ver" class="btn btn-default btn-xs">ver</a>`;
+                data.push([
+                  //value.active,
+                  //value.avatar,
+                  //value.cpf,
+                  //value.created_at,
+                  value.id,
+                  value.name,
+                  value.email,
+                  action,
+                  //value.role,
+                  //value.updated_at,
+                ]);
+              });
+
 
             $('#responsive-datatable').DataTable({
-                responsive: true
+                  responsive: true,
+                  data: data,
+                  columns: [
+                    {title: "Id"},
+                    {title: "Nome"},
+                    {title: "Email"},
+                    {title: ""},
+                  ]
+              });
             });
 
         }
