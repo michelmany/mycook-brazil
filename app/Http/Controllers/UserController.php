@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\Buyer;
+use App\FotoEstabelecimento;
 use App\User;
 use App\Seller;
 use App\Http\Requests\BuyerRequest;
@@ -63,8 +64,16 @@ class UserController extends Controller
             [ 'email' => $email],
             array_merge($data['user'], ['password' => $password])
         );
+        
         Address::create(array_merge($data['address'], ['user_id'=>$user['id']]));
-        Seller::create(array_merge($data['buyer'], ['user_id'=>$user['id']]));
+        $seller = Seller::create(array_merge($data['buyer'], ['user_id'=>$user['id']]));
+
+        foreach ($data['images']['estabelecimento'] as $image) {
+            FotoEstabelecimento::create([
+                'url' => $image,
+                'seller_id' => $seller->id
+            ]);
+        }
 
         return redirect()->route('queroVender');
     }

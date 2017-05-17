@@ -4,7 +4,7 @@
 
     <h1>Registro de Chef</h1>
 
-    <form action="{{ route('queroVenderPost') }}" method="post">
+    <form action="{{ route('queroVenderPost') }}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div>
             <input type="text" name="user[name]" placeholder="Nome completo" value="{{old('name')}}">
@@ -91,6 +91,10 @@
             <input type="checkbox" name="buyer[type_delivery][]" value="Sob encomenda">Sob encomenda<br>
             <input type="checkbox" name="buyer[type_delivery][]" value="Pronta entrega">Pronta entrega
             @include('components.error', ['field'=>'name'])
+        </div>
+
+        <div>
+            <input type="file" name="images[estabelecimento][]" multiple required>
         </div>
 
         <input type="submit" value="Cadastrar">
