@@ -1,6 +1,7 @@
 import router from './router.js'
 
 import Layout from './helpers/layout'
+import filters from './filters'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -9,6 +10,7 @@ import Layout from './helpers/layout'
  */
 
 require('./bootstrap');
+Vue.use(filters)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
