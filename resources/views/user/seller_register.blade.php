@@ -2,7 +2,6 @@
 @section('title', 'Quero Vender no mycook')
 @section('content')
 
-<<<<<<< HEAD
 <section class="hero-pages" 
     style="background-image: url('/assets/img/hero-05.jpg')"">
     <div class="hero-pages__mask"></div>
@@ -11,13 +10,7 @@
     </div>
 </section>
  
-{{--
-    <form action="{{ route('queroVenderPost') }}" method="post">
-=======
-    <h1>Registro de Chef</h1>
-
     <form action="{{ route('queroVenderPost') }}" method="post" enctype="multipart/form-data">
->>>>>>> 39487fe41954eaaeb1950b4eca1ea9ba32405428
         {{ csrf_field() }}
         <div>
             <input type="text" name="user[name]" placeholder="Nome completo" value="{{old('name')}}">
@@ -161,7 +154,5 @@
 
 
     </script>
-
-    --}}
 
 @endsection
