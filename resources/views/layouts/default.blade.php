@@ -53,6 +53,44 @@
 
     @yield('content')
 
+    <footer class="footer-site">
+        <div class="container">
+            <div class="row justify-content-between align-items-end">
+                
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="footer__widget-01">
+                        <div class="footer__headline">Institucional</div>
+                        <ul class="footer__items">
+                            <li><a href="{{ route('sobre') }}">Sobre mycook</a></li>
+                            <li><a href="#">Termos e condições de uso</a></li>
+                            <li><a href="#">Privacidade</a></li>
+                            <li><a href="{{ route('authHome') }}">Cadastre-se</li>
+                            <li><a href="{{ route('contato') }}">Contato</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="footer__widget-02 text-lg-right mt-3 mt-md-0">
+                        <div class="social-icons">
+                            <ul>
+                                <a href="https://www.facebook.com/mycook.br" target="_blank">
+                                    <li class="social-icon social-icon__facebook"><i class="fa fa-facebook"></i></li></a>
+                                <a href="https://www.instagram.com/mycook.br" target="_blank">
+                                    <li class="social-icon social-icon__instagram"><i class="fa fa-instagram"></i></li></a>
+                            </ul>
+                        </div>
+                        <div class="footer__credits">
+                            Mycook © Copyright 2017 - Todos os direitos reservados<br>
+                            Desenvolvido pela NITDESIGN
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
     <script type="text/javascript" src="{{mix("/assets/js/plugins-front.js")}}"></script>
     <script type="text/javascript" src="{{mix("/assets/js/front.js")}}"></script>
 </body>
