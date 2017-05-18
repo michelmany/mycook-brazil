@@ -8,8 +8,13 @@ export class HttpService{
     return this;
   }
 
-  list() {
-    return axios.get(this.host);
+  list(options) {
+    options = options || {};
+    let query = options.query || '';
+    if (query !== '') {
+      query = '?' + query;
+    }
+    return axios.get(this.host + query);
   }
 
   get(id) {
