@@ -1,0 +1,63 @@
+.como-funciona {
+
+    &__image-container {
+        background-color: #EFEFEF;
+        
+        max-height: 100%;
+        @media screen and (min-width:768px) {
+            height: 555px;
+            max-height: 100%
+        }
+    }
+    &__image {
+        width: 553px;
+        @media screen and (max-width:767px) {
+            height: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media screen and (min-width:768px) {
+            float: right;
+        }
+    }
+
+    &__content {
+        padding: 45px 15px;
+        @media screen and (max-width:992px) {
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        @media screen and (min-width:768px) {
+            padding-left: 50px;
+        }
+        @media screen and (min-width:992px) {
+            padding-left: 60px;
+        }
+        @media screen and (min-width:1200px) {
+            padding-left: 125px;
+        }
+    }
+
+    .generic {
+        &__headline {
+            margin-bottom: 20px;
+            max-width: 268px;
+            @media screen and (min-width:768px) {
+            }
+            @media screen and (min-width:992px) {
+                max-width: 339px;
+            }
+        }
+        &__list {
+            font-family: DINPro-Regular;
+            font-size: 16px;
+            color: #595959;
+            letter-spacing: -0.18px;
+            line-height: 28px;
+            padding-left: 25px;
+            margin-bottom: 54px;
+        }
+    }
+
+}
