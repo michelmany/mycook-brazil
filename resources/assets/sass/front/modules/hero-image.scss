@@ -1,57 +1,123 @@
 .hero-image {
     
     background-color: #282828;
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+    position: relative;
+    @media screen and (min-width:576px) {
+        height: 420px;
+    }
+    @media screen and (min-width:992px) {
+        height: 600px;
+    }
 
-    &__image {
-        opacity: 0.9;
-        background-size: cover;
-        background-position: center;
-        height: 400px;
+    &__mask {
+        background-color: rgba(40,40,40,0.2);
+        mix-blend-mode: overlay;
+        width: 100%;
+        position: absolute;
+        z-index: 0;
+        height: 500px;
+        @media screen and (min-width:576px) {
+            height: 420px
+        }
         @media screen and (min-width:992px) {
-            height: 664px;
+            height: 600px;
         }
     }
 
     &__content {
         text-align: center;
         background-color: rgba(60,60,60,.9);
-        border-radius: 2px;
-        margin-left: auto;
-        margin-right: auto;
+        max-width: 882px;
+        padding: 35px 25px;
+        border-radius: 4px;
+        z-index: 9;
+        position: relative;
+        top: 50px;
 
-        padding: 35px;
-        max-width: 947px;
+        @media screen and (min-width:768px) {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -40%);
+            width: 75%;
+            padding: 35px 32px;
+        }
+
+        @media screen and (min-width:992px) {
+            padding: 35px 65px;
+            width: 100%;
+        }
     }
 
     &__headline {
         font-family: DINPro-Regular;
-        font-size: 54px;
-        color: #FFFFFF;
-        letter-spacing: -0.77px;
+        font-size: 32px;
+        line-height: 35px;
+        color: #fff;
+        letter-spacing: -1.5px;
+        margin-bottom: 10px;
+        @media screen and (min-width:768px) {
+            margin-bottom: -4px;
+            font-size: 35px;
+            line-height: 69px;
+        }
+        @media screen and (min-width:992px) {
+            font-size: 54px;
+        }
     }
     &__subline {
         font-family: DINPro-Regular;
-        font-size: 24px;
-        color: #FFFFFF;
+        font-size: 20px;
+        line-height: 24px;
+
+        color: #fff;
         letter-spacing: -0.4px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.50);
+        margin-bottom: 40px;
+        @media screen and (min-width:768px) {
+            font-size: 18px;
+            line-height: 31px;
+        }
+        @media screen and (min-width:992px) {
+            font-size: 24px;
+        }
     }
 
     &__search {
 
         .search {
-            &__label {
-                font-family: DINPro-Medium;
-                font-size: 18px;
-                color: #FFFFFF;
-                letter-spacing: 0;
-            }
             &__button {
+                background-color: $mc-color-orange;
+                font-family: DINPro-Bold;
+                font-size: 16px;
+                color: #fff;
+                letter-spacing: 0.06px;
+                padding: 10px 38px;
+                text-transform: uppercase;
+                border-radius: 2px;
+                border-bottom: 5px solid #D54B00;
+
+                &:hover {
+                    background-color: darken($mc-color-orange, 2%);
+                }
+            }
+            &__input {
+                width: 356px;
+                height: 45px;
+                border-radius: 2px;
+                border: 0;
+                display: inline-block;
+                font-family: DINPro-Regular;
+                font-size: 16px;
+                letter-spacing: -0.2px;
 
             }
             &__text {
-                text-align: left;
+                text-align: center;
                 font-family: DINPro-Regular;
-                font-size: 18px;
+                font-size: 16px;
                 color: #FFFFFF;
                 letter-spacing: 0;
                 text-shadow: 0 2px 4px rgba(0,0,0,0.50);

@@ -13,6 +13,7 @@
 
 // Partials
 @import "partials/header";
+@import "partials/footer";
 
 // Components
 @import "components/buttons";
@@ -21,6 +22,8 @@
 // Modules
 @import "modules/hero-image";
 @import "modules/hero-pages";
+@import "modules/feature";
+@import "modules/soon";
 
 // Pages
 @import "pages/cadastro";
