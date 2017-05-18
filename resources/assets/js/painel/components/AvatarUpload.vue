@@ -1,7 +1,7 @@
 <template>
   <div id="boxAvatarPreview">
-    <img id="avatarPreview" :src="this.url" v-if="this.url" @click="chooseFile()">
-    <input id="sender" type="button" value="enviar" v-if="file !== null" class="btn btn-primary" @click="sendFile()">
+    <img id="avatarPreview" :src="this.url" v-if="this.url" @click="chooseFile()" :class="{'pointer': file === null}">
+    <input id="sender" type="button" value="enviar" v-if="file !== null" class="btn btn-primary pointer" @click="sendFile()">
     <input type="file" id="fileUpload" @change="selectedFile($event)">
   </div>
 </template>
@@ -67,12 +67,28 @@
 
   #boxAvatarPreview {
     position: relative;
-    cursor: pointer;
     height:200px;
     line-height:200px;
     overflow:hidden;
     text-align:center;
     width:200px;
+  }
+
+  #boxAvatarPreview:after {
+    display: block;
+    content: 'enviar foto';
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    line-height: initial;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    opacity: 0;
+  }
+
+  #boxAvatarPreview:hover::after {
+    opacity: 1;
   }
 
   #avatarPreview {
@@ -85,5 +101,9 @@
     position: absolute;
     right: 15px;
     bottom: 15px;
+  }
+
+  .pointer {
+    cursor: pointer;
   }
 </style>
