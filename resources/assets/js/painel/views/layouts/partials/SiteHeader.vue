@@ -15,10 +15,10 @@
             <li>
                 <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#"><i class="fa fa-edit"></i> New Post</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-tag"></i> New Category</a>
+                    <router-link to="/admin/buyers/new">Novo comprador</router-link>
+                    <router-link to="/admin/sellers/new">Novo vendedor</router-link>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-star"></i> Separated link</a>
+                    <router-link to="/admin/users/new">Novo administrador</router-link>
                 </div>
             </li>
             <li>
