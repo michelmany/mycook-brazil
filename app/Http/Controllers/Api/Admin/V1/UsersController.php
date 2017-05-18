@@ -14,11 +14,19 @@ class UsersController extends Controller
 {
     use ApiControllerTrait;
     protected $model;
-    protected $relationships = ['buyer', 'seller'];
+    protected $relationships = ['buyer', 'seller', 'addresses'];
 
     public function __construct(User $model)
     {
         $this->model = $model;
+    }
+
+    public function avatar(Request $request, $id)
+    {
+        $user = $this->model->findOrFail($id);
+        $user->avatar = $request->all()['avatar'];
+        $user->save();
+        return response()->json(['status'=>'ok']);
     }
 
     public function store(Request $request)

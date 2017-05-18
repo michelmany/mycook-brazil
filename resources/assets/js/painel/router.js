@@ -12,6 +12,8 @@ import AuthService from './services/auth'
 //Dashboard
 import Basic from './views/admin/dashboard/Basic.vue'
 
+import AddressesNew from './views/admin/addresses/new.vue'
+
 import Users from './views/admin/users/index.vue'
 import UsersView from './views/admin/users/view.vue'
 import UsersEdit from './views/admin/users/edit.vue'
@@ -71,6 +73,13 @@ const routes = [
             path: '',
             component: Basic,
             name: 'dashboard',
+        },
+
+        //Address
+        {
+          path: 'admin/address/new/:user_id/:user_role',
+          component: AddressesNew,
+          name: 'address-new',
         },
 
         //Admin - Sellers

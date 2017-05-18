@@ -23,5 +23,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () {
     Route::resource('users','UsersController');
+    Route::post('users/avatar/{id}','UsersController@avatar');
+    Route::resource('address','AddressesController');
 });
 

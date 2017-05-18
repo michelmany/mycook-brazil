@@ -12,5 +12,14 @@ export default {
     Vue.filter('datetime', function (date, filter) {
       return moment(date).format(filter)
     })
+
+    Vue.filter('join', function (data, separator) {
+      data = data || [];
+      separator = separator || ',';
+      if (typeof data === 'object') {
+        data = Object.keys(data).map(function (key) { return data[key]; });
+      }
+      return data.join(separator);
+    })
   }
 }

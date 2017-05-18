@@ -12,7 +12,7 @@
             <div class="card-block">
                 <div class="row">
                     <div class="col-lg-4">
-                        <img :src="user.avatar + '?s=200'" v-if="user.avatar">
+                        <avatar :photo-url="user.avatar_full_url"></avatar>
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0">
                         <p><small>Nome:</small> {{ user.name }}</p>
@@ -40,19 +40,76 @@
                     <i class="fa fa-trash"></i>Excluir</router-link>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Endereços
+                            <small><router-link :to="'/admin/address/new/' + user.id + '/' + user.role" class="btn btn-primary btn-xs">novo</router-link></small>
+                        </h3>
+                        <div class="card" v-if="user.addresses.length === 0">
+                            <div class="card-header bg-dark">
+                                Nenhum endereço cadastrado
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" v-for="address in user.addresses">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                            <tr>
+                                <td>cep</td>
+                                <td>{{ address.cep }}</td>
+                            </tr>
+                            <tr>
+                                <td>endereço</td>
+                                <td>{{ address.address }}</td>
+                            </tr>
+                            <tr>
+                                <td>Número</td>
+                                <td>{{ address.number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Complemento</td>
+                                <td>{{ address.complement }}</td>
+                            </tr>
+                            <tr>
+                                <td>bairro</td>
+                                <td>{{ address.neighborhood }}</td>
+                            </tr>
+                            <tr>
+                                <td>cidade</td>
+                                <td>{{ address.city }}</td>
+                            </tr>
+                            <tr>
+                                <td>estado</td>
+                                <td>{{ address.state }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import { HttpService } from '../../../services/httpService';
+    import AvatarUpload from '../../../components/AvatarUpload';
+
     export default {
         data: function () {
             return {
                 user: {
+                  addresses: [],
                   buyer: {}
                 }
             }
         },
+      components: {
+        avatar: AvatarUpload
+      },
         mounted() {
             let httpService = new HttpService();
             httpService.build('admin/v1/users/' + this.$route.params['id'])

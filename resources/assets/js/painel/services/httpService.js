@@ -32,4 +32,23 @@ export class HttpService{
   remove(id) {
     return axios.delete(this.host + '/' + id);
   }
+
+  xmlHttpRequest(url) {
+    return new Promise((resolve, reject) => {
+      let xhr;
+      xhr = new XMLHttpRequest();
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 300){
+          resolve(xhr.responseText);
+        } else {
+          reject(xhr.status, xhr.statusText)
+        }
+      }
+      xhr.onerror = () => {
+        reject(xhr.status, xhr.statusText)
+      }
+      xhr.open("GET", url, true);
+      xhr.send();
+    })
+  }
 }

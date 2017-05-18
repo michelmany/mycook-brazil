@@ -108,7 +108,6 @@
         httpService.build('admin/v1/users')
           .create(this.user)
           .then((res) => {
-            console.log(res)
             toastr.success('Usuario cadastrado com sucesso!', 'Usuário '+ this.user.name);
             this.$router.push('/admin/buyers/' + res.data.id + '/ver');
           });

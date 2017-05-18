@@ -14,7 +14,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = [];
+    protected $appends = ['avatar_full_url'];
 
     /**
      * The attributes that are mass assignable.
@@ -34,13 +34,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function getAvatarAttribute()
+    public function getAvatarFullUrlAttribute()
     {
         if (!$this->attributes['avatar']) {
             $avatar = md5($this->attributes['email']);
-            return 'https://secure.gravatar.com/avatar/'. $avatar;
+            return 'https://secure.gravatar.com/avatar/'. $avatar.'?200';
         }
-        return $this->attributes['avatar'];
+        return 'https://s3-' . env('AWS_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/avatar/' . $this->attributes['avatar'];
     }
 
     public function buyer() {
@@ -49,5 +49,9 @@ class User extends Authenticatable
 
     public function seller() {
         return $this->hasOne(Seller::class);
+    }
+
+    public function addresses() {
+        return $this->hasMany(Address::class);
     }
 }
