@@ -3,7 +3,11 @@
 @section('content')
 
     <section class="hero-pages" 
+<<<<<<< HEAD
         style="background-image: url('/assets/img/hero-01.jpg')"">
+=======
+        style="background-image: url('/assets/img/placeholder-hero-image.jpg')">
+>>>>>>> 39487fe41954eaaeb1950b4eca1ea9ba32405428
         <div class="hero-pages__mask"></div>
         <div class="container">
             <div class="hero-pages__headline ml-auto">@yield('title')</div>

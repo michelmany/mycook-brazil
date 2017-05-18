@@ -3,6 +3,9 @@
 
 namespace App\Http\Controllers\Api\Admin\V1;
 
+use App\Buyer;
+use Illuminate\Http\Request;
+use App\Seller;
 use ErikFig\Http\Controllers\ApiControllerTrait;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -11,9 +14,44 @@ class UsersController extends Controller
 {
     use ApiControllerTrait;
     protected $model;
+    protected $relationships = ['buyer', 'seller'];
 
     public function __construct(User $model)
     {
         $this->model = $model;
+    }
+
+    public function store(Request $request)
+    {
+        $result = $this->model->create($request->all());
+        $result->update($request->all());
+
+        if (!empty($request->all()['buyer'])) {
+            Buyer::firstOrCreate(['user_id'=>$result->id], $request->all()['buyer']);
+        }
+
+        if (!empty($request->all()['seller'])) {
+            Seller::firstOrCreate(['user_id'=>$result->id], $request->all()['buyer']);
+        }
+
+        return response()->json($result);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $result = $this->model->findOrFail($id);
+        $result->update($request->all());
+
+        if (!empty($request->all()['buyer'])) {
+            $buyer = Buyer::firstOrCreate(['user_id'=>$id], $request->all()['buyer']);
+            $buyer->update($request->all()['buyer']);
+        }
+
+        if (!empty($request->all()['seller'])) {
+            $seller = Seller::firstOrCreate(['user_id'=>$id], $request->all()['seller']);
+            $seller->update($request->all()['seller']);
+        }
+
+        return response()->json($result);
     }
 }

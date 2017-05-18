@@ -42,4 +42,12 @@ class User extends Authenticatable
         }
         return $this->attributes['avatar'];
     }
+
+    public function buyer() {
+        return $this->hasOne(Buyer::class);
+    }
+
+    public function seller() {
+        return $this->hasOne(Seller::class);
+    }
 }

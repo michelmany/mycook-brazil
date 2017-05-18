@@ -2,23 +2,11 @@
     <div class="sidebar-left" id="mobile-nav">
         <div class="sidebar-body scroll-pane">
             <ul class="metismenu side-nav" id="menu">
-                <li :class="{ active : isActive('/') }">
-                    <router-link to="/" tag="li"><a><i class="fa fa-dashboard"></i> Painel </a></router-link>
-                </li>
-                <li :class="">
-                    <router-link to="" tag="li"><a><i class="fa fa-cogs"></i> Vendedores </a></router-link>
-                </li>
-                <li :class="">
-                    <router-link to="" tag="li"><a><i class="fa fa-cogs"></i> Compradores </a></router-link>
-                </li>
-                <li :class="{ active: isActive('/admin/settings') }">
-                    <router-link to="/admin/users" tag="li"><a><i class="fa fa-cogs"></i> Usuários </a></router-link>
-                </li>
-                <li :class="{ active: isActive('/admin/settings') }">
-                    <router-link to="/admin/users" tag="li"><a><i class="fa fa-cogs"></i> Configurações </a></router-link>
-                </li>
-
-
+                <router-link to="/" tag="li" exact><a><i class="fa fa-dashboard"></i> Painel </a></router-link>
+                <router-link to="/admin/sellers" tag="li"><a><i class="fa fa-cogs"></i> Vendedores </a></router-link>
+                <router-link to="/admin/buyers" tag="li"><a><i class="fa fa-cogs"></i> Compradores </a></router-link>
+                <router-link to="/admin/users" tag="li"><a><i class="fa fa-cogs"></i> Usuários </a></router-link>
+                <router-link to="/admin/settings" tag="li"><a><i class="fa fa-cogs"></i> Configurações </a></router-link>
             </ul>
         </div>
     </div>

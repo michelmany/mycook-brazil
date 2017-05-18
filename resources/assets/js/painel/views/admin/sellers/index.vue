@@ -1,13 +1,13 @@
 <template>
   <div class="main-content">
     <div class="page-header">
-      <h3>Usuários</h3>
+      <h3>Vendedores</h3>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
         <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
-        <li class="breadcrumb-item active">Usuários</li>
+        <li class="breadcrumb-item active">Vendedores</li>
         <li class="action">
-          <router-link :to="'/admin/users/new'" class="btn btn-primary btn-xs">novo</router-link>
+          <router-link :to="'/admin/sellers/new'" class="btn btn-primary btn-xs">novo</router-link>
         </li>
       </ol>
 
@@ -35,13 +35,13 @@
         mounted() {
             let httpService = new HttpService();
             httpService.build('admin/v1/users')
-            .list({query: 'where[role]=admin'})
+            .list({query: 'where[role]=vendedor'})
             .then((res) => {
               this.users = res.data.data;
 
               let data = [];
               res.data.data.forEach((value) => {
-                let action = `<a href="/painel/admin/users/${value.id}/ver" class="btn btn-default btn-xs">ver</a>`;
+                let action = `<a href="/painel/admin/sellers/${value.id}/ver" class="btn btn-default btn-xs">ver</a>`;
                 data.push([
                   value.id,
                   value.name,
