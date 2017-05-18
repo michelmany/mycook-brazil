@@ -24,6 +24,10 @@
                         <p><small>Status:</small> {{ user.active ? 'Ativo' : 'Inativo' }}</p>
                         <hr>
                         <p><small>CPF:</small> {{ user.cpf }}</p>
+                        <hr>
+                        <p><small>Telefone:</small> {{ user.buyer.phone }}</p>
+                        <hr>
+                        <p><small>Data de nascimento:</small> {{ user.buyer.birth | datetime('DD/MM/YYYY')}}</p>
                     </div>
                 </div>
             </div>
@@ -44,7 +48,9 @@
     export default {
         data: function () {
             return {
-                user: {}
+                user: {
+                  buyer: {}
+                }
             }
         },
         mounted() {

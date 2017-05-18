@@ -49,6 +49,22 @@
                             </div>
 
                             <hr>
+
+                            <div class="form-group row">
+                                <label for="formPhone" class="col-12 col-md-2 col-form-label">Telefone</label>
+                                <div class="col-12 col-md-10">
+                                    <input type="text" class="form-control" id="formPhone" placeholder="Seu telefone" v-model="user.buyer.phone">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="formBirth" class="col-12 col-md-2 col-form-label">Data de nascimento</label>
+                                <div class="col-12 col-md-10">
+                                    <input type="date" class="form-control" id="formBirth" placeholder="Seu email" v-model="user.buyer.birth">
+                                </div>
+                            </div>
+
+                            <hr>
                             <button type="submit" class="btn btn-success">
                                 <i class="fa fa-check" aria-hidden="true"></i> Salvar alterações
                             </button>
@@ -74,7 +90,9 @@
     export default {
         data: function () {
             return {
-                user: {},
+                user: {
+                  buyer:{}
+                },
             }
         },
         methods: {
@@ -106,6 +124,8 @@
             .then((res) => {
                 this.user = res.data;
                 this.user.password = null;
+                this.user.buyer = this.user.buyer || {};
+
                 if (!!res.data.active) {
                     switchery.setPosition(true);
                     switchery.handleOnchange(true);
