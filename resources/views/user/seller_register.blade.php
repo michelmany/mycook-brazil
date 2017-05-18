@@ -1,9 +1,16 @@
 @extends('layouts.default')
-@section('title', 'Registro')
+@section('title', 'Quero Vender no mycook')
 @section('content')
 
-    <h1>Registro de Chef</h1>
-
+<section class="hero-pages" 
+    style="background-image: url('/assets/img/hero-05.jpg')"">
+    <div class="hero-pages__mask"></div>
+    <div class="container">
+        <div class="hero-pages__headline ml-auto">@yield('title')</div>
+    </div>
+</section>
+ 
+{{--
     <form action="{{ route('queroVenderPost') }}" method="post">
         {{ csrf_field() }}
         <div>
@@ -142,5 +149,7 @@
 
 
     </script>
+
+    --}}
 
 @endsection

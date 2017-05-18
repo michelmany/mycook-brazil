@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="hero-pages" 
-        style="background-image: url('/assets/img/placeholder-hero-image.jpg')"">
+        style="background-image: url('/assets/img/hero-01.jpg')"">
         <div class="hero-pages__mask"></div>
         <div class="container">
             <div class="hero-pages__headline ml-auto">@yield('title')</div>
@@ -80,7 +80,7 @@
                             {{ csrf_field() }}
 
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-lg input__entrar" name="email" value="{{ old('email') }}" required autofocus placeholder="Digite seu email">
+                                <input type="email" class="form-control form-control-lg input__entrar" name="email" value="{{ old('email') }}" required placeholder="Digite seu email">
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control form-control-lg input__entrar" name="password" required placeholder="Digite sua senha">

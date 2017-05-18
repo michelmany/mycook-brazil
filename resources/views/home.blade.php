@@ -37,7 +37,7 @@
                         Quem não gosta de uma comida caseira bem feita? 
                         Para todos os momentos e ocasiões, peça pelo mycook!
                     </div>
-                    <button class="btn btn-outline-primary feature__read-more">Saiba mais</button>
+                    <a href="{{ route('comoFunciona') }}" class="btn btn-outline-primary feature__read-more">Saiba mais</a>
                 </div>
           </div>
         </div>
