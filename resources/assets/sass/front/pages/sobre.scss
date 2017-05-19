@@ -1,0 +1,29 @@
+.sobre {
+
+    .generic__wrapper {
+        padding-top: 125px;
+        padding-bottom: 125px;
+    }
+
+    &__copy {
+        font-family: DINPro-Regular;
+        font-size: 18px;
+        color: #595959;
+        letter-spacing: -0.2px;
+        line-height: 28px;
+        max-width: 595px;
+    }
+
+    &__curta {
+        font-family: DINPro-Regular;
+        font-size: 28px;
+        color: #595959;
+        letter-spacing: -0.86px;
+        line-height: 42px;
+        margin-bottom: 35px;
+        span {
+            font-family: DINPro-Medium;
+            color: $mc-color-orange;
+        }
+    }
+}
