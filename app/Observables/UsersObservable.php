@@ -10,7 +10,7 @@ class UsersObservable
 {
     public function creating(User $model)
     {
-        if ($model->avatar->isValid()) {
+        if (is_a($model->avatar, 'Illuminate\Http\UploadedFile') and $model->avatar->isValid()) {
             $this->upload($model);
         }
     }
