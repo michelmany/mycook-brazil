@@ -15,6 +15,16 @@ class AuthController extends Controller
         // grab credentials from the request
         $credentials = $request->only('email', 'password');
 
+        $email = $request->input('email');
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return response()->json(['error' => 'invalid_credentials'], 401);
+        }
+
+        if ($user->role !== 'admin' and $user->role !== 'vendedor') {
+            return response()->json(['error' => 'invalid_credentials'], 401);
+        }
+
         try {
             // attempt to verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
@@ -38,7 +48,11 @@ class AuthController extends Controller
             return response(['authenticated' => false, 'user'=>null]);
         }
 
-        return response(['authenticated' => true, 'user'=>$user]);
+        if ($user->role === 'admin' or $user->role === 'vendedor') {
+            return response(['authenticated' => true, 'user'=>$user]);
+        }
+
+        return response(['authenticated' => false, 'user'=>null]);
     }
 
     public function logout()
