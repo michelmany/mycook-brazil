@@ -34,8 +34,8 @@
                         Atualmente, atendemos somente a Regiao Metropolitana do Rio de Janeiro.</p>
                     </div>
                 </div>
-                <div class="col-lg-5 d-flex align-items-center bg-color-gray">
-                    <div class="sobre__right-column mx-auto">
+                <div class="col-lg-5 d-flex align-items-center bg-color-gray hidden-sm-down">
+                    <div class="sobre__right-col mx-auto">
                         <div class="sobre__curta">
                             Curta o <span>mycook</span> no facebook!
                         </div>

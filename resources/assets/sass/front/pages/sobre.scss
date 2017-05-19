@@ -1,8 +1,11 @@
 .sobre {
 
     .generic__wrapper {
-        padding-top: 125px;
-        padding-bottom: 125px;
+
+        @media screen and (min-width:992px) {
+            padding-top: 125px;
+            padding-bottom: 125px;
+        }
     }
 
     &__copy {
@@ -25,5 +28,9 @@
             font-family: DINPro-Medium;
             color: $mc-color-orange;
         }
+    }
+
+    &__right-col {
+        padding: 35px;
     }
 }
