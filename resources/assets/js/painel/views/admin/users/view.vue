@@ -12,7 +12,7 @@
             <div class="card-block">
                 <div class="row">
                     <div class="col-lg-4">
-                        <img :src="user.avatar + '?s=200'" v-if="user.avatar">
+                        <avatar :photo-url="user.avatar_full_url"></avatar>
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0">
                         <p><small>Nome:</small> {{ user.name }}</p>
@@ -41,12 +41,17 @@
 
 <script>
     import { HttpService } from '../../../services/httpService';
+    import AvatarUpload from '../../../components/AvatarUpload';
+
     export default {
         data: function () {
             return {
                 user: {}
             }
         },
+      components: {
+        avatar: AvatarUpload
+      },
         mounted() {
             let httpService = new HttpService();
             httpService.build('admin/v1/users/' + this.$route.params['id'])

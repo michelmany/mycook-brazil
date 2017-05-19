@@ -15,4 +15,24 @@ class Seller extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected function setTypeDeliveryAttribute($value)
+    {
+        if (is_array($value)) {
+            $this->attributes['type_delivery'] = implode(',', $value);
+        }
+    }
+
+    protected function getTypeDeliveryAttribute()
+    {
+        $data = explode(',', $this->attributes['type_delivery']);
+
+        foreach ($data as $key => $value) {
+            if (empty($value)) {
+                unset($data[$key]);
+            }
+        }
+
+        return $data;
+    }
 }

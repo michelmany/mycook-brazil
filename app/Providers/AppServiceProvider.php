@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\FotoEstabelecimento;
 use App\Observables\FotoEstabelecimentoObservable;
+use App\Observables\UsersObservable;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         \Schema::defaultStringLength(191);
         FotoEstabelecimento::observe(FotoEstabelecimentoObservable::class);
+        User::observe(UsersObservable::class);
     }
 
     /**

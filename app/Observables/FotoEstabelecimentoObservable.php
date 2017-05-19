@@ -3,8 +3,8 @@
 
 namespace App\Observables;
 
-
 use App\FotoEstabelecimento;
+use Illuminate\Support\Facades\Storage;
 
 class FotoEstabelecimentoObservable
 {
