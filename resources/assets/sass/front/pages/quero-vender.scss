@@ -1,0 +1,91 @@
+.quero-vender {
+
+
+    .generic {
+        &__wrapper {
+            padding-top: 125px;
+            padding-bottom: 125px;
+        }
+        &__headline {
+            max-width: 385px;
+            @media screen and (min-width:992px) {
+                max-width: 395px;
+            }
+        }
+    }
+
+}
+
+
+.form-chef {
+    color: #595959;
+    background-color: #F3F3F3;
+
+    &__head {
+        margin-bottom: 38px;
+        @media screen and (min-width:768px) {
+            margin-bottom: 68px;
+        }
+    }
+
+    &__headline {
+        font-family: DINPro-Regular;
+        font-size: 30px;
+        letter-spacing: -0.3px;
+        margin-bottom: 18px;
+        line-height: 38px;
+
+        @media screen and (min-width:768px) {
+            font-size: 36px;
+            line-height: 46px;
+        }
+    }
+
+    &__copy {
+        font-family: DINPro-Regular;
+        font-size: 15px;
+        letter-spacing: -0.2px;
+        line-height: 22px;
+        @media screen and (min-width:768px) {
+            font-size: 18px;
+            line-height: 26px;
+            padding: 0;
+        }
+        @media screen and (min-width:992px) {
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        p {
+            margin-bottom: 0;
+        }
+    }
+
+    &__label {
+        font-family: DINPro-Medium;
+        font-size: 18px;
+        color: #595959;
+        letter-spacing: -0.2px;
+        p {
+            line-height: 14px;
+            small {
+                font-family: DINPro-Regular;
+                font-size: 12px;
+                letter-spacing: -0.2px;
+            }
+        }
+    }
+
+    &__concordo {
+        font-family: DINPro-Medium;
+        font-size: 18px;
+        color: #4990E2;
+        letter-spacing: -0.2px;
+        margin-bottom: 35px;
+        text-decoration: underline;
+    }
+}
+
+
+
+

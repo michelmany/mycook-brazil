@@ -104,3 +104,37 @@ $email-color: #F6A623;
     }
 }
 
+.btn-submit-orange {
+    i {
+        font-size: 30px;
+        position: relative;
+        padding: 5px 15px 5px 0;
+        top: 3px;
+    }
+    width: 200px;
+    height: 50px;
+    background-color: $mc-color-orange;
+    border-radius: 2px;
+    font-family: DINPro-Medium;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: -0.2px; 
+
+    &:hover {
+        background-color: darken($mc-color-orange, 10%);
+        color: #fff;
+    }
+}
+
+.btn-file-blue {
+    border: 2px solid #4990E2;
+    border-radius: 2px;
+    font-family: DINPro-Medium;
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: -0.2px;
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #4990E2;
+}
+

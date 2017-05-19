@@ -11,9 +11,15 @@
         color: $mc-color-orange;
         letter-spacing: -1.1px;
         line-height: 42px;
+        margin-bottom: 20px;
     }
     &__list {
-
+        padding-left: 25px;
+        font-family: DINPro-Regular;
+        font-size: 16px;
+        color: #595959;
+        letter-spacing: -0.18px;
+        line-height: 28px;
     }
     &__button {
         &--black-outline {
