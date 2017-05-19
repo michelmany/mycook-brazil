@@ -30,7 +30,7 @@ class IncompleteProfile
          * Se for renderizamos normalmente
          */
         $routeName = \Request::route()->getName();
-        if ($routeName === 'profile' || $routeName === 'profileSave') {
+        if ($routeName === 'profile' || $routeName === 'profile.post') {
             return $next($request);
         }
 
@@ -40,7 +40,9 @@ class IncompleteProfile
          * O usuário fica travado lá até preencher os dados
          */
         if (empty($user->email) || empty($user->cpf)) {
-            return redirect()->route('profile');
+            return redirect()
+                ->route('profile')
+                ->with('error', 'Você precisa informar seu email e CPF, nenhum dos dois campos pode ficar em branco');
         }
 
         /**
