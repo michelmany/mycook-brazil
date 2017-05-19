@@ -1,0 +1,45 @@
+.contato {
+    color: #595959;
+
+    &__header {
+        padding-top: 45px;
+        padding-bottom: 45px;
+        background-color: white;
+    }
+    &__headline {
+        font-family: DINPro-Regular;
+        font-size: 24px;
+        letter-spacing: -1.1px;
+        line-height: 32px;
+
+        @media screen and (min-width:768px) {
+            font-size: 36px;
+            line-height: 42px;
+        }
+    }
+
+    &__contatos {
+        font-family: DINPro-Regular;
+        font-size: 13px;
+        letter-spacing: -0.2px;
+        line-height: 22px;
+
+        @media screen and (min-width:992px) {
+            font-size: 18px;
+            line-height: 28px;
+        }
+    }
+    &__whatsapp {
+        img {
+            max-width: 50px;
+        }
+        font-family: DINPro-Regular;
+        font-size: 22px;
+        letter-spacing: -0.36px;
+        line-height: 28px;
+        @media screen and (min-width:992px) {
+            font-size: 32px
+        }
+    }
+
+}
