@@ -20,7 +20,8 @@
             </div>
 
             <div class="contato__form generic__wrapper bg-color-gray">
-                <form action="">
+                <form action="{{ route('contatoPost') }}" method="post">
+                    {{ csrf_field() }}
                     <div class="container">
                         <div class="row">
 
@@ -29,15 +30,15 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="mb-2">
-                                                <input type="text" name="" placeholder="Nome" value="" 
+                                                <input type="text" name="sender_name" placeholder="Nome" value=""
                                                 class="form-control form-control-lg input__entrar" required>
                                             </div>
                                             <div class="mb-2">
-                                                <input type="text" name="" placeholder="Email" value="" 
+                                                <input type="text" name="sender_mail" placeholder="Email" value=""
                                                 class="form-control form-control-lg input__entrar" required>
                                             </div>
                                             <div class="mb-2">
-                                                <input type="text" name="" placeholder="Assunto" value="" 
+                                                <input type="text" name="subject" placeholder="Assunto" value=""
                                                 class="form-control form-control-lg input__entrar" required>
                                             </div>
                                         </div>
@@ -45,7 +46,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="">
-                                                <textarea name="" class="form-control form-control-lg input__entrar input__entrar--textarea" placeholder="Mensagem" required></textarea>
+                                                <textarea name="message" class="form-control form-control-lg input__entrar input__entrar--textarea" placeholder="Mensagem" required></textarea>
                                             </div>
                                         </div>
                                     </div>

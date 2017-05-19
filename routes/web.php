@@ -30,6 +30,8 @@ Route::get('/contato', function () {
     return view('contato');
 })->name('contato');
 
+Route::post('/contato', 'FrontendController@contatoPost')->name('contatoPost');
+
 Route::group(['prefix'=>'entrar'], function () {
     // Home da sessão autenticação
     Route::get('/', function() {
