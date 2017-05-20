@@ -1,6 +1,6 @@
 <template>
   <div id="boxAvatarPreview">
-    <img id="avatarPreview" :src="this.url" v-if="this.url" @click="chooseFile()" :class="{'pointer': file === null}">
+    <img class="rounded" id="avatarPreview" :src="this.url" v-if="this.url" @click="chooseFile()" :class="{'pointer': file === null}">
     <input id="sender" type="button" value="enviar" v-if="file !== null" class="btn btn-primary pointer" @click="sendFile()">
     <input type="file" id="fileUpload" @change="selectedFile($event)">
   </div>
