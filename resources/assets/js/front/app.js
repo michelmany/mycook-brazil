@@ -16,6 +16,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('avatar', require('./components/AvatarUpload.vue'));
 
 const app = new Vue({
     el: '#cadastro-form',

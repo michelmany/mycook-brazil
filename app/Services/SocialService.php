@@ -27,7 +27,6 @@ class SocialService
                 'name' => $providerUser->getName(),
                 'email' => $providerUser->getEmail(),
                 'cpf' => '',
-                'password' => bcrypt(bin2hex(openssl_random_pseudo_bytes(8))),
             ]);
         }
 

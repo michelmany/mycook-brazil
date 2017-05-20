@@ -112,4 +112,6 @@ return [
 
     'sendmail' => '/usr/sbin/sendmail -bs',
 
+    'contact' => env('MAIL_CONTACT'),
+
 ];

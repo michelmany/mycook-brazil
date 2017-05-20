@@ -30,6 +30,8 @@ Route::get('/contato', function () {
     return view('contato');
 })->name('contato');
 
+Route::post('/contato', 'FrontendController@contatoPost')->name('contatoPost');
+
 Route::group(['prefix'=>'entrar'], function () {
     // Home da sessão autenticação
     Route::get('/', function() {
@@ -54,10 +56,16 @@ Route::group(['prefix'=>'entrar'], function () {
     $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 });
 
+Route::group(['prefix'=>'minha-conta', 'middleware' => ['auth']], function () {
+    Route::get('/enderecos', 'MeController@addresses')->name('profile.adresses');
 
-Route::get('/me/profile', function() {
-    return 'Formulário de edição de perfil do usuário logado';
-})->name('profile');
+    Route::get('/minhas-avaliacoes', 'MeController@score')->name('profileS.score');
+
+    Route::get('/perfil', 'MeController@profile')->name('profile');
+    Route::post('/perfil', 'MeController@profilePost')->name('profile.post');
+    Route::post('/troca-senha', 'MeController@passwordPost')->name('profile.password');
+    Route::post('/troca-avatar', 'MeController@avatarPost')->name('profile.avatar');
+});
 
 Route::post('/me/profile', function() {
     return 'Aqui salvamos os dados vindos do formulário de edição do perfil';
