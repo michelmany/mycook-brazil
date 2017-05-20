@@ -1,27 +1,27 @@
 <template>
-  <div class="main-content">
-    <div class="page-header">
-      <h3>Vendedores</h3>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-        <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
-        <li class="breadcrumb-item active">Vendedores</li>
-        <li class="action">
-          <router-link :to="'/admin/sellers/new'" class="btn btn-primary btn-xs">novo</router-link>
-        </li>
-      </ol>
+    <div class="main-content">
+        <div class="page-header">
+            <h3>Chefs</h3>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/">Painel</router-link></li>
+                <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
+                <li class="breadcrumb-item active">Chefs</li>
+                <li class="action">
+                    <router-link :to="'/admin/sellers/new'" class="btn btn-success btn-xs"><i class="fa fa-plus-circle"></i>Novo</router-link>
+                </li>
+            </ol>
 
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="card">
-          <div class="card-block">
-            <table id="responsive-datatable" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
-          </div>
         </div>
-      </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-block">
+                        <table id="responsive-datatable" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -37,30 +37,33 @@
             httpService.build('admin/v1/users')
             .list({query: 'where[role]=vendedor'})
             .then((res) => {
-              this.users = res.data.data;
+                this.users = res.data.data;
 
-              let data = [];
-              res.data.data.forEach((value) => {
-                let action = `<a href="/painel/admin/sellers/${value.id}/ver" class="btn btn-default btn-xs">ver</a>`;
-                data.push([
-                  value.id,
-                  value.name,
-                  value.email,
-                  action,
-                ]);
-              });
+                let data = [];
+                res.data.data.forEach((value) => {
+                    let action = `<a href="/painel/admin/sellers/${value.id}/ver" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>Detalhes</a>`;
+                    data.push([
+                        value.id,
+                        value.name,
+                        value.email,
+                        action,
+                        ]);
+                });
 
-
-            $('#responsive-datatable').DataTable({
-                  responsive: true,
-                  data: data,
-                  columns: [
-                    {title: "Id"},
-                    {title: "Nome"},
-                    {title: "Email"},
-                    {title: ""},
-                  ]
-              });
+                $('#responsive-datatable').DataTable({
+                    responsive: true,
+                    data: data,
+                    language: {
+                        url: "assets/js/datatables-pt-br.json"
+                      },
+                    columns: [
+                        {title: "Id", width: "20px"},
+                        {title: "Nome"},
+                        {title: "Email"},
+                        {title: "Ação", width: "70px"},
+                    ],
+                    fixedColumns: true
+                });
             });
 
         }

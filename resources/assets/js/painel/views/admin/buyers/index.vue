@@ -7,7 +7,7 @@
         <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
         <li class="breadcrumb-item active">Compradores</li>
         <li class="action">
-          <router-link :to="'/admin/buyers/new'" class="btn btn-primary btn-xs">novo</router-link>
+          <router-link :to="'/admin/buyers/new'" class="btn btn-success btn-xs"><i class="fa fa-plus-circle"></i> Novo</router-link>
         </li>
       </ol>
 
@@ -41,7 +41,7 @@
 
               let data = [];
               res.data.data.forEach((value) => {
-                let action = `<a href="/painel/admin/buyers/${value.id}/ver" class="btn btn-default btn-xs">ver</a>`;
+                let action = `<a href="/painel/admin/buyers/${value.id}/ver" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>Detalhes</a>`;
                 data.push([
                   value.id,
                   value.name,
@@ -54,12 +54,16 @@
             $('#responsive-datatable').DataTable({
                   responsive: true,
                   data: data,
+                  language: {
+                      url: "assets/js/datatables-pt-br.json"
+                    },
                   columns: [
-                    {title: "Id"},
+                    {title: "Id", width: "20px"},
                     {title: "Nome"},
                     {title: "Email"},
-                    {title: ""},
-                  ]
+                    {title: "Ação", width: "70px"},
+                  ],
+                    fixedColumns: true,
               });
             });
 

@@ -28,7 +28,7 @@
     <meta name="msapplication-config" content="/assets/admin/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#333333">
 </head>
-<body class="layout-default skin-default">
+<body class="layout-default skin-arryn">
 <div id="app" class="template-container">
     <div class="mobile-menu-overlay" v-on:click.prevent="onOverlayClick"></div>
     <transition name="fade" mode="out-in">

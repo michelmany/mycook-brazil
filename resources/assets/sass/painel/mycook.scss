@@ -23,14 +23,14 @@
 @import "../../plugins/pace/pace.scss";
 // @import "../../plugins/alertify/alertify.scss";
 // @import "../../plugins/easypiecharts/easypiecharts.scss";
-// @import "../../plugins/metisMenu/metisMenu.scss";
+@import "../../plugins/metisMenu/metisMenu.scss";
 
 // Option Skin.
-// @import 'skins/skin-tyrell';
-// @import 'skins/skin-arryn';
-// @import 'skins/skin-targaryen';
-// @import 'skins/skin-lannister';
-// @import 'skins/skin-stark';
+@import 'skins/skin-tyrell';
+@import 'skins/skin-arryn';
+@import 'skins/skin-targaryen';
+@import 'skins/skin-lannister';
+@import 'skins/skin-stark';
 
 // Content Styles
 @import 'base';
