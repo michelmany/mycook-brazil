@@ -8,7 +8,7 @@ class Seller extends Model
 {
     protected $fillable = [
         'phone', 'phone2', 'phone3', 'phone4', 'phone5', 'formacao', 'facebook', 'instagram', 'type_delivery',
-        'distance_delivery', 'score', 'plates_quantity', 'user_id', 'type_id'
+        'distance_delivery', 'score', 'plates_quantity', 'user_id', 'type_id', 'dishes'
     ];
 
     public function user()
@@ -21,6 +21,7 @@ class Seller extends Model
         if (is_array($value)) {
             $this->attributes['type_delivery'] = implode(',', $value);
         }
+        $this->attributes['type_delivery'] = $value;
     }
 
     protected function getTypeDeliveryAttribute()

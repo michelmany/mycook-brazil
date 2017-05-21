@@ -66,7 +66,9 @@ class UserController extends Controller
         );
         
         Address::create(array_merge($data['address'], ['user_id'=>$user['id']]));
-        $seller = Seller::create(array_merge($data['buyer'], ['user_id'=>$user['id']]));
+        $seller_data = array_merge($data['buyer'], ['user_id'=>$user['id']]);
+        $seller = Seller::create($seller_data);
+        dd($seller_data, $seller);
 
         foreach ($data['images']['estabelecimento'] as $image) {
             FotoEstabelecimento::create([
