@@ -23,7 +23,7 @@ class FrontendController extends Controller
         $sender_name = $request->input('sender_name');
         $message = $request->input('message');
 
-        Mail::to($request->user())->send(new ContactForm($subject, $sender_mail, $sender_name, $message));
+        Mail::to(config('mail.contact'))->send(new ContactForm($subject, $sender_mail, $sender_name, $message));
         return redirect()->route('contatoPost')->with('mail_success', 'Email enviado com sucesso');
     }
 

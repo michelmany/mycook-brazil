@@ -36,8 +36,7 @@ class ContactForm extends Mailable
      */
     public function build()
     {
-        return $this->to(config('mail.contact'))
-            ->from($this->sender_mail)
+        return $this->from($this->sender_mail)
             ->subject($this->subjectField)
             ->markdown('emails.contact_form', [
                 'subjectField'=>$this->subjectField,
