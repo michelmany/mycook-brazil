@@ -25,18 +25,18 @@ class BuyerRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'cpf' => 'required|unique:users|numeric',
             'email' => 'required|email|unique:users',
-            'password' => 'required',
+            'password' => 'required|same:confirm_password',
             'phone' => 'required|min:6',
-            'birth' => 'required|date_format:Y-m-d',
+            'aceito-termos' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'required' => 'A :attribute is required',
+            'required' => 'O campo :attribute é obrigatório',
+            'same' => 'Por favor, verifique a senha'
         ];
     }
 }

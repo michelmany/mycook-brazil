@@ -44,7 +44,7 @@ class UserController extends Controller
         $buyer->birth = $request->input('birth');
 
         $buyer->user()->associate($user);
-        return redirect()->route('authHome');
+        return redirect()->route('authHome')->with('success', 'Registro efetuado com sucesso, verifique seu email...');
     }
 
     public function sellerRegister()
