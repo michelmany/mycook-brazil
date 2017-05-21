@@ -27,7 +27,7 @@
             <div class="offset-md-1 col-md-5 d-flex align-items-center">
                 <div class="quero-vender__image-container d-flex">
                     <img src="/assets/img/sobre-01.jpg" 
-                        class="quero-vender__image img-fluid align-self-center ml-md-auto">
+                        class="quero-vender__image img-fluid align-self-center">
                 </div>
             </div>
         </div>
