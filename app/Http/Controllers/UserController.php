@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Address;
 use App\Buyer;
 use App\FotoEstabelecimento;
+use App\Mail\BuyerAdminRegisterMail;
+use App\Mail\BuyerRegisterMail;
+use App\Mail\SellerAdminRegisterMail;
+use App\Mail\SellerRegisterMail;
 use App\User;
 use App\Seller;
 use App\Http\Requests\BuyerRequest;
@@ -44,6 +48,10 @@ class UserController extends Controller
         $buyer->birth = $request->input('birth');
 
         $buyer->user()->associate($user);
+
+        \Mail::to(config('mail.contact'))->send(new BuyerAdminRegisterMail);
+        \Mail::to($user->email)->send(new BuyerRegisterMail);
+
         return redirect()->route('authHome')->with('success', 'Registro efetuado com sucesso, verifique seu email...');
     }
 
@@ -68,7 +76,6 @@ class UserController extends Controller
         Address::create(array_merge($data['address'], ['user_id'=>$user['id']]));
         $seller_data = array_merge($data['buyer'], ['user_id'=>$user['id']]);
         $seller = Seller::create($seller_data);
-        dd($seller_data, $seller);
 
         foreach ($data['images']['estabelecimento'] as $image) {
             FotoEstabelecimento::create([
@@ -76,6 +83,9 @@ class UserController extends Controller
                 'seller_id' => $seller->id
             ]);
         }
+
+        \Mail::to(config('mail.contact'))->send(new SellerAdminRegisterMail());
+        \Mail::to($user->email)->send(new SellerRegisterMail);
 
         return redirect()->route('queroVender');
     }
