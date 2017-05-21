@@ -39,7 +39,7 @@ class UsersController extends Controller
         }
 
         if (!empty($request->all()['seller'])) {
-            Seller::firstOrCreate(['user_id'=>$result->id], $request->all()['buyer']);
+            Seller::firstOrCreate(['user_id'=>$result->id], $request->all()['seller']);
         }
 
         return response()->json($result);

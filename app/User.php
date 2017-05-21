@@ -36,6 +36,9 @@ class User extends Authenticatable
 
     public function getAvatarFullUrlAttribute()
     {
+        if (!isset($this->attributes['avatar'])) {
+            return null;
+        }
         if (!$this->attributes['avatar']) {
             $avatar = md5($this->attributes['email']);
             return 'https://secure.gravatar.com/avatar/'. $avatar.'?200';
