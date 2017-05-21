@@ -27,6 +27,7 @@ class SocialService
                 'name' => $providerUser->getName(),
                 'email' => $providerUser->getEmail(),
                 'cpf' => '',
+                'role' => 'comprador',
             ]);
         }
 
