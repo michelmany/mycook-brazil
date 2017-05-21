@@ -1,5 +1,11 @@
 .quero-vender {
 
+    &__image {
+        min-width: 100%;
+        width: auto;
+        height: auto;
+    }
+
 
     .generic {
         &__wrapper {
