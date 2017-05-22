@@ -19,7 +19,7 @@ class Seller extends Model
     protected function setTypeDeliveryAttribute($value)
     {
         if (is_array($value)) {
-            $this->attributes['type_delivery'] = implode(',', $value);
+            $value = implode(',', $value);
         }
         $this->attributes['type_delivery'] = $value;
     }

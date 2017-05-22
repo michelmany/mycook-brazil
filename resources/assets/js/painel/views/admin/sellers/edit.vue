@@ -170,7 +170,7 @@
                 }
 
                 httpService.build('admin/v1/users')
-                .update(this.$route.params['id'], this.user)
+                .update(this.$route.params['id'], data)
                 .then(() => {
                     toastr.success('Editado com sucesso!', 'Usuário '+ this.user.name);
                     this.$router.push('/admin/sellers/' + this.$route.params['id'] + '/ver');
@@ -178,23 +178,27 @@
             }
         },
         mounted() {
-            let active = document.getElementById('formAtivo');
+          let active = document.getElementById('formAtivo');
 
-            let switchery = new Switchery(active, {
-                color: '#38A866'
-            });
+          let switchery = new Switchery(active, {
+              color: '#38A866'
+          });
 
-            httpService.build('admin/v1/users/' + this.$route.params['id'])
-            .list()
-            .then((res) => {
-                this.user = res.data;
-                this.user.password = null;
-                this.user.seller = res.data.seller || {type_delivery: []};
-                if (!!res.data.active) {
-                    switchery.setPosition(true);
-                    switchery.handleOnchange(true);
-                }
-            });
+          switchery.element.addEventListener('change', () => {
+            this.user.active = active.checked;
+          });
+
+          httpService.build('admin/v1/users/' + this.$route.params['id'])
+          .list()
+          .then((res) => {
+              this.user = res.data;
+              this.user.password = null;
+              this.user.seller = res.data.seller || {type_delivery: []};
+              if (!!res.data.active) {
+                  switchery.setPosition(true);
+                  switchery.handleOnchange(true);
+              }
+          });
         }
     }
 </script>
