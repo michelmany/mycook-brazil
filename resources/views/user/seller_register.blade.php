@@ -181,6 +181,13 @@
             </div>
         </form>
     </div>
+
+    <div class="form-chef__thank-you" style="display: none;">
+        <div class="thank-you__headline">Obrigado!</div>
+        <div class="thank-you__subline">Seus dados foram enviados com sucesso!</div>
+        <div class="thank-you__copy">Você receberá uma confirmação em seu email cadastrado!</div>
+    </div>
+
 </section>
  
 

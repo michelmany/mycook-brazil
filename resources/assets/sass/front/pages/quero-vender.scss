@@ -90,6 +90,50 @@
         margin-bottom: 35px;
         text-decoration: underline;
     }
+
+    &__thank-you {
+        padding: 45px;
+        background-color: #7ED321;
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        @media screen and (min-width:768px) {
+            max-width: 70%;
+        }
+        @media screen and (min-width:1200px) {
+            max-width: 748px;
+        }
+
+        .thank-you {
+
+            &__headline {
+                font-family: DINPro-Medium;
+                font-size: 48px;
+                color: #FFFFFF;
+                letter-spacing: -0.27px;
+                line-height: 61px;
+            }
+            &__subline {
+                font-family: DINPro-Regular;
+                font-size: 36px;
+                color: #FFFFFF;
+                letter-spacing: -0.27px;
+                line-height: 48px;
+                margin-bottom: 17px;
+                @media screen and (min-width:768px) {
+                    max-width: 445px;
+                }
+            }
+            &__copy {
+                font-family: DINPro-Regular;
+                font-size: 18px;
+                color: #595959;
+                letter-spacing: -0.2px;
+            }
+
+        }
+
+    }
 }
 
 
