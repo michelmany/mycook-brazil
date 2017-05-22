@@ -114,6 +114,10 @@
                 color: '#38A866'
             });
 
+            switchery.element.addEventListener('change', () => {
+              this.user.active = active.checked;
+            });
+
             httpService.build('admin/v1/users/' + this.$route.params['id'])
             .list()
             .then((res) => {

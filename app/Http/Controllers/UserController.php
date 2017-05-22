@@ -20,7 +20,11 @@ class UserController extends Controller
     public function login(Request $request)
     {
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $request->input('remember'))) {
-            return redirect('/');
+            $user = Auth::user();
+            if ($user->addresses->first()->cep) {
+                return redirect()->to('/minha-conta/enderecos');
+            }
+            return redirect()->to('/list');
         }
         return redirect()->route('authHome');
     }
@@ -67,6 +71,7 @@ class UserController extends Controller
 
         $email = $data['user']['email'];
         $password = bcrypt(bin2hex(openssl_random_pseudo_bytes(8)));
+        $data['user']['role'] = 'vendedor';
 
         $user = User::firstOrCreate(
             [ 'email' => $email],

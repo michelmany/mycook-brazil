@@ -16,8 +16,8 @@
                         <form @submit.prevent="save()">
 
                             <div class="form-group row">
-                                <label for="formAtivo" class="col-12 col-md-2 col-form-label">Status </label>
-                                <input type="checkbox" id="formAtivo" v-model="user.active"/>
+                                <label for="formAtivo" class="col-12 col-md-3 col-form-label">Status </label>
+                                <input type="checkbox" id="formAtivo" v-model="user.active" @click="onChange()"/>
                             </div>
 
                             <div class="form-group row">
@@ -96,6 +96,9 @@
             }
         },
         methods: {
+            onChange() {
+              alert('teste');
+            },
             save() {
                 let data = this.user;
                 delete data.avatar;
@@ -105,7 +108,7 @@
                 }
 
                 httpService.build('admin/v1/users')
-                .update(this.$route.params['id'], this.user)
+                .update(this.$route.params['id'], data)
                 .then(() => {
                     toastr.success('Editado com sucesso!', 'Usuário '+ this.user.name);
                     this.$router.push('/admin/buyers/' + this.$route.params['id'] + '/ver');
@@ -113,24 +116,28 @@
             }
         },
         mounted() {
-            let active = document.getElementById('formAtivo');
+          let active = document.getElementById('formAtivo');
 
-            let switchery = new Switchery(active, {
-                color: '#38A866'
-            });
+          let switchery = new Switchery(active, {
+              color: '#38A866'
+          });
 
-            httpService.build('admin/v1/users/' + this.$route.params['id'])
-            .list()
-            .then((res) => {
-                this.user = res.data;
-                this.user.password = null;
-                this.user.buyer = this.user.buyer || {};
+          switchery.element.addEventListener('change', () => {
+            this.user.active = active.checked;
+          });
 
-                if (!!res.data.active) {
-                    switchery.setPosition(true);
-                    switchery.handleOnchange(true);
-                }
-            });
+          httpService.build('admin/v1/users/' + this.$route.params['id'])
+          .list()
+          .then((res) => {
+              this.user = res.data;
+              this.user.password = null;
+              this.user.buyer = this.user.buyer || {};
+
+              if (!!res.data.active) {
+                  switchery.setPosition(true);
+                  switchery.handleOnchange(true);
+              }
+          });
         }
     }
 </script>

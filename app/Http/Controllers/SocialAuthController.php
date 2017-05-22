@@ -15,10 +15,13 @@ class SocialAuthController extends Controller
 
     public function callback(SocialService $service, $provider)
     {
-        $user = $service->getOrCreateUser(Socialite::driver($provider)->user(), $provider);
+        $user = $service->getOrCreateUser(Socialite::driver($provider)->stateless()->user(), $provider);
 
         auth()->login($user);
 
-        return redirect()->to('/painel');
+        if (!$user->addresses->first()->cep) {
+            return redirect()->to('/minha-conta/enderecos');
+        }
+        return redirect()->to('/list');
     }
 }
