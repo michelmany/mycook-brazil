@@ -13,6 +13,9 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <avatar :photo-url="user.avatar_full_url"></avatar>
+                        <div class="caption mt-3">
+                            <p><small>Envie uma logo ou foto<br>Tamanho ideal: 400x400 pixels</small></p>
+                        </div>
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0">
                         <p><small>Nome:</small> {{ user.name }}</p>
@@ -45,15 +48,15 @@
                         <hr>
                         <p><small>Formação:</small> {{ user.seller.formacao }}</p>
                         <hr>
-                        <p><small>Facebook:</small>
+                        <p><span class="fa fa-facebook"></span>
                             <a :href="user.seller.facebook" target="_blank">
-                                <span class="fa fa-link"></span> <small>{{ user.seller.facebook }}</small>
+                                 <small>{{ user.seller.facebook }}</small>
                             </a>
                         </p>
                         <hr>
-                        <p><small>Instagram:</small>
+                        <p><span class="fa fa-instagram"></span>
                             <a :href="user.seller.instagram" target="_blank">
-                                <span class="fa fa-link"></span> <small>{{ user.seller.instagram }}</small>
+                                 <small>{{ user.seller.instagram }}</small>
                             </a>
                         </p>
                         <hr>
