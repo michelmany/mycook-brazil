@@ -116,6 +116,7 @@
             .list()
             .then((res) => {
                 this.user = res.data;
+                this.user.buyer = res.data.buyer || {};
             });
         }
     }
