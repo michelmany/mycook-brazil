@@ -20,7 +20,11 @@ class UserController extends Controller
     public function login(Request $request)
     {
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $request->input('remember'))) {
-            return redirect('/');
+            $user = Auth::user();
+            if ($user->addresses->first()->cep) {
+                return redirect()->to('/minha-conta/enderecos');
+            }
+            return redirect()->to('/list');
         }
         return redirect()->route('authHome');
     }
