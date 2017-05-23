@@ -186,15 +186,11 @@
                 </div>
             </div>
         </form>
-        <div id="salvoCadastroVendedor" class="form_seller_hidden">
-            <h1 class="text-center">Salvo com sucesso</h1>
+        <div id="salvoCadastroVendedor" class="form-chef__thank-you form_seller_hidden">
+            <div class="thank-you__headline">Obrigado!</div>
+            <div class="thank-you__subline">Seus dados foram enviados com sucesso!</div>
+            <div class="thank-you__copy">Você receberá uma confirmação em seu email cadastrado!</div>
         </div>
-    </div>
-
-    <div class="form-chef__thank-you" style="display: none;">
-        <div class="thank-you__headline">Obrigado!</div>
-        <div class="thank-you__subline">Seus dados foram enviados com sucesso!</div>
-        <div class="thank-you__copy">Você receberá uma confirmação em seu email cadastrado!</div>
     </div>
 
 </section>

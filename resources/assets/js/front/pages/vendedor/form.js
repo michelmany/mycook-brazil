@@ -3,7 +3,7 @@ let divSuccess = document.getElementById('salvoCadastroVendedor');
 let preloader = document.getElementById('preloader');
 
 form.className = "form_seller_show";
-divSuccess.className = "form_seller_hidden";
+divSuccess.className = "form-chef__thank-you form_seller_hidden";
 preloader.className = "form_seller_hidden";
 
 form.addEventListener('submit', (e) => {
@@ -18,7 +18,7 @@ form.addEventListener('submit', (e) => {
   };
   window.axios.post(action, data, {headers: headers}).then(() => {
     form.className = "form_seller_hidden";
-    divSuccess.className = "form_seller_show";
+    divSuccess.className = "form-chef__thank-you form_seller_show";
     preloader.className = "form_seller_hidden";
   });
 });
