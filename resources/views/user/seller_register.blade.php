@@ -65,8 +65,14 @@
         @include('components.error', ['field'=>'name'])
     </div>
 
+    <div id="preloader" class="form_seller_hidden">
+        <div>
+            Enviando...
+        </div>
+    </div>
+
     <div class="form-chef__form">
-        <form action="{{ route('queroVenderPost') }}" method="post" enctype="multipart/form-data">
+        <form id="formCadastroVendedor" action="{{ route('queroVenderPost') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
 
             <div class="container">
@@ -180,57 +186,14 @@
                 </div>
             </div>
         </form>
+        <div id="salvoCadastroVendedor" class="form_seller_hidden">
+            <h1 class="text-center">Salvo com sucesso</h1>
+        </div>
     </div>
 </section>
- 
 
-    <script>
-        // TODO: criar isso com mais calma
+@endsection
 
-        let callApi = (url) => {
-          return new Promise((resolve, reject) => {
-            let xhr;
-            xhr = new XMLHttpRequest();
-            xhr.onload = () => {
-              if (xhr.status >= 200 && xhr.status <= 300){
-                resolve(xhr.responseText);
-              } else {
-                reject(xhr.status, xhr.statusText)
-              }
-            }
-            xhr.onerror = () => {
-              reject(xhr.status, xhr.statusText)
-            }
-            xhr.open("GET", url, true);
-            xhr.send();
-          })
-        }
-
-        let cep = document.getElementById('cep_field');
-        cep.addEventListener('change', () => {
-          if (cep.value.length !== 8) {
-            return;
-          }
-          let url = 'https://viacep.com.br/ws/' + cep.value + '/json/';
-          callApi(url)
-          .then((res) => {
-            res = JSON.parse(res);
-            let address = document.getElementById('address_field');
-            let neighborhood = document.getElementById('neighborhood_field');
-            let city = document.getElementById('city_field');
-            let state = document.getElementById('state_field');
-
-            address.value = res.logradouro;
-            neighborhood.value = res.bairro;
-            city.value = res.localidade;
-            state.value = res.uf;
-          })
-          .catch((status) => {
-            console.log('erro ' + status);
-          });
-        });
-
-
-    </script>
-
+@section('script')
+    <script type="text/javascript" src="{{mix("/assets/js/vendedor.js")}}"></script>
 @endsection
