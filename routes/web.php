@@ -71,7 +71,7 @@ Route::post('/me/profile', function() {
     return 'Aqui salvamos os dados vindos do formulário de edição do perfil';
 })->name('profileSave');
 
-Route::get('/list', function () {
+Route::match(['get', 'post'], '/list', function () {
     return view('list.index');
 });
 

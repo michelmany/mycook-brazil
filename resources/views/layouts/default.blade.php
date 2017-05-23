@@ -93,5 +93,6 @@
 
     <script type="text/javascript" src="{{mix("/assets/js/plugins-front.js")}}"></script>
     <script type="text/javascript" src="{{mix("/assets/js/front.js")}}"></script>
+    @yield('script')
 </body>
 </html>
