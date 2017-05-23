@@ -40,12 +40,15 @@
                 this.users = res.data.data;
 
                 let data = [];
+
                 res.data.data.forEach((value) => {
                     let action = `<a href="/painel/admin/sellers/${value.id}/ver" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>Detalhes</a>`;
+                    value.active = (value.active ? 'Ativo' : 'Inativo');
                     data.push([
                         value.id,
                         value.name,
                         value.email,
+                        value.active,
                         action,
                         ]);
                 });
@@ -60,6 +63,7 @@
                         {title: "Id", width: "20px"},
                         {title: "Nome"},
                         {title: "Email"},
+                        {title: "Status"},
                         {title: "Ação", width: "70px"},
                     ],
                     fixedColumns: true
