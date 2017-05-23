@@ -19,7 +19,7 @@ class SocialAuthController extends Controller
 
         auth()->login($user);
 
-        if (!$user->addresses->first()->cep) {
+        if (!$user->addresses->first()) {
             return redirect()->to('/minha-conta/enderecos');
         }
         return redirect()->to('/list');
