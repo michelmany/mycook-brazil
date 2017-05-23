@@ -11,7 +11,8 @@
         <div class="card">
             <div class="card-block">
                 <div class="row">
-                <div class="col-lg-4"><img :src="user.avatar + '?s=200'" class="img-responsive" v-if="user.avatar"></div>
+                <div class="col-lg-4">
+                    <img :src="user.avatar_full_url + '?s=200'" class="img-fluid" v-if="user.avatar_full_url"></div>
                     <div class="col-lg-6 mt-3 mt-lg-0">
                         <form @submit.prevent="save()">
 

@@ -1,6 +1,7 @@
 <template>
   <div id="boxAvatarPreview">
-    <img class="rounded" id="avatarPreview" :src="this.url" v-if="this.url" @click="chooseFile()" :class="{'pointer': file === null}">
+    <img class="rounded" id="avatarPreview" src="/assets/img/not-found-avatar.png" :src="this.url" v-if="this.url" @click="chooseFile()" :class="{'pointer': file === null}">
+    <img class="rounded" id="avatarPreview" src="/assets/img/not-found-avatar.png" v-else @click="chooseFile()" :class="{'pointer': file === null}">
     <input id="sender" type="button" value="enviar" v-if="file !== null" class="btn btn-primary pointer" @click="sendFile()">
     <input type="file" id="fileUpload" @change="selectedFile($event)">
   </div>
@@ -42,11 +43,11 @@
         formData.append('avatar', this.file);
 
         document.getElementById("sender").setAttribute('disabled', true)
-        document.getElementById("sender").setAttribute('value', 'enviando')
+        document.getElementById("sender").setAttribute('value', 'Enviando...')
 
         window.axios.post(url, formData, {headers: {"Content-Type": "multipart/form-data"}})
           .then(() => {
-            document.getElementById("sender").setAttribute('value', 'enviado!!');
+            document.getElementById("sender").setAttribute('value', 'Enviado!');
 
             setTimeout(() => {
               this.file = null;
@@ -72,11 +73,12 @@
     overflow:hidden;
     text-align:center;
     width:200px;
+    background-color: #F8F8F8;
   }
 
   #boxAvatarPreview:after {
     display: block;
-    content: 'enviar foto';
+    content: 'Enviar foto';
     position: absolute;
     left: 10px;
     top: 10px;
