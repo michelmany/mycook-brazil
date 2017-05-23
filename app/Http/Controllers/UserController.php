@@ -72,6 +72,7 @@ class UserController extends Controller
         $email = $data['user']['email'];
         $password = bcrypt(bin2hex(openssl_random_pseudo_bytes(8)));
         $data['user']['role'] = 'vendedor';
+        $data['user']['active'] = false;
 
         $user = User::firstOrCreate(
             [ 'email' => $email],

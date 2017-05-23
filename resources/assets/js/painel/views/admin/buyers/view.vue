@@ -27,7 +27,7 @@
                         <hr>
                         <p><small>Telefone:</small> {{ user.buyer.phone }}</p>
                         <hr>
-                        <p><small>Data de nascimento:</small> {{ user.buyer.birth | datetime('DD/MM/YYYY')}}</p>
+                        <p><small>Data de nascimento:</small> <span v-if="user.buyer.birth">{{ user.buyer.birth | datetime('DD/MM/YYYY')}}</span></p>
                     </div>
                 </div>
             </div>
