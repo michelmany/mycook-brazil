@@ -8,7 +8,7 @@
                 <li :class="{ active : isActive('/admin/settings') }">
                     <a href="#" aria-expanded="true"><i class="fa fa-cogs"></i> Sistema <span class="fa arrow fa-fw"></span></a>
                     <ul aria-expanded="true">
-                        <router-link to="/admin/settings" tag="li"><a>Configurações</a></router-link>
+                        <router-link to="#" tag="li"><a>Configurações</a></router-link>
                         <router-link to="/admin/users" tag="li"><a>Usuários</a></router-link>
                     </ul>
                 </li>

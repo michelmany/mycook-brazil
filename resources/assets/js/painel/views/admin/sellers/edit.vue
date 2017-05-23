@@ -110,23 +110,23 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-12 col-md-3 col-form-label">Tipo de entrega</label>
-                                <div class="col-12 col-md-9">
+                                <label class="col-12 col-md-7 col-form-label">Tipo de entrega</label>
+                                <div class="col-12 col-md-5">
                                     <input type="checkbox" name="type_delivery" v-model="user.seller.type_delivery" value="Sob encomenda">Sob encomenda<br>
                                     <input type="checkbox" name="type_delivery" v-model="user.seller.type_delivery" value="Pronta entrega">Pronta entrega
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="formDistanceDelivery" class="col-12 col-md-3 col-form-label">Distância máxima de entrega</label>
-                                <div class="col-12 col-md-9">
+                                <label for="formDistanceDelivery" class="col-12 col-md-7 col-form-label">Distância máxima de entrega</label>
+                                <div class="col-12 col-md-5">
                                     <input type="text" class="form-control" id="formDistanceDelivery" placeholder="Distancia em kilometros máxima de entrega" v-model="user.seller.distance_delivery" required>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="formQuantityPlates" class="col-12 col-md-3 col-form-label">Quantidade de pratos</label>
-                                <div class="col-12 col-md-9">
+                                <label for="formQuantityPlates" class="col-12 col-md-7 col-form-label">Quantidade de pratos</label>
+                                <div class="col-12 col-md-5">
                                     <input type="text" class="form-control" id="formQuantityPlates" placeholder="Quantidade máxima de entrega de pratos em uma hora" v-model="user.seller.plates_quantity" required>
                                 </div>
                             </div>
