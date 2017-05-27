@@ -57,3 +57,7 @@
     </div>
 
 @endsection
+
+@section('script')
+        <script type="text/javascript" src="{{mix("/assets/js/comprador.js")}}"></script>
+@endsection
