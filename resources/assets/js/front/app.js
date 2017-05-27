@@ -14,10 +14,6 @@ import CpfValidator from './components/validators/cpf.validator'
 import Portuguese from 'vee-validate/dist/locale/pt_BR'
 import Dictionary from './components/validators/dictionary'
 
-import VueTheMask from 'vue-the-mask'
-Vue.use(VueTheMask)
-
-
 Validator.extend('cpf', CpfValidator)
 Validator.addLocale(Portuguese);
 

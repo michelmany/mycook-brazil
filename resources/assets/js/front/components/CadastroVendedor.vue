@@ -4,54 +4,57 @@
             <div class="form-group row">
 
                 <div class="col-lg-5">
-                    <input type="text" name="user[name]" v-model="user.name" placeholder="Nome completo"
-                    v-validate="'required'" data-vv-as="NOME COMPLETO"
-                    :class="{'form-control': true, 'is-danger': errors.has('user[name]') }"
+                    <input type="text" name="name" v-model="user.name" placeholder="Nome completo"
+                    v-validate="'required'" data-vv-as="nome completo"
+                    :class="{'form-control': true, 'is-danger': errors.has('name') }"
                     class="form-control form-control-lg input__entrar">
-                    <div v-show="errors.has('user[name]')" class="help is-danger">{{ errors.first('user[name]') }}</div>
+                    <div v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</div>
                 </div>
 
                 <div class="col-lg-3">
-                    <input  type="number" name="user[cpf]" v-model="user.cpf" placeholder="CPF" 
-                            v-validate="'required|cpf|digits:11'" data-vv-as="CPF" 
-                            :class="{'form-control': true, 'is-danger': errors.has('user[cpf]') }" 
-                            class="form-control form-control-lg input__entrar">
-                    <div v-show="errors.has('user[cpf]')" class="help is-danger">{{ errors.first('user[cpf]') }}</div>
+                    <the-mask v-model="user.cpf" placeholder="CPF" 
+                            :mask="'###.###.###-##'"
+                            v-validate="'required|cpf|digits:11'" data-vv-as="CPF" data-vv-name="cpf"
+                            :class="{'form-control': true, 'is-danger': errors.has('cpf') }" 
+                            class="form-control form-control-lg input__entrar"/>
+                    <div v-show="errors.has('cpf')" class="help is-danger">{{ errors.first('cpf') }}</div>
                 </div>
 
                 <div class="col-lg-4">
-                    <input type="email" name="user[email]" v-model="user.email" placeholder="Email" 
-                            v-validate="'required|email'" data-vv-as="EMAIL" 
-                            :class="{'form-control': true, 'is-danger': errors.has('user[email]') }" 
+                    <input type="email" v-model="user.email" placeholder="Email" 
+                            v-validate="'required|email'" data-vv-name="email"
+                            :class="{'form-control': true, 'is-danger': errors.has('email') }" 
                             class="form-control form-control-lg input__entrar">
-                    <div v-show="errors.has('user[email]')" class="help is-danger">{{ errors.first('user[email]') }}</div>
+                    <div v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</div>
                 </div>
 
             </div>
             <div class="form-group row">
 
                 <div class="col-lg-3">
-                    <input  id="cep_field" type="number" v-model="address.cep" placeholder="CEP"
-                            v-validate="'required|digits:8'" data-vv-as="CEP" data-vv-name="cep"
+
+                    <the-mask id="cep_field" v-model="address.cep" placeholder="CEP"
+                            :mask="'#####-###'" 
+                            v-validate="'required'" data-vv-name="cep"
                             :class="{'form-control': true, 'is-danger': errors.has('cep') }" 
-                            class="form-control form-control-lg input__entrar" @keyup="getcep()">
+                            class="form-control form-control-lg input__entrar" @keyup.native="getcep()"/>
                     <div v-show="errors.has('cep')" class="help is-danger">{{ errors.first('cep') }}</div>
                 </div>
 
                 <div class="col-lg-6">
                     <input  id="address_field" type="text" v-model="address.address" placeholder="Endereço" 
-                            v-validate="'required'" data-vv-as="ENDEREÇO" data-vv-name="fulladdress"
-                            :class="{'form-control': true, 'is-danger': errors.has('fulladdress') }" 
+                            v-validate="'required'" data-vv-name="endereço"
+                            :class="{'form-control': true, 'is-danger': errors.has('endereço') }" 
                             class="form-control form-control-lg input__entrar">
-                    <div v-show="errors.has('fulladdress')" class="help is-danger">{{ errors.first('fulladdress') }}</div>
+                    <div v-show="errors.has('endereço')" class="help is-danger">{{ errors.first('endereço') }}</div>
                 </div>
 
                 <div class="col-lg-3">
                     <input type="text" v-model="address.number" placeholder="Número" 
-                            v-validate="'required'" data-vv-as="NÚMERO" data-vv-name="number"
-                            :class="{'form-control': true, 'is-danger': errors.has('number') }" 
+                            v-validate="'required'" data-vv-as="NÚMERO" data-vv-name="número"
+                            :class="{'form-control': true, 'is-danger': errors.has('número') }" 
                             class="form-control form-control-lg input__entrar">
-                    <div v-show="errors.has('number')" class="help is-danger">{{ errors.first('number') }}</div>
+                    <div v-show="errors.has('número')" class="help is-danger">{{ errors.first('número') }}</div>
                 </div>
 
             </div>
@@ -65,7 +68,7 @@
 
                 <div class="col-lg-3">
                     <input id="neighborhood_field" type="text" v-model="address.neighborhood" placeholder="Bairro" 
-                            v-validate="'required'" data-vv-as="BAIRRO" data-vv-name="neighborhood"
+                            v-validate="'required'" data-vv-as="bairro" data-vv-name="neighborhood"
                             :class="{'form-control': true, 'is-danger': errors.has('neighborhood') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('neighborhood')" class="help is-danger">{{ errors.first('neighborhood') }}</div>
@@ -73,7 +76,7 @@
 
                 <div class="col-lg-3">
                     <input id="city_field" type="text"  v-model="address.city" placeholder="Município" 
-                            v-validate="'required'" data-vv-as="MUNICÍPIO" data-vv-name="city"
+                            v-validate="'required'" data-vv-as="município" data-vv-name="city"
                             :class="{'form-control': true, 'is-danger': errors.has('city') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('city')" class="help is-danger">{{ errors.first('city') }}</div>
@@ -91,22 +94,22 @@
             <div class="form-group row">
 
                 <div class="col-lg-3">
-                    <input type="text" v-model="user.seller.phone" placeholder="Telefone Fixo" 
-                            v-validate="'required'" data-vv-as="TELEFONE FIXO" data-vv-name="phone"
-                            :class="{'form-control': true, 'is-danger': errors.has('phone') }" 
-                            class="form-control form-control-lg input__entrar">
+                    <the-mask v-model="user.seller.phone" placeholder="Telefone Fixo"
+                            :mask="['(##) ####-####', '(##) #####-####']" 
+                            v-validate="'required|min:10'" data-vv-as="telefone fixo" data-vv-name="phone"
+                            :class="{'form-control': true, 'is-danger': errors.has('phone') }"
+                            class="form-control form-control-lg input__entrar"/>
                     <div v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</div>
-
                 </div>
 
+
                 <div class="col-lg-3">
-
-                    <input type="text" v-model="user.seller.phone2" placeholder="Telefone Celular" 
-                            v-validate="'required'" data-vv-as="TELEFONE CELULAR" data-vv-name="phone2"
+                    <the-mask v-model="user.seller.phone2" placeholder="Telefone Celular" 
+                            :mask="['(##) ####-####', '(##) #####-####']" 
+                            v-validate="'required|min:10'" data-vv-as="telefone celular" data-vv-name="phone2"
                             :class="{'form-control': true, 'is-danger': errors.has('phone2') }" 
-                            class="form-control form-control-lg input__entrar">
+                            class="form-control form-control-lg input__entrar"/>
                     <div v-show="errors.has('phone2')" class="help is-danger">{{ errors.first('phone2') }}</div>
-
                 </div>
 
                 <div class="col-lg-3">
@@ -124,7 +127,7 @@
             <div class="form-group row">
                 <div class="col-lg-5">
                     <textarea v-model="user.seller.dishes" class="form-control form-control-lg input__entrar input__entrar--textarea"
-                        placeholder="Quais pratos deseja vender no mycook?" rows="6" v-validate="'required'" data-vv-as="QUAIS PRATOS..." data-vv-name="dishes"
+                        placeholder="Quais pratos deseja vender no mycook?" rows="6" v-validate="'required'" data-vv-as="quais pratos..." data-vv-name="dishes"
                         :class="{'form-control': true, 'is-danger': errors.has('dishes') }"></textarea>
                         <div v-show="errors.has('dishes')" class="help is-danger">{{ errors.first('dishes') }}</div>
                 </div>
@@ -132,7 +135,6 @@
                 <div class="col-lg-3 mt-3">
                     <label class="form-chef__label">Você cozinha?</label>
                     <p><small>Caso faça ambos, selecione as duas caixas</small></p>
-                    .
                     <div class="form-check mb-2 mr-sm-2 mb-sm-0">
                        <label class="form-check-label">
                          <input class="form-check-input" type="checkbox" name="type_delivery" 
@@ -209,8 +211,10 @@
 </template>
 
 <script>
+    import TheMask from 'vue-the-mask';
     import { HttpService } from '../services/httpService';
     let httpService = new HttpService();
+    Vue.use(TheMask);
 
     export default {
         data: function () {
@@ -256,6 +260,7 @@
             },
             getcep: function () {
                 if (this.address.cep.length === 8) {
+                    console.log('chegou aqui');
                     httpService.xmlHttpRequest('https://viacep.com.br/ws/' + this.address.cep + '/json/').then((res) => {
                         let cep = JSON.parse(res);
                         this.address.address = cep.logradouro;
@@ -263,6 +268,8 @@
                         this.address.city = cep.localidade;
                         this.address.state = cep.uf;
                     })
+                } else {
+                    console.log('nao deu');
                 }
             }
         }

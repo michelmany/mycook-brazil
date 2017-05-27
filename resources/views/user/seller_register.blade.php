@@ -68,5 +68,10 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript" src="{{mix("/assets/js/vendedor.js")}}"></script>
+    <script>
+        const formChef = new Vue({
+            el: '#ContainerFormVendedor'
+
+        });
+    </script>
 @endsection
