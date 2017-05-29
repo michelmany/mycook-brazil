@@ -1,10 +1,10 @@
 <template>
     <div class="main-content">
         <div class="page-header">
-            <h3>Chefs</h3>
+            <h3>Vendedores</h3>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><router-link to="/">Painel</router-link></li>
-                <li class="breadcrumb-item active">Chefs</li>
+                <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+                <li class="breadcrumb-item active">Vendedores</li>
                 <li class="action">
                     <router-link :to="'/admin/sellers/new'" class="btn btn-success btn-xs"><i class="fa fa-plus-circle"></i>Novo</router-link>
                 </li>

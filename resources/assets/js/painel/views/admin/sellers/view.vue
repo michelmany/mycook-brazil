@@ -1,7 +1,7 @@
 <template>
     <div class="main-content">
         <div class="page-header">
-            <h4>Vendedor - {{ user.name }}</h4>
+            <h4>Vendedores</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
                 <li class="breadcrumb-item active"><router-link to="/admin/sellers">Vendedores</router-link></li>
@@ -9,6 +9,17 @@
             </ol>
         </div>
         <div class="card">
+            <div class="card-header">
+                <div class="caption">
+                    <h6><i class="fa fa-user"></i> {{ user.name }}</h6>
+                </div>
+                <div class="actions my-1">
+                    <router-link :to="'/admin/sellers/' + user.id + '/edit'" class="btn btn-warning btn-sm">
+                        <i class="fa fa-pencil"></i>Editar</router-link>
+                    <router-link :to="'/admin/sellers/' + user.id + '/remove'" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i>Excluir</router-link>
+                </div>
+            </div>
             <div class="card-block">
                 <div class="row">
                     <div class="col-lg-4">
@@ -18,76 +29,86 @@
                         </div>
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0">
-                        <p><small>Nome:</small> {{ user.name }}</p>
-                        <hr>
-                        <p><small>Email:</small> {{ user.email }}</p>
-                        <hr>
-                        <p><small>Função:</small> {{ user.role }}</p>
-                        <hr>
-                        <p><small>Status:</small> {{ user.active ? 'Ativo' : 'Inativo' }}</p>
-                        <hr>
-                        <p><small>CPF:</small> {{ user.cpf }}</p>
-                        <hr>
-                        <p><small>Telefone:</small> {{ user.seller.phone }}</p>
-                        <div v-if="user.seller.phone2 != null">
+                        <div>
+                            <small>Email:</small> {{ user.email }}
                             <hr>
-                            <p><small>Telefone 2:</small> {{ user.seller.phone2 }}</p>
+                        </div>
+                        <div>
+                            <small>Status:</small> {{ user.active ? 'Ativo' : 'Inativo' }}
+                            <hr>
+                        </div>
+                        <div>
+                            <small>CPF:</small> {{ user.cpf }}
+                            <the-mask style="display: none;" :masked="true" 
+                            :mask="'###.###.###-##'" v-model="user.cpf"/>
+                            <hr>
+                        </div>
+                        <div v-if="user.seller.phone2 != null">
+                            <the-mask style="display: none;" :masked="true" 
+                            :mask="['(##) ####-####', '(##) #####-####']" v-model="user.seller.phone"/>
+                            <small>Telefone:</small> {{ user.seller.phone }}
+                            <hr>
+                        </div>
+                        <div v-if="user.seller.phone2 != null">
+                            <the-mask style="display: none;" :masked="true" 
+                            :mask="['(##) ####-####', '(##) #####-####']" v-model="user.seller.phone2"/>
+                            <small>Celular:</small> {{ user.seller.phone2 }}
+                            <hr>
                         </div>
                         <div v-if="user.seller.phone3 != null">
+                            <small>Telefone 3:</small> {{ user.seller.phone3 }}
                             <hr>
-                            <p><small>Telefone 3:</small> {{ user.seller.phone3 }}</p>
                         </div>
                         <div v-if="user.seller.phone4 != null">
+                            <small>Telefone 4:</small> {{ user.seller.phone4 }}
                             <hr>
-                            <p><small>Telefone 4:</small> {{ user.seller.phone4 }}</p>
                         </div>
                         <div v-if="user.seller.phone5 != null">
+                            <small>Telefone 5:</small> {{ user.seller.phone5 }}
                             <hr>
-                            <p><small>Telefone 5:</small> {{ user.seller.phone5 }}</p>
                         </div>
-                        <hr>
-                        <p><span class="fa fa-facebook"></span>
+                        <div v-if="user.seller.facebook">
+                            <span class="fa fa-facebook"></span>
                             <a :href="user.seller.facebook" target="_blank">
                                  <small>{{ user.seller.facebook }}</small>
                             </a>
-                        </p>
                         <hr>
-                        <p><span class="fa fa-instagram"></span>
+                        </div>
+                        <div v-if="user.seller.instagram">
+                            <span class="fa fa-instagram"></span>
                             <a :href="user.seller.instagram" target="_blank">
                                  <small>{{ user.seller.instagram }}</small>
                             </a>
-                        </p>
-                        <hr>
-                        <p><small>Tipos de entrega:</small> {{ user.seller.type_delivery | join(' - ') }}</p>
-<!--                         <hr>
-                        <p><small>Distância de entrega:</small> {{ user.seller.distance_delivery }}</p>
-                        <hr>
-                        <p><small>Quantidade de pratos:</small> {{ user.seller.plates_quantity }}</p> -->
+                            <hr>
+                        </div>
+                        <div v-if="user.seller.type_delivery">
+                            <small>Tipos de entrega:</small> {{ user.seller.type_delivery | join(' - ') }}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <router-link :to="'/admin/sellers'" class="btn btn-default btn-sm">
+            <div class="card-footer d-flex justify-content-between">
+                <div class="mt-1">
+                    <router-link :to="'/admin/sellers'" class="btn btn-default btn-sm">
                     <i class="fa fa-arrow-left"></i> Voltar</router-link>
-                <router-link :to="'/admin/sellers/' + user.id + '/edit'" class="btn btn-warning btn-sm">
-                    <i class="fa fa-pencil"></i>Editar</router-link>
-                <router-link :to="'/admin/sellers/' + user.id + '/remove'" class="btn btn-danger btn-sm">
-                    <i class="fa fa-trash"></i>Excluir</router-link>
+                </div>
             </div>
         </div>
 
+        <!-- Endereços -->
         <div class="card">
+            <div class="card-header">
+                <div class="caption">
+                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> Endereços</h6>
+                </div> 
+                <div class="actions">
+                    <router-link :to="'/admin/address/new/' + user.id + '/' + user.role" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> Adicionar Novo</router-link>
+                </div>
+            </div>
             <div class="card-block">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3>Endereços
-                            <small><router-link :to="'/admin/address/new/' + user.id + '/' + user.role" class="btn btn-primary btn-xs">novo</router-link></small>
-                        </h3>
-                        <div class="card" v-if="user.addresses.length === 0">
-                            <div class="card-header bg-dark">
-                                Nenhum endereço cadastrado
-                            </div>
-                        </div>
+                    <div v-if="user.addresses.length === 0" class="col-md-12">
+                        <p><small>Nenhum endereço cadastrado</small></p>
                     </div>
                     <div class="col-md-6" v-for="address in user.addresses">
                         <table class="table table-bordered table-striped">

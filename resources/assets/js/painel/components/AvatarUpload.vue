@@ -52,7 +52,7 @@
             setTimeout(() => {
               this.file = null;
               document.getElementById("sender").setAttribute('disabled', false);
-              document.getElementById("sender").setAttribute('value', 'enviar');
+              document.getElementById("sender").setAttribute('value', 'Enviar');
             }, 500);
             //this.file = null;
           });

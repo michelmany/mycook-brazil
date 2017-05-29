@@ -1,21 +1,22 @@
 <template>
     <div class="main-content">
         <div class="page-header">
-            <h3>Removendo vendedor</h3>
+            <h3>Remover vendedor</h3>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                <li class="breadcrumb-item active">Vendedores</li>
+                <li class="breadcrumb-item active"><router-link to="/admin/sellers">Vendedores</router-link></li>
+                <li class="breadcrumb-item active">Remover </li>
             </ol>
         </div>
         <div class="card">
             <div class="card-block">
-                <div class="row">
-                    <div class="col-lg-4"><img :src="user.avatar + '?s=200'" class="img-responsive" v-if="user.avatar"></div>
-                    <div class="col-lg-6">
-
-                        <h5>Tem certeza que quer excluir o comprador <strong>{{ user.name }}</strong>?</h5>
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-3" v-if="user.avatar">
+                        <img :src="user.avatar_full_url + '?s=200'" class="img-responsive">
+                    </div>
+                    <div class="col-lg-8">
+                        <h5>Tem certeza que quer excluir o vendedor <strong>{{ user.name }}</strong>?</h5>
                         <a href="" class="btn btn-success btn-lg" @click.prevent="remove()">SIM</a> <router-link :to="'/admin/sellers/' + user.id + '/ver'" class="btn btn-danger btn-lg">NÃO</router-link>
-
                     </div>
                 </div>
             </div>
