@@ -10,9 +10,9 @@ class FotoEstabelecimentoObservable
 {
     public function creating(FotoEstabelecimento $model)
     {
-        if ($model->url->isValid()) {
+        // if ($model->url->isValid()) {
             $this->upload($model);
-        }
+        // }
     }
 
     public function deleting(FotoEstabelecimento $model)

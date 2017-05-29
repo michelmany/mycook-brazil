@@ -51,7 +51,7 @@
 
                 <div class="col-lg-3">
                     <input type="text" v-model="address.number" placeholder="Número" 
-                            v-validate="'required'" data-vv-as="NÚMERO" data-vv-name="número"
+                            v-validate="'required'" data-vv-as="número" data-vv-name="número"
                             :class="{'form-control': true, 'is-danger': errors.has('número') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('número')" class="help is-danger">{{ errors.first('número') }}</div>
@@ -159,7 +159,41 @@
                         v-validate="'required|ext:jpg,png'" @change="selectedFile($event)">
                     </span> -->
                     <!-- <p><small>Apenas imagens (JPG, PNG).</small></p> -->
-                    <div v-show="errors.has('images[estabelecimento][]')" class="help is-danger">Selecione imagens JPG ou PNG.</div>
+<!--                     <div v-show="errors.has('images[estabelecimento][]')" class="help is-danger">Selecione imagens JPG ou PNG.</div> -->
+
+                    <span class="btn btn-file-blue btn-file"style="cursor: pointer"  data-toggle="modal" data-target="#modalImages">Selecionar imagens...</span>
+ 
+                    <!-- Modal Images -->
+                    <div class="modal fade" id="modalImages" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:#F95700">
+                                    <h5 class="modal-title" style="color:#fff" id="exampleModalLabel">Envie fotos do ambiente de trabalho e dos produtos.</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <dropzone id="myVueDropzone" ref="myVueDropzone" url="/api/quero-vender" v-on:vdropzone-success="dropShowSuccess" 
+                                    v-on:vdropzone-files-added="dropFilesAdded"
+                                    v-on:vdropzone-sending="dropSending"
+                                    :uploadMultiple="true"
+                                    :parallelUploads="100"
+                                    :maxFiles="100"
+                                    :useFontAwesome="true"
+                                    :options="dropOptions"
+                                    :language="dropLang"
+                                    :autoProcessQueue="false">
+                                        <!-- Optional parameters if any! -->
+                                        <input type="hidden" name="token" :value="dropOptions.token" >
+                                    </dropzone>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
             <div class="form-check text-center mb-3">
@@ -173,7 +207,7 @@
                 <button type="submit" class="btn btn-submit-orange btn-lg">Cadastrar</button>
             </div>
 
-            <!-- Modal -->
+            <!-- Modal Termos -->
             <div class="modal fade" id="modalTermos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
@@ -186,12 +220,21 @@
                         <div class="modal-body">
                             <p>Ao se cadastrar no MyCook, você <strong>ESTÁ DE ACORDO COM OS TERMOS E CONDIÇÕES</strong> da plataforma. Note que a recusa destes Termos, você ficara impedido de solicitar pedidos, quanto para se candidatar como fornecedor na plataforma. </p>
                             <h6>SERVIÇOS OFERECIDOS</h6>
-
                         </div>
                     </div>
                 </div>
             </div>
        </form>   
+
+       <div v-show="modalErrors" class="preloader" @click="modalErrors = false">
+           <div class="preloader__box" style="background-color: #fd9e42;">
+               <div>
+                   <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: #fff;"></i>
+                   <div class="preloader__copy" v-if="user.name" style="color: #fff;">Olá <strong>{{ user.name }}</strong>,<br> confira seus dados preenchidos!</div>
+                   <div class="preloader__copy" v-else style="color: #fff;">Por favor confira seus dados preenchidos!</div>
+               </div>
+           </div>
+       </div>
 
         <div v-show="loading" class="preloader">
             <div class="preloader__box">
@@ -211,15 +254,34 @@
 </template>
 
 <script>
-    import TheMask from 'vue-the-mask';
-    import { HttpService } from '../services/httpService';
+    import TheMask from 'vue-the-mask'
+    import { HttpService } from '../services/httpService'
+    import Dropzone from 'vue2-dropzone'
+
     let httpService = new HttpService();
-    Vue.use(TheMask);
 
     export default {
         data: function () {
             return {
                 loading: false,
+                modalErrors: false,
+                dropFilesLength: 0,
+                dropLang: {
+                  dictDefaultMessage: '<br>Arraste e solte fotos aqui <br>ou <b>clique para enviar</b> <br><small>(Máximo 6 fotos)</small>',
+                  dictRemoveFile: 'Remover',
+                },
+                dropOptions: {
+                  acceptedFiles: '.jpg,.jpeg,.png,.gif',
+                  maxFiles: 6,
+                  maxFilesize: 15,
+                  addRemoveLinks: true,
+                  token: Laravel.csrfToken
+                },
+                user: {
+                    seller: {
+                        type_delivery: []
+                    },
+                },
                 address: {
                     cep: '',
                     address: '',
@@ -228,39 +290,27 @@
                     neighborhood: '',
                     city: '',
                     state: ''
-                },
-                user: {
-                    seller: {
-                        type_delivery: []
-                    }
                 }
             }
+        },
+        components: {
+          Dropzone
         },
         methods: {
             validateBeforeSubmit() {
                 this.$validator.validateAll().then(() => {
-                    // this.$refs.preloader.className = "form_seller_show";
-                    this.loading = true;
-                    this.save();
+                    if (this.dropFilesLength >= 1) {
+                        this.loading = true;
+                        this.$refs.myVueDropzone.processQueue();
+                    } else {
+                        this.modalErrors = true;
+                    }
                 }).catch(() => {
-                    // alert('Correct them errors!');
-                });
-            },
-            save: function () {
-                this.user.role = 'vendedor';
-                this.user.active = 0;
-                httpService.build('admin/v1/users')
-                .create(this.user)
-                .then((res) => {
-                    this.loading = false;
-                    this.$refs.formCadastroVendedor.className = "form_seller_hidden";
-                    this.$refs.salvoCadastroVendedor.className = "form-chef__thank-you form_seller_show";
-                    // this.$refs.preloader.className = "form_seller_hidden";
+                    this.modalErrors = true;
                 });
             },
             getcep: function () {
                 if (this.address.cep.length === 8) {
-                    console.log('chegou aqui');
                     httpService.xmlHttpRequest('https://viacep.com.br/ws/' + this.address.cep + '/json/').then((res) => {
                         let cep = JSON.parse(res);
                         this.address.address = cep.logradouro;
@@ -268,9 +318,23 @@
                         this.address.city = cep.localidade;
                         this.address.state = cep.uf;
                     })
-                } else {
-                    console.log('nao deu');
                 }
+            },
+            dropShowSuccess: function(file) {
+              this.loading = false;
+              this.$refs.formCadastroVendedor.className = "form_seller_hidden";
+              this.$refs.salvoCadastroVendedor.className = "form-chef__thank-you form_seller_show";
+              console.log('A file was successfully uploaded');
+            },
+            dropFilesAdded: function(file) {
+                this.dropFilesLength = file.length;
+                console.log('files uploaded');
+                // console.log(this.$refs.myVueDropzone.getQueuedFiles());
+                // console.log(this.$refs.myVueDropzone.getUploadingFiles());
+            },
+            dropSending: function(file, xhr, formData) {
+                formData.append('user[]', JSON.stringify(this.user));
+                formData.append('address[]', JSON.stringify(this.address));
             }
         }
     }

@@ -2,6 +2,12 @@
 @section('title', 'Quero vender no mycook')
 @section('content')
 
+<script>
+    window.Laravel = {!! json_encode([
+        'csrfToken' => csrf_token(),
+    ]) !!};
+</script>
+
 <section class="hero-pages" 
     style="background-image: url('/assets/img/hero-05.jpg')"">
     <div class="hero-pages__mask"></div>
@@ -73,5 +79,6 @@
             el: '#ContainerFormVendedor'
 
         });
+
     </script>
 @endsection
