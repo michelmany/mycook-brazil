@@ -2,6 +2,9 @@ import router from './router.js'
 
 import Layout from './helpers/layout'
 import filters from './filters'
+import TheMask from 'vue-the-mask'
+
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -10,7 +13,13 @@ import filters from './filters'
  */
 
 require('./bootstrap');
+
 Vue.use(filters)
+Vue.use(TheMask)
+
+
+
+Vue.config.debug = true
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

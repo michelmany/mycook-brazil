@@ -1,5 +1,9 @@
 import VueRouter from 'vue-router'
-import VeeValidate from 'vee-validate';
+import VeeValidate, { Validator } from 'vee-validate'
+import CpfValidator from './components/validators/cpf.validator'
+import Portuguese from 'vee-validate/dist/locale/pt_BR'
+import Dictionary from './components/validators/dictionary'
+
 import Axios from 'axios';
 import Ls from './services/ls'
 require('es6-promise').polyfill();
@@ -62,4 +66,10 @@ axios.interceptors.request.use(function (config) {
 
 Vue.use(VueRouter)
 
-Vue.use(VeeValidate);
+Validator.extend('cpf', CpfValidator)
+Validator.addLocale(Portuguese);
+
+Vue.use(VeeValidate, {
+    locale: 'pt_BR', 
+    dictionary: Dictionary
+});

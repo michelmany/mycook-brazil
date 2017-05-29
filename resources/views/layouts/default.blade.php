@@ -64,7 +64,7 @@
                             <li><a href="{{ route('sobre') }}">Sobre mycook</a></li>
                             <li><a href="#">Termos e condições de uso</a></li>
                             <li><a href="#">Privacidade</a></li>
-                            <li><a href="{{ route('authHome') }}">Cadastre-se</li>
+                            <li><a href="{{ route('authHome') }}">Cadastre-se</a></li>
                             <li><a href="{{ route('contato') }}">Contato</a></li>
                         </ul>
                     </div>

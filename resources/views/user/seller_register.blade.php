@@ -9,7 +9,7 @@
 </script>
 
 <section class="hero-pages" 
-    style="background-image: url('/assets/img/hero-05.jpg')"">
+    style="background-image: url('/assets/img/hero-05.jpg')">
     <div class="hero-pages__mask"></div>
     <div class="container">
         <div class="hero-pages__headline ml-auto">@yield('title')</div>

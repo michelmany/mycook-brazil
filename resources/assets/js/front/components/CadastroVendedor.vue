@@ -43,7 +43,7 @@
 
                 <div class="col-lg-6">
                     <input  id="address_field" type="text" v-model="address.address" placeholder="Endereço" 
-                            v-validate="'required|max:35'" data-vv-name="endereço"
+                            v-validate="'required|max:45'" data-vv-name="endereço"
                             :class="{'form-control': true, 'is-danger': errors.has('endereço') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('endereço')" class="help is-danger">{{ errors.first('endereço') }}</div>
@@ -175,6 +175,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <dropzone id="myVueDropzone" ref="myVueDropzone" url="/api/quero-vender" v-on:vdropzone-success="dropShowSuccess" 
+                                    v-on:vdropzone-error="dropShowError"
                                     v-on:vdropzone-files-added="dropFilesAdded"
                                     v-on:vdropzone-sending="dropSending"
                                     :uploadMultiple="true"
@@ -226,12 +227,23 @@
             </div>
        </form>   
 
+        <!-- modal errors -->
        <div v-show="modalErrors" class="preloader" @click="modalErrors = false">
            <div class="preloader__box" style="background-color: #fd9e42;">
                <div>
                    <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: #fff;"></i>
                    <div class="preloader__copy" v-if="user.name" style="color: #fff;">Olá <strong>{{ user.name }}</strong>,<br> confira seus dados preenchidos!</div>
                    <div class="preloader__copy" v-else style="color: #fff;">Por favor confira seus dados preenchidos!</div>
+               </div>
+           </div>
+       </div>
+
+       <div v-show="modalErrorsServer" class="preloader" @click="modalErrorsServer = false">
+           <div class="preloader__box" style="background-color: #f42424;">
+               <div>
+                   <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: #fff;"></i>
+                   <div class="preloader__copy" v-if="user.name" style="color: #fff;">Olá <strong>{{ user.name }}</strong>,<br> tivemos um erro de servidor!<br>Por favor tente mais tarde!</div>
+                   <div class="preloader__copy" v-else style="color: #fff;">Tivemos um erro de servidor! <br>Por favor tente mais tarde!</div>
                </div>
            </div>
        </div>
@@ -265,6 +277,7 @@
             return {
                 loading: false,
                 modalErrors: false,
+                modalErrorsServer: false,
                 dropFilesLength: 0,
                 dropLang: {
                   dictDefaultMessage: '<br>Arraste e solte fotos aqui <br>ou <b>clique para enviar</b> <br><small>(Máximo 6 fotos)</small>',
@@ -321,11 +334,16 @@
                     })
                 }
             },
-            dropShowSuccess: function(file) {
+            dropShowSuccess: function(file, response) {
+
               this.loading = false;
               this.$refs.formCadastroVendedor.className = "form_seller_hidden";
               this.$refs.salvoCadastroVendedor.className = "form-chef__thank-you form_seller_show";
               console.log('A file was successfully uploaded');
+            },
+            dropShowError: function(file) {
+                this.loading = false;
+                this.modalErrorsServer = true;
             },
             dropFilesAdded: function(file) {
                 this.dropFilesLength = file.length;

@@ -1,10 +1,11 @@
 <template>
     <div class="main-content">
         <div class="page-header">
-            <h3>Detalhes do vendedor</h3>
+            <h4>Vendedor - {{ user.name }}</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                <li class="breadcrumb-item active">Vendedores</li>
+                <li class="breadcrumb-item active"><router-link to="/admin/sellers">Vendedores</router-link></li>
+                <li class="breadcrumb-item active">Detalhes</li>
             </ol>
         </div>
         <div class="card">
