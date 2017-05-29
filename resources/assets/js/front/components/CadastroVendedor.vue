@@ -5,7 +5,7 @@
 
                 <div class="col-lg-5">
                     <input type="text" name="name" v-model="user.name" placeholder="Nome completo"
-                    v-validate="'required'" data-vv-as="nome completo"
+                    v-validate="'required|max:35'" data-vv-as="nome completo"
                     :class="{'form-control': true, 'is-danger': errors.has('name') }"
                     class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</div>
@@ -22,7 +22,7 @@
 
                 <div class="col-lg-4">
                     <input type="email" v-model="user.email" placeholder="Email" 
-                            v-validate="'required|email'" data-vv-name="email"
+                            v-validate="'required|email|max:35'" data-vv-name="email"
                             :class="{'form-control': true, 'is-danger': errors.has('email') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</div>
@@ -43,7 +43,7 @@
 
                 <div class="col-lg-6">
                     <input  id="address_field" type="text" v-model="address.address" placeholder="Endereço" 
-                            v-validate="'required'" data-vv-name="endereço"
+                            v-validate="'required|max:35'" data-vv-name="endereço"
                             :class="{'form-control': true, 'is-danger': errors.has('endereço') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('endereço')" class="help is-danger">{{ errors.first('endereço') }}</div>
@@ -51,7 +51,7 @@
 
                 <div class="col-lg-3">
                     <input type="text" v-model="address.number" placeholder="Número" 
-                            v-validate="'required'" data-vv-as="número" data-vv-name="número"
+                            v-validate="'required|max:8'" data-vv-as="número" data-vv-name="número"
                             :class="{'form-control': true, 'is-danger': errors.has('número') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('número')" class="help is-danger">{{ errors.first('número') }}</div>
@@ -68,7 +68,7 @@
 
                 <div class="col-lg-3">
                     <input id="neighborhood_field" type="text" v-model="address.neighborhood" placeholder="Bairro" 
-                            v-validate="'required'" data-vv-as="bairro" data-vv-name="neighborhood"
+                            v-validate="'required|max:35'" data-vv-as="bairro" data-vv-name="neighborhood"
                             :class="{'form-control': true, 'is-danger': errors.has('neighborhood') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('neighborhood')" class="help is-danger">{{ errors.first('neighborhood') }}</div>
@@ -76,7 +76,7 @@
 
                 <div class="col-lg-3">
                     <input id="city_field" type="text"  v-model="address.city" placeholder="Município" 
-                            v-validate="'required'" data-vv-as="município" data-vv-name="city"
+                            v-validate="'required|max:35'" data-vv-as="município" data-vv-name="city"
                             :class="{'form-control': true, 'is-danger': errors.has('city') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('city')" class="help is-danger">{{ errors.first('city') }}</div>
@@ -84,7 +84,7 @@
 
                 <div class="col-lg-2">
                     <input id="state_field" type="text"  v-model="address.state" placeholder="UF" 
-                            v-validate="'required'" data-vv-as="UF" data-vv-name="state"
+                            v-validate="'required|max:2'" data-vv-as="UF" data-vv-name="state"
                             :class="{'form-control': true, 'is-danger': errors.has('state') }" 
                             class="form-control form-control-lg input__entrar">
                     <div v-show="errors.has('state')" class="help is-danger">{{ errors.first('state') }}</div>
@@ -96,7 +96,7 @@
                 <div class="col-lg-3">
                     <the-mask v-model="user.seller.phone" placeholder="Telefone Fixo"
                             :mask="['(##) ####-####', '(##) #####-####']" 
-                            v-validate="'required|min:10'" data-vv-as="telefone fixo" data-vv-name="phone"
+                            v-validate="'min:10'" data-vv-as="telefone fixo" data-vv-name="phone"
                             :class="{'form-control': true, 'is-danger': errors.has('phone') }"
                             class="form-control form-control-lg input__entrar"/>
                     <div v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</div>
@@ -279,7 +279,8 @@
                 },
                 user: {
                     seller: {
-                        type_delivery: []
+                        type_delivery: [],
+                        dishes: ''
                     },
                 },
                 address: {
