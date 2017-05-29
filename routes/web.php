@@ -18,6 +18,7 @@ Route::get('/entrar', function () {
 Route::get('/quero-vender', 'UserController@sellerRegister')->name('queroVender');
 Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
 
+
 Route::get('/sobre', function () {
     return view('sobre');
 })->name('sobre');

@@ -87,8 +87,10 @@
         font-size: 18px;
         color: #4990E2;
         letter-spacing: -0.2px;
-        margin-bottom: 35px;
-        text-decoration: underline;
+        &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
     }
 
     &__thank-you {
@@ -149,7 +151,7 @@
 
 
 
-#preloader {
+.preloader {
     background: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;
@@ -158,15 +160,32 @@
     height: 100%;
     z-index: 999;
 
-    div {
+    i {
+        font-size: 65px;
+        color: $mc-color-orange;
+    }
+
+    &__box {
         background: rgb(255, 255, 255);
         text-align: center;
-        height: 300px;
         width: 400px;
-        line-height: 300px;
+        height: 300px;
+        max-width: 100%;
         position: absolute;
         top: 50%;
         left: 50%;
-        margin: -150px 0 0 -200px;
+        transform: translate(-50%, -50%);
+        border-radius: 2px;
+        > div {
+            position: relative;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    &__copy {
+        font-family: DINPro-Regular;
+        font-size: 18px;
+        color: #595959;
     }
 }

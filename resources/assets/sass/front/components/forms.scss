@@ -5,9 +5,10 @@
     height: 61px;
     font-family: DINPro-Regular;
     font-size: 16px;
-    color: $mc-color-gray--dark;
+    color: #000;
     letter-spacing: 0;
     line-height: 28px;
+    @include placeholder-color(#9f9f9f);
     &--select {
         height: 61px!important;
         background-image: url('../img/icon-select-input.png');
@@ -55,6 +56,6 @@
 .form-control:focus {
     color: #464a4c;
     background-color: #fff;
-    border-color: $mc-color-orange;
+    border-color: $mc-color-green;
     outline: none;
 }

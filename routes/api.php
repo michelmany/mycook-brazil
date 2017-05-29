@@ -27,3 +27,6 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
     Route::resource('address','AddressesController');
 });
 
+Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
+Route::post('/fotos-register', 'UserController@fotosRegisterPost')->name('fotosRegisterPost');
+

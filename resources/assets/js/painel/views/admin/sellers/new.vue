@@ -91,7 +91,7 @@
                   <div class="form-group row">
                     <label for="formFormacao" class="col-12 col-md-3 col-form-label">Formação</label>
                     <div class="col-12 col-md-9">
-                      <select name="buyer[formacao]" class="form-control" id="formFormacao" v-model="user.seller.formacao">
+                      <select class="form-control" id="formFormacao" v-model="user.seller.formacao">
                         <option value="formacao1">Formação 1</option>
                         <option value="formacao2">Formação 2</option>
                       </select>
