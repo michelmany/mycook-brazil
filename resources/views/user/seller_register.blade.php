@@ -22,11 +22,13 @@
             <div class="col-md-6 mb-3">
                 <div class="generic__headline">Alguns dos benefícios em fazer parte do mycook.</div>
                 <ul class="generic__list">
-                    <li>Faça a sua agenda com os dias e horários que deseja vender os seus produtos no mycook, de acordo com a sua disponibilidade.</li>
-                    <li>Você decide a quantidade de produtos que deseja vender por dia.</li>
-                    <li>Você só paga para a mycook, se o seu produto for vendido.</li>
-                    <li>Ser o seu próprio chefe e trabalhar por conta própria, com o mycook é possível!</li>
-                    <li>Queremos aumentar a visibilidade do seu negocio, através de investimentos de marketing, promoção e publicidade.</li>
+                    <li>Você mesmo monta os dias e horários que deseja comercializar os seus produtos de acordo com a sua disponibilidade. </li>
+                    <li>Com o MyCook, voce poderá conciliar o seu trabalho habitual, proporcionando assim, uma renda extra no final do mês.</li>
+                    <li>Você decide quantas refeições ou produtos deseja vender por dia.</li>
+                    <li>Você só paga para o mycook, se o seu produto for vendido.</li>
+                    <li>Proporcionar a exposição dos seus produtos por meio de marketing, promoções e publicidade, através do MyCook, para um mercado que vem crescendo a cada ano.</li>
+                    <li>Nossa equipe trabalhará para impulsionar as suas vendas.</li>
+                    <li>Qualquer pessoa com talento na cozinha, poderá se candidatar gratuitamente para vender os seus produtos no MyCook.</li>
                 </ul>
                 <a href="#form-chef" class="btn btn-outline-primary feature__read-more generic__button--black-outline">Cadastrar agora</a>
             </div>
