@@ -4,7 +4,7 @@
             <h3>Editar vendedor</h3>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-              <li class="breadcrumb-item active"><router-link to="/admin/sellers">Vendedores</router-link></li>
+              <li class="breadcrumb-item"><router-link to="/admin/sellers">Vendedores</router-link></li>
               <li class="breadcrumb-item active">Editar </li>
             </ol>
         </div>
@@ -16,8 +16,8 @@
                         <form id="formNewSeller">
 
                             <div class="form-group row">
-                                <label for="formAtivo" class="col-12 col-md-2 col-form-label">Status </label>
-                                <div class="col-12 col-md-9">
+                                <label for="formAtivo" class="col-12 col-md-3 col-lg-2 col-form-label">Status </label>
+                                <div class="col-12 col-md-9 col-lg-10">
                                     <input type="checkbox" id="formAtivo" v-model="user.active"/>
                                 </div>
                             </div>
