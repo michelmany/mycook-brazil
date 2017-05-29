@@ -26,8 +26,6 @@
                     <button class="btn btn-email cadastro__button" v-on:click="show = !show">
                         <i class="fa fa-envelope-o"></i>Cadastrar com Email</button>
 
-
-
                         @if (session('success'))
                             <div class="text-success">
                                 {{ session('success') }}
@@ -127,4 +125,15 @@
         
 
 
+@endsection
+
+@section('script')
+    <script>
+    const cadastroForm = new Vue({
+        el: '#cadastro-form',
+        data: {
+            show:  false
+        }
+    });
+    </script>
 @endsection

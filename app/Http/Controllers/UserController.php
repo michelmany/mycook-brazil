@@ -67,7 +67,12 @@ class UserController extends Controller
     public function sellerRegisterPost(Request $request)
     {
         $data = $request->all();
-        $data['buyer']['type_delivery'] = implode(',', $data['buyer']['type_delivery']);
+        $data['user'] = (array)json_decode($data['user'][0]);
+        $data['user']['seller'] = (array)$data['user']['seller'];
+        $data['address'] = (array)json_decode($data['address'][0]);
+        // dd($data);
+
+        $data['user']['seller']['type_delivery'] = implode(',', $data['user']['seller']['type_delivery']);
 
         $email = $data['user']['email'];
         $password = bcrypt(bin2hex(openssl_random_pseudo_bytes(8)));
@@ -80,19 +85,23 @@ class UserController extends Controller
         );
         
         Address::create(array_merge($data['address'], ['user_id'=>$user['id']]));
-        $seller_data = array_merge($data['buyer'], ['user_id'=>$user['id']]);
+
+        $seller_data = array_merge($data['user']['seller'], ['user_id'=>$user['id']]);
         $seller = Seller::create($seller_data);
 
-        foreach ($data['images']['estabelecimento'] as $image) {
-            FotoEstabelecimento::create([
-                'url' => $image,
-                'seller_id' => $seller->id
-            ]);
-        }
+        $file = $request->file('file');
+        // dd($files);
+
+        FotoEstabelecimento::create([
+            'url' => $file,
+            'seller_id' => $user['id']
+        ]);
+
 
         \Mail::to(config('mail.contact'))->send(new SellerAdminRegisterMail());
         \Mail::to($user->email)->send(new SellerRegisterMail);
 
-        return redirect()->route('queroVender');
+        // return redirect()->route('queroVender');
     }
+
 }

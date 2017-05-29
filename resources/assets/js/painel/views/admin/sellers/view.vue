@@ -4,7 +4,6 @@
             <h3>Detalhes do vendedor</h3>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
                 <li class="breadcrumb-item active">Vendedores</li>
             </ol>
         </div>
@@ -46,8 +45,6 @@
                             <p><small>Telefone 5:</small> {{ user.seller.phone5 }}</p>
                         </div>
                         <hr>
-                        <p><small>Formação:</small> {{ user.seller.formacao }}</p>
-                        <hr>
                         <p><span class="fa fa-facebook"></span>
                             <a :href="user.seller.facebook" target="_blank">
                                  <small>{{ user.seller.facebook }}</small>
@@ -61,10 +58,10 @@
                         </p>
                         <hr>
                         <p><small>Tipos de entrega:</small> {{ user.seller.type_delivery | join(' - ') }}</p>
-                        <hr>
+<!--                         <hr>
                         <p><small>Distância de entrega:</small> {{ user.seller.distance_delivery }}</p>
                         <hr>
-                        <p><small>Quantidade de pratos:</small> {{ user.seller.plates_quantity }}</p>
+                        <p><small>Quantidade de pratos:</small> {{ user.seller.plates_quantity }}</p> -->
                     </div>
                 </div>
             </div>

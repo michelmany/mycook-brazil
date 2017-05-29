@@ -21,18 +21,18 @@
                     <router-link to="/admin/users/new">Novo administrador</router-link>
                 </div>
             </li>
-            <li>
+<!--             <li>
                 <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell"></i></a>
                 <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                     <h6 class="dropdown-header">Notifications</h6>
                     <a class="dropdown-item" href="#"><i class="fa fa-user"></i> New User was Registered</a>
                     <a class="dropdown-item" href="#"><i class="fa fa-comment"></i> A Comment has been posted.</a>
                 </div>
-            </li>
-            <li>
+            </li> -->
+            <li v-if="user.avatar_full_url">
                 <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="avatar"><img :src="user.avatar_full_url" alt="Avatar"></a>
                 <div class="dropdown-menu dropdown-menu-right notification-dropdown">
-                    <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i> Settings</router-link>
+                    <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i> Configurações</router-link>
                     <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
             </li>

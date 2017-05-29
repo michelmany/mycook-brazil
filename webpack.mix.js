@@ -58,7 +58,8 @@ mix.combine([
 
 .js('resources/assets/js/painel/app.js','public/assets/js/painel.js')
 .js('resources/assets/js/front/app.js','public/assets/js/front.js')
-.js('resources/assets/js/front/pages/vendedor.js','public/assets/js/vendedor.js')
+// .js('resources/assets/js/front/pages/vendedor.js','public/assets/js/vendedor.js')
+// .js('resources/assets/js/front/pages/comprador.js','public/assets/js/comprador.js')
 .version()
 
 .sass('resources/assets/sass/painel/mycook.scss', 'public/assets/css/')

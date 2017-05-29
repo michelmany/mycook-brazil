@@ -9,6 +9,22 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import VeeValidate, { Validator } from 'vee-validate'
+import CpfValidator from './components/validators/cpf.validator'
+import Portuguese from 'vee-validate/dist/locale/pt_BR'
+import Dictionary from './components/validators/dictionary'
+
+Validator.extend('cpf', CpfValidator)
+Validator.addLocale(Portuguese);
+
+Vue.use(VeeValidate, {
+    locale: 'pt_BR', 
+    dictionary: Dictionary
+});
+
+Vue.config.debug = true
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -17,10 +33,4 @@ window.Vue = require('vue');
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('avatar', require('./components/AvatarUpload.vue'));
-
-const app = new Vue({
-    el: '#cadastro-form',
-    data: {
-        show:  false
-    }
-});
+Vue.component('front-cadastro-vendedor', require('./components/CadastroVendedor.vue'));

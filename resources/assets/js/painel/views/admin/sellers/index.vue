@@ -4,7 +4,6 @@
             <h3>Chefs</h3>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Painel</router-link></li>
-                <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
                 <li class="breadcrumb-item active">Chefs</li>
                 <li class="action">
                     <router-link :to="'/admin/sellers/new'" class="btn btn-success btn-xs"><i class="fa fa-plus-circle"></i>Novo</router-link>

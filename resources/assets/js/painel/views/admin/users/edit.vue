@@ -4,7 +4,6 @@
             <h3>Editar usuário</h3>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
                 <li class="breadcrumb-item active">Usuários</li>
             </ol>
         </div>
@@ -49,18 +48,6 @@
                                 </div>
                             </div>
           
-                            <div class="form-group row">
-                                <label for="formGrupo" class="col-12 col-md-2 col-form-label">Função</label>
-                                <div class="col-12 col-md-10">
-                                    <select id="formGrupo" class="form-control" v-model="user.role">
-                                        <option value="admin">Admin</option>
-                                        <option value="comprador">Comprador</option>
-                                        <option value="vendedor">Vendedor</option>
-                                        <option value="user">Usuário</option>
-                                    </select>
-                                </div>
-                            </div>
-
                             <hr>
                             <button type="submit" class="btn btn-success">
                                 <i class="fa fa-check" aria-hidden="true"></i> Salvar alterações
