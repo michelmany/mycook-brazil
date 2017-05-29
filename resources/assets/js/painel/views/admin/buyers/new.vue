@@ -4,7 +4,6 @@
       <h3>Novo comprador</h3>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-        <li class="breadcrumb-item"><router-link to="/admin">Admin</router-link></li>
         <li class="breadcrumb-item active">Compradores</li>
         <li class="action">
           <router-link :to="'/admin/buyers'" class="btn btn-primary btn-xs">voltar</router-link>
