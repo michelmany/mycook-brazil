@@ -2,7 +2,7 @@ import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate';
 import Axios from 'axios';
 import Ls from './services/ls'
-Promise = require('es6-promise').Promise;
+require('es6-promise').polyfill();
 
 window._ = require('lodash');
 
