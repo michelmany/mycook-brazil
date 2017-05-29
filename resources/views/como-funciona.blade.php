@@ -23,9 +23,9 @@
                     <div class="como-funciona__content">
                         <div class="generic__headline">Veja como é fácil fazer seu pedido no mycook.</div>
                         <ul class="generic__list">
-                            <li>Pesquise pelo prato desejado</li>
+                            <li>Pesquise pelo(s) produto(s) desejado(s)</li>
                             <li>Faça seu pedido pelo nosso site</li>
-                            <li>O chef produzirá o seu  prato.</li>
+                            <li>O chef produzirá o seu produto.</li>
                             <li>Um entregador levará o seu pedido.</li>
                             <li>Comida Caseira entregue em sua casa</li>
                         </ul>

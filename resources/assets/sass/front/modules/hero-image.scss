@@ -30,17 +30,20 @@
     &__content {
         text-align: center;
         background-color: rgba(60,60,60,.9);
-        max-width: 882px;
-        padding: 35px 25px;
+        max-width: 90%;
+        padding: 30px 15px;
         border-radius: 4px;
         z-index: 9;
         position: relative;
-        top: 50px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -40%);
+        @media screen and (min-width:576px) {
+            padding: 35px 25px;
+            max-width: 882px;
+        }
 
         @media screen and (min-width:768px) {
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -40%);
             width: 75%;
             padding: 35px 32px;
         }
@@ -69,13 +72,16 @@
     }
     &__subline {
         font-family: DINPro-Regular;
-        font-size: 20px;
+        font-size: 16px;
         line-height: 24px;
 
         color: #fff;
         letter-spacing: -0.4px;
         text-shadow: 0 2px 4px rgba(0,0,0,0.50);
         margin-bottom: 40px;
+        @media screen and (min-width:576px) {
+            font-size: 20px;
+        }
         @media screen and (min-width:768px) {
             font-size: 18px;
             line-height: 31px;
