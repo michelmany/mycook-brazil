@@ -319,7 +319,7 @@
                           'user': this.user,
                           'address': this.address,
                         }).then((res) => {
-                          this.user.id = res.data[0]['id'];
+                          this.user.id = res.data[1]['id'];
                           this.$refs.myVueDropzone.processQueue();
                           this.$refs.myVueDropzone.options.autoProcessQueue = true;
                         })
