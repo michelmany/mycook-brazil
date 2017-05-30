@@ -180,13 +180,8 @@
                                     v-on:vdropzone-files-added="dropFilesAdded"
                                     v-on:vdropzone-removed-file="dropFilesRemoved"
                                     v-on:vdropzone-sending="dropSending"
-                                    :uploadMultiple="true"
-                                    :parallelUploads="7"
-                                    :maxNumberOfFiles="6"
-                                    :useFontAwesome="true"
-                                    :options="dropOptions"
-                                    :language="dropLang"
-                                    :autoProcessQueue="false">
+                                    :useCustomDropzoneOptions="true"
+                                    :dropzoneOptions="dropOptions">
                                         <!-- Optional parameters if any! -->
                                         <input type="hidden" name="token" :value="dropOptions.token" >
                                     </dropzone>
@@ -281,17 +276,18 @@
                 modalErrors: false,
                 modalErrorsServer: false,
                 dropFilesLength: 0,
-                dropLang: {
-                  dictDefaultMessage: '<br>Arraste e solte fotos aqui <br>ou <b>clique para enviar</b> <br><small>(Máximo 6 fotos)</small>',
-                  dictRemoveFile: 'Remover',
-                  dictMaxFilesExceeded: 'Você não pode enviar mais arquivos'
-                },
                 dropOptions: {
+                  addRemoveLinks: true,
                   acceptedFiles: '.jpg,.jpeg,.png,.gif',
+                  autoProcessQueue: false,
                   maxFiles: 6,
                   maxFileSizeInMB: 15,
-                  addRemoveLinks: true,
-                  token: Laravel.csrfToken
+                  parallelUploads: 6,
+                  uploadMultiple: false,
+                  token: Laravel.csrfToken,
+                  dictDefaultMessage: '<i class="fa fa-cloud-upload"></i><br>Arraste e solte fotos aqui <br>ou <b>clique para enviar</b> <br><small>(Máximo 6 fotos)</small>',
+                  dictRemoveFile: 'Remover',
+                  dictMaxFilesExceeded: 'Você não pode enviar mais arquivos'
                 },
                 user: {
                     seller: {
@@ -325,6 +321,7 @@
                         }).then((res) => {
                           this.user.id = res.data[0]['id'];
                           this.$refs.myVueDropzone.processQueue();
+                          this.$refs.myVueDropzone.options.autoProcessQueue = true;
                         })
                     } else {
                       this.modalErrors = true;
