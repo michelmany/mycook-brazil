@@ -34,7 +34,7 @@
                                                 class="form-control form-control-lg input__entrar" required>
                                             </div>
                                             <div class="mb-2">
-                                                <input type="text" name="sender_mail" placeholder="Email" value=""
+                                                <input type="email" name="sender_mail" placeholder="Email" value=""
                                                 class="form-control form-control-lg input__entrar" required>
                                             </div>
                                             <div class="mb-2">
@@ -64,7 +64,7 @@
                                         <img src="/assets/img/icon-whatsapp.png"> (21) 99133-0236
                                     </div>
                                     <div class="">
-                                        <p>contato@mycook.com.br</p>
+                                        <a href="mailto:contato@mycook.com.br" target="_top">contato@mycook.com.br</p>
                                     </div>
                                 </div>
                             </div>
