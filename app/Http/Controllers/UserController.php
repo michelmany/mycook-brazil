@@ -67,10 +67,6 @@ class UserController extends Controller
     public function sellerRegisterPost(Request $request)
     {
         $data = $request->all();
-        $data['user'] = (array)json_decode($data['user'][0]);
-        $data['user']['seller'] = (array)$data['user']['seller'];
-        $data['address'] = (array)json_decode($data['address'][0]);
-        // dd($data);
 
         $data['user']['seller']['type_delivery'] = implode(',', $data['user']['seller']['type_delivery']);
 
@@ -89,19 +85,21 @@ class UserController extends Controller
         $seller_data = array_merge($data['user']['seller'], ['user_id'=>$user['id']]);
         $seller = Seller::create($seller_data);
 
-        $file = $request->file('file');
-        // dd($files);
-
-        FotoEstabelecimento::create([
-            'url' => $file,
-            'seller_id' => $user['id']
-        ]);
-
 
         \Mail::to(config('mail.contact'))->send(new SellerAdminRegisterMail());
         \Mail::to($user->email)->send(new SellerRegisterMail);
 
-        // return redirect()->route('queroVender');
+        return response()->json([$user, $seller]);
+    }
+
+    public function photoSellerUpload(Request $request)
+    {
+        $file = $request->file('file');
+
+        FotoEstabelecimento::create([
+            'url' => $file,
+            'seller_id' => $request->input('id')
+        ]);
     }
 
 }

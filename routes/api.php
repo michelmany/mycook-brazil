@@ -28,5 +28,6 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
 });
 
 Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
+Route::post('/quero-vender-fotos', 'UserController@photoSellerUpload')->name('queroVenderPost');
 Route::post('/fotos-register', 'UserController@fotosRegisterPost')->name('fotosRegisterPost');
 

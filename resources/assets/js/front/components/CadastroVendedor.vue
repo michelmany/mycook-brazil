@@ -174,13 +174,15 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <dropzone id="myVueDropzone" ref="myVueDropzone" url="/api/quero-vender" v-on:vdropzone-success="dropShowSuccess" 
+                                    <dropzone id="myVueDropzone" ref="myVueDropzone" url="/api/quero-vender-fotos"
+                                    v-on:vdropzone-success="dropShowSuccess"
                                     v-on:vdropzone-error="dropShowError"
                                     v-on:vdropzone-files-added="dropFilesAdded"
+                                    v-on:vdropzone-removed-file="dropFilesRemoved"
                                     v-on:vdropzone-sending="dropSending"
                                     :uploadMultiple="true"
-                                    :parallelUploads="100"
-                                    :maxFiles="100"
+                                    :parallelUploads="7"
+                                    :maxNumberOfFiles="6"
                                     :useFontAwesome="true"
                                     :options="dropOptions"
                                     :language="dropLang"
@@ -282,11 +284,12 @@
                 dropLang: {
                   dictDefaultMessage: '<br>Arraste e solte fotos aqui <br>ou <b>clique para enviar</b> <br><small>(Máximo 6 fotos)</small>',
                   dictRemoveFile: 'Remover',
+                  dictMaxFilesExceeded: 'Você não pode enviar mais arquivos'
                 },
                 dropOptions: {
                   acceptedFiles: '.jpg,.jpeg,.png,.gif',
                   maxFiles: 6,
-                  maxFilesize: 15,
+                  maxFileSizeInMB: 15,
                   addRemoveLinks: true,
                   token: Laravel.csrfToken
                 },
@@ -313,11 +316,18 @@
         methods: {
             validateBeforeSubmit() {
                 this.$validator.validateAll().then(() => {
+                    // TODO: A verificação mostra um modal escrito erro no servidor (???), vale trocar pra refletir a realidade?
                     if (this.dropFilesLength >= 1) {
                         this.loading = true;
-                        this.$refs.myVueDropzone.processQueue();
+                        httpService.build('quero-vender').create({
+                          'user': this.user,
+                          'address': this.address,
+                        }).then((res) => {
+                          this.user.id = res.data[0]['id'];
+                          this.$refs.myVueDropzone.processQueue();
+                        })
                     } else {
-                        this.modalErrors = true;
+                      this.modalErrors = true;
                     }
                 }).catch(() => {
                     this.modalErrors = true;
@@ -346,14 +356,22 @@
                 this.modalErrorsServer = true;
             },
             dropFilesAdded: function(file) {
-                this.dropFilesLength = file.length;
+                this.dropFilesLength += file.length;
+                console.log(this.dropFilesLength)
                 console.log('files uploaded');
                 // console.log(this.$refs.myVueDropzone.getQueuedFiles());
                 // console.log(this.$refs.myVueDropzone.getUploadingFiles());
             },
+            dropFilesRemoved: function(file) {
+                if (this.dropFilesLength >= 0) {
+                  this.dropFilesLength -= 1;
+                }
+                console.log('files removed');
+                // console.log(this.$refs.myVueDropzone.getQueuedFiles());
+                // console.log(this.$refs.myVueDropzone.getUploadingFiles());
+            },
             dropSending: function(file, xhr, formData) {
-                formData.append('user[]', JSON.stringify(this.user));
-                formData.append('address[]', JSON.stringify(this.address));
+                formData.append('id', this.user.id);
             }
         }
     }
