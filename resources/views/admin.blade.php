@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <base href="/painel">
     <title>MYCOOK - Painel Admin</title>
@@ -28,14 +28,14 @@
     <meta name="msapplication-config" content="/assets/admin/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#333333">
 </head>
-<body class="layout-default skin-arryn">
+<body class="skin-arryn layout-default">
 <div id="app" class="template-container">
     <div class="mobile-menu-overlay" v-on:click.prevent="onOverlayClick"></div>
     <transition name="fade" mode="out-in">
         <router-view></router-view>
     </transition>
 </div>
-<script type="text/javascript" src="{{combine_mix('/assets/js/core/plugins.js')}}"></script>
+<script type="text/javascript" src="{{mix('/assets/js/core/plugins.js')}}"></script>
 <script type="text/javascript" src="{{mix("/assets/js/painel.js")}}"></script>
 </body>
 </html>
