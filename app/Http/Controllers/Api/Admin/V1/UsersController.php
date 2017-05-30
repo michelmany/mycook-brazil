@@ -14,7 +14,7 @@ class UsersController extends Controller
 {
     use ApiControllerTrait;
     protected $model;
-    protected $relationships = ['buyer', 'seller', 'addresses'];
+    protected $relationships = ['buyer', 'seller.fotos', 'addresses'];
 
     public function __construct(User $model)
     {

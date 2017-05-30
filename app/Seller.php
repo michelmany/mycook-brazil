@@ -36,4 +36,8 @@ class Seller extends Model
 
         return $data;
     }
+
+    public function fotos() {
+        return $this->hasMany(FotoEstabelecimento::class);
+    }
 }
