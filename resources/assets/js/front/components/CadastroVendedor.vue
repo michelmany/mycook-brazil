@@ -161,7 +161,8 @@
                     <!-- <p><small>Apenas imagens (JPG, PNG).</small></p> -->
 <!--                     <div v-show="errors.has('images[estabelecimento][]')" class="help is-danger">Selecione imagens JPG ou PNG.</div> -->
 
-                    <span class="btn btn-file-blue btn-file"style="cursor: pointer"  data-toggle="modal" data-target="#modalImages">Selecionar imagens...</span>
+                    <span class="btn btn-file-blue btn-file" style="cursor: pointer" data-toggle="modal" data-target="#modalImages">Selecionar imagens...</span><br>
+                    <span v-if="this.dropFilesLength > 0"><small>Fotos selecionadas: {{this.dropFilesLength}}</small></span>
  
                     <!-- Modal Images -->
                     <div class="modal fade" id="modalImages" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -186,6 +187,10 @@
                                         <input type="hidden" name="token" :value="dropOptions.token" >
                                     </dropzone>
                                 </div>
+                                <div class="modal-footer">
+                                    <span v-show="showErrorMessage" class="badge badge-pill badge-danger">{{ this.dropErrorMessage }}</span>
+                                    <button v-show="!showErrorMessage" type="button" class="btn btn-file-blue" data-dismiss="modal">Já selecionei!</button>
+                                </div>
 
                             </div>
                         </div>
@@ -209,8 +214,8 @@
             <div class="modal fade" id="modalTermos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">TERMOS E CONDICOES DE USO MyCook</h5>
+                        <div class="modal-header" style="background-color:#F95700">
+                            <h5 class="modal-title" style="color:#fff" id="exampleModalLabel">TERMOS E CONDICOES DE USO MYCOOK</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -228,19 +233,9 @@
        <div v-show="modalErrors" class="preloader" @click="modalErrors = false">
            <div class="preloader__box" style="background-color: #fd9e42;">
                <div>
-                   <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: #fff;"></i>
+                   <i class="fa fa-exclamation-triangle mb-3" aria-hidden="true" style="color: #fff;"></i>
                    <div class="preloader__copy" v-if="user.name" style="color: #fff;">Olá <strong>{{ user.name }}</strong>,<br> confira seus dados preenchidos!</div>
                    <div class="preloader__copy" v-else style="color: #fff;">Por favor confira seus dados preenchidos!</div>
-               </div>
-           </div>
-       </div>
-
-       <div v-show="modalErrorsServer" class="preloader" @click="modalErrorsServer = false">
-           <div class="preloader__box" style="background-color: #f42424;">
-               <div>
-                   <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: #fff;"></i>
-                   <div class="preloader__copy" v-if="user.name" style="color: #fff;">Olá <strong>{{ user.name }}</strong>,<br> tivemos um erro de servidor!<br>Por favor tente mais tarde!</div>
-                   <div class="preloader__copy" v-else style="color: #fff;">Tivemos um erro de servidor! <br>Por favor tente mais tarde!</div>
                </div>
            </div>
        </div>
@@ -274,12 +269,15 @@
             return {
                 loading: false,
                 modalErrors: false,
-                modalErrorsServer: false,
+                showErrorMessage: false,
+                dropErrorMessage: "",
                 dropFilesLength: 0,
                 dropOptions: {
                   addRemoveLinks: true,
                   acceptedFiles: '.jpg,.jpeg,.png,.gif',
                   autoProcessQueue: false,
+                  thumbnailHeight: 205,
+                  thumbnailWidth: 205,
                   maxFiles: 6,
                   maxFileSizeInMB: 15,
                   parallelUploads: 6,
@@ -287,7 +285,7 @@
                   token: Laravel.csrfToken,
                   dictDefaultMessage: '<i class="fa fa-cloud-upload"></i><br>Arraste e solte fotos aqui <br>ou <b>clique para enviar</b> <br><small>(Máximo 6 fotos)</small>',
                   dictRemoveFile: 'Remover',
-                  dictMaxFilesExceeded: 'Você não pode enviar mais arquivos'
+                  dictMaxFilesExceeded: 'Limite de 6 imagens excedido!'
                 },
                 user: {
                     seller: {
@@ -312,7 +310,6 @@
         methods: {
             validateBeforeSubmit() {
                 this.$validator.validateAll().then(() => {
-                    // TODO: A verificação mostra um modal escrito erro no servidor (???), vale trocar pra refletir a realidade?
                     if (this.dropFilesLength >= 1) {
                         this.loading = true;
                         httpService.build('quero-vender').create({
@@ -321,12 +318,13 @@
                         }).then((res) => {
                           this.user.id = res.data[0]['id'];
                           this.$refs.myVueDropzone.processQueue();
-                          this.$refs.myVueDropzone.options.autoProcessQueue = true;
                         })
                     } else {
-                      this.modalErrors = true;
+                        // Mostra o Warning Modal o usuário tentar enviar o form sem fotos.
+                        this.modalErrors = true;
                     }
                 }).catch(() => {
+                    // Mostra o Warning Modal se tiver erro de validação de campos.
                     this.modalErrors = true;
                 });
             },
@@ -348,9 +346,11 @@
               this.$refs.salvoCadastroVendedor.className = "form-chef__thank-you form_seller_show";
               console.log('A file was successfully uploaded');
             },
-            dropShowError: function(file) {
+            dropShowError: function(file, error) {
                 this.loading = false;
-                this.modalErrorsServer = true;
+                this.dropErrorMessage = error;
+                this.showErrorMessage = true;
+                console.log(this.dropErrorMessage);
             },
             dropFilesAdded: function(file) {
                 this.dropFilesLength += file.length;
@@ -362,6 +362,9 @@
             dropFilesRemoved: function(file) {
                 if (this.dropFilesLength >= 0) {
                   this.dropFilesLength -= 1;
+                  if (this.dropFilesLength <= 6) {
+                    this.showErrorMessage = false;
+                  }
                 }
                 console.log('files removed');
                 // console.log(this.$refs.myVueDropzone.getQueuedFiles());
@@ -382,5 +385,17 @@
     }
     .form-control.is-danger {
         border: 1px solid red;
+    }
+    .dropzone .dz-preview .dz-image {
+        width: 205px !important;
+        height: 205px !important;
+    }
+    .vue-dropzone .dz-preview .dz-error-mark, .vue-dropzone .dz-preview .dz-success-mark {
+        top: 35%!important;
+        left: 35%!important;
+    }
+    .dropzone .dz-preview .dz-error-message {
+        top: 60px!important;
+        left: 30px!important;
     }
 </style>
