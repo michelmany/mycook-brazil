@@ -51,6 +51,10 @@ Route::group(['prefix'=>'entrar'], function () {
     Route::post('/login', 'UserController@login')->name('login');
     Route::get('/logout', 'UserController@logout')->name('logout');
 
+    // Validate
+    Route::post('/check-email', 'UserController@checkEmail')->name('checkEmail');
+    Route::post('/check-cpf', 'UserController@checkCpf')->name('checkCpf');
+
     // Facebook auth
     Route::get('/social/redirect/{provider}', 'SocialAuthController@redirect')->name('facebookAuth');
     Route::get('/social/callback/{provider}', 'SocialAuthController@callback');

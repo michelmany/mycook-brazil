@@ -15,16 +15,18 @@
                     <the-mask v-model="user.cpf" placeholder="CPF" 
                             :mask="'###.###.###-##'"
                             v-validate="'required|cpf|digits:11'" data-vv-as="CPF" data-vv-name="cpf"
-                            :class="{'form-control': true, 'is-danger': errors.has('cpf') }" 
-                            class="form-control form-control-lg input__entrar"/>
+                            :class="{'form-control': true, 'is-danger': errors.has('cpf') }"
+                            id="cpfField"
+                            class="form-control form-control-lg input__entrar"></the-mask>
                     <div v-show="errors.has('cpf')" class="help is-danger">{{ errors.first('cpf') }}</div>
                 </div>
 
                 <div class="col-lg-4">
                     <input type="email" v-model="user.email" placeholder="Email" 
                             v-validate="'required|email|max:35'" data-vv-name="email"
-                            :class="{'form-control': true, 'is-danger': errors.has('email') }" 
-                            class="form-control form-control-lg input__entrar">
+                            :class="{'form-control': true, 'is-danger': errors.has('email') }"
+                            class="form-control form-control-lg input__entrar"
+                            @blur="checkEmail(user.email)">
                     <div v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</div>
                 </div>
 
@@ -311,6 +313,26 @@
                     this.modalErrors = true;
                 });
             },
+            checkEmail(email) {
+              if (email) {
+                  axios.post('/entrar/check-email', {email: email}).then((res) => {
+                    if (res.data.status === 'founded') {
+                      alert('Oia, esse email já existe, oxe, use ele pra entrar!');
+                      this.user.email = null;
+                    }
+                  });
+              }
+            },
+            checkCpf(cpf) {
+              if (cpf) {
+                  axios.post('/entrar/check-cpf', {cpf: cpf}).then((res) => {
+                    if (res.data.status === 'founded') {
+                      alert('Amigo, larga de ser espertão, esse cpf ja tem conta aqui, acessa com ela!');
+                      this.user.cpf = null;
+                    }
+                  });
+              }
+            },
             getcep: function () {
                 if (this.address.cep.length === 8) {
                     httpService.xmlHttpRequest('https://viacep.com.br/ws/' + this.address.cep + '/json/').then((res) => {
@@ -356,7 +378,13 @@
             dropSending: function(file, xhr, formData) {
                 formData.append('id', this.user.id);
             }
-        }
+        },
+          mounted() {
+              let cpfField = document.getElementById('cpfField');
+              cpfField.addEventListener('blur', ($event) => {
+                this.checkCpf(cpfField.value);
+              });
+          }
     }
 </script>
 
