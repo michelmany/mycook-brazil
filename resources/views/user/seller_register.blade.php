@@ -90,6 +90,5 @@
         const formChef = new Vue({
             el: '#ContainerFormVendedor'
         });
-
     </script>
 @endsection

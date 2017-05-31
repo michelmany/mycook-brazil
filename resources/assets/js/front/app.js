@@ -34,3 +34,5 @@ Vue.config.debug = true
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('avatar', require('./components/AvatarUpload.vue'));
 Vue.component('front-cadastro-vendedor', require('./components/CadastroVendedor.vue'));
+Vue.component('query-home', require('./components/QueryHome.vue'));
+

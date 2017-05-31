@@ -2,7 +2,6 @@
 @section('title', 'Home')
 @section('content')
 
-
     <section class="hero-image"
     style="background-image: url('/assets/img/hero-image-01.jpg')">
         <div class="hero-image__mask"></div>
@@ -12,11 +11,9 @@
             <div class="hero-image__subline">Comida caseira de verdade da cozinha do chef para sua mesa</div>
             
             <div class="hero-image__search">
-                <form action="/list" class="form-inline d-flex justify-content-center" method="post">
-                    {{ csrf_field() }}
-                    <input type="text" name="q" class="form-control mb-2 mr-sm-2 mb-sm-0 search__input" placeholder="Digite seu CEP:">
-                    <button class="btn search__button" type="submit">Buscar</button>
-                </form>
+                <div id="queryHome">
+                    <query-home></query-home>
+                </div>
                 <p class="search__text mt-3">Não sabe o CEP? <br class="hidden-sm-up"><strong>Clique aqui</strong> e digite seu endereço.</p>
             </div> 
 
@@ -50,4 +47,12 @@
         </div>
     </section>
 
+@endsection
+
+@section('script')
+    <script>
+        const queryHome = new Vue({
+            el: '#queryHome'
+        });
+    </script>
 @endsection
