@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', 'Quero vender no mycook')
+@section('title', 'Termos e condições de uso')
 @section('content')
 
     <section class="hero-pages" 

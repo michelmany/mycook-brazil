@@ -64,7 +64,7 @@
                                         <img src="/assets/img/icon-whatsapp.png"> (21) 99133-0236
                                     </div>
                                     <div class="">
-                                        <a href="mailto:contato@mycook.com.br" target="_top">contato@mycook.com.br</p>
+                                        <a href="mailto:contato@mycook.com.br" target="_top">contato@mycook.com.br</a>
                                     </div>
                                 </div>
                             </div>

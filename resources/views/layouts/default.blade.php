@@ -62,8 +62,8 @@
                         <div class="footer__headline">Institucional</div>
                         <ul class="footer__items">
                             <li><a href="{{ route('sobre') }}">Sobre mycook</a></li>
-                            <li><a href="#">Termos e condições de uso</a></li>
-                            <li><a href="#">Privacidade</a></li>
+                            <li><a href="{{ route('termos') }}">Termos e condições de uso</a></li>
+                            <li><a href="{{ route('privacidade') }}">Privacidade</a></li>
                             <li><a href="{{ route('authHome') }}">Cadastre-se</a></li>
                             <li><a href="{{ route('contato') }}">Contato</a></li>
                         </ul>
