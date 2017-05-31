@@ -44,6 +44,14 @@ Route::post('/contato', 'FrontendController@contatoPost')->name('contatoPost');
 Route::group(['prefix'=>'entrar'], function () {
     // Home da sessão autenticação
     Route::get('/', function() {
+        $user = Auth::user();
+        if ($user) {
+            $user = Auth::user();
+            if (!$user->addresses->first()) {
+                return redirect()->to('/minha-conta/enderecos');
+            }
+            return redirect()->to('/list');
+        }
        return view('user.index');
     })->name('authHome');
 
