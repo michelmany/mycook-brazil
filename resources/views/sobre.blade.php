@@ -26,7 +26,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-7  generic__wrapper">
-                    <div class="sobre__copy">
+                    <div class="sobre__copy text-justify">
                         <p>A paixão pela comida, a falta de opções de delivery para comida caseira e o cheiro delicioso dos pratos cozinhados pela minha vizinha, fez surgir o mycook.</p>
                         <p>O mycook é a plataforma que tem como objetivo unir cozinheiros e chefs com talento na cozinha com quem quer comer uma comida caseira, beber uma cerveja artesanal, comer uma sobremesa dos deuses ou até mesmo tomar aquele suco natural, pagando um preço justo e tudo com a comodidade e facilidade de um delivery.</p>
                          <p>Queremos dar visibilidade e criar oportunidade para o pequeno empreendedor e estimular o comercio local, facilitando a vida de quem quer empreender mas, nao dispõe de grandes quantias para investir.</p>

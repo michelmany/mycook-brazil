@@ -210,23 +210,6 @@
                 <button type="submit" class="btn btn-submit-orange btn-lg">Cadastrar</button>
             </div>
 
-            <!-- Modal Termos -->
-            <div class="modal fade" id="modalTermos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color:#F95700">
-                            <h5 class="modal-title" style="color:#fff" id="exampleModalLabel">TERMOS E CONDICOES DE USO MYCOOK</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Ao se cadastrar no MyCook, você <strong>ESTÁ DE ACORDO COM OS TERMOS E CONDIÇÕES</strong> da plataforma. Note que a recusa destes Termos, você ficara impedido de solicitar pedidos, quanto para se candidatar como fornecedor na plataforma. </p>
-                            <h6>SERVIÇOS OFERECIDOS</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
        </form>   
 
         <!-- modal errors -->

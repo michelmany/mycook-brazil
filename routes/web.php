@@ -31,6 +31,14 @@ Route::get('/contato', function () {
     return view('contato');
 })->name('contato');
 
+Route::get('/termos-condicoes', function () {
+    return view('termos-condicoes');
+})->name('termos');
+
+Route::get('/privacidade', function () {
+    return view('privacidade');
+})->name('privacidade');
+
 Route::post('/contato', 'FrontendController@contatoPost')->name('contatoPost');
 
 Route::group(['prefix'=>'entrar'], function () {
