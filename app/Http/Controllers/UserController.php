@@ -102,4 +102,24 @@ class UserController extends Controller
         ]);
     }
 
+    public function checkEmail(Request $request) {
+        $email = $request->input('email');
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            return response()->json(['status'=>'founded']);
+        }
+        return response()->json(['status'=>'not founded']);
+    }
+
+    public function checkCpf(Request $request) {
+        $cpf = preg_replace("/[^0-9]/", "",$request->input('cpf'));
+        $user = User::where('cpf', $cpf)->first();
+
+        if ($user) {
+            return response()->json(['status'=>'founded']);
+        }
+        return response()->json(['status'=>'not founded']);
+    }
+
 }

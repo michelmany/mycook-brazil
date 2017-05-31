@@ -44,12 +44,24 @@ Route::post('/contato', 'FrontendController@contatoPost')->name('contatoPost');
 Route::group(['prefix'=>'entrar'], function () {
     // Home da sessão autenticação
     Route::get('/', function() {
+        $user = Auth::user();
+        if ($user) {
+            $user = Auth::user();
+            if (!$user->addresses->first()) {
+                return redirect()->to('/minha-conta/enderecos');
+            }
+            return redirect()->to('/list');
+        }
        return view('user.index');
     })->name('authHome');
 
     // Login
     Route::post('/login', 'UserController@login')->name('login');
     Route::get('/logout', 'UserController@logout')->name('logout');
+
+    // Validate
+    Route::post('/check-email', 'UserController@checkEmail')->name('checkEmail');
+    Route::post('/check-cpf', 'UserController@checkCpf')->name('checkCpf');
 
     // Facebook auth
     Route::get('/social/redirect/{provider}', 'SocialAuthController@redirect')->name('facebookAuth');
