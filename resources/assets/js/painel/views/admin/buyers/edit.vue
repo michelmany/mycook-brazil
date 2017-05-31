@@ -8,6 +8,7 @@
                 <li class="breadcrumb-item active">Editar</li>
             </ol>
         </div>
+
         <div class="card">
             <div class="card-block">
                 <div class="row">
@@ -98,7 +99,7 @@
             </div>
             <div class="card-footer d-flex justify-content-between">
                 <div>
-                    <router-link :to="'/admin/buyers/' + user.id + '/ver'" class="btn btn-default btn-sm">
+                    <router-link :to="'/admin/buyers/' + user.id + '/ver'" class="btn btn-default btn-sm mt-1">
                         <i class="fa fa-arrow-left"></i> Voltar</router-link>
                     <router-link :to="'/admin/buyers/' + user.id + '/remove'" class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>Excluir</router-link>
@@ -110,7 +111,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div><!-- /main-template -->
 </template>
 
 <script>

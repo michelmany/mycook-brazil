@@ -18,7 +18,7 @@
             <p>1.3 Todas as suas informações pessoais obtidas, serão usadas para ajudar a tornar a sua visita ao nosso site o mais produtiva e agradável possível. A garantia da confidencialidade dos dados pessoais dos usuário do nosso site é muito importante para o MyCook.</p>
             <p>1.4 Todas as informações pessoais relativas a membros, assinantes, clientes ou visitantes que usem o MyCook, serão tratadas em concordância com o Marco Civil da Internet - Lei 12.965 de 23 de abril de 2014.</p>
 
-            <h6>2. COMO USAMOS SUAS INFORMAÇÕES PESSOAIS</h6>
+            {{-- <h6><strong>2. COMO USAMOS SUAS INFORMAÇÕES PESSOAIS</strong></h6> --}}
             <p>2.1 As informações pessoais que obtemos através do seu cadastro em nossa plataforma ou utilizando os dados das redes sociais (em alguns casos, em conjunto com informações não-pessoais) nos permitem fornecer o Serviço a você. Por exemplo:</p>
             <p>(i.1) Registro de Usuário. Nós criamos sua conta de usuário e fornecedor para o uso da plataforma, baseado nas informações pessoais por você fornecidas.</p>
             <p>(i.2) Comunicação. Podemos utilizar suas informações pessoais para enviar newsletters, bem como outros materiais promocionais, de marketing, avisos importantes dentro outras informações de interesse. Se você não quiser mais fazer parte desta lista, poderá optar por isso a qualquer momento nos informando a exclusão imediata.</p>

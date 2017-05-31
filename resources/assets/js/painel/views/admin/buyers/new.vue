@@ -3,89 +3,114 @@
     <div class="page-header">
       <h3>Novo comprador</h3>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-        <li class="breadcrumb-item active">Compradores</li>
-        <li class="action">
-          <router-link :to="'/admin/buyers'" class="btn btn-primary btn-xs">voltar</router-link>
-        </li>
+          <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+          <li class="breadcrumb-item"><router-link to="/admin/buyers">Compradores</router-link></li>
+          <li class="breadcrumb-item active">Adicionar novo</li>
       </ol>
-
     </div>
-    <div class="row">
-      <div class="col-sm-12">
+
         <div class="card">
-          <div class="card-block">
-            <div class="row">
-              <div class="col-lg-12">
-                <form @submit.prevent="save()">
+            <div class="card-block">
+                <div class="row">
 
-                  <div class="form-group row">
-                    <label for="formAtivo" class="col-12 col-md-2 col-form-label">Status </label>
-                    <input type="checkbox" id="formAtivo" v-model="user.active"/>
-                  </div>
+                    <div class="col-lg-12">
+                        <form>
 
-                  <div class="form-group row">
-                    <label for="formNome" class="col-12 col-md-2 col-form-label">Nome</label>
-                    <div class="col-12 col-md-10">
-                      <input type="text" class="form-control" id="formNome" placeholder="Seu nome" v-model="user.name">
+                            <div class="form-group row">
+                                <label for="formAtivo" class="col-12 col-md-3 col-lg-2 col-form-label">Status </label>
+                                <div class="col-12 col-md-9 col-lg-10">
+                                    <input type="checkbox" id="formAtivo" v-model="user.active" @click="onChange()"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                             <div class="col-lg-6">
+
+                                 <div class="form-group row">
+                                     <label for="formNome" class="col-12 col-md-3 col-form-label">Nome</label>
+                                     <div class="col-12 col-md-9">
+                                         <input type="text" class="form-control" id="formNome" 
+                                         :class="{'form-control': true, 'is-danger': errors.has('name') }"
+                                         v-validate="'required|max:35'" data-vv-name="name" v-model="user.name">
+                                         <div v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</div>
+                                     </div>
+                                 </div>
+
+                                 <div class="form-group row">
+                                     <label for="formCpf" class="col-12 col-md-3 col-form-label">CPF</label>
+                                     <div class="col-12 col-md-9">
+                                         <the-mask v-model="user.cpf" id="formCpf" placeholder="" 
+                                         :mask="'###.###.###-##'"
+                                         v-validate="'required|cpf|digits:11'" data-vv-as="CPF" data-vv-name="cpf"
+                                         :class="{'form-control': true, 'is-danger': errors.has('cpf') }" 
+                                         class="form-control"/>
+                                         <div v-show="errors.has('cpf')" class="help is-danger">{{ errors.first('cpf') }}</div>
+                                     </div>
+                                 </div>
+
+                                 <div class="form-group row">
+                                     <label for="formEmail" class="col-12 col-md-3 col-form-label">Email</label>
+                                     <div class="col-12 col-md-9">
+                                         <input type="email" class="form-control" id="formEmail" 
+                                         v-validate="'required|email|max:35'" data-vv-name="email"
+                                         :class="{'form-control': true, 'is-danger': errors.has('email') }" 
+                                         v-model="user.email">
+                                         <div v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</div>
+                                     </div>
+                                 </div>
+
+                                 <div class="form-group row">
+                                     <label for="formSenha" class="col-12 col-md-3 col-form-label">Senha</label>
+                                     <div class="col-12 col-md-9">
+                                         <input type="text" class="form-control" id="formSenha" 
+                                         v-validate="'required|min:4|max:8'" data-vv-name="senha"
+                                         :class="{'form-control': true, 'is-danger': errors.has('senha') }"
+                                         placeholder="" 
+                                         v-model="user.password" >
+                                         <div v-show="errors.has('senha')" class="help is-danger">{{ errors.first('senha') }}</div>
+                                     </div>
+                                 </div>
+
+                             </div><!-- /col -->
+
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label for="formPhone" class="col-12 col-md-3 col-form-label">Telefone</label>
+                                    <div class="col-12 col-md-9">
+                                        <the-mask type="text" class="form-control" id="formPhone" :mask="['(##) ####-####', '(##) #####-####']"
+                                        data-vv-name="telefone"
+                                        :class="{'form-control': true, 'is-danger': errors.has('telefone') }" 
+                                        v-model="user.buyer.phone"/>
+                                        <div v-show="errors.has('telefone')" class="help is-danger">{{ errors.first('telefone') }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="formBirth" class="col-12 col-md-3 col-form-label">Data de nasc.</label>
+                                    <div class="col-12 col-md-9">
+                                        <input type="date" class="form-control" id="formBirth" placeholder="Seu email" v-model="user.buyer.birth">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
                     </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <label for="formCpf" class="col-12 col-md-2 col-form-label">CPF</label>
-                    <div class="col-12 col-md-10">
-                      <input type="text" class="form-control" id="formCpf" placeholder="Seu CPF" v-model="user.cpf">
-                    </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <label for="formEmail" class="col-12 col-md-2 col-form-label">Email</label>
-                    <div class="col-12 col-md-10">
-                      <input type="text" class="form-control" id="formEmail" placeholder="Seu email" v-model="user.email">
-                    </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <label for="formSenha" class="col-12 col-md-2 col-form-label">Senha</label>
-                    <div class="col-12 col-md-10">
-                      <input type="text" class="form-control" id="formSenha" placeholder="Digite uma nova senha" v-model="user.password">
-                    </div>
-                  </div>
-
-                  <hr>
-
-                  <div class="form-group row">
-                    <label for="formPhone" class="col-12 col-md-2 col-form-label">Telefone</label>
-                    <div class="col-12 col-md-10">
-                      <input type="text" class="form-control" id="formPhone" placeholder="Seu telefone" v-model="user.buyer.phone">
-                    </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <label for="formBirth" class="col-12 col-md-2 col-form-label">Data de nascimento</label>
-                    <div class="col-12 col-md-10">
-                      <input type="date" class="form-control" id="formBirth" placeholder="Seu email" v-model="user.buyer.birth">
-                    </div>
-                  </div>
-
-                  <hr>
-                  <button type="submit" class="btn btn-success">
-                    <i class="fa fa-check" aria-hidden="true"></i> Salvar alterações
-                  </button>
-
-                </form>
-              </div>
+                </div>
             </div>
-          </div>
-          <div class="card-footer">
-            <router-link :to="'/admin/buyers/'" class="btn btn-default btn-sm">
-              <i class="fa fa-arrow-left"></i> Voltar</router-link>
-            <router-link :to="'/admin/buyers/' + user.id + '/remove'" class="btn btn-danger btn-sm">
-              <i class="fa fa-trash"></i>Excluir</router-link>
-          </div>
+            <div class="card-footer d-flex justify-content-between">
+                <div>
+                    <router-link :to="'/admin/buyers/' + user.id + '/ver'" class="btn btn-default btn-sm mt-1">
+                        <i class="fa fa-arrow-left"></i> Voltar</router-link>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success" v-on:click="submitForm($event)">
+                        <i class="fa fa-check" aria-hidden="true"></i> Salvar alterações
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+
+
   </div>
 </template>
 
@@ -102,6 +127,17 @@
       }
     },
     methods: {
+      submitForm(evt) {
+          evt.preventDefault();
+          this.validateBeforeSubmit();
+      },
+      validateBeforeSubmit() {
+          this.$validator.validateAll().then(() => {
+              this.save();
+          }).catch(() => {
+              toastr.warning('Favor conferir os dados cadastrados', 'Atenção');
+          });
+      },
       save: function () {
         this.user.role = 'comprador';
         httpService.build('admin/v1/users')

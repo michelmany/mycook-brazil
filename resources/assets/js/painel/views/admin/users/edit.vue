@@ -11,11 +11,9 @@
         <div class="card">
             <div class="card-block">
                 <div class="row">
-                <div class="col-lg-4">
-                    <img :src="user.avatar_full_url + '?s=200'" class="img-fluid" v-if="user.avatar_full_url"></div>
-                    <div class="col-lg-6 mt-3 mt-lg-0">
-                        <form>
 
+                    <div class="col-lg-12 mt-3 mt-lg-0">
+                        <form>
                             <div class="form-group row">
                                 <label for="formAtivo" class="col-12 col-md-2 col-form-label">Status </label>
                                 <input type="checkbox" id="formAtivo" v-model="user.active"/>
