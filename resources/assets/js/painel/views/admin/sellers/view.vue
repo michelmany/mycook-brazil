@@ -95,6 +95,26 @@
             </div>
         </div>
 
+        <div class="card">
+            <div class="card-header">
+                <div class="caption">
+                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> Endereços</h6>
+                </div>
+                <div class="actions">
+                    <router-link :to="'/admin/address/new/' + user.id + '/' + user.role" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> Adicionar Novo</router-link>
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-4 image-wrapper" v-for="photo in user.seller.fotos" >
+                        <div class="image-container">
+                            <img :src="photo.full_url" class="img-fluid" style="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Endereços -->
         <div class="card">
             <div class="card-header">

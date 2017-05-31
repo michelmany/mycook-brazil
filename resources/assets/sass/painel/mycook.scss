@@ -60,3 +60,21 @@
 @import 'pages/user-profile';
 @import 'pages/404';
 
+.image-wrapper {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  .image-container {
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+    img {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+}
