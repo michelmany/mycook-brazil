@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $request->input('remember'))) {
             $user = Auth::user();
-            if ($user->addresses->first()->cep) {
+            if (!$user->addresses->first()) {
                 return redirect()->to('/minha-conta/enderecos');
             }
             return redirect()->to('/list');
