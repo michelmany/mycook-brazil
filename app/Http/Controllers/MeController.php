@@ -68,7 +68,7 @@ class MeController
 
     public function addresses()
     {
-        return 'Formulário de edição de endereço do usuário logado';
+        return view('me.enderecos');
     }
 
     public function addressesPost()
