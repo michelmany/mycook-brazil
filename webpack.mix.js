@@ -54,6 +54,9 @@ mix.combine([
     pluginPath + 'bootstrap/bootstrap.js',
     pluginPath + 'customScrollBar/customScrollBar.js',
 
+    // ** Additional Plugins **
+    pluginPath + 'toastr/toastr.js',
+
 ],'public/assets/js/plugins-front.js')
 
 .js('resources/assets/js/painel/app.js','public/assets/js/painel.js')

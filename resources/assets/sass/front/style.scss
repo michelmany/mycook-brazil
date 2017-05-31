@@ -5,6 +5,9 @@
 // Plugins
 @import '../../plugins/bootstrap/scss/bootstrap';
 @import '../../plugins/fontawesome/font-awesome';
+@import '../../plugins/customScrollBar/customScrollBar.scss';
+@import '../../plugins/toastr/toastr.scss';
+
 
 // Base
 @import "base/base";

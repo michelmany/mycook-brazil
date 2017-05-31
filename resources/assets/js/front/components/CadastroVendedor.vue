@@ -317,7 +317,7 @@
               if (email) {
                   axios.post('/entrar/check-email', {email: email}).then((res) => {
                     if (res.data.status === 'founded') {
-                      alert('Oia, esse email já existe, oxe, use ele pra entrar!');
+                      toastr.warning('Esse email já está cadastrado, use ele pra entrar!', 'Atenção');
                       this.user.email = null;
                     }
                   });
@@ -327,7 +327,7 @@
               if (cpf) {
                   axios.post('/entrar/check-cpf', {cpf: cpf}).then((res) => {
                     if (res.data.status === 'founded') {
-                      alert('Amigo, larga de ser espertão, esse cpf ja tem conta aqui, acessa com ela!');
+                      toastr.warning('Esse CPF já está cadastrado em nosso sistema!', 'Atenção');
                       this.user.cpf = null;
                     }
                   });
