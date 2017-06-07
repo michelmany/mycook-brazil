@@ -69,20 +69,24 @@
                         </div>
                         <div v-if="user.seller.facebook">
                             <span class="fa fa-facebook"></span>
-                            <a :href="user.seller.facebook" target="_blank">
+                            <a :href="'https://facebook.com/' + user.seller.facebook" target="_blank">
                                  <small>{{ user.seller.facebook }}</small>
                             </a>
                         <hr>
                         </div>
                         <div v-if="user.seller.instagram">
                             <span class="fa fa-instagram"></span>
-                            <a :href="user.seller.instagram" target="_blank">
+                            <a :href="'https://instagram.com/' + user.seller.instagram" target="_blank">
                                  <small>{{ user.seller.instagram }}</small>
                             </a>
-                            <hr>
+
                         </div>
                         <div v-if="user.seller.type_delivery">
                             <small>Tipos de entrega:</small> {{ user.seller.type_delivery | join(' - ') }}
+                            <hr>
+                        </div>
+                        <div v-if="user.seller.dishes">
+                            <small>Quais pratos deseja vender?</small> {{ user.seller.dishes }}
                         </div>
                     </div>
                 </div>
@@ -98,14 +102,14 @@
         <div class="card">
             <div class="card-header">
                 <div class="caption">
-                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> Endereços</h6>
-                </div>
-                <div class="actions">
-                    <router-link :to="'/admin/address/new/' + user.id + '/' + user.role" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> Adicionar Novo</router-link>
+                    <h6><i class="fa fa-picture-o" aria-hidden="true"></i> Imagens</h6>
                 </div>
             </div>
             <div class="card-block">
                 <div class="row">
+                    <div v-if="user.seller.fotos.length === 0" class="col-md-12">
+                        <p><small>Nenhuma imagem cadastrada</small></p>
+                    </div>
                     <div class="col-md-4 image-wrapper" v-for="photo in user.seller.fotos" >
                         <div class="image-container">
                             <img :src="photo.full_url" class="img-fluid" style="">
