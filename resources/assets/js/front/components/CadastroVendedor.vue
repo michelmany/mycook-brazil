@@ -34,11 +34,10 @@
             <div class="form-group row">
 
                 <div class="col-lg-3">
-
                     <the-mask id="cep_field" v-model="address.cep" placeholder="CEP"
-                            :mask="'#####-###'" 
-                            v-validate="'required'" data-vv-name="cep"
-                            :class="{'form-control': true, 'is-danger': errors.has('cep') }" 
+                            :mask="'#####-###'"
+                            v-validate="'required|min:8'" data-vv-name="cep"
+                            :class="{'form-control': true, 'is-danger': errors.has('cep') }"
                             class="form-control form-control-lg input__entrar" @keyup.native="getcep()"/>
                     <div v-show="errors.has('cep')" class="help is-danger">{{ errors.first('cep') }}</div>
                 </div>
@@ -63,10 +62,13 @@
 
             <div class="form-group row">
 
-            <div class="col-lg-4">
-                <input type="text"  v-model="address.complement" placeholder="Complemento" 
-                     class="form-control form-control-lg input__entrar">
-            </div>
+                <div class="col-lg-4">
+                    <input type="text" v-validate="'max:30'" v-model="address.complement" placeholder="Complemento" 
+                        data-vv-as="complemento" data-vv-name="complemento"
+                        :class="{'form-control': true, 'is-danger': errors.has('complemento') }" 
+                        class="form-control form-control-lg input__entrar">
+                    <div v-show="errors.has('complemento')" class="help is-danger">{{ errors.first('complemento') }}</div>
+                </div>
 
                 <div class="col-lg-3">
                     <input id="neighborhood_field" type="text" v-model="address.neighborhood" placeholder="Bairro" 
@@ -306,7 +308,7 @@
                         })
                     } else {
                         // Mostra o Warning Modal o usuário tentar enviar o form sem fotos.
-                        this.modalErrors = true;
+                        toastr.warning('Você precisa selecionar no mínimo uma imagem!', 'Atenção');
                     }
                 }).catch(() => {
                     // Mostra o Warning Modal se tiver erro de validação de campos.

@@ -68,9 +68,10 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="true" name="aceito-termos"> Li e aceito os termos de uso e as políticas de privacidade.
+                                            <input class="form-check-input" type="checkbox" value="true" name="aceito-termos" checked>
                                             @include('components.error', ['field'=>'aceito-termos'])
                                         </label>
+                                        <span data-toggle="modal" data-target="#modalTermos" style="cursor: pointer">Li e aceito os termos de uso e as políticas de privacidade.</span>
                                     </div>
                                     <div class="mt-3">
                                         <button class="btn btn-submit-green btn-lg" type="submit">Cadastrar</button>
@@ -80,6 +81,24 @@
                         </transition>
                     </div>
                 </div>
+
+                <!-- Modal Termos -->
+                <div class="modal fade" id="modalTermos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color:#F95700">
+                                <h5 class="modal-title" style="color:#fff" id="exampleModalLabel">TERMOS E CONDIÇÕES DE USO MYCOOK</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                @include('./partials/termos')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /modal -->
 
                 <div class="col-md-6 col-lg-5 px-0 pt-3 pt-md-0 pt-sm-3">
 
@@ -109,9 +128,9 @@
                         </form>
                     </div><!-- /form-content -->
 
-                    <div class="text-center mt-3">
+{{--                     <div class="text-center mt-3">
                         <a href="{{ route('password.request') }}" class="cadastro__link ">Recuperar senha?</a>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

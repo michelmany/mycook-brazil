@@ -11,7 +11,7 @@
           'csrfToken' => csrf_token(),
       ]); ?>
     </script>
-    <title>@yield('title') - MyCook</title>
+    <title>MyCook | Delivery de comida caseira online | @yield('title')</title>
 </head>
 <body>
     <header class="header-site">

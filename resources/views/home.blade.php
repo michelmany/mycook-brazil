@@ -2,8 +2,7 @@
 @section('title', 'Home')
 @section('content')
 
-    <section class="hero-image"
-    style="background-image: url('/assets/img/hero-image-01.jpg')">
+    <section class="hero-image" style="background-image: url('/assets/img/hero-image-01.jpg')">
         <div class="hero-image__mask"></div>
 
         <div class="hero-image__content">
@@ -54,5 +53,23 @@
         const queryHome = new Vue({
             el: '#queryHome'
         });
+
+        // Hero fill browser window
+        var heroImage = $('.hero-image');
+        var heroImageMask = $('.hero-image__mask');
+        var win = $(window);
+        resizeHero();
+        win.resize(function() {
+            resizeHero();
+        });
+        function resizeHero() {
+            if (win.width() < 1920) {
+                heroImage.height(win.height() - 96);
+                heroImageMask.height(win.height() - 96);
+            } else {
+                heroImage.css('height', '');
+                heroImageMask.css('height', '');
+            }
+        }
     </script>
 @endsection

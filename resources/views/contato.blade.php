@@ -61,7 +61,7 @@
                                 <div class="contato__contatos mx-lg-auto">
                                     <p>Ou entre em contato pelo Whatsapp<br>Segunda a sábado: 11h as 20h</p>
                                     <div class="contato__whatsapp">
-                                        <img src="/assets/img/icon-whatsapp.png"> (21) 99133-0236
+                                        <img src="/assets/img/icon-whatsapp.png"> <a href="tel:21991330236">(21) 99133-0236</a>
                                     </div>
                                     <div class="">
                                         <a href="mailto:contato@mycook.com.br" target="_top">contato@mycook.com.br</a>

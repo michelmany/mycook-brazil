@@ -22,10 +22,12 @@
             <div class="col-md-6 mb-3">
                 <div class="generic__headline">Alguns dos benefícios em fazer parte do mycook.</div>
                 <ul class="generic__list">
+                    <li>Seja visto e faca parte do maior shopping center gastronômico de comida caseira do Brasil.</li>
                     <li>Você mesmo monta os dias e horários que deseja comercializar os seus produtos de acordo com a sua disponibilidade. </li>
                     <li>Com o MyCook, voce poderá conciliar o seu trabalho habitual, proporcionando assim, uma renda extra no final do mês.</li>
                     <li>Você decide quantas refeições ou produtos deseja vender por dia.</li>
                     <li>Você só paga para o mycook, se o seu produto for vendido.</li>
+                    <li>Com o MyCook, você só precisa se preocupar em fazer o produto incrível para encantar e conquistar o seu cliente, pronto. Deixe o resto conosco.</li>
                     <li>Proporcionar a exposição dos seus produtos por meio de marketing, promoções e publicidade, através do MyCook, para um mercado que vem crescendo a cada ano.</li>
                     <li>Nossa equipe trabalhará para impulsionar as suas vendas.</li>
                     <li>Qualquer pessoa com talento na cozinha, poderá se candidatar gratuitamente para vender os seus produtos no MyCook.</li>

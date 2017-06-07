@@ -19,6 +19,8 @@
                     <router-link to="/admin/sellers/new">Novo vendedor</router-link>
                     <div class="dropdown-divider"></div>
                     <router-link to="/admin/users/new">Novo administrador</router-link>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
             </li>
 <!--             <li>
