@@ -41,7 +41,7 @@ class UserController extends Controller
             'name'=> $request->input('name'),
             'cpf'=> $request->input('cpf'),
             'active'=>true,
-            'role'=>'user',
+            'role'=>'comprador',
             'email'=> $request->input('email'),
             'password'=> bcrypt($request->input('password')),
         ]);
