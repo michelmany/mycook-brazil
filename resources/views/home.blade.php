@@ -50,7 +50,7 @@
 
 @section('script')
     <script>
-        const queryHome = new Vue({
+        var queryHome = new Vue({
             el: '#queryHome'
         });
 
