@@ -26,7 +26,7 @@ class UserController extends Controller
             }
             return redirect()->to('/list');
         }
-        return redirect()->route('authHome');
+        return redirect()->route('authHome')->with('validation-error', 'Verifique seu e-mail e senha!');;
     }
 
     public function logout()

@@ -98,8 +98,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'sender_mail' => [
+            'email' => 'Digite um endereço de e-mail válido.',
         ],
     ],
 
@@ -114,6 +114,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'sender_name' => 'nome',
+        'sender_mail' => 'email',
+        'subject' => 'assunto',
+        'message' => 'mensagem',
+    ],
 
 ];

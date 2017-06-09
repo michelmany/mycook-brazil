@@ -107,6 +107,12 @@
                     <div class="cadastro__form-content">
                         <a href="{{ route('facebookAuth', 'facebook') }}" class="btn btn-facebook cadastro__button"><i class="fa fa-facebook"></i> Acessar com facebook</a>
 
+                        @if (session('validation-error'))
+                            <div class="text-warning mb-2">
+                                <small>{{ session('validation-error') }}</small>
+                            </div>
+                        @endif
+
                         <form action="{{ route('login') }}" method="post">
                             {{ csrf_field() }}
 
