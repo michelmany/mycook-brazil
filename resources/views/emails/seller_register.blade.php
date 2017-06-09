@@ -1,8 +1,8 @@
 @component('mail::message')
     # Confirmação de cadastro
 
-    Você acabou de se cadastrar, mas precisa esperar a aprovação.
+    Você acabou de se cadastrar, mas precisa aguardar a aprovação.
 
-    Obrigado,<br>
+    Obrigado,
     {{ config('app.name') }}
 @endcomponent

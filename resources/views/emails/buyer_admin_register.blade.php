@@ -2,6 +2,6 @@
     # Novo cadastro de comprador
 
 
-    Obrigado,<br>
+    Obrigado,
     {{ config('app.name') }}
 @endcomponent

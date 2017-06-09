@@ -82,7 +82,7 @@ img {
 /* Layout */
 
 .wrapper {
-    background-color: #f5f8fa;
+    background-color: #F95700;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -113,6 +113,10 @@ img {
     font-weight: bold;
     text-decoration: none;
     text-shadow: 0 1px 0 white;
+}
+
+.email__logo {
+    max-width: 140px;
 }
 
 /* Body */
@@ -164,7 +168,7 @@ img {
 }
 
 .footer p {
-    color: #AEAEAE;
+    color: #fff;
     font-size: 12px;
     text-align: center;
 }

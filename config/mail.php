@@ -114,4 +114,11 @@ return [
 
     'contact' => env('MAIL_CONTACT'),
 
+    'markdown' => [
+        'theme' => 'default',
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ]
+    ],
+
 ];

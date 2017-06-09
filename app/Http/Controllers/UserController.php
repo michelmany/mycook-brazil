@@ -56,7 +56,7 @@ class UserController extends Controller
         \Mail::to(config('mail.contact'))->send(new BuyerAdminRegisterMail);
         \Mail::to($user->email)->send(new BuyerRegisterMail);
 
-        return redirect()->route('authHome')->with('success', 'Registro efetuado com sucesso, verifique seu email...');
+        return redirect()->route('authHome')->with('success', 'Registro efetuado com sucesso! Favor verificar seu email.');
     }
 
     public function sellerRegister()

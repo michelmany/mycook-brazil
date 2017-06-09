@@ -26,11 +26,6 @@
                     <button class="btn btn-email cadastro__button" v-on:click="show = !show">
                         <i class="fa fa-envelope-o"></i>Cadastrar com Email</button>
 
-                        @if (session('success'))
-                            <div class="text-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
                         @if (count($errors) > 0)
                             <div class="text-danger">
                                 Validação falhou...
@@ -79,6 +74,11 @@
                                 </form>
                             </div><!-- /cadastrar com email -->
                         </transition>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -108,8 +108,8 @@
                         <a href="{{ route('facebookAuth', 'facebook') }}" class="btn btn-facebook cadastro__button"><i class="fa fa-facebook"></i> Acessar com facebook</a>
 
                         @if (session('validation-error'))
-                            <div class="text-warning mb-2">
-                                <small>{{ session('validation-error') }}</small>
+                            <div class="alert alert-danger">
+                                <i class="fa fa-exclamation-triangle"></i> {{ session('validation-error') }}
                             </div>
                         @endif
 
