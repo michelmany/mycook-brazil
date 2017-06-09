@@ -26,11 +26,13 @@
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1566382683371995&ev=PageView&noscript=1"
     /></noscript>
-    <!-- DO NOT MODIFY -->
     <!-- End Facebook Pixel Code -->
 
 </head>
 <body>
+    
+    @include('partials/analyticstracking')
+
     <header class="header-site">
         <nav class="navbar navbar-toggleable-md navbar-inverse ">
             <div class="container">
