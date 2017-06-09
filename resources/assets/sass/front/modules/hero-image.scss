@@ -3,11 +3,8 @@
     background-color: #282828;
     background-size: cover;
     background-position: center;
-    height: 500px;
     position: relative;
-    @media screen and (min-width:576px) {
-        height: 420px;
-    }
+    height: 420px;
     @media screen and (min-width:992px) {
         height: 600px;
     }
@@ -19,9 +16,7 @@
         position: absolute;
         z-index: 0;
         height: 500px;
-        @media screen and (min-width:576px) {
-            height: 420px
-        }
+        height: 420px;
         @media screen and (min-width:992px) {
             height: 600px;
         }
@@ -31,16 +26,22 @@
         text-align: center;
         background-color: rgba(60,60,60,.9);
         max-width: 90%;
-        padding: 30px 15px;
+        padding: 15px 15px;
         border-radius: 4px;
         z-index: 9;
         position: relative;
         left: 50%;
-        top: 50%;
+        top: 40%;
         transform: translate(-50%, -40%);
+        @media screen and (max-width:320px) {
+            top: 15px;
+            transform: translateX(-50%);
+        }
         @media screen and (min-width:576px) {
             padding: 35px 25px;
             max-width: 882px;
+            top: 40%;
+            transform: translate(-50%, -40%);
         }
 
         @media screen and (min-width:768px) {
@@ -78,7 +79,7 @@
         color: #fff;
         letter-spacing: -0.4px;
         text-shadow: 0 2px 4px rgba(0,0,0,0.50);
-        margin-bottom: 40px;
+        margin-bottom: 15px;
         @media screen and (min-width:576px) {
             font-size: 20px;
         }

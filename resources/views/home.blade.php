@@ -59,11 +59,15 @@
         var heroImageMask = $('.hero-image__mask');
         var win = $(window);
         resizeHero();
-        win.resize(function() {
-            resizeHero();
+        //reload only if width size changes
+        var width = $(window).width();
+        win.on('resize', function(){
+            if($(this).width() != width){
+                resizeHero();
+            }
         });
         function resizeHero() {
-            if (win.width() < 1920) {
+            if (win.width() > 320 && win.width() < 1920) {
                 heroImage.height(win.height() - 96);
                 heroImageMask.height(win.height() - 96);
             } else {
