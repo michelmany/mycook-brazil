@@ -7,6 +7,13 @@
 |
 */
 
+Route::get('send_test_email', function(){
+    Mail::raw('Sending emails with Mailgun and Laravel is easy!', function($message)
+    {
+        $message->to('michel@nitdesign.com.br');
+    });
+});
+
 Route::get('/', function () {
     return view('home');
 })->name('home');
