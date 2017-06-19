@@ -39,31 +39,91 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="{{ route('home') }}">
-                    <img class="navbar__logo" src="{{ url('assets/img/logo_white.png') }}" alt="Logo Mycook">
-                </a>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li {{ (Request::is('/') ? 'class=active' : '') }}>
-                            <a class="nav-link" href="{{ route('home') }}">Home</a>
-                        </li>
-                        <li {{ (Request::is('sobre') ? 'class=active' : '') }}>
-                            <a class="nav-link" href="{{ route('sobre') }}">Sobre mycook</a>
-                        </li>
-                        <li {{ (Request::is('quero-vender') ? 'class=active' : '') }}>
-                            <a class="nav-link" href="{{ route('queroVender') }}">Quero vender no mycook</a>
-                        </li>
-                        <li {{ (Request::is('como-funciona') ? 'class=active' : '') }}>
-                            <a class="nav-link" href="{{ route('comoFunciona') }}">Como funciona</a>
-                        </li>
-                        <li {{ (Request::is('contato') ? 'class=active' : '') }}>
-                            <a class="nav-link" href="{{ route('contato') }}">Contato</a>
-                        </li>
-                    </ul>
 
-                    <a href="{{ route('authHome') }}" class="btn btn-outline-white my-2 my-lg-0 ml-lg-3">Entrar ou Cadastrar</a>
+                @if (Auth::check())
 
-                </div>
+                    <a class="navbar-brand" href="{{ route('listaChefs') }}">
+                        <img class="navbar__logo" src="{{ url('assets/img/logo_white.png') }}" alt="Logo Mycook">
+                    </a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="ml-auto hidden-md-down">
+                            <?php $firstName = explode(' ', trim(Auth::user()->name)); ?> {{-- To get the First name only --}}
+                            <div class="text-white">Olá <strong>{{  $firstName[0] }}</strong>, bem-vindo(a)!
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split text-white" 
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @if (Auth::user()->social)
+                                            <img src="https://graph.facebook.com/{{ Auth::user()->social->provider_user_id }}/picture?type=large" 
+                                                 class="rounded-circle ml-2" width="50" height="50">
+                                        @else 
+                                            <img src="{{ url('assets/img/not-found-avatar_small.png') }}" 
+                                                 class=" avatar-dropdown rounded-circle ml-2" width="40" height="40">
+                                        @endif    
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="{{ route('profile') }}">Perfil</a>
+                                        <a class="dropdown-item" href="{{ route('profile.adresses') }}">Meus Endereços</a>
+                                        <a class="dropdown-item disabled" href="{{-- {{ route('profile.score') }} --}}">Avaliações</a>
+                                        <a class="dropdown-item disabled" href="{{-- {{ route('profile.adresses') }} --}}">Acompanhar pedidos</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ route('logout') }}">Sair</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="navbar-nav ml-auto hidden-lg-up">
+                            <li {{ (Request::is('/') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('home') }}">Perfil</a>
+                            </li>
+                            <li {{ (Request::is('sobre') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('profile.adresses') }}">Meus endereços</a>
+                            </li>
+                            <li {{ (Request::is('quero-vender') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('queroVender') }}">Avaliações</a>
+                            </li>
+                            <li {{ (Request::is('como-funciona') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('comoFunciona') }}">Acompanhar pedidos</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="{{ route('logout') }}">Sair</a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+
+
+                @else 
+
+                    <a class="navbar-brand" href="{{ route('home') }}">
+                        <img class="navbar__logo" src="{{ url('assets/img/logo_white.png') }}" alt="Logo Mycook">
+                    </a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav ml-auto">
+                            <li {{ (Request::is('/') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('home') }}">Home</a>
+                            </li>
+                            <li {{ (Request::is('sobre') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('sobre') }}">Sobre mycook</a>
+                            </li>
+                            <li {{ (Request::is('quero-vender') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('queroVender') }}">Quero vender no mycook</a>
+                            </li>
+                            <li {{ (Request::is('como-funciona') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('comoFunciona') }}">Como funciona</a>
+                            </li>
+                            <li {{ (Request::is('contato') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('contato') }}">Contato</a>
+                            </li>
+                        </ul>
+                        <a href="{{ route('authHome') }}" class="btn btn-outline-white my-2 my-lg-0 ml-lg-3">Entrar ou Cadastrar</a>
+                    </div>
+
+                @endif
+
             </div>
         </nav>
 
@@ -113,5 +173,6 @@
     <script type="text/javascript" src="{{mix("/assets/js/plugins-front.js")}}"></script>
     <script type="text/javascript" src="{{mix("/assets/js/front.js")}}"></script>
     @yield('script')
+
 </body>
 </html>

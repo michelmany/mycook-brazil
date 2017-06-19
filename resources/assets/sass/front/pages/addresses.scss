@@ -1,0 +1,27 @@
+.addresses {
+
+    .address {
+        &__item {
+            margin-bottom: 20px;
+            background: $mc-color-gray--light;
+            padding: 30px;
+            border: 1px solid darken($mc-color-gray--light, 6%);
+            &:first-of-type {
+                margin-top: 20px;
+            }
+        }
+        &__title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        &__address {
+
+        }
+        &__close-icon {
+            i {
+                font-size: 35px;
+            }
+        }
+    }
+
+}

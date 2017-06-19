@@ -33,4 +33,21 @@
         top: 20px;
 
     }
+
+    .btn-primary {
+        &.dropdown-toggle {
+            background-color: transparent;
+            color: white;
+            border-color: transparent;
+            padding: 0.5rem;
+            cursor: pointer;
+            &:hover {
+                // border-color: #fff;
+            }
+        }
+    }
+
+    .avatar-dropdown {
+
+    }
 }

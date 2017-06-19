@@ -57,7 +57,7 @@ Route::group(['prefix'=>'entrar'], function () {
             if (!$user->addresses->first()) {
                 return redirect()->to('/minha-conta/enderecos');
             }
-            return redirect()->to('/list');
+            return redirect()->to('/lista-chefs');
         }
        return view('user.index');
     })->name('authHome');
@@ -87,7 +87,7 @@ Route::group(['prefix'=>'entrar'], function () {
 Route::group(['prefix'=>'minha-conta', 'middleware' => ['auth']], function () {
     Route::get('/enderecos', 'MeController@addresses')->name('profile.adresses');
 
-    Route::get('/minhas-avaliacoes', 'MeController@score')->name('profileS.score');
+    Route::get('/minhas-avaliacoes', 'MeController@score')->name('profile.score');
 
     Route::get('/perfil', 'MeController@profile')->name('profile');
     Route::post('/perfil', 'MeController@profilePost')->name('profile.post');
@@ -99,9 +99,9 @@ Route::post('/me/profile', function() {
     return 'Aqui salvamos os dados vindos do formulário de edição do perfil';
 })->name('profileSave');
 
-Route::match(['get', 'post'], '/list', function () {
+Route::match(['get', 'post'], '/lista-chefs', function () {
     return view('list.index');
-});
+})->name('listaChefs');
 
 Route::get('/painel/{vue?}', function () {
     return view('admin');
