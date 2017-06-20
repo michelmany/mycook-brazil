@@ -79,7 +79,7 @@
                             <a :href="'https://instagram.com/' + user.seller.instagram" target="_blank">
                                  <small>{{ user.seller.instagram }}</small>
                             </a>
-
+                            <hr>
                         </div>
                         <div v-if="user.seller.type_delivery">
                             <small>Tipos de entrega:</small> {{ user.seller.type_delivery | join(' - ') }}
