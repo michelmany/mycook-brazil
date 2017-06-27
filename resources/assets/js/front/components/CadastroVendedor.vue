@@ -305,6 +305,10 @@
                         }).then((res) => {
                           this.user.id = res.data[1]['id'];
                           this.$refs.myVueDropzone.processQueue();
+
+                          // facebook pixel code
+                          fbq('track', 'CompleteRegistration');
+
                         })
                     } else {
                         // Mostra o Warning Modal o usuário tentar enviar o form sem fotos.
