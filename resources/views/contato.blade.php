@@ -89,7 +89,7 @@
                                         <img src="/assets/img/icon-whatsapp.png"> <a href="tel:21991330236">(21) 99133-0236</a>
                                     </div>
                                     <div class="">
-                                        <a href="mailto:contato@mycook.com.br" target="_top">contato@mycook.com.br</a>
+                                        <i class="fa fa-envelope-o"></i> <a href="mailto:contato@mycook.com.br" target="_top">contato@mycook.com.br</a>
                                     </div>
                                 </div>
                             </div>

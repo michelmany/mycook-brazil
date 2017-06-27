@@ -1,5 +1,5 @@
 <div class="text-justify">
-    <p>Ao se cadastrar no MyCook, você <strong>ESTÁ DE ACORDO COM OS TERMOS E CONDIÇÕES</strong> a plataforma. Note que a recusa destes Termos, você ficará impedido de solicitar pedidos, quanto para se candidatar como fornecedor na plataforma.</p>
+    <p>Ao se cadastrar no MyCook, você <strong>ESTÁ DE ACORDO COM OS TERMOS E CONDIÇÕES</strong> da plataforma. Note que a recusa destes Termos, você ficará impedido de solicitar pedidos, quanto para se candidatar como fornecedor na plataforma.</p>
     <h6><strong>1. SERVIÇOS OFERECIDOS</strong></h6>
     <p>1.1 O site MyCook tem por finalidade viabilizar e intermediar a relação entre:</p>
     <p>(i.1) pessoas físicas ou jurídica, chamado de <strong>fornecedor</strong>, que tenham competência e experiência na produção e entrega de produtos alimentícios com a qualidade e tenham disponibilidade para preparar e comercializar estes produtos para o consumo, do cliente final. </p>

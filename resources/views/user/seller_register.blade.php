@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', 'Quero vender no mycook')
+@section('title', 'Quero vender no MyCook')
 @section('content')
 
 <script>
@@ -20,15 +20,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 mb-3">
-                <div class="generic__headline">Alguns dos benefícios em fazer parte do mycook.</div>
+                <div class="generic__headline">Alguns dos benefícios em fazer parte do MyCook.</div>
                 <ul class="generic__list">
-                    <li>Seja visto e faca parte do maior shopping center gastronômico de comida caseira do Brasil.</li>
+                    <li>Seja visto e faça parte do maior shopping center gastronômico de comida caseira do Brasil.</li>
                     <li>Você mesmo monta os dias e horários que deseja comercializar os seus produtos de acordo com a sua disponibilidade. </li>
                     <li>Com o MyCook, voce poderá conciliar o seu trabalho habitual, proporcionando assim, uma renda extra no final do mês.</li>
                     <li>Você decide quantas refeições ou produtos deseja vender por dia.</li>
-                    <li>Você só paga para o mycook, se o seu produto for vendido.</li>
+                    <li>Você só paga para o MyCook, se o seu produto for vendido.</li>
                     <li>Com o MyCook, você só precisa se preocupar em fazer o produto incrível para encantar e conquistar o seu cliente, pronto. Deixe o resto conosco.</li>
-                    <li>Proporcionar a exposição dos seus produtos por meio de marketing, promoções e publicidade, através do MyCook, para um mercado que vem crescendo a cada ano.</li>
                     <li>Nossa equipe trabalhará para impulsionar as suas vendas.</li>
                     <li>Qualquer pessoa com talento na cozinha, poderá se candidatar gratuitamente para vender os seus produtos no MyCook.</li>
                 </ul>
@@ -47,12 +46,12 @@
 <section id="form-chef" class="form-chef generic__wrapper">
     <div class="form-chef__head text-center">
         <div class="container">
-            <div class="form-chef__headline">Seja muito bem-vindo ao mycook!</div> 
+            <div class="form-chef__headline">Seja muito bem-vindo ao MyCook!</div> 
             <div class="form-chef__copy">
                 <p>Será um prazer enorme ter você em nossa plataforma.
-                Para vender no mycook, preencha o formulário abaixo e aguarde nosso contato.</p>
+                Para vender no MyCook, preencha o formulário abaixo e aguarde nosso contato.</p>
                 <p>Se tudo estiver ok com o seu cadastro, você receberá um e-mail informando que o seu cadastro foi disponibilizado.</p>
-                <p>Pronto! Você já poderá começar a vender os seus produtos no mycook.</p>
+                <p>Pronto! Você já poderá começar a vender os seus produtos no MyCook.</p>
             </div>
         </div>
     </div>

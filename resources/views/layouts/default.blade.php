@@ -48,10 +48,10 @@
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
                         <li {{ (Request::is('sobre') ? 'class=active' : '') }}>
-                            <a class="nav-link" href="{{ route('sobre') }}">Sobre mycook</a>
+                            <a class="nav-link" href="{{ route('sobre') }}">Sobre MyCook</a>
                         </li>
                         <li {{ (Request::is('quero-vender') ? 'class=active' : '') }}>
-                            <a class="nav-link" href="{{ route('queroVender') }}">Quero vender no mycook</a>
+                            <a class="nav-link" href="{{ route('queroVender') }}">Quero vender no MyCook</a>
                         </li>
                         <li {{ (Request::is('como-funciona') ? 'class=active' : '') }}>
                             <a class="nav-link" href="{{ route('comoFunciona') }}">Como funciona</a>
@@ -80,7 +80,7 @@
                     <div class="footer__widget-01">
                         <div class="footer__headline">Institucional</div>
                         <ul class="footer__items">
-                            <li><a href="{{ route('sobre') }}">Sobre mycook</a></li>
+                            <li><a href="{{ route('sobre') }}">Sobre MyCook</a></li>
                             <li><a href="{{ route('termos') }}">Termos e condições de uso</a></li>
                             <li><a href="{{ route('privacidade') }}">Privacidade</a></li>
                             <li><a href="{{ route('authHome') }}">Cadastre-se</a></li>
@@ -100,8 +100,8 @@
                             </ul>
                         </div>
                         <div class="footer__credits">
-                            Mycook © Copyright 2017 - Todos os direitos reservados<br>
-                            Desenvolvido pela NITDESIGN
+                            MyCook © Copyright 2017 - Todos os direitos reservados<br>
+                            Desenvolvido pela <a href="https://www.nitdesign.com.br" target="_blank" style="color:#fff">NITDESIGN</a>
                         </div>
                     </div>
                 </div>

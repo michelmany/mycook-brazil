@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-6 d-flex align-items-center">
                     <div class="como-funciona__content">
-                        <div class="generic__headline">Veja como é fácil fazer seu pedido no mycook.</div>
+                        <div class="generic__headline">Veja como é fácil fazer seu pedido no MyCook.</div>
                         <ul class="generic__list">
                             <li>Pesquise pelo(s) produto(s) desejado(s)</li>
                             <li>Faça seu pedido pelo nosso site</li>
