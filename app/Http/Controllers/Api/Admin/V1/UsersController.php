@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Api\Admin\V1;
 use App\Buyer;
 use Illuminate\Http\Request;
 use App\Seller;
-use ErikFig\Http\Controllers\ApiControllerTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Admin\V1\ApiControllerTrait;
 use App\User;
 
 class UsersController extends Controller
