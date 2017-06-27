@@ -7,7 +7,7 @@
 
         <div class="hero-image__content">
             <div class="hero-image__headline">Delivery de comida caseira online</div>
-            <div class="hero-image__subline">Comida caseira de verdade da cozinha do chef para sua mesa</div>
+            <div class="hero-image__subline">Comida de verdade. Da cozinha do chef para sua mesa.</div>
             
             <div class="hero-image__search">
                 <div id="queryHome">

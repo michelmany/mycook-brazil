@@ -93,24 +93,21 @@
 
                     </div>
 
-
-
                 @else 
 
                     <a class="navbar-brand" href="{{ route('home') }}">
                         <img class="navbar__logo" src="{{ url('assets/img/logo_white.png') }}" alt="Logo Mycook">
                     </a>
-
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav ml-auto">
                             <li {{ (Request::is('/') ? 'class=active' : '') }}>
                                 <a class="nav-link" href="{{ route('home') }}">Home</a>
                             </li>
                             <li {{ (Request::is('sobre') ? 'class=active' : '') }}>
-                                <a class="nav-link" href="{{ route('sobre') }}">Sobre mycook</a>
+                                <a class="nav-link" href="{{ route('sobre') }}">Sobre MyCook</a>
                             </li>
                             <li {{ (Request::is('quero-vender') ? 'class=active' : '') }}>
-                                <a class="nav-link" href="{{ route('queroVender') }}">Quero vender no mycook</a>
+                                <a class="nav-link" href="{{ route('queroVender') }}">Quero vender no MyCook</a>
                             </li>
                             <li {{ (Request::is('como-funciona') ? 'class=active' : '') }}>
                                 <a class="nav-link" href="{{ route('comoFunciona') }}">Como funciona</a>
@@ -119,6 +116,7 @@
                                 <a class="nav-link" href="{{ route('contato') }}">Contato</a>
                             </li>
                         </ul>
+
                         <a href="{{ route('authHome') }}" class="btn btn-outline-white my-2 my-lg-0 ml-lg-3">Entrar ou Cadastrar</a>
                     </div>
 
@@ -140,7 +138,7 @@
                     <div class="footer__widget-01">
                         <div class="footer__headline">Institucional</div>
                         <ul class="footer__items">
-                            <li><a href="{{ route('sobre') }}">Sobre mycook</a></li>
+                            <li><a href="{{ route('sobre') }}">Sobre MyCook</a></li>
                             <li><a href="{{ route('termos') }}">Termos e condições de uso</a></li>
                             <li><a href="{{ route('privacidade') }}">Privacidade</a></li>
                             <li><a href="{{ route('authHome') }}">Cadastre-se</a></li>
@@ -160,8 +158,8 @@
                             </ul>
                         </div>
                         <div class="footer__credits">
-                            Mycook © Copyright 2017 - Todos os direitos reservados<br>
-                            Desenvolvido pela NITDESIGN
+                            MyCook © Copyright 2017 - Todos os direitos reservados<br>
+                            Desenvolvido pela <a href="https://www.nitdesign.com.br" target="_blank" style="color:#fff">NITDESIGN</a>
                         </div>
                     </div>
                 </div>
