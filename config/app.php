@@ -176,7 +176,9 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
 
+        // Add by Michel
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
     ],
 
     /*
