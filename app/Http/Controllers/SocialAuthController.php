@@ -32,6 +32,6 @@ class SocialAuthController extends Controller
         if (!$user->addresses->first()) {
             return redirect()->to('/minha-conta/enderecos');
         }
-        return redirect()->route('listaChefs');
+        return redirect()->route('lista-chefs-page');
     }
 }
