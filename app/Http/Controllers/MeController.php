@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 
 use App\Buyer;
 use App\User;
+use App\Address;
 use Illuminate\Http\Request;
+use Auth;
 
 class MeController
 {
@@ -70,10 +72,42 @@ class MeController
     {
         return view('me.enderecos');
     }
-
-    public function addressesPost()
+    public function getAddressesByUserId()
     {
-        return 'Salvando formulário de edição de endereço do usuário logado';
+        $user_id = Auth::user()->id;
+
+        // dd(Auth::id());
+
+        $result = Address::where('user_id', $user_id)->get();
+
+        return response()->json($result);
+
+    }
+    public function destroyAddress($id)
+    {
+        $result = Address::where('id', $id);
+        $result->delete();
+        return response()->json($result);
+    }
+
+    public function addressesPost(Request $request)
+    {
+        $user_id = Auth::id();
+
+        $address = $request->all();
+        $address['user_id'] = $user_id;
+
+        // Todo: get long and lat
+
+        $save = Address::create($address);
+
+        // if ($save) {
+        //     flash('<i class="fa fa-check"></i> Endereço adicionado com sucesso!')->success();
+        // } else {
+        //     flash('<i class="fa fa-exclamation-triangle"></i> Endereço adicionado com sucesso!')->success();
+        // }
+
+        return response()->json(['status'=>'ok']);
     }
 
     public function score()

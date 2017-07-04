@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactForm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Address;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Mail;
@@ -12,8 +14,48 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        flash()->success('Welcome to Laraspace');
-        return view('front.index');
+        return view('list.index');
+
+        //To do: 
+        // Listar os Chefs via axios para a routa que está pronta: /get-chefs
+    }
+
+    public function listChefs()
+    {
+        $radius = 5;
+        $earth_radius = 6371;
+
+        $user_id = \Auth::id();
+        $address = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
+
+        // dd($address);
+
+        if ($address->latitude && $address->latitude) {
+
+            // Get all chefs 
+            $result = DB::table('addresses')
+                ->select(DB::raw('user_id, addresses.name, avatar,
+                    ( '.$earth_radius.' * acos( cos( radians('.$address->latitude.') ) * cos( radians( latitude ) ) * cos( radians( longitude )
+                        - radians('.$address->longitude.') )
+                        + sin( radians('.$address->latitude.') )
+                        * sin(radians(latitude)) ) )
+                        AS distance
+                    '))
+                ->where('role', '=', 'vendedor')
+                ->where('active', '=', 1)
+                ->having('distance', '<=', $radius)
+                ->join('users', 'addresses.user_id', '=', 'users.id')
+                ->orderBy('distance', 'desc')
+                ->get();
+            } else {
+                return "O seu endereço cadastro parece estar incorreto. Por favor altere seu endereço principal!";
+            }
+
+            //Todo:
+            // Listar também caso o user não esteja logado. Pegar pelo CEP.
+            // Ao clicar no endereço listado, salvar automaticamente como favorito. E listar sempre bt favorite.
+
+            return response()->json($result);
     }
 
     public function contatoPost(Request $request)

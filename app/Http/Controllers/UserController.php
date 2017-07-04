@@ -24,7 +24,7 @@ class UserController extends Controller
             if (!$user->addresses->first()) {
                 return redirect()->to('/minha-conta/enderecos');
             }
-            return redirect()->to('/list');
+            return redirect()->route('listaChefs');
         }
         return redirect()->route('authHome')->with('validation-error', 'Verifique seu e-mail e senha!');;
     }

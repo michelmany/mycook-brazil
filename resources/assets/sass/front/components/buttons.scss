@@ -98,6 +98,11 @@ $email-color: #F6A623;
     color: #fff;
     letter-spacing: -0.16px; 
 
+    &.btn-block {
+        height: 60px;
+        font-size: 20px;
+    }
+
     &:hover {
         background-color: darken($mc-color-green, 10%);
         color: #fff;

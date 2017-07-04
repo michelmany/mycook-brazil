@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "01f0d3dfe518b95d14887c764fd11572",
-    "content-hash": "d02de8371311afba8850db0d6bf58f46",
+    "hash": "0cb7dd7b4c1f55be96fb0987e7c3ca9f",
+    "content-hash": "32ec2b79fc58235b9ceadc7f241fdb6c",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -994,16 +994,16 @@
         },
         {
             "name": "laracasts/flash",
-            "version": "2.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laracasts/flash.git",
-                "reference": "03eec812fd6ae948664ff51b4320785f6d15ee5d"
+                "reference": "10cd420ab63fd0796bf5e1e5b99f87636d2f4333"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laracasts/flash/zipball/03eec812fd6ae948664ff51b4320785f6d15ee5d",
-                "reference": "03eec812fd6ae948664ff51b4320785f6d15ee5d",
+                "url": "https://api.github.com/repos/laracasts/flash/zipball/10cd420ab63fd0796bf5e1e5b99f87636d2f4333",
+                "reference": "10cd420ab63fd0796bf5e1e5b99f87636d2f4333",
                 "shasum": ""
             },
             "require": {
@@ -1011,9 +1011,20 @@
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "mockery/mockery": "dev-master"
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "^6.1"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laracasts\\Flash\\FlashServiceProvider"
+                    ],
+                    "aliases": {
+                        "Flash": "Laracasts\\Flash\\Flash"
+                    }
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Laracasts\\Flash": "src/"
@@ -1033,7 +1044,7 @@
                 }
             ],
             "description": "Easy flash notifications",
-            "time": "2016-07-11 20:46:02"
+            "time": "2017-06-22 19:01:19"
         },
         {
             "name": "laravel/framework",

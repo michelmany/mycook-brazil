@@ -2,7 +2,7 @@
 @section('content')
 
 
-    <section class="addresses">
+    <section id="addresses" class="addresses">
         <div class="container generic__wrapper">
             <div class="header d-flex justify-content-between align-items-center flex-wrap">
                 <div>
@@ -10,31 +10,49 @@
                     <h6>Selecione o endereço de entrega</h6>
                 </div>
                 <div>
-                    <button class="btn btn-submit-orange mt-3 mb-3">Adicionar Endereço</button>    
+                    <button class="btn btn-submit-orange mt-3 mb-3" @click="showBuscaCep = true">Adicionar Endereço</button>    
                 </div>
             </div>
             <hr>
-            <div class="address__item d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="address__title">Casa</div>
-                    <div class="address__address">R JEQUIE , 71 - Barcelona BARCELONA - SERRA</div>
-                </div>
-                <div class="ml-auto address__close-icon">
-                    <a href=""><i class="fa fa-times" aria-hidden="true"></i></i></a>
-                </div>
-            </div>
 
-            <div class="address__item d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="address__title">Casa</div>
-                    <div class="address__address">R JEQUIE , 71 - Barcelona BARCELONA - SERRA</div>
-                </div>
-                <div class="ml-auto address__close-icon">
-                    <a href=""><i class="fa fa-times" aria-hidden="true"></i></i></a>
-                </div>
-            </div>
+            @include('flash::message')
+
+            <transition name="fade">
+                <new-address v-if="showBuscaCep"></new-address>
+            </transition>
+
+            <transition name="fade">
+                <address-items></address-items>
+            </transition>
+
         </div>
     </section>
 
 
+@endsection
+
+@section('script')
+    <script>
+        var addresses = new Vue({
+            el: '#addresses',
+            data: {
+                showBuscaCep: false
+            },
+            mounted() {
+                $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+
+                Event.$on('added', (res) => {
+                    this.showBuscaCep = false;
+                });
+            }
+        });
+    </script>
+    <style>
+        .fade-enter-active, .fade-leave-active {
+          transition: opacity .5s
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+          opacity: 0
+        }
+    </style>
 @endsection

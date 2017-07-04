@@ -9,7 +9,7 @@
         "doctrine/dbal": "^2.5",
         "erikfig/laravel-crud-traits": "1.*",
         "intervention/image": "^2.3",
-        "laracasts/flash": "^2.0",
+        "laracasts/flash": "^3.0",
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",

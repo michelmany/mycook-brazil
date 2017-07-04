@@ -42,7 +42,7 @@
 
                 @if (Auth::check())
 
-                    <a class="navbar-brand" href="{{ route('listaChefs') }}">
+                    <a class="navbar-brand" href="{{ route('lista-chefs-page') }}">
                         <img class="navbar__logo" src="{{ url('assets/img/logo_white.png') }}" alt="Logo Mycook">
                     </a>
 

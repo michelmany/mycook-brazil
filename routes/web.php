@@ -86,6 +86,9 @@ Route::group(['prefix'=>'entrar'], function () {
 
 Route::group(['prefix'=>'minha-conta', 'middleware' => ['auth']], function () {
     Route::get('/enderecos', 'MeController@addresses')->name('profile.adresses');
+    Route::get('/get-addresses', 'MeController@getAddressesByUserId')->name('get-addresses');
+    Route::delete('/enderecos/{id}', 'MeController@destroyAddress')->name('destroy-address');
+    Route::post('/save-address', 'MeController@addressesPost')->name('save-address');
 
     Route::get('/minhas-avaliacoes', 'MeController@score')->name('profile.score');
 
@@ -99,9 +102,8 @@ Route::post('/me/profile', function() {
     return 'Aqui salvamos os dados vindos do formulário de edição do perfil';
 })->name('profileSave');
 
-Route::match(['get', 'post'], '/lista-chefs', function () {
-    return view('list.index');
-})->name('listaChefs');
+Route::get('/lista-chefs', 'FrontendController@index')->name('lista-chefs-page');
+Route::get('/get-chefs', 'FrontendController@listChefs')->name('get-chefs');
 
 Route::get('/painel/{vue?}', function () {
     return view('admin');

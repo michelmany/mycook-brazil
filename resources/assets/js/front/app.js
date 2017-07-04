@@ -13,6 +13,7 @@ import VeeValidate, { Validator } from 'vee-validate'
 import CpfValidator from './components/validators/cpf.validator'
 import Portuguese from 'vee-validate/dist/locale/pt_BR'
 import Dictionary from './components/validators/dictionary'
+import VTooltip from 'v-tooltip'
 
 Validator.extend('cpf', CpfValidator)
 Validator.addLocale(Portuguese);
@@ -21,6 +22,8 @@ Vue.use(VeeValidate, {
     locale: 'pt_BR', 
     dictionary: Dictionary
 });
+
+Vue.use(VTooltip)
 
 Vue.config.debug = true
 
@@ -35,4 +38,6 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('avatar', require('./components/AvatarUpload.vue'));
 Vue.component('front-cadastro-vendedor', require('./components/CadastroVendedor.vue'));
 Vue.component('query-home', require('./components/QueryHome.vue'));
+Vue.component('address-items', require('./components/Addresses.vue'));
+Vue.component('new-address', require('./components/NewAddressForm.vue'));
 

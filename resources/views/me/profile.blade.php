@@ -23,14 +23,14 @@
             </div>
         @endif
 
-        @if (Auth::user()->social)
+{{--         @if (Auth::user()->social)
             <img src="https://graph.facebook.com/{{ Auth::user()->social->provider_user_id }}/picture?type=large" 
                  class="rounded-circle ml-2" width="150" height="150">
         @else 
              @if ($user->avatar_full_url)
                  <avatar photo-url="{{ $user->avatar_full_url }}"></avatar>
              @endif
-        @endif
+        @endif --}}
 
         <div>
                 <div class="row">
