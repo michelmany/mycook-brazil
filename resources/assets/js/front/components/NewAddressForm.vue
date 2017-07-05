@@ -130,6 +130,7 @@
                 address: {
                     name: "",
                     address: "",
+                    id: "",
                     cep: "",
                     number: "",
                     complement: "",
@@ -162,10 +163,9 @@
             saveAddress: function () {
               axios.post('save-address', this.address)
                   .then((res) => {
-                    console.log(res);
-                    
+
                     // emit event to addresses component to show the box with the new address
-                    Event.$emit('added', this.address);
+                    Event.$emit('added', res.data);
                   })
             },
             getcep: function () {

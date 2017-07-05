@@ -107,7 +107,7 @@ class MeController
         //     flash('<i class="fa fa-exclamation-triangle"></i> Endereço adicionado com sucesso!')->success();
         // }
 
-        return response()->json(['status'=>'ok']);
+        return response()->json($save);
     }
 
     public function score()

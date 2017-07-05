@@ -1,25 +1,31 @@
 <template>
     <div>
-        <transition-group name="fade">
-        <div class="address__item d-flex justify-content-between align-items-center" v-for="address in addresses" v-bind:key="address">
-            <div>
-                <div class="address__title"v-if="address.name">{{ address.name }}</div>
-                <div class="address__address">
-                    <p class="mb-0">{{ address.address }}, {{ address.number }}</p>
-                    <p class="mb-0" v-if="address.complement">{{ address.complement }}</p>
-                    <p class="mb-0">{{ address.neighborhood }} - {{ address.city }}/{{ address.state }}</p>
+        <transition-group name="fade" mode="out-in">
+            <div class="address__item d-flex justify-content-between align-items-center" 
+                v-if="addresses.length >= 1" v-for="address in addresses" key="1">
+                <div>
+                    <div class="address__title"v-if="address.name">{{ address.name }}</div>
+                    <div class="address__address">
+                        <p class="mb-0">{{ address.address }}, {{ address.number }}</p>
+                        <p class="mb-0" v-if="address.complement">{{ address.complement }}</p>
+                        <p class="mb-0">{{ address.neighborhood }} - {{ address.city }}/{{ address.state }}</p>
+                    </div>
+                </div>
+                <div class="ml-auto address__close-icon">
+                    <a href="#" @click.prevent="removeAddress(address)" v-tooltip.top-center="tooltipMessage">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </a>
                 </div>
             </div>
-            <div class="ml-auto address__close-icon">
-                <a href="#" @click.prevent="removeAddress(address)" v-tooltip.top-center="tooltipMessage">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </a>
-            </div>
-        </div>
+
         </transition-group>
-        <div v-if="noAddress" class="address__item d-flex justify-content-between align-items-center">
-            Você não tem nenhum endereço cadastrado ainda.
-        </div>
+
+        <transition name="fade" mode="out-in">
+            <div v-if="noAddress" class="address__item d-flex justify-content-between align-items-center">
+                Você não tem nenhum endereço cadastrado ainda.
+            </div>
+        </transition>
+
     </div>
 </template>
 
@@ -46,14 +52,20 @@
                 })
             },
             removeAddress(address) {
-                // remove from front-end
-                var index = this.addresses.indexOf(address)
-                this.addresses.splice(index, 1)
 
                 //remove from database
                 axios.delete('enderecos' + '/' + address.id)
                 .then((res) => {
+                    // remove from front-end
+                    var index = this.addresses.indexOf(address);
+                    this.addresses.splice(index, 1);
+
                     toastr.success('Endereço excluído com sucesso!');
+
+                    if(this.addresses.length === 0) {
+                        this.noAddress = true;
+                    }
+
                 })
 
             }
@@ -62,9 +74,14 @@
         mounted() {
             this.listAddresses();
 
-            // receive the data from NewAddressForm
+            // receive the data from NewAddressForm.vue
             Event.$on('added', (res) => {
+                console.log(res);
                 this.addresses.push(res);
+                if(this.addresses.length >= 1) {
+                    this.noAddress = false;
+                }
+
                 toastr.success('Endereço adicionado com sucesso!');
             });
 
