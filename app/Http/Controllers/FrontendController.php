@@ -28,13 +28,11 @@ class FrontendController extends Controller
         $user_id = \Auth::id();
         $address = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
 
-        // dd($address);
-
-        if ($address->latitude && $address->latitude) {
+        if ($address->latitude && $address->longitude) {
 
             // Get all chefs 
             $result = DB::table('addresses')
-                ->select(DB::raw('user_id, addresses.name, avatar,
+                ->select(DB::raw('user_id, users.name, users.avatar,
                     ( '.$earth_radius.' * acos( cos( radians('.$address->latitude.') ) * cos( radians( latitude ) ) * cos( radians( longitude )
                         - radians('.$address->longitude.') )
                         + sin( radians('.$address->latitude.') )
@@ -45,10 +43,16 @@ class FrontendController extends Controller
                 ->where('active', '=', 1)
                 ->having('distance', '<=', $radius)
                 ->join('users', 'addresses.user_id', '=', 'users.id')
-                ->orderBy('distance', 'desc')
+                ->orderBy('distance', 'asc')
                 ->get();
             } else {
                 return "O seu endereço cadastro parece estar incorreto. Por favor altere seu endereço principal!";
+            }
+
+            $avatar_url = \Storage::cloud()->url('filename');
+
+            foreach ($result as $chef) {
+                $chef->avatar = $avatar_url = \Storage::cloud()->url('avatar/' . $chef->avatar);
             }
 
             //Todo:
@@ -56,6 +60,11 @@ class FrontendController extends Controller
             // Ao clicar no endereço listado, salvar automaticamente como favorito. E listar sempre bt favorite.
 
             return response()->json($result);
+    }
+
+    public function singleChef()
+    {
+        return "<h2>single chef</h2>";
     }
 
     public function contatoPost(Request $request)

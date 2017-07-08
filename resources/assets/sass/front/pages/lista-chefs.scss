@@ -1,0 +1,74 @@
+.list-chefs {
+    background: #E9EBEE;
+
+
+    .search-chef {
+        background-color: #fff;
+        .input__entrar {
+            background: transparent;
+            border: 0;
+            font-size: 20px;
+            padding-left: 0;
+        }
+
+        .input-group-addon {
+            background-color: transparent;
+            border: 0;
+            color: #a1a3a5;
+        }
+    }
+
+    .chef-item {
+
+        &__box{
+            padding: 15px;
+            background: #fff;
+            border: #f5f5f5;
+            margin-bottom: 15px;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+                -ms-transform: scale(1.02); /* IE 9 */
+                -webkit-transform: scale(1.02); /* Safari */
+                    transform: scale(1.02);
+                webkit-box-shadow: -2px 9px 8px -9px rgba(87,87,87,1);
+                -moz-box-shadow: -2px 9px 8px -9px rgba(87,87,87,1);
+                    box-shadow: -2px 9px 8px -9px rgba(87,87,87,1);
+                    cursor: pointer;
+            }
+        }
+        &__photo {
+            img {
+                @media screen and (max-width:575px) {
+                    max-width: 40px;
+                    max-height: 40px;
+                }
+            }
+        }
+
+        &__text {
+            overflow: hidden;
+        }
+
+        &__title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            @media screen and (min-width:576px) {
+                font-size: 20px;
+            }
+            @media screen and (min-width:768px) {
+                font-size: 18px;
+            }
+        }
+        &__distance {
+            @media screen and (max-width:575px) {
+                font-size: 0.8rem;
+            }
+        }
+        &__icon-arrow {
+            padding-left: 15px;
+        }
+    }
+
+}

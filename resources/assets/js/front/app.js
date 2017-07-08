@@ -40,4 +40,5 @@ Vue.component('front-cadastro-vendedor', require('./components/CadastroVendedor.
 Vue.component('query-home', require('./components/QueryHome.vue'));
 Vue.component('address-items', require('./components/Addresses.vue'));
 Vue.component('new-address', require('./components/NewAddressForm.vue'));
+Vue.component('list-chefs', require('./components/ListChefs.vue'));
 
