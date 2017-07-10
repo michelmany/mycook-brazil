@@ -14,7 +14,7 @@ class AddNameToAddresses extends Migration
     public function up()
     {
         Schema::table('addresses', function (Blueprint $table) {
-            $table->string('name')->after('id');
+            $table->string('name')->after('id')->nullable();
         });
     }
 
