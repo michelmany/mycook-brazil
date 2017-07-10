@@ -106,7 +106,7 @@ Route::get('/lista-chefs', 'FrontendController@index')->name('lista-chefs-page')
 Route::get('/get-chefs', 'FrontendController@listChefs')->name('get-chefs');
 
 Route::group(['prefix'=>'chefs'], function () {
-    Route::get('{city}/{chef_name}', 'FrontendController@singleChef')->name('single-chef');
+    Route::get('{id}/{city?}/{slug?}', 'FrontendController@singleChef')->name('single-chef');
 });
 
 Route::get('/painel/{vue?}', function () {

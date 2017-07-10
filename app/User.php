@@ -46,6 +46,21 @@ class User extends Authenticatable
         return 'https://s3-' . env('AWS_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/avatar/' . $this->attributes['avatar'];
     }
 
+    public function getSlugAttribute()
+    {
+        return str_slug($this->name);
+    }
+
+    public function getCityAttribute()
+    {
+        return str_slug($this->addresses[0]->city . '-' . $this->addresses[0]->state);
+    }
+
+    public function getUrlAttribute()
+    {
+        return action('FrontendController@singleChef', [$this->id, $this->city, $this->slug]);
+    }
+
     public function buyer() {
         return $this->hasOne(Buyer::class);
     }

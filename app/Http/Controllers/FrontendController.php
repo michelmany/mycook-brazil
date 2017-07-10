@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
+use App\Http\Requests;
 use App\Mail\ContactForm;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Address;
-
-use App\Http\Requests;
 use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
@@ -28,7 +28,7 @@ class FrontendController extends Controller
         $user_id = \Auth::id();
         $address = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
 
-        if ($address->latitude && $address->longitude) {
+        if ($address) {
 
             // Get all chefs 
             $result = DB::table('addresses')
@@ -47,6 +47,8 @@ class FrontendController extends Controller
                 ->get();
             } else {
                 return "O seu endereço cadastro parece estar incorreto. Por favor altere seu endereço principal!";
+
+                //Todo: Create functionality to get the chefs by a CEP even not logged in
             }
 
             $avatar_url = \Storage::cloud()->url('filename');
@@ -62,9 +64,21 @@ class FrontendController extends Controller
             return response()->json($result);
     }
 
-    public function singleChef()
+    public function singleChef($id, $city = '', $slug = '')
     {
-        return "<h2>single chef</h2>";
+        $user = User::findOrFail($id);
+
+        if ($slug !== $user->slug) {
+            return redirect()->to($user->url);
+        }
+
+        if ($user->role == 'vendedor') {
+            return view('list.single-chef')
+                ->withSeller($user, $user->seller);
+        } else {
+            return redirect()->route('lista-chefs-page');
+        }
+
     }
 
     public function contatoPost(Request $request)

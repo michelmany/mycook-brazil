@@ -1,12 +1,12 @@
 <template>
     <div>
 
-        <vue-loading v-show="loading" type="bars" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
+        <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
 
         <transition name="fade">
             <div class="row" v-if="chefs.length > 0" key="2">
                 <div class="col-md-6 col-lg-6" v-for="chef in chefs" >
-                    <div class="chef-item__box">
+                    <div class="chef-item__box" @click="goToSinglePage(chef.user_id)">
                         <div class="d-flex justify-content-start align-items-center">
                             <div class="chef-item__photo mr-3">
                                 <img :src="chef.avatar" class="rounded-circle" width="85" height="85">
@@ -58,6 +58,10 @@
                     chefDistance = `A ${chefDistance} Km de distância`
                 }
                 return chefDistance;
+            },
+            goToSinglePage(id) {
+                // console.log(id)
+                window.location.href = "/chefs/" + id;
             }
         },
         mounted() {
