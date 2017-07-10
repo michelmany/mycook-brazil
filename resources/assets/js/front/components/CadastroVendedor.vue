@@ -303,16 +303,11 @@
                           'user': this.user,
                           'address': this.address,
                         }).then((res) => {
-<<<<<<< HEAD
-                          this.user.id = res.data[1]['id'];
-                          this.$refs.myVueDropzone.processQueue();
-
-                          // facebook pixel code
-                          fbq('track', 'CompleteRegistration');
-
-                        })
-=======
                             this.user.id = res.data[1]['id'];
+
+                            // facebook pixel code and Google Analytics
+                            fbq('track', 'CompleteRegistration');
+                            ga('send', 'CompleteRegistration');
                             
                             this.loading = false;
                             this.$refs.formCadastroVendedor.className = "form_seller_hidden";
@@ -322,9 +317,10 @@
                                 this.$refs.myVueDropzone.processQueue();
                             }
                         }).catch(() => {
+                            this.loading = false;
                             toastr.error('Tivemos um erro ao tentar enviar seu cadastro. Por favor tente outra vez!', 'Erro');
                         });
->>>>>>> 6631a40... Front - Cadastro Vendedor - Envio de imagens em segundo plano
+
                     } else {
                         // Mostra o Warning Modal o usuário tentar enviar o form sem fotos.
                         toastr.warning('Você precisa selecionar no mínimo uma imagem!', 'Atenção');
@@ -370,8 +366,8 @@
             },
             dropShowError: function(file, error) {
                 // this.loading = false;
-                // this.dropErrorMessage = error;
                 // this.showErrorMessage = true;
+                this.dropErrorMessage = error;
                 console.log(this.dropErrorMessage);
             },
             dropFilesAdded: function(file) {
