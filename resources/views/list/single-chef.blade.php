@@ -19,7 +19,8 @@
         <div class="row">
         <div class="col-md-2">
                 <div class="chef-item__photo mr-3">
-                    <img src="https://graph.facebook.com/10154279898587202/picture?type=large" class="rounded-circle" width="150" height="150">
+                    {{-- <img src="https://graph.facebook.com/10154279898587202/picture?type=large" class="rounded-circle" width="150" height="150"> --}}
+                    <img class="rounded-circle" src="/assets/img/not-found-avatar.png" width="150" height="150" style="background-color: #E9EBEE;">
                 </div>
             </div>
 
@@ -62,15 +63,60 @@
                     </div>
                 </div>
 
+                <div class="chef-item__box">
+                    <div class="d-flex justify-content-start align-items-center">
+                        <div class="chef-item__photo mr-3">
+                            <img src="https://graph.facebook.com/10154279898587202/picture?type=large" width="120" height="120">
+                        </div>
+                        <div class="chef-item__text ">
+                            <h5 class=""><strong>Salada Prosciuto</strong></h5>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+                        </div>
+                        <div class="chef-item__icon-arrow ml-auto"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+
+                <div class="chef-item__box">
+                    <div class="d-flex justify-content-start align-items-center">
+                        <div class="chef-item__photo mr-3">
+                            <img src="https://graph.facebook.com/10154279898587202/picture?type=large" width="120" height="120">
+                        </div>
+                        <div class="chef-item__text ">
+                            <h5 class=""><strong>Salada Prosciuto</strong></h5>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+                        </div>
+                        <div class="chef-item__icon-arrow ml-auto"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="col-md-4 col-lg-4">
-                <div class="cart">
-                    <div class="cart__header">
-                        <div><i class="fa fa-shopping-cart" aria-hidden="true"></i> Seu carrinho</div>
-                        <div>{{ $seller->name }}</div>
+
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h5>Seu carrinho</h5>
+                        <div><strong>{{ $seller->name }}</strong></div>
+                    </div>
+                    <div class="card-block">
+                    <h4 class="card-title">Carrinho vazio</h4>
+                        <p class="card-text">Tá esperando o que?</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Código do cupom">
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary" type="button">Go!</button>
+                            </span>
+                        </div>
+                       <a href="#" class="btn btn-primary btn-block">Finalizar compra</a>
                     </div>
                 </div>
+
             </div>
 
         </div>
