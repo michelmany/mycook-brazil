@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Space\CalculateDistance;
 
 class FrontendController extends Controller
 {
@@ -66,15 +67,24 @@ class FrontendController extends Controller
 
     public function singleChef($id, $city = '', $slug = '')
     {
-        $user = User::findOrFail($id);
+        $user_id = \Auth::id();
+        $addressUser = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
 
-        if ($slug !== $user->slug) {
-            return redirect()->to($user->url);
+        $seller = User::findOrFail($id);
+        $addressSeller = Address::where('user_id', $id)->orderBy('id', 'desc')->first();
+
+        $userLocal = new CalculateDistance($addressSeller->latitude, $addressSeller->longitude, 
+                    $addressUser->latitude, $addressUser->longitude, "K");
+        $seller->distance = round($userLocal->distance(), 2);
+
+
+        if ($slug !== $seller->slug) {
+            return redirect()->to($seller->url);
         }
 
-        if ($user->role == 'vendedor') {
+        if ($seller->role == 'vendedor') {
             return view('list.single-chef')
-                ->withSeller($user, $user->seller);
+                ->withSeller($seller, $seller->seller);
         } else {
             return redirect()->route('lista-chefs-page');
         }

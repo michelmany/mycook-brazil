@@ -15,6 +15,16 @@ import Portuguese from 'vee-validate/dist/locale/pt_BR'
 import Dictionary from './components/validators/dictionary'
 import VTooltip from 'v-tooltip'
 
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
+Vue.component('sweet-modal', SweetModal)
+Vue.component('sweet-modal-tab', SweetModalTab)
+
+import moment from 'moment'
+Object.defineProperty(Vue.prototype, '$moment', { value: moment })
+
+moment.locale('pt-br')
+
+
 Validator.extend('cpf', CpfValidator)
 Validator.addLocale(Portuguese);
 
@@ -41,4 +51,7 @@ Vue.component('query-home', require('./components/QueryHome.vue'));
 Vue.component('address-items', require('./components/Addresses.vue'));
 Vue.component('new-address', require('./components/NewAddressForm.vue'));
 Vue.component('list-chefs', require('./components/ListChefs.vue'));
+
+//Single Page
+Vue.component('cardapio', require('./components/single-chef/Cardapio.vue'));
 
