@@ -13,6 +13,9 @@
     </script>
     <title>MyCook | Delivery de comida caseira online | @yield('title')</title>
 
+    <!-- Polyfill for the v-tooltip etc -->
+    <script src="https://ft-polyfill-service.herokuapp.com/v2/polyfill.js?features=es6"></script>
+
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
