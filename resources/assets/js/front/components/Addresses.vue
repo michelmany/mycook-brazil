@@ -1,8 +1,10 @@
 <template>
     <div>
-        <transition-group name="fade" mode="out-in">
+        <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
+
+        <transition-group name="fade">
             <div class="address__item d-flex justify-content-between align-items-center" 
-                v-if="addresses.length >= 1" v-for="address in addresses" key="1">
+                v-for="(address, key, index) in addresses" :key="key">
                 <div>
                     <div class="address__title"v-if="address.name">{{ address.name }}</div>
                     <div class="address__address">
@@ -18,13 +20,12 @@
                 </div>
             </div>
 
-        </transition-group>
-
-        <transition name="fade" mode="out-in">
-            <div v-if="noAddress" class="address__item d-flex justify-content-between align-items-center">
-                Você não tem nenhum endereço cadastrado ainda.
+            <div v-if="addresses.length == 0" :key="1">
+                <div class="alert alert-warning" role="alert">
+                    Nenhum produto cadastrado no cardápio!
+                </div>
             </div>
-        </transition>
+        </transition-group>
 
     </div>
 </template>
@@ -32,24 +33,29 @@
 <script>
     import { HttpService } from '../services/httpService';
     let httpService = new HttpService();
+    import vueLoading from 'vue-loading-template'
 
     export default {
         data() {
             return {
+                loading: false,
                 tooltipMessage: "Excluir",
-                noAddress: false,
-                addresses: "",
+                addresses: {},
             }
         },
         methods: {
             listAddresses() {
-                axios.get('get-addresses')
-                .then((res) => {
-                    this.addresses = res.data;
-                    if (this.addresses.length === 0) {
-                        this.noAddress = true
-                    }
-                })
+                this.loading = true;
+
+                setTimeout(() => {
+                    axios.get('get-addresses')
+                    .then((res) => {
+                        this.addresses = res.data;
+                        this.loading = false;
+                        console.log(this.addresses)
+                    })
+                }, 500);
+
             },
             removeAddress(address) {
 
@@ -61,10 +67,6 @@
                     this.addresses.splice(index, 1);
 
                     toastr.success('Endereço excluído com sucesso!');
-
-                    if(this.addresses.length === 0) {
-                        this.noAddress = true;
-                    }
 
                 })
 
