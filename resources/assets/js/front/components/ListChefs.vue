@@ -37,7 +37,7 @@
             }
         },
         methods: {
-            listAddresses() {
+            listChefs() {
 
                 this.loading = true;
 
@@ -65,7 +65,7 @@
             }
         },
         mounted() {
-            this.listAddresses();
+            this.listChefs();
         }
     }
 </script>

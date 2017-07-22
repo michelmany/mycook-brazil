@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Address;
 use App\Http\Requests;
 use App\Mail\ContactForm;
+use App\Product;
+use App\ProductExtra;
+use App\Seller;
+use App\Space\CalculateDistance;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use App\Space\CalculateDistance;
 
 class FrontendController extends Controller
 {
@@ -17,8 +20,6 @@ class FrontendController extends Controller
     {
         return view('list.index');
 
-        //To do: 
-        // Listar os Chefs via axios para a routa que está pronta: /get-chefs
     }
 
     public function listChefs()
@@ -88,7 +89,14 @@ class FrontendController extends Controller
         } else {
             return redirect()->route('lista-chefs-page');
         }
+    }
 
+    public function listProducts($id)
+    {
+
+        $products = Product::where('seller_id', $id)->with('extras')->orderBy('id', 'asc')->get();
+
+        return response()->json($products);
     }
 
     public function contatoPost(Request $request)

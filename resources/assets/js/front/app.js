@@ -22,6 +22,12 @@ Vue.component('sweet-modal-tab', SweetModalTab)
 import moment from 'moment'
 Object.defineProperty(Vue.prototype, '$moment', { value: moment })
 
+import { extendMoment } from 'moment-range';
+const momentRange = extendMoment(moment);
+Object.defineProperty(Vue.prototype, '$momentRange', { value: momentRange })
+
+
+
 moment.locale('pt-br')
 
 

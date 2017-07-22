@@ -105,6 +105,8 @@ Route::post('/me/profile', function() {
 Route::get('/lista-chefs', 'FrontendController@index')->name('lista-chefs-page');
 Route::get('/get-chefs', 'FrontendController@listChefs')->name('get-chefs');
 
+Route::get('/get-products/{id}', 'FrontendController@listProducts')->name('get-products');
+
 Route::group(['prefix'=>'chefs'], function () {
     Route::get('{id}/{city?}/{slug?}', 'FrontendController@singleChef')->name('single-chef');
 });
