@@ -30,12 +30,15 @@
                         </div>
                         <transition name="slide-fade" mode="in-out">
                             <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
-                                <li v-for="weekDay in item.extras" class="text-uppercase" @click="selectDate(weekDay)">{{ weekDay.date }}</li>
+                                <li v-for="weekDay in item.extras" class="text-uppercase" 
+                                    v-bind:disabled="weekDay.quantity == 0" v-bind:class="{ disabled: weekDay.quantity == 0 }" 
+                                    @click="selectDate(weekDay.date, weekDay.time)">{{ weekDay.date }}</li>
                             </div>
                         </transition>
 
                     </div>
                 </div>
+
             </div>
 
             <div v-if="items.length == 0" :key="1">
@@ -44,17 +47,18 @@
                 </div>
             </div>
         </transition-group>
-            
+
         <sweet-modal ref="modalTime">
             <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
-
-            <div class="card mb-3">
+            
+            <!-- To do: adicionar component de trocar endereço direto no modal -->
+<!--             <div class="card mb-3">
                 <div class="card-block">
                     <h6 class="card-title text-uppercase">Endereço</h6>
                     <p class="card-text"><small>Estrada Francisco da Cruz Nunes 1234, Piratininga - Niterói/RJ</small></p>
                     <a href="#" class="btn btn-outline-secondary btn-sm">Trocar endereço</a>
                 </div>
-            </div>
+            </div> -->
 
             <div class="card">
                 <div class="card-block">
@@ -63,10 +67,9 @@
                     <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
                     
                     <div class="form-group">
-                        <select class="form-control" id="exampleSelect1" v-model="selectedTime">
+                        <select class="form-control" v-model="cartData.time">
                             <option disabled value="">Clique para selecionar</option>
-                            <option v-for="times in product.times">{{ formatTime(times) }} ~ {{  formatTimeMore30(times) }}</option>
-                            <!-- <option v-for="times in product.times">{{ moment(times) }} ~ {{  moment30more(times) }}</option> -->
+                            <option v-for="time in selectedTimes">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>
                         </select>
                     </div>
                     <!-- <i class="fa fa-arrow-circle-o-right"></i> -->
@@ -76,6 +79,8 @@
             
             <button slot="button" class="btn btn-submit-orange" @click="closeModalAndSubmit()">Continuar</button>
         </sweet-modal>
+            
+
 
     </section>
 </template>
@@ -95,24 +100,16 @@
                 btnLabel: "Adicionar",
                 loading: false,
                 showDays: false,
+                selectedTimes: [],
                 itemIndex: '',
-                weekDays: [],
                 now: '',
-                selectedTime: '',
-                selectedDay: '',
-                items: {
-                },
-                product: {
-                    times: []
-                }
+                items: {},
+                cartData: {},
             }
         },
         props: ["chefId"],
         watch: {
-            weekDays(theDay) {
 
-                // Todo: get fulldate from click to use into the cart.
-            }
         },
         methods: {
             getProducts() {
@@ -126,11 +123,9 @@
                         // console.log(res.data)
 
                         this.orderingWeekDays()
+                        this.getRangeTime()
                     })
                 }, 500);
-
-            },
-            getTimes() {
 
             },
             setNow() {
@@ -141,26 +136,19 @@
                 this.showDays = true
                 // console.log(event)
             },
-            calculateWeekDaysArray() {
-                const weekRange = moment.range(moment(), moment().add(6, 'days'));
-                const ArrayWeek = Array.from(weekRange.by('days'))
-                this.weekDays = ArrayWeek.map(d => d.format('ddd'))
-                this.weekDays[0] = "HOJE";
+            selectDate(weekday, weekdayTime) {
+                this.selectedTimes = weekdayTime;
 
-                // Todo: usar https://github.com/phoenixwong/vue2-timepicker no painel para selecionar os horários.
-
-            },
-            selectDate(weekday) {
-                this.selectedDay = weekday
+                this.cartData.date = weekday
                 this.setNow()
 
-                // O array do banco tem que chegar aqui
-                this.filterFromNow(['2017-07-20 10:00','2017-07-20 20:00', '2017-07-20 21:00'], weekday)
-
-                // console.log(this.selectedDay.times)
+                if(weekday == 'Hoje') {
+                    // console.log(weekdayTime)
+                    this.filterTodayTime(weekdayTime)
+                }
 
                 this.$refs.modalTime.open()
-                this.selectedTime = ""
+                this.cartData.time = ""
             },
             closeModalAndSubmit(ref) {
                 this.$refs.modalTime.close()
@@ -169,44 +157,44 @@
             },
             orderingWeekDays() {
 
-                    this.items.forEach( (item, index) => {
-                        if (this.items[index].extras.length > 0) {
+                this.items.forEach( (item, index) => {
+                    if (item.extras.length > 0) {
 
-                            // Pegando o array com extras de cada produto
-                            let thisExtraItems = this.items[index].extras
+                        // Crio um array com os dias da semana, com o primeiro dia sendo o dia atual (Hoje)                             
+                        const weekRange = moment.range(moment(), moment().add(6, 'days'));
+                        const ArrayWeek = Array.from(weekRange.by('days'))
+                        let ArrayWeekFinal = ArrayWeek.map(d => d.format('ddd'))
 
-                            // Crio um array com os dias da semana, com o primeiro dia sendo o dia atual (Hoje)                             
-                            const weekRange = moment.range(moment(), moment().add(6, 'days'));
-                            const ArrayWeek = Array.from(weekRange.by('days'))
-                            let ArrayWeekFinal = ArrayWeek.map(d => d.format('ddd'))
+                        // Ordeno meu array com os extras de acordo com a ordem do array com os dias da semana
+                        item.extras.sort(function(a,b) { 
+                            return ArrayWeekFinal.indexOf(a.date) > ArrayWeekFinal.indexOf(b.date); 
+                        });
 
-                            // Ordeno meu array com os extras de acordo com a ordem do array com os dias da semana
-                            thisExtraItems.sort(function(a,b) { 
-                                return ArrayWeekFinal.indexOf(a.date) > ArrayWeekFinal.indexOf(b.date); 
-                            });
-                            // console.log(thisExtraItems)
+                        // Troco o nome do primeiro botão que é sempre "HOJE"
+                        item.extras[0].date = "Hoje"
 
-                        }
-                    })
+                    }
+                })
 
             },
-            filterFromNow(times, weekday) {
+            getRangeTime() {
+                this.items.forEach( (item, index) => {
+                    item.extras.forEach( (extra, index) => {
+                        const TimeRange = moment.range(moment(extra.start_time,'HH:mm'), moment(extra.end_time, 'HH:mm'));
+                        const ArrayTimes = Array.from(TimeRange.by('hours'))
+                        let arrayTimesFinal = ArrayTimes.map(h => h.format(''))
 
-                console.log("Agora são: " + moment(this.now).format('HH[H]mm'))
-                console.log("Dia selecionado: " + weekday)
-                console.log(times)
-                console.log("NOW " + this.now)
-
-                if (weekday == "HOJE") {
-                    this.product.times = []
-                    for (let i = 0 ; i < times.length ; i++){
-                        console.log(moment(times[i]).unix())
-                        if (moment(times[i]).unix() > this.now)
-                           this.product.times.push(times[i])
+                        extra.time = arrayTimesFinal;
+                    })
+                })
+            },
+            filterTodayTime(times) {
+                this.selectedTimes = []
+                times.forEach((time, index) =>  {
+                    if (moment(time).unix() > this.now) {
+                        this.selectedTimes.push(time)
                     }
-                } else {
-                    this.product.times = times
-                }
+                })
             },
             formatTime(time) {
                 return moment(time).format('HH[h]mm')
@@ -218,28 +206,17 @@
 
         },
         mounted() {
-
             this.getProducts()
-
         },
         created() {
             this.setNow()
-            this.calculateWeekDaysArray()
             // console.log(this.chef.times)
-
-
-            // Chega aqui do Banco o valor de start e de end do dia selecionado pelo user
-            const timesTest = moment.range('2017-07-20 10:00', '2017-07-20 21:00')
-            const times = Array.from(timesTest.by('hours'))
-
-            this.product.times = times.map(m => m.format('YYYY-MM-DD HH:mm'))
-
         }
 
     }
 </script>
 
-<style>
+<style scoped>
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {
@@ -252,5 +229,9 @@
 /* .slide-fade-leave-active for <2.1.8 */ {
   transform: translateY(20px);
   opacity: 0;
+}
+.disabled {
+    pointer-events: none;
+    color: #d4d4d4;
 }
 </style>
