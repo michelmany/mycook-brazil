@@ -9,6 +9,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+export const eventBus = new Vue();
+
 import VeeValidate, { Validator } from 'vee-validate'
 import CpfValidator from './components/validators/cpf.validator'
 import Portuguese from 'vee-validate/dist/locale/pt_BR'
@@ -60,4 +62,5 @@ Vue.component('list-chefs', require('./components/ListChefs.vue'));
 
 //Single Page
 Vue.component('cardapio', require('./components/single-chef/Cardapio.vue'));
+Vue.component('cart', require('./components/single-chef/Cart.vue'));
 

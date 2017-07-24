@@ -31,13 +31,46 @@
                         <transition name="slide-fade" mode="in-out">
                             <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
                                 <li v-for="weekDay in item.extras" class="text-uppercase" 
-                                    v-bind:disabled="weekDay.quantity == 0" v-bind:class="{ disabled: weekDay.quantity == 0 }" 
-                                    @click="selectDate(weekDay.date, weekDay.time)">{{ weekDay.date }}</li>
+                                    v-bind:disabled="weekDay.quantity == 0" 
+                                    v-bind:class="{ disabled: weekDay.quantity == 0 }" 
+                                    @click="selectDate(weekDay, index)">{{ weekDay.date }}</li>
                             </div>
                         </transition>
 
                     </div>
                 </div>
+
+                <sweet-modal ref="modalTime">
+                    <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
+                    
+                    <!-- To do: adicionar component de trocar endereço direto no modal -->
+        <!--             <div class="card mb-3">
+                        <div class="card-block">
+                            <h6 class="card-title text-uppercase">Endereço</h6>
+                            <p class="card-text"><small>Estrada Francisco da Cruz Nunes 1234, Piratininga - Niterói/RJ</small></p>
+                            <a href="#" class="btn btn-outline-secondary btn-sm">Trocar endereço</a>
+                        </div>
+                    </div> -->
+
+                    <div class="card">
+                        <div class="card-block">
+                            <h6 class="card-title text-uppercase">Informe o horário</h6>
+                            <h4 class="card-text">
+                            <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
+                            
+                            <div class="form-group">
+                                <select class="form-control" v-model="cartData.time">
+                                    <option disabled value="">Clique para selecionar</option>
+                                    <option v-for="time in selectedTimes">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>
+                                </select>
+                            </div>
+                            <!-- <i class="fa fa-arrow-circle-o-right"></i> -->
+                            </h4>
+                        </div>
+                    </div>
+                    
+                    <button slot="button" class="btn btn-submit-orange" @click="addItem(index)">Continuar</button>
+                </sweet-modal>
 
             </div>
 
@@ -48,45 +81,11 @@
             </div>
         </transition-group>
 
-        <sweet-modal ref="modalTime">
-            <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
-            
-            <!-- To do: adicionar component de trocar endereço direto no modal -->
-<!--             <div class="card mb-3">
-                <div class="card-block">
-                    <h6 class="card-title text-uppercase">Endereço</h6>
-                    <p class="card-text"><small>Estrada Francisco da Cruz Nunes 1234, Piratininga - Niterói/RJ</small></p>
-                    <a href="#" class="btn btn-outline-secondary btn-sm">Trocar endereço</a>
-                </div>
-            </div> -->
-
-            <div class="card">
-                <div class="card-block">
-                    <h6 class="card-title text-uppercase">Informe o horário</h6>
-                    <h4 class="card-text">
-                    <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
-                    
-                    <div class="form-group">
-                        <select class="form-control" v-model="cartData.time">
-                            <option disabled value="">Clique para selecionar</option>
-                            <option v-for="time in selectedTimes">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>
-                        </select>
-                    </div>
-                    <!-- <i class="fa fa-arrow-circle-o-right"></i> -->
-                    </h4>
-                </div>
-            </div>
-            
-            <button slot="button" class="btn btn-submit-orange" @click="closeModalAndSubmit()">Continuar</button>
-        </sweet-modal>
-            
-
-
     </section>
 </template>
 
 <script>
-
+    import { eventBus } from '../../app';
     import vueLoading from 'vue-loading-template'
     import Moment from 'moment';
     import { extendMoment } from 'moment-range';
@@ -104,7 +103,11 @@
                 itemIndex: '',
                 now: '',
                 items: {},
-                cartData: {},
+                cartData: {
+                    time: '',
+                    date: ''
+                },
+                cartItems: []
             }
         },
         props: ["chefId"],
@@ -136,22 +139,28 @@
                 this.showDays = true
                 // console.log(event)
             },
-            selectDate(weekday, weekdayTime) {
-                this.selectedTimes = weekdayTime;
-
-                this.cartData.date = weekday
+            selectDate(weekday, index) {
                 this.setNow()
+                this.selectedTimes = weekday.time
+                this.cartData.date = weekday.date
+                this.cartData.fulldate = weekday.fulldate
 
-                if(weekday == 'Hoje') {
-                    // console.log(weekdayTime)
-                    this.filterTodayTime(weekdayTime)
+                // Filtra os horários de hoje
+                if(weekday.date == 'Hoje') {
+                    this.filterTodayTime(weekday.time)
                 }
 
-                this.$refs.modalTime.open()
+                this.$refs.modalTime[index].open()
                 this.cartData.time = ""
             },
-            closeModalAndSubmit(ref) {
-                this.$refs.modalTime.close()
+            addItem(index) {
+                this.$refs.modalTime[index].close()
+                this.cartItems.push(this.items[index])
+
+
+                eventBus.$emit('cartItems', this.cartItems);
+                eventBus.$emit('cartData', this.cartData);
+
 
                 //add to the cart
             },
@@ -161,13 +170,13 @@
                     if (item.extras.length > 0) {
 
                         // Crio um array com os dias da semana, com o primeiro dia sendo o dia atual (Hoje)                             
-                        const weekRange = moment.range(moment(), moment().add(6, 'days'));
+                        const weekRange = moment.range(moment(), moment().add(6, 'days'))
                         const ArrayWeek = Array.from(weekRange.by('days'))
                         let ArrayWeekFinal = ArrayWeek.map(d => d.format('ddd'))
 
                         // Ordeno meu array com os extras de acordo com a ordem do array com os dias da semana
-                        item.extras.sort(function(a,b) { 
-                            return ArrayWeekFinal.indexOf(a.date) > ArrayWeekFinal.indexOf(b.date); 
+                        item.extras.sort(function(a,b) {
+                            return ArrayWeekFinal.indexOf(a.date) > ArrayWeekFinal.indexOf(b.date);
                         });
 
                         // Troco o nome do primeiro botão que é sempre "HOJE"
@@ -182,9 +191,17 @@
                     item.extras.forEach( (extra, index) => {
                         const TimeRange = moment.range(moment(extra.start_time,'HH:mm'), moment(extra.end_time, 'HH:mm'));
                         const ArrayTimes = Array.from(TimeRange.by('hours'))
-                        let arrayTimesFinal = ArrayTimes.map(h => h.format(''))
+                        //To do: Colocar o range de 30 em 30 minutos ao invés de hora em hora
+                        let arrayTimesFinal = ArrayTimes.map(h => h.format())
 
                         extra.time = arrayTimesFinal;
+                        extra.fulldate = moment().add(index, 'days').format('ddd, DD/MM')
+
+                        if(index == 0) {
+                            extra.fulldate = moment().format('[Hoje], DD/MM')
+                        } else if (index == 1) {
+                            extra.fulldate = moment().add(index, 'days').format('[Amanhã], DD/MM')
+                        }
                     })
                 })
             },

@@ -22,7 +22,7 @@
                     <p>A casa aposta no conceito de gastrobar, ou seja, oferece uma boa gastronomia com toda a descontração de um bar. No cardápio assinado pelo chef Waldomiro Santos, que tem passagem pelo Bar des Arts e O Leopolldo, pratos com toque autoral como a picanha grelhada ao molho à base de creme de leite e shoyu com shiitake laminado, guarnecido de risoto do próprio molho.</p>
                 </div>
                 <div class="col-md-3 col-lg-4">
-                    Avaliação
+                    {{-- Avaliação --}}
                 </div>
             </div>
         </div>
@@ -43,27 +43,7 @@
                 </div>
 
                 <div class="col-md-12 col-lg-4 hidden-md-down">
-
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <h5>Seu carrinho</h5>
-                            <div><strong>{{ $seller->name }}</strong></div>
-                        </div>
-                        <div class="card-block">
-                            <h4 class="card-title">Carrinho vazio</h4>
-                            <p class="card-text">Tá esperando o que?</p>
-                        </div>
-                        <div class="card-footer text-muted">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Código do cupom">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-secondary" type="button">Aplicar</button>
-                                </span>
-                            </div>
-                            <a href="#" class="btn btn-primary btn-block">Finalizar compra</a>
-                        </div>
-                    </div>
-
+                    <cart chef-name="{{ $seller->name }}"></cart>
                 </div>
 
             </div>
@@ -79,9 +59,7 @@
 <script>
     var SingleChefsPage = new Vue({
         el: '#single-chef-page',
-        data: {
-            oi: "oii"
-        }
+        data: {}
     });
 </script>
 @endsection
