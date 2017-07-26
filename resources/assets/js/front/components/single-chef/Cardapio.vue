@@ -103,9 +103,10 @@
                 itemIndex: '',
                 now: '',
                 items: {},
+                selectedAvailableQty: '',
                 cartData: {
                     time: '',
-                    date: ''
+                    date: '',
                 },
                 cartItems: []
             }
@@ -144,25 +145,39 @@
                 this.selectedTimes = weekday.time
                 this.cartData.date = weekday.date
                 this.cartData.fulldate = weekday.fulldate
+                this.selectedAvailableQty = weekday.quantity
 
-                // Filtra os horários de hoje
+                // Fitler the time for today
                 if(weekday.date == 'Hoje') {
                     this.filterTodayTime(weekday.time)
                 }
 
                 this.$refs.modalTime[index].open()
-                this.cartData.time = ""
+
+                // Clear cart when user selects new date or time
+                this.clearCart()
             },
             addItem(index) {
                 this.$refs.modalTime[index].close()
-                this.cartItems.push(this.items[index])
+                var item = this.items[index];
 
+                this.cartItems.push({
+                    id: item.id,
+                    name: item.name,
+                    desc: item.desc,
+                    price: item.price,
+                    availableQty: this.selectedAvailableQty,
+                    qty: 1
+                })
 
+                //add to the cart
                 eventBus.$emit('cartItems', this.cartItems);
                 eventBus.$emit('cartData', this.cartData);
 
-
-                //add to the cart
+            },
+            clearCart() {
+                this.cartData.time = ""
+                this.cartItems = []
             },
             orderingWeekDays() {
 

@@ -112,3 +112,15 @@
         }
     }
 }
+
+.cart {
+    &__item {
+        border-bottom: 1px solid #e2e2e2;
+        padding: 20px 0;
+    }
+    &__qty {
+        font-size: 12px;
+        color: #caa3a3;
+        margin-top: 15px;
+    }
+}
