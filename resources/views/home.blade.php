@@ -13,7 +13,6 @@
                 <div id="queryHome">
                     <query-home></query-home>
                 </div>
-                <p class="search__text mt-3">Não sabe o CEP? <br class="hidden-sm-up"><strong>Clique aqui</strong> e digite seu endereço.</p>
             </div> 
 
         </div>

@@ -10,74 +10,75 @@ use App\ProductExtra;
 use App\Seller;
 use App\Space\CalculateDistance;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
 {
-    public function index()
-    {
-        return view('list.index');
+    private $radius = 5;
+    private $earth_radius = 6371;
+    private $address_lat;
+    private $address_lng;
+    private $result;
 
+    public function index($latitude = '', $longitude = '')
+    {
+        // dd($cep);
+        if (!empty($latitude) && !empty($longitude)) {
+            return view('list.index', ['latitude' => $latitude, 'longitude' => $longitude]);
+        } else {
+            return view('list.index');
+        }
     }
 
+    // When logged and have address
     public function listChefs()
     {
-        $radius = 5;
-        $earth_radius = 6371;
+        if ( Auth::check() ) {
+            $user_id = \Auth::id();
+            $address = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
+            $this->address_lat = $address->latitude;
+            $this->address_lng = $address->longitude;
 
-        $user_id = \Auth::id();
-        $address = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
-
-        if ($address) {
-
-            // Get all chefs 
-            $result = DB::table('addresses')
-                ->select(DB::raw('user_id, users.name, users.avatar,
-                    ( '.$earth_radius.' * acos( cos( radians('.$address->latitude.') ) * cos( radians( latitude ) ) * cos( radians( longitude )
-                        - radians('.$address->longitude.') )
-                        + sin( radians('.$address->latitude.') )
-                        * sin(radians(latitude)) ) )
-                        AS distance
-                    '))
-                ->where('role', '=', 'vendedor')
-                ->where('active', '=', 1)
-                ->having('distance', '<=', $radius)
-                ->join('users', 'addresses.user_id', '=', 'users.id')
-                ->orderBy('distance', 'asc')
-                ->get();
+            if ($address) {
+                $this->getChefsByDistance();
             } else {
-                return "O seu endereço cadastro parece estar incorreto. Por favor altere seu endereço principal!";
-
-                //Todo: Create functionality to get the chefs by a CEP even not logged in
+                return response()->route('home');
             }
 
-            $avatar_url = \Storage::cloud()->url('filename');
+        } else {
+            return redirect()->route('entrar');
+        }
 
-            foreach ($result as $chef) {
-                $chef->avatar = $avatar_url = \Storage::cloud()->url('avatar/' . $chef->avatar);
-            }
+        //Todo:
+        // Ao clicar no endereço listado, salvar automaticamente como favorito. E listar sempre bt favorite.
 
-            //Todo:
-            // Listar também caso o user não esteja logado. Pegar pelo CEP.
-            // Ao clicar no endereço listado, salvar automaticamente como favorito. E listar sempre bt favorite.
+        return response()->json($this->result);
+    }
 
-            return response()->json($result);
+    public function listChefsByCep(Request $request)
+    {
+        $this->address_lat = $request->latitude;
+        $this->address_lng = $request->longitude;
+        $this->getChefsByDistance();
+        return response()->json($this->result);
     }
 
     public function singleChef($id, $city = '', $slug = '')
     {
-        $user_id = \Auth::id();
-        $addressUser = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
-
         $seller = User::findOrFail($id);
         $addressSeller = Address::where('user_id', $id)->orderBy('id', 'desc')->first();
+        
+        if ( Auth::check() ) {
+            $user_id = Auth::id();
+            $addressUser = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
 
-        $userLocal = new CalculateDistance($addressSeller->latitude, $addressSeller->longitude, 
-                    $addressUser->latitude, $addressUser->longitude, "K");
-        $seller->distance = round($userLocal->distance(), 2);
-
+            $userLocal = new CalculateDistance($addressSeller->latitude, $addressSeller->longitude, 
+                        $addressUser->latitude, $addressUser->longitude, "K");
+            $seller->distance = round($userLocal->distance(), 2);
+        } 
 
         if ($slug !== $seller->slug) {
             return redirect()->to($seller->url);
@@ -122,6 +123,35 @@ class FrontendController extends Controller
         return [
             'sender_name.required' => 'A title is required'
         ];
+    }
+
+    private function getChefsByDistance()
+    {
+        // Get all chefs 
+        $this->result = DB::table('addresses')
+            ->select(DB::raw('user_id, users.name, users.avatar,
+                ( '.$this->earth_radius.' * acos( cos( radians('.$this->address_lat.') ) * cos( radians( latitude ) ) * cos( radians( longitude )
+                    - radians('.$this->address_lng.') )
+                    + sin( radians('.$this->address_lat.') )
+                    * sin(radians(latitude)) ) )
+                    AS distance
+                '))
+            ->where('role', '=', 'vendedor')
+            ->where('active', '=', 1)
+            ->having('distance', '<=', $this->radius)
+            ->join('users', 'addresses.user_id', '=', 'users.id')
+            ->orderBy('distance', 'asc')
+            ->get();
+
+            // Get avatar
+            foreach ($this->result as $chef) {
+                if (empty($chef->avatar)) {
+                    $chef->avatar = url('assets/img/no-image_01.jpg');
+                } else {
+                    $chef->avatar = \Storage::cloud()->url('avatar/' . $chef->avatar);
+                }
+            }
+
     }
 
 }

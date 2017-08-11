@@ -24,9 +24,12 @@
             <div>
                 <h2>Chefs</h2>
             </div>
-        </div>
-
-        <list-chefs></list-chefs>
+        </div>      
+        @if (isset($latitude))
+            <list-chefs :latitude="{{ $latitude }}" :longitude="{{ $longitude }}"></list-chefs>
+        @else
+            <list-chefs></list-chefs>
+        @endif
 
     </div>
 </div>

@@ -102,8 +102,14 @@ Route::post('/me/profile', function() {
     return 'Aqui salvamos os dados vindos do formulário de edição do perfil';
 })->name('profileSave');
 
-Route::get('/lista-chefs', 'FrontendController@index')->name('lista-chefs-page');
+// Open the lista-chefs page
+// Route::get('/lista-chefs/{cep?}', 'FrontendController@index')->name('lista-chefs-page');
+Route::get('/lista-chefs/{latitude?}/{longitude?}', 'FrontendController@index')->name('lista-chefs-page');
+// Get the chefs list by vue axios
 Route::get('/get-chefs', 'FrontendController@listChefs')->name('get-chefs');
+//Get chefs by cep
+Route::post('/lista-chefs/{latitude?}/{longitude?}', 'FrontendController@listChefsByCep')->name('get-chefs-by-cep');
+
 
 Route::get('/get-products/{id}', 'FrontendController@listProducts')->name('get-products');
 

@@ -3,8 +3,8 @@
 
         <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
 
-        <transition name="fade">
-            <div class="row" v-if="chefs.length > 0" key="2">
+        <transition-group name="component-fade" mode="out-in">
+            <div class="row" v-if="chefs.length > 0" key="results">
                 <div class="col-md-6 col-lg-6" v-for="chef in chefs" >
                     <div class="chef-item__box" @click="goToSinglePage(chef.user_id)">
                         <div class="d-flex justify-content-start align-items-center">
@@ -20,22 +20,33 @@
                     </div>
                 </div>
             </div>
-        </transition>
-        <!-- TODO: criar uma mensagem quando não tiver resultados -->
+            <div v-show="chefs.length == 0" key="no-results">
+                <div class="alert alert-warning" role="alert">
+                    Infelizmente não encontramos nenhum Chef perto de você!
+                </div>
+            </div>
+        </transition-group>
 
     </div>
 </template>
 
 <script>
     import vueLoading from 'vue-loading-template'
+    import { eventBus } from '../app';
+    import { HttpService } from '../services/httpService'
+    let httpService = new HttpService();
 
     export default {
         data() {
             return {
                 loading: false,
-                chefs: {}
+                chefs: {},
+                user: {},
+                address: {},
+                coordinates: {}
             }
         },
+        props: ["latitude", "longitude"],
         methods: {
             listChefs() {
 
@@ -44,20 +55,35 @@
                 setTimeout(() => {
                     axios.get('get-chefs')
                     .then((res) => {
+                        console.log(res.data)
                         this.loading = false
                         this.chefs = res.data
                     })
                 }, 500);
 
             },
+            listChefsByCoordinates() {
+                this.loading = true;
+
+                setTimeout(() => {
+                    axios.post('get-chefs-by-cep', this.coordinates)
+                    .then((res) => {
+                        // console.log(res.data)
+                        this.loading = false
+                        this.chefs = res.data
+                    })
+                }, 500);
+            },
             roundDistance: function(chef) {
-                let chefDistance = chef.toFixed(2)
-                if (chefDistance <= 0.1) {
-                    chefDistance = "A menos de 100 metros de você!"
-                } else {
-                    chefDistance = `A ${chefDistance} Km de distância`
+                if (chef) {
+                    let chefDistance = chef.toFixed(2)
+                    if (chefDistance <= 0.1) {
+                        chefDistance = "A menos de 100 metros de você!"
+                    } else {
+                        chefDistance = `A ${chefDistance} Km de distância`
+                    }
+                    return chefDistance;
                 }
-                return chefDistance;
             },
             goToSinglePage(id) {
                 // console.log(id)
@@ -65,18 +91,29 @@
             }
         },
         mounted() {
-            this.listChefs();
+            // if there's coordinates from the url
+            var coordinatesObjectSize = Object.keys(this.coordinates).length;
+            if (coordinatesObjectSize > 0) {
+                this.listChefsByCoordinates()
+            } else {
+                this.listChefs()
+            }
+
+        },
+        created() {
+            if (this.latitude && this.longitude) {
+                this.coordinates.latitude = this.latitude;
+                this.coordinates.longitude = this.longitude;
+            }
         }
     }
 </script>
 
 <style>
-    .fade-enter-active, 
-    .fade-leave-active {
-      transition: opacity .5s
+    .component-fade-enter-active, .component-fade-leave-active {
+      transition: opacity .5s ease;
     }
-    .fade-enter, 
-    .fade-leave-to {
-      opacity: 0
+    .component-fade-enter, .component-fade-leave-to {
+      opacity: 0;
     }
 </style>

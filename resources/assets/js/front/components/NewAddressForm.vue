@@ -187,9 +187,9 @@
                 }
             },
             getLocation() {
-                var address = this.address.address + "," + this.address.neighborhood 
-                    + "," + this.address.city + "," + this.address.state + "," + "Brasil" || this.address.cep;
-                var addressUrl = address.replace(" ", "+");
+                var address = this.address.address + ",+" + this.address.number + "+-+" + this.address.neighborhood + ",+" + this.address.city + "+-+" + this.address.state + ",+Brasil" || this.address.cep;
+
+                var addressUrl = address.replace(/ /g,"+");
                 var key = 'AIzaSyAwgqK1Q77MA7youjVulJUH7rsRC9ikOY8';
 
                 httpService.xmlHttpRequest('https://maps.googleapis.com/maps/api/geocode/json?address=' + addressUrl + '&sensor=true&key=' + key).then((res) => {
