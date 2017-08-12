@@ -5,7 +5,7 @@
 
         <transition-group name="component-fade" mode="out-in">
             <div class="row" v-if="chefs.length > 0" key="results">
-                <div class="col-md-6 col-lg-6" v-for="chef in chefs" >
+                <div class="col-md-6 col-lg-6" v-for="chef in filteredChefs" >
                     <div class="chef-item__box" @click="goToSinglePage(chef.user_id)">
                         <div class="d-flex justify-content-start align-items-center">
                             <div class="chef-item__photo mr-3">
@@ -23,6 +23,11 @@
             <div v-show="chefs.length == 0" key="no-results">
                 <div class="alert alert-warning" role="alert">
                     Infelizmente não encontramos nenhum Chef perto de você!
+                </div>
+            </div>
+            <div v-show="chefs.length > 0 && filteredChefs.length == 0" key="no-results">
+                <div class="alert alert-warning" role="alert">
+                    Desculpe, não encontramos nenhum Chef com este nome!
                 </div>
             </div>
         </transition-group>
@@ -43,7 +48,8 @@
                 chefs: {},
                 user: {},
                 address: {},
-                coordinates: {}
+                coordinates: {},
+                search: ''
             }
         },
         props: ["latitude", "longitude"],
@@ -55,7 +61,7 @@
                 setTimeout(() => {
                     axios.get('get-chefs')
                     .then((res) => {
-                        console.log(res.data)
+                        // console.log(res.data)
                         this.loading = false
                         this.chefs = res.data
                     })
@@ -74,6 +80,10 @@
                     })
                 }, 500);
             },
+            searchChef(chefName) {
+                this.search = chefName;
+                // alert(chefName);
+            },
             roundDistance: function(chef) {
                 if (chef) {
                     let chefDistance = chef.toFixed(2)
@@ -88,6 +98,16 @@
             goToSinglePage(id) {
                 // console.log(id)
                 window.location.href = "/chefs/" + id;
+            }
+        },
+        computed: {
+            filteredChefs() {
+                // return this.chefs;
+                var self = this;
+                return this.chefs.filter(function(chef) {
+                    // console.log(chef.name)
+                    return chef.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
+                });
             }
         },
         mounted() {
@@ -105,6 +125,9 @@
                 this.coordinates.latitude = this.latitude;
                 this.coordinates.longitude = this.longitude;
             }
+            
+            // Receive data from SearchChef.vue
+            eventBus.$on('search-chef', this.searchChef);
         }
     }
 </script>

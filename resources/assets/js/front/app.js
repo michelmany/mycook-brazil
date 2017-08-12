@@ -59,8 +59,11 @@ Vue.component('query-home', require('./components/QueryHome.vue'));
 Vue.component('address-items', require('./components/Addresses.vue'));
 Vue.component('new-address', require('./components/NewAddressForm.vue'));
 Vue.component('list-chefs', require('./components/ListChefs.vue'));
+Vue.component('search-chef', require('./components/SearchChef.vue'));
 
 //Single Page
 Vue.component('cardapio', require('./components/single-chef/Cardapio.vue'));
 Vue.component('cart', require('./components/single-chef/Cart.vue'));
+
+
 
