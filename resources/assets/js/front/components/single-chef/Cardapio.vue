@@ -26,7 +26,7 @@
                             <button class="btn btn-outline-primary text-uppercase" @click="openDaysOrAddToCart(item, index, $event)">{{ btnLabel }}</button>
                            
                             <!-- To do: Pegar os times de todos os dias (start_time and end_time) e mostrar na div abaixo o menor e o maior horário -->
-                            <div class="cardapio__time">11h30 às 18h00</div>
+                            <div class="cardapio__time">{{ timeRangeAvailable(item) }}</div>
                         </div>
                         <transition name="slide-fade" mode="in-out">
                             <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
@@ -282,7 +282,21 @@
             formatTimeMore30(timeSelected) {
                 return moment(timeSelected).add(30, 'm').format('HH[h]mm')
                 // console.log(date)
+            },
+            timeRangeAvailable(item) {
+                var newArrayMin = [];
+                var newArrayMax = [];
+                item.extras.forEach((extra) => {
+                    newArrayMin.push(extra.start_time);
+                })
+                item.extras.forEach((extra) => {
+                    newArrayMax.push(extra.end_time);
+                })
+                return _.min(newArrayMin) + " às " + _.max(newArrayMax);
             }
+
+        },
+        computed: {
 
         },
         mounted() {
