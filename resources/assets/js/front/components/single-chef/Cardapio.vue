@@ -15,7 +15,7 @@
                             <div class="cardapio__desc">{{ item.desc }}</div>
                             <span class="cardapio__serve badge badge-primary">Serve {{ item.serve }}</span>
                             <!-- To do: Pegar os dias que tem times setados e mostrar no span abaixo -->
-                            <span class="cardapio__serve badge badge-default">Sex, Sab, Dom</span>
+                            <span class="cardapio__serve badge badge-default">{{ dateRangeBadge(item) }}</span>
                         </div>
                     </div>
                 </div>
@@ -107,6 +107,7 @@
                 itemIndex: '',
                 now: '',
                 items: {},
+                dateRangeAvailable: [],
                 selectedAvailableQty: '',
                 selectedDateIndex: '',
                 cartData: {
@@ -210,7 +211,7 @@
                             this.items.splice(index, 1);
                         }
                     })
-                })
+                });
 
                 this.isListFiltered = true;
 
@@ -293,12 +294,20 @@
                     newArrayMax.push(extra.end_time);
                 })
                 return _.min(newArrayMin) + " às " + _.max(newArrayMax);
+            },
+            dateRangeBadge(item) {
+                var dateRange = [];
+                item.extras.forEach((extra) => {
+                    if(extra.quantity) {
+                        dateRange.push(extra.date);
+                    }
+                })
+                return dateRange.join(", ");
+
             }
 
         },
-        computed: {
 
-        },
         mounted() {
             this.getProducts()
         },
