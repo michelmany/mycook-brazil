@@ -69,7 +69,10 @@
                         </div>
                     </div>
                     
-                    <button slot="button" class="btn btn-submit-orange" @click="continueToCart(item, index)">Continuar</button>
+                    <button slot="button" class="btn btn-submit-orange" 
+                    v-bind:disabled="cartData.time.length == 0" 
+                    v-bind:class="{ disabled: cartData.time.length == 0 }" 
+                    @click="continueToCart(item, index)">Continuar</button>
                 </sweet-modal>
 
             </div>
@@ -172,11 +175,6 @@
                 this.addItem(item, index);
             },
             addItem(item, index) {
-                // var item = this.items[index];
-
-                // console.log(item)
-
-                // console.log(this.selectedDateIndex)
 
                 //add to the cart
                 this.cartItems.push({
@@ -184,7 +182,7 @@
                     name: item.name,
                     desc: item.desc,
                     price: item.price,
-                    availableQty: item.quantity,
+                    availableQty: item.extras[this.selectedDateIndex].quantity,
                     qty: 1
                 })
                 eventBus.$emit('cartItems', this.cartItems, this.cartData);
