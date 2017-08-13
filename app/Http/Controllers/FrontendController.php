@@ -22,6 +22,7 @@ class FrontendController extends Controller
     private $address_lat;
     private $address_lng;
     private $result;
+    private $day;
 
     public function index($latitude = '', $longitude = '')
     {
@@ -92,13 +93,30 @@ class FrontendController extends Controller
         }
     }
 
-    public function listProducts($id)
+    public function listProducts($id, $day = null)
     {
+        if(empty($day)) {
+            $products = Product::where('seller_id', $id)->with('extras')->orderBy('id', 'asc')->get();
+        } else {
+            $this->day = $day;
 
-        $products = Product::where('seller_id', $id)->with('extras')->orderBy('id', 'asc')->get();
+            $products = Product::where('seller_id', $id)
+                        ->join('product_extras', function ($join) {
+                            $join->on('products.id', '=', 'product_extras.product_id')
+                                 ->where('product_extras.date', '=', $this->day)
+                                 ->where('product_extras.quantity', '>', 0);
+                        })->get();
+        }
 
         return response()->json($products);
     }
+    // public function listFilteredProducts($id)
+    // {
+
+    //     $products = Product::where('seller_id', $id)->with('extras')->orderBy('id', 'asc')->get();
+
+    //     return response()->json($products);
+    // }
 
     public function contatoPost(Request $request)
     {

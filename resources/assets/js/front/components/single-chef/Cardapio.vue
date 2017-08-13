@@ -3,8 +3,8 @@
 
         <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
 
-        <transition-group name="fade">
-            <div class="cardapio__item" v-for="(item, index) in items" :key="index">
+        <transition-group name="component-fade" mode="out-in">
+            <div class="cardapio__item" v-for="(item, index) in items" key="itemKey">
                 <div class="row px-3">
                     <div class="col-md-3 col-lg-5">
                         <div class="cardapio__image mb-3" style="background-image: url('/assets/img/hero-02.jpg')"></div>
@@ -23,17 +23,17 @@
                     <div class="col-md-12 px-0">
                         <div class="cardapio__footer d-flex justify-content-between align-items-center flex-wrap mt-3">
                             <div class="cardapio__price">R$ {{ item.price }}</div>
-                            <button class="btn btn-outline-primary text-uppercase" @click="openDays(index, $event)">{{ btnLabel }}</button>
+                            <button class="btn btn-outline-primary text-uppercase" @click="openDaysOrAddToCart(item, index, $event)">{{ btnLabel }}</button>
                            
                             <!-- To do: Pegar os times de todos os dias (start_time and end_time) e mostrar na div abaixo o menor e o maior horário -->
                             <div class="cardapio__time">11h30 às 18h00</div>
                         </div>
                         <transition name="slide-fade" mode="in-out">
                             <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
-                                <li v-for="weekDay in item.extras" class="text-uppercase" 
+                                <li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase" 
                                     v-bind:disabled="weekDay.quantity == 0" 
                                     v-bind:class="{ disabled: weekDay.quantity == 0 }" 
-                                    @click="selectDate(weekDay, index)">{{ weekDay.date }}</li>
+                                    @click="selectDate(weekDay, dayIndex, index)">{{ weekDay.date }}</li>
                             </div>
                         </transition>
 
@@ -69,14 +69,13 @@
                         </div>
                     </div>
                     
-                    <button slot="button" class="btn btn-submit-orange" @click="addItem(index)">Continuar</button>
+                    <button slot="button" class="btn btn-submit-orange" @click="continueToCart(item, index)">Continuar</button>
                 </sweet-modal>
 
             </div>
-
-            <div v-if="items.length == 0" :key="1">
+            <div v-show="items.length == 0" key="message">
                 <div class="alert alert-warning" role="alert">
-                    Nenhum produto cadastrado no cardápio!
+                    {{noItemTextMessage}}
                 </div>
             </div>
         </transition-group>
@@ -97,13 +96,16 @@
         data() {
             return {
                 btnLabel: "Adicionar",
+                noItemTextMessage: "Nenhum produto cadastrado no cardápio!",
                 loading: false,
                 showDays: false,
+                isListFiltered: false,
                 selectedTimes: [],
                 itemIndex: '',
                 now: '',
                 items: {},
                 selectedAvailableQty: '',
+                selectedDateIndex: '',
                 cartData: {
                     time: '',
                     date: '',
@@ -135,17 +137,25 @@
             setNow() {
                 this.now = moment().unix()
             },
-            openDays(index, event) {
-                this.itemIndex = index
-                this.showDays = true
+            openDaysOrAddToCart(item, index, event) {
+                if (this.isListFiltered == false) {
+                    this.itemIndex = index;
+                    this.showDays = true;
+                } else {          
+                    this.showDays = false;          
+                    this.addItem(item);
+                }
+
                 // console.log(event)
             },
-            selectDate(weekday, index) {
+            selectDate(weekday, dayIndex, index) {
                 this.setNow()
                 this.selectedTimes = weekday.time
                 this.cartData.date = weekday.date
                 this.cartData.fulldate = weekday.fulldate
                 this.selectedAvailableQty = weekday.quantity
+
+                this.selectedDateIndex = dayIndex;
 
                 // Fitler the time for today
                 if(weekday.date == 'Hoje') {
@@ -157,27 +167,67 @@
                 // Clear cart when user selects new date or time
                 this.clearCart()
             },
-            addItem(index) {
+            continueToCart(item, index) {
                 this.$refs.modalTime[index].close()
-                var item = this.items[index];
+                this.addItem(item, index);
+            },
+            addItem(item, index) {
+                // var item = this.items[index];
 
+                // console.log(item)
+
+                // console.log(this.selectedDateIndex)
+
+                //add to the cart
                 this.cartItems.push({
                     id: item.id,
                     name: item.name,
                     desc: item.desc,
                     price: item.price,
-                    availableQty: this.selectedAvailableQty,
+                    availableQty: item.quantity,
                     qty: 1
                 })
+                eventBus.$emit('cartItems', this.cartItems, this.cartData);
 
-                //add to the cart
-                eventBus.$emit('cartItems', this.cartItems);
-                eventBus.$emit('cartData', this.cartData);
+                //Remove from array
+                this.items.splice(index, 1);
+                this.showDays = false;
+
+                //Change message alert for no items available
+                if (this.items.length == 0) {
+                    this.setNoItemsTextMessage();
+                }
+
+                //shows only the products available on this day selected
+                if (this.isListFiltered == false) {
+                    this.FilterByDaySelected(item, index);
+                }
+
+            },
+            FilterByDaySelected(itemAdded, index) {
+
+                this.items.forEach( (item) => {
+                    item.extras.forEach( (extra) => {
+                        if(extra.quantity == 0 && extra.date == this.cartData.date) {
+                            this.items.splice(index, 1);
+                        }
+                    })
+                })
+
+                this.isListFiltered = true;
+
+                //Change message alert for no items available
+                if (this.items.length == 0) {
+                    this.setNoItemsTextMessage();
+                }
 
             },
             clearCart() {
-                this.cartData.time = ""
-                this.cartItems = []
+                this.cartData.time = "";
+                this.cartItems = [];
+            },
+            setNoItemsTextMessage() {
+                this.noItemTextMessage = "Não há mais produtos disponíveis para " + this.cartData.date + ", com entrega às " + this.cartData.time;
             },
             orderingWeekDays() {
 
@@ -249,21 +299,28 @@
 </script>
 
 <style scoped>
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-leave-active {
-  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active for <2.1.8 */ {
-  transform: translateY(20px);
-  opacity: 0;
-}
-.disabled {
-    pointer-events: none;
-    color: #d4d4d4;
-}
+    /* Enter and leave animations can use different */
+    /* durations and timing functions.              */
+    .slide-fade-enter-active {
+      transition: all .3s ease;
+    }
+    .slide-fade-leave-active {
+      transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active for <2.1.8 */ {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    .disabled {
+        pointer-events: none;
+        color: #d4d4d4;
+    }
+
+    .component-fade-enter-active, .component-fade-leave-active {
+      transition: opacity .5s ease;
+    }
+    .component-fade-enter, .component-fade-leave-to {
+      opacity: 0;
+    }
 </style>

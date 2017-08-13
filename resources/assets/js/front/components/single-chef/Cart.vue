@@ -80,12 +80,9 @@
         },
         created() {
 
-            eventBus.$on('cartItems', (cartItems) => {
+            eventBus.$on('cartItems', (cartItems, cartData) => {
                 // console.log(cartItems)
                 this.items = cartItems;
-            })
-            eventBus.$on('cartData', (cartData) => {
-                // console.log(cartData)
                 this.courier = cartData;
             })
 

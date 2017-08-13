@@ -102,10 +102,8 @@
         },
         computed: {
             filteredChefs() {
-                // return this.chefs;
                 var self = this;
                 return this.chefs.filter(function(chef) {
-                    // console.log(chef.name)
                     return chef.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
                 });
             }
@@ -125,7 +123,7 @@
                 this.coordinates.latitude = this.latitude;
                 this.coordinates.longitude = this.longitude;
             }
-            
+
             // Receive data from SearchChef.vue
             eventBus.$on('search-chef', this.searchChef);
         }

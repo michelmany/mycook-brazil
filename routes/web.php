@@ -110,8 +110,9 @@ Route::get('/get-chefs', 'FrontendController@listChefs')->name('get-chefs');
 //Get chefs by cep
 Route::post('/lista-chefs/{latitude?}/{longitude?}', 'FrontendController@listChefsByCep')->name('get-chefs-by-cep');
 
-
-Route::get('/get-products/{id}', 'FrontendController@listProducts')->name('get-products');
+// get products
+Route::get('/get-products/{id}/{day?}', 'FrontendController@listProducts')->name('get-products');
+// Route::get('/get-filtered-products/{id}', 'FrontendController@listProducts')->name('get-products');
 
 Route::group(['prefix'=>'chefs'], function () {
     Route::get('{id}/{city?}/{slug?}', 'FrontendController@singleChef')->name('single-chef');

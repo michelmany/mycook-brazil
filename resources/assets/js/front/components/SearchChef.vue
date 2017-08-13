@@ -25,9 +25,7 @@
                 eventBus.$emit('search-chef', this.search);
                 // console.log('submitted');
             },
-            alert(res) {
-                alert(res)
-            }
+
         },
         mounted() {
 
