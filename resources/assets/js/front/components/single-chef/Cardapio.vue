@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <select class="form-control" v-model="cartData.time">
                                     <option disabled value="">Clique para selecionar</option>
-                                    <option v-for="time in selectedTimes">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>
+                                    <option v-for="time in selectedTimes" :value="time">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>
                                 </select>
                             </div>
                             <!-- <i class="fa fa-arrow-circle-o-right"></i> -->
@@ -107,8 +107,6 @@
                 itemIndex: '',
                 now: '',
                 items: {},
-                dateRangeAvailable: [],
-                selectedAvailableQty: '',
                 selectedDateIndex: '',
                 cartData: {
                     time: '',
@@ -147,17 +145,16 @@
                     this.showDays = true;
                 } else {          
                     this.showDays = false;          
-                    this.addItem(item);
+                    this.addItem(item, index);
                 }
 
                 // console.log(event)
             },
             selectDate(weekday, dayIndex, index) {
                 this.setNow()
-                this.selectedTimes = weekday.time
-                this.cartData.date = weekday.date
-                this.cartData.fulldate = weekday.fulldate
-                this.selectedAvailableQty = weekday.quantity
+                this.selectedTimes = weekday.time;
+                this.cartData.date = weekday.date;
+                this.cartData.fulldate = weekday.fulldate;
 
                 this.selectedDateIndex = dayIndex;
 
@@ -166,6 +163,7 @@
                     this.filterTodayTime(weekday.time)
                 }
 
+                // Open Modal
                 this.$refs.modalTime[index].open()
 
                 // Clear cart when user selects new date or time
@@ -176,6 +174,8 @@
                 this.addItem(item, index);
             },
             addItem(item, index) {
+
+                console.log(index)
 
                 //add to the cart
                 this.cartItems.push({
@@ -188,9 +188,8 @@
                 })
                 eventBus.$emit('cartItems', this.cartItems, this.cartData);
 
-                //Remove from array
+                // //Remove from array after add to the cart
                 this.items.splice(index, 1);
-                this.showDays = false;
 
                 //Change message alert for no items available
                 if (this.items.length == 0) {
@@ -203,17 +202,34 @@
                 }
 
             },
-            FilterByDaySelected(itemAdded, index) {
+            FilterByDaySelected(item, index) {
 
-                this.items.forEach( (item) => {
+                this.isListFiltered = true;
+                this.showDays = false;
+
+                console.log("time selected: " + this.cartData.time)
+                console.log("Outside loop: " + item.name + " - index: " + index)
+
+                this.items.forEach( (item, index) => {
+
+                    console.log("Inside loop: " + item.name + " - index: " + index)
+
                     item.extras.forEach( (extra) => {
-                        if(extra.quantity == 0 && extra.date == this.cartData.date) {
-                            this.items.splice(index, 1);
-                        }
+         
+                        if (extra.date == this.cartData.date ) {
+                            if (!_.includes(extra.time, this.cartData.time) || extra.quantity == 0 ) {
+                                console.log("Date:" + extra.date)
+                                console.log("removing item: " + item.name + " index: " + index)
+                                this.items = _.without(this.items, item);
+                            }
+                        } 
+
+                        //Todo: formatar com moment.js a data do Carrinho e tambem da mensagem de alert.
+
                     })
                 });
 
-                this.isListFiltered = true;
+
 
                 //Change message alert for no items available
                 if (this.items.length == 0) {
@@ -226,7 +242,7 @@
                 this.cartItems = [];
             },
             setNoItemsTextMessage() {
-                this.noItemTextMessage = "Não há mais produtos disponíveis para " + this.cartData.date + ", com entrega às " + this.cartData.time;
+                this.noItemTextMessage = "Não há mais produtos disponíveis para " + this.cartData.date + ", com entrega entre " + this.formatTime(this.cartData.time) + " e " + this.formatTimeMore30(this.cartData.time) + ".";
             },
             orderingWeekDays() {
 
@@ -256,7 +272,7 @@
                         const TimeRange = moment.range(moment(extra.start_time,'HH:mm'), moment(extra.end_time, 'HH:mm'));
                         const ArrayTimes = Array.from(TimeRange.by('hours'))
                         //To do: Colocar o range de 30 em 30 minutos ao invés de hora em hora
-                        let arrayTimesFinal = ArrayTimes.map(h => h.format())
+                        let arrayTimesFinal = ArrayTimes.map(h => moment(h).add(index, 'days').format())
 
                         extra.time = arrayTimesFinal;
                         extra.fulldate = moment().add(index, 'days').format('ddd, DD/MM')
@@ -303,7 +319,6 @@
                     }
                 })
                 return dateRange.join(", ");
-
             }
 
         },

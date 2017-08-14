@@ -2,9 +2,9 @@
     <div class="card">
         <div class="card-header text-center">
             <h5>Seu carrinho<br><strong>{{ chefName}}</strong></h5>
-            <div v-if="courier.date && courier.time">
+            <div v-if="courier.time">
                 <hr>
-                <p>{{ courier.fulldate }}, {{ courier.time }}</p>
+                <p>{{ courier.fulldate }} - {{ formatedDate(courier.time) }}</p>
             </div>
         </div>
         <div class="card-block">
@@ -46,6 +46,9 @@
 
 <script>
     import { eventBus } from '../../app';
+    import Moment from 'moment';
+    import { extendMoment } from 'moment-range';
+    const moment = extendMoment(Moment);
 
     export default {
         props: {
@@ -54,7 +57,7 @@
         data() {
             return {
                 items: '',
-                courier: '',
+                courier: {},
                 total: ''
             }
         },
@@ -73,6 +76,9 @@
                 if (item.qty > 1) {
                     item.qty--;
                 }
+            },
+            formatedDate(time) {
+                return moment(time).format('HH[h]mm') + "~" + moment(time).add(30, 'm').format('HH[h]mm')
             }
         },
         mounted() {
@@ -83,12 +89,12 @@
             eventBus.$on('cartItems', (cartItems, cartData) => {
                 // console.log(cartItems)
                 this.items = cartItems;
-                this.courier = cartData;
+                this.courier.time = cartData.time;
+                this.courier.fulldate = cartData.fulldate;
             })
 
         },
         computed: {
-
             calculateTotal() {
                 return _.sumBy(this.items, function(item) {
                     return (item.price * item.qty)
