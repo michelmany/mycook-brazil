@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Observables;
 
 use App\User;
@@ -17,7 +16,7 @@ class UsersObservable
 
     public function deleting(User $model)
     {
-        Storage::disk('s3')->delete('products/' . $model->avatar);
+        Storage::disk('s3')->delete('avatar/' . $model->avatar);
     }
 
     public function updating(User $model)
@@ -27,7 +26,7 @@ class UsersObservable
 
             $this->upload($model);
             if ($previous_image) {
-                Storage::disk('s3')->delete('avatars/' . $previous_image);
+                Storage::disk('s3')->delete('avatar/' . $previous_image);
             }
         }
     }

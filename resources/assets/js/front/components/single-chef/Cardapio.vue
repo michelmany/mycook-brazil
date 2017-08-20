@@ -4,7 +4,7 @@
         <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
 
         <transition-group name="component-fade" mode="out-in">
-            <div class="cardapio__item" v-for="(item, index) in items" key="itemKey">
+            <div class="cardapio__item" v-for="(item, index) in items" key="itemKey" v-if="item.extras.length > 0">
                 <div class="row px-3">
                     <div class="col-md-3 col-lg-5">
                         <div class="cardapio__image mb-3" style="background-image: url('/assets/img/hero-02.jpg')"></div>
@@ -24,8 +24,6 @@
                         <div class="cardapio__footer d-flex justify-content-between align-items-center flex-wrap mt-3">
                             <div class="cardapio__price">R$ {{ item.price }}</div>
                             <button class="btn btn-outline-primary text-uppercase" @click="openDaysOrAddToCart(item, index, $event)">{{ btnLabel }}</button>
-                           
-                            <!-- To do: Pegar os times de todos os dias (start_time and end_time) e mostrar na div abaixo o menor e o maior horário -->
                             <div class="cardapio__time">{{ timeRangeAvailable(item) }}</div>
                         </div>
                         <transition name="slide-fade" mode="in-out">

@@ -25,6 +25,10 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
     Route::resource('users','UsersController');
     Route::post('users/avatar/{id}','UsersController@avatar');
     Route::resource('address','AddressesController');
+    
+    Route::resource('products', 'ProductsController');
+    Route::post('products/photo/{id}','ProductsController@photo');
+    Route::resource('extras', 'ProductExtrasController');
 });
 
 Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');

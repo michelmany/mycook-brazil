@@ -16,7 +16,8 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         $email = $request->input('email');
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $email)->with('Seller')->first();
+
         if (!$user) {
             return response()->json(['error' => 'invalid_credentials'], 401);
         }
@@ -48,8 +49,11 @@ class AuthController extends Controller
             return response(['authenticated' => false, 'user'=>null]);
         }
 
-        if ($user->role === 'admin' or $user->role === 'vendedor') {
+        if ($user->role === 'admin') {
             return response(['authenticated' => true, 'user'=>$user]);
+        }
+        if ($user->role === 'vendedor') {
+            return response(['authenticated' => true, 'user'=>$user, 'seller_id'=>$user->seller->id]);
         }
 
         return response(['authenticated' => false, 'user'=>null]);

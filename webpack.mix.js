@@ -53,6 +53,7 @@ mix.combine([
     pluginPath + 'bootstrap/tether.js',
     pluginPath + 'bootstrap/bootstrap.js',
     pluginPath + 'customScrollBar/customScrollBar.js',
+    pluginPath + 'timepicker/jquery.timepicker.js',
 
     // ** Additional Plugins **
     pluginPath + 'toastr/toastr.js',

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import AuthService from './services/auth'
+import Ls from './services/ls'
 
 /*
  |--------------------------------------------------------------------------
@@ -35,6 +36,14 @@ import BuyersDelete from './views/admin/buyers/delete.vue'
 //Layouts
 import LayoutBasic from './views/layouts/LayoutBasic.vue'
 import LayoutLogin from './views/layouts/LayoutLogin.vue'
+
+//Painel Vendedor
+import Cardapio from './views/admin/cardapio/index.vue'
+import CardapioNew from './views/admin/cardapio/new.vue'
+import CardapioEdit from './views/admin/cardapio/edit.vue'
+import CardapioDelete from './views/admin/cardapio/delete.vue'
+
+import StockEdit from './views/admin/stock/edit.vue'
 
 /*
  |--------------------------------------------------------------------------
@@ -107,6 +116,44 @@ const routes = [
             path: 'admin/sellers/:id/remove',
             component: SellersDelete,
             name: 'sellers-delete',
+        },
+
+        //Admin - Cardapio
+        {
+            path: 'admin/cardapio',
+            component: Cardapio,
+            name: 'cardapio-list',
+        },
+        {
+            path: 'admin/cardapio/new',
+            component: CardapioNew,
+            name: 'cardapio-new',
+        },
+        {
+            path: 'admin/cardapio/:id/edit',
+            component: CardapioEdit,
+            name: 'cardapio-edit',
+        },
+        {
+            path: 'admin/cardapio/:id/delete',
+            component: CardapioDelete,
+            name: 'cardapio-delete',
+        },
+        {
+            path: 'admin/stock/edit/:id/:sellerid',
+            component: StockEdit,
+            name: 'stock-edit',
+            beforeEnter: (to, from, next) => {
+                let user = JSON.parse(Ls.get('auth.user'));
+                // Estou protegendo a rota para não acessar dados de outro vendedor
+                if (to.params.sellerid != user.seller.id){
+                    //Se for diferente encaminho para a pagina correta
+                    return next({ path : 'admin/stock/edit/'+ to.params.id +'/'+ user.seller.id})
+                }
+
+                return next()
+
+            }
         },
 
         //Admin - Buyers

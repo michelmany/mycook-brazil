@@ -3,21 +3,37 @@
         <div class="sidebar-body scroll-pane">
             <ul class="metismenu side-nav" id="menu">
                 <router-link to="/" tag="li" exact><a><i class="fa fa-dashboard"></i> Painel </a></router-link>
-                <router-link to="/admin/sellers" tag="li"><a><i class="fa fa-user"></i> Vendedores </a></router-link>
-                <router-link to="/admin/buyers" tag="li"><a><i class="fa fa-user"></i> Compradores </a></router-link>
-                <li :class="{ active : isActive('/admin/settings') }">
-                    <a href="#" aria-expanded="true"><i class="fa fa-cogs"></i> Sistema <span class="fa arrow fa-fw"></span></a>
-                    <ul aria-expanded="true">
-                        <router-link to="#" tag="li"><a>Configurações</a></router-link>
-                        <router-link to="/admin/users" tag="li"><a>Usuários</a></router-link>
-                    </ul>
-                </li>
+
+                <template v-if="user.role === 'admin'">
+                    <router-link to="/admin/sellers" tag="li"><a><i class="fa fa-user"></i> Vendedores </a></router-link>
+                    <router-link to="/admin/buyers" tag="li"><a><i class="fa fa-user"></i> Compradores </a></router-link>
+                    <li :class="{ active : isActive('/admin/settings') }">
+                        <a href="#" aria-expanded="true"><i class="fa fa-cogs"></i> Sistema <span class="fa arrow fa-fw"></span></a>
+                        <ul aria-expanded="true">
+                            <router-link to="#" tag="li"><a>Configurações</a></router-link>
+                            <router-link to="/admin/users" tag="li"><a>Usuários</a></router-link>
+                        </ul>
+                    </li>
+                </template>
+                
+                <template v-if="user.role === 'vendedor'">
+                    <li :class="{ active : isActive('/admin/settings') }">
+                        <a href="#" aria-expanded="true"><i class="fa fa-cutlery"></i> Cardapio <span class="fa arrow fa-fw"></span></a>
+                        <ul aria-expanded="true">
+                            <router-link to="/admin/cardapio/" tag="li"><a>Produtos</a></router-link>
+                            <router-link to="/admin/cardapio/new" tag="li"><a>Adicionar Produto</a></router-link>
+                        </ul>
+                    </li>
+                </template>
+
             </ul>
         </div>
     </div>
 </template>
 
 <script type="text/babel">
+    // import Auth from '../../../services/auth'
+    import Ls from '../../../services/ls'
 
     export default {
         data() {
@@ -34,7 +50,17 @@
             },
             isActive(url){
                 return (this.$route.path.indexOf(url) > -1)
+            },
+            setUser() {
+                let user = Ls.get('auth.user');
+
+                if (user !== null) {
+                  this.user = JSON.parse(user);
+                }
             }
+        },
+        created() {
+            this.setUser()
         }
 
     }
