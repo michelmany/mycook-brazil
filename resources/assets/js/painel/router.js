@@ -120,7 +120,7 @@ const routes = [
 
         //Admin - Cardapio
         {
-            path: 'admin/cardapio',
+            path: 'admin/cardapio/:id?',
             component: Cardapio,
             name: 'cardapio-list',
         },

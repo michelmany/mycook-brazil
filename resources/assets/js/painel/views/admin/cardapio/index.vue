@@ -28,6 +28,7 @@
         data: function () {
             return {
                 user: {},
+                seller_id: '',
                 products: []
             }
         },
@@ -35,7 +36,7 @@
             listProducts() {
                 let httpService = new HttpService();
                 httpService.build('admin/v1/products')
-                .list({query: 'where[seller_id]='+this.user.seller.id})
+                .list({query: 'where[seller_id]='+this.seller_id})
                 .then((res) => {
                     this.products = res.data.data;
 
@@ -74,7 +75,19 @@
                 if (user !== null) {
                   this.user = JSON.parse(user);
                 }
+                if(this.user.role === 'admin') {
+                    this.seller_id = this.$route.params.id
+                    console.log(this.seller_id);
+                }
+                if(this.user.role === 'vendedor') {
+                    console.log('vendedor')
+                    this.seller_id = this.user.seller.id;
+                    console.log(this.seller_id);
+                }
             }
+        },
+        computed: {
+
         },
         mounted() {
             this.setUser()
