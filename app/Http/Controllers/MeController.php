@@ -24,6 +24,7 @@ class MeController
 
     public function profilePost(Request $request)
     {
+        // dd($request);
         $user = \Auth::user();
         $user = User::find($user->id);
 
@@ -33,12 +34,11 @@ class MeController
         $user->save();
 
         $buyer = $request->input('buyer');
-        $buyer['phone'] = implode($buyer['phone']);
-        Buyer::firstOrCreate(['user_id'=>$user->id], $buyer);
+        $buyer['phone'] = $request->input('buyer.phone');
+        $buyer['birth'] = $request->input('buyer.birth');
+        Buyer::updateOrCreate(['user_id'=>$user->id], $buyer);
 
-        return redirect()
-            ->route('profile')
-            ->with('success', 'Atualizado com sucesso');
+        return response()->json($user);
     }
 
     public function passwordPost(Request $request)
@@ -54,9 +54,7 @@ class MeController
             return $this->savePasswordIfConfirm($request, $user);
         }
 
-        return redirect()
-            ->route('profile')
-            ->with('error', 'A senha não confere');
+        return response()->json(['status'=>'ok', 'msg'=>'As senhas não conferem']);
     }
 
     public function avatarPost(Request $request)
@@ -121,12 +119,8 @@ class MeController
             $user->password = bcrypt($request->input('new_password'));
             $user->save();
 
-            return redirect()
-                ->route('profile')
-                ->with('success', 'Atualizado com sucesso');
+        return response()->json($user);
         }
-        return redirect()
-            ->route('profile')
-            ->with('error', 'As senhas não conferem');
+        return response()->json(['status'=>'ok', 'msg'=>'As senhas não conferem']);
     }
 }

@@ -65,5 +65,10 @@ Vue.component('search-chef', require('./components/SearchChef.vue'));
 Vue.component('cardapio', require('./components/single-chef/Cardapio.vue'));
 Vue.component('cart', require('./components/single-chef/Cart.vue'));
 
+//Profile page
+Vue.component('profile-dados', require('./components/ProfileDados.vue'));
+Vue.component('profile-senha', require('./components/ProfileSenha.vue'));
+
+
 
 
