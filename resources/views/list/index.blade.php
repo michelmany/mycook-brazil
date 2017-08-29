@@ -12,7 +12,7 @@
         <div class="container generic__wrapper">
             <div class="header mb-3">
                 <div>
-                    <h2>Chefs</h2>
+                    <h2>Chefs próximos a você</h2>
                 </div>
             </div>      
         @if (isset($latitude))

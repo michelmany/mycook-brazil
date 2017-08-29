@@ -4,7 +4,7 @@
             <form class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
-                    <input v-model="search" type="search" class="form-control form-control-lg input__entrar" id="search-chef" placeholder="Buscar Chef" @keyup.prevent="searchChef" @keydown.enter.prevent="">
+                    <input v-model="search" type="search" class="form-control form-control-lg input__entrar" id="search-chef" placeholder="Buscar por nome" @keyup.prevent="searchChef" @keydown.enter.prevent="">
                 </div>
             </form>
         </div>

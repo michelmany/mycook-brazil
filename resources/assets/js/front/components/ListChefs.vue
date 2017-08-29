@@ -22,7 +22,7 @@
             </div>
             <div v-show="chefs.length == 0" key="no-results">
                 <div class="alert alert-warning" role="alert">
-                    Infelizmente não encontramos nenhum Chef perto de você!
+                    Não encontramos nenhum Chef em sua região. <a href="/">Clique aqui para adicionar novo endereço.</a>
                 </div>
             </div>
             <div v-show="chefs.length > 0 && filteredChefs.length == 0" key="no-results">
