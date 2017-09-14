@@ -38,10 +38,10 @@ import LayoutBasic from './views/layouts/LayoutBasic.vue'
 import LayoutLogin from './views/layouts/LayoutLogin.vue'
 
 //Painel Vendedor
-import Cardapio from './views/admin/cardapio/index.vue'
-import CardapioNew from './views/admin/cardapio/new.vue'
-import CardapioEdit from './views/admin/cardapio/edit.vue'
-import CardapioDelete from './views/admin/cardapio/delete.vue'
+import Cardapio         from './views/admin/cardapio/index.vue'
+import CardapioNew      from './views/admin/cardapio/new.vue'
+import CardapioEdit     from './views/admin/cardapio/edit.vue'
+import CardapioDelete   from './views/admin/cardapio/delete.vue'
 
 import StockEdit from './views/admin/stock/edit.vue'
 
@@ -125,7 +125,7 @@ const routes = [
             name: 'cardapio-list',
         },
         {
-            path: 'admin/cardapio/new',
+            path: 'admin/cardapio/:id?/new/',
             component: CardapioNew,
             name: 'cardapio-new',
         },
