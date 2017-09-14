@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Moip\MoipSeller;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -75,5 +76,10 @@ class User extends Authenticatable
 
     public function social() {
         return $this->hasOne(Social::class);
+    }
+
+    public function moipseller()
+    {
+        return $this->hasOne(MoipSeller::class);
     }
 }

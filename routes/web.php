@@ -1,4 +1,17 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| Services Routes
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+Route::group(['prefix' => 'moip/marketplace', 'middleware' => 'auth'], function() {
+    Route::get('authorize', 'Api\Auth\MoipController@authorizeSellerAndGetCode');
+    Route::get('callback', 'Api\Auth\MoipController@sellerGetCredentials');
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -121,4 +134,3 @@ Route::group(['prefix'=>'chefs'], function () {
 Route::get('/painel/{vue?}', function () {
     return view('admin');
 })->where('vue', '[\/\w\.-]*')->name('dashboard');
-
