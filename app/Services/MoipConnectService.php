@@ -7,6 +7,8 @@ use Closure;
 use Exception;
 use Illuminate\Http\Request;
 use Moip\Auth\Connect;
+use Moip\Auth\OAuth;
+use Moip\Moip;
 
 class MoipConnectService
 {
@@ -31,11 +33,12 @@ class MoipConnectService
     }
 
     /**
-     * Solicita permissões
+     * Request permissions
      *
+     * @param null|array $scopes
      * @return mixed
      */
-    public function authorize()
+    public function authorize($scopes = null)
     {
         if(auth()->user()->role !== 'vendedor') {
             return response()->json(['error' => 'account type not supported!'], 403);
@@ -45,10 +48,18 @@ class MoipConnectService
             return response()->json(['error' => 'your account already has a relationship'], 403);
         }
 
-        return $this->proxy(function(Connect $connect) {
+        return $this->proxy(function(Connect $connect) use ($scopes){
             $connect->setScodeAll(true);
             header('Location: ' . $connect->getAuthUrl());
         });
+    }
+
+    /**
+     * @param null|array $scopes
+     */
+    public function refreshToken($scopes = null)
+    {
+        // fazer depois por conta da complexibilidade e falta de tempo...
     }
 
     /**
@@ -99,5 +110,4 @@ class MoipConnectService
             ], 400);
         }
     }
-
 }

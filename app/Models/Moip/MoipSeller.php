@@ -22,4 +22,12 @@ class MoipSeller extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function publicKeys()
+    {
+        return $this->hasOne(MoipSellerPublicKey::class);
+    }
 }

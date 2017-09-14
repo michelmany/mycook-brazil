@@ -62,22 +62,37 @@ class User extends Authenticatable
         return action('FrontendController@singleChef', [$this->id, $this->city, $this->slug]);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function buyer() {
         return $this->hasOne(Buyer::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function seller() {
         return $this->hasOne(Seller::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function addresses() {
         return $this->hasMany(Address::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function social() {
         return $this->hasOne(Social::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function moipseller()
     {
         return $this->hasOne(MoipSeller::class);

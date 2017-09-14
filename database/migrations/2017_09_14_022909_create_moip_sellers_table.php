@@ -19,7 +19,7 @@ class CreateMoipSellersTable extends Migration
             $table->unique('moipAccount');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->text('data')->toJson();
+            $table->text('data');
             $table->timestamps();
         });
     }
