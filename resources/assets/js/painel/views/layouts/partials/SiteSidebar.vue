@@ -21,7 +21,7 @@
                         <a href="#" aria-expanded="true"><i class="fa fa-cutlery"></i> Cardapio <span class="fa arrow fa-fw"></span></a>
                         <ul aria-expanded="true">
                             <router-link to="/admin/cardapio/" tag="li"><a>Produtos</a></router-link>
-                            <router-link to="/admin/cardapio/new" tag="li"><a>Adicionar Produto</a></router-link>
+                            <router-link :to="{ name: 'cardapio-new' }" tag="li"><a>Adicionar Produto</a></router-link>
                         </ul>
                     </li>
                 </template>
