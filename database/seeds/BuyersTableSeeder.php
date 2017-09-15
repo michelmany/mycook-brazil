@@ -12,12 +12,14 @@ class BuyersTableSeeder extends Seeder
     public function run()
     {
         /** @var \App\User $user */
-        $user = \App\User::find(5);
-        if(!$user->buyer) {
-            $user->buyer()->create([
-                'phone' => '67 992502088',
-                'birth' => '1994-05-05'
-            ]);
-        }
+        $user = \App\User::find(5)->buyer()->create([
+            'phone' => '67 992502088',
+            'birth' => '1994-05-05'
+        ]);
+
+        $cesar = \App\User::find(6)->buyer()->create([
+            'phone' => '67 992502088',
+            'birth' => '1994-05-05'
+        ]);
     }
 }

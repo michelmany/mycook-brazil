@@ -38,10 +38,8 @@ class MoipAuthService
      */
     public function publicKeysAndCreate()
     {
-        /** @var User $user */
         $user = $this->request->user();
 
-        /** @var MoipSeller $moipSeller */
         $moipSeller = $user->moipseller;
 
         if($moipSeller->publicKeys) {
@@ -51,7 +49,6 @@ class MoipAuthService
         return $this->proxy(function($proxy) use($moipSeller){
             $response = $proxy->get('v2/keys');
             $body = json_decode($response->body, true);
-
             $moipSeller->publicKeys()->create([
                 'data' => $body
             ]);

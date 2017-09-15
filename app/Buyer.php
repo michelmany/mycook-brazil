@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Buyer extends Model
 {
     protected $fillable = [
-        'phone', 'birth', 'user_id',
+        'phone', 'birth', 'user_id', 'moipAccount'
     ];
 
     public function user()

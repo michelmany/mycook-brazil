@@ -7,7 +7,13 @@ use App\Http\Controllers\Controller;
 
 class MoipCheckoutController extends Controller
 {
-    public function client(){}
+    /**
+     * Coleta pedido
+     */
     public function order(){}
+
+    /**
+     * Cria pagamento
+     */
     public function payment(){}
 }

@@ -18,6 +18,7 @@ class CreateBuyersTable extends Migration
             $table->string('phone');
             $table->string('birth');
             $table->string('user_id');
+            $table->string('moipAccount')->nullable();
             $table->timestamps();
         });
     }

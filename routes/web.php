@@ -4,23 +4,20 @@
 | Services Routes
 |--------------------------------------------------------------------------
 |
-|
 */
-
 Route::group(['prefix' => 'moip/marketplace', 'middleware' => 'auth'], function() {
     Route::get('authorize', 'Api\Auth\MoipController@authorizeSellerAndGetCode');
     Route::get('refresh', 'Api\Auth\MoipController@refreshSellerAndUpdate');
     Route::get('callback', 'Api\Auth\MoipController@sellerGetCredentials');
     Route::get('keys', 'Api\Auth\MoipController@getPublicKey');
-    /*
-     | Process Checkout
+    /**
+     *
      */
-    Route::group(['prefix'=>'checkout'], function() {
-        Route::get('step-client', 'Api\Admin\V1\MoipCheckoutController@client');
-        Route::get('step-order', 'Api\Admin\V1\MoipCheckoutController@order');
-        Route::get('step-payment', 'Api\Admin\V1\MoipCheckoutController@payment');
+    Route::group(['prefix' => 'services'], function() {
+        Route::get('customer', 'Moip\MoipCustomerController@store');
+        Route::get('customer/{id}', 'Moip\MoipCustomerController@show');
+        Route::get('order', 'Moip\MoipOrderController@store');
     });
-
 });
 
 
