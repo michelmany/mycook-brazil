@@ -22,6 +22,7 @@ class MoipAuthService
 
     /**
      * MoipAuthService constructor.
+     *
      * @param Moip $moip
      * @param Request $request
      */

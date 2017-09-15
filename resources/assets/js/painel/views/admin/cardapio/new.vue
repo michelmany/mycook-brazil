@@ -20,9 +20,9 @@
                                         <div class="col-lg-6">
 
                                             <div class="form-group row">
-                                                <label for="formNome" class="col-12 col-md-3 col-form-label">Nome</label>
+                                                <label for="product_name" class="col-12 col-md-3 col-form-label">Nome</label>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="text" class="form-control" id="formNome" 
+                                                    <input type="text" class="form-control" id="foproduct_namermNome"
                                                     :class="{'form-control': true, 'is-danger': errors.has('name') }"
                                                     v-validate="'required|max:35'" data-vv-name="name" v-model="product.name">
                                                     <div v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</div>
@@ -31,9 +31,9 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="formEmail" class="col-12 col-md-3 col-form-label">Descrição</label>
+                                                <label for="product_desc" class="col-12 col-md-3 col-form-label">Descrição</label>
                                                 <div class="col-12 col-md-9">
-                                                    <textarea v-model="product.desc" class="form-control"
+                                                    <textarea v-model="product.desc" id="product_desc" class="form-control"
                                                         rows="5" v-validate="'required'" data-vv-as="descrição" data-vv-name="desc"
                                                         :class="{'form-control': true, 'is-danger': errors.has('desc') }"></textarea>
                                                     <div v-show="errors.has('desc')" class="help is-danger">{{ errors.first('desc') }}</div>
@@ -46,9 +46,9 @@
                                         <div class="col-lg-6">
 
                                         <div class="form-group row">
-                                            <label for="formEmail" class="col-12 col-md-3 col-form-label">Serve</label>
+                                            <label for="serve" class="col-12 col-md-3 col-form-label">Serve</label>
                                             <div class="col-12 col-md-9">
-                                                <input type="text" class="form-control"
+                                                <input type="text" id="serve" class="form-control"
                                                 :class="{'form-control': true, 'is-danger': errors.has('serve') }"
                                                 v-model="product.serve" >
                                                 <div v-show="errors.has('serve')" class="help is-danger">{{ errors.first('serve') }}</div>
@@ -57,9 +57,9 @@
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="formSenha" class="col-12 col-md-3 col-form-label">Preço (R$)</label>
+                                            <label for="number" class="col-12 col-md-3 col-form-label">Preço (R$)</label>
                                             <div class="col-12 col-md-9">
-                                                <input type="number" class="form-control" id="formSenha" 
+                                                <input type="number" class="form-control" id="number"
                                                 v-validate="'required'" data-vv-name="preço"
                                                 :class="{'form-control': true, 'is-danger': errors.has('preço') }"
                                                 v-model="product.price" >

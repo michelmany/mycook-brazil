@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-lg-2">
                         <input type="text" v-model="address.number" placeholder="Nº" 
-                                v-validate="'required|max:8'" data-vv-as="número" data-vv-name="número"
+                                v-validate="'required|min:1'" data-vv-name="número"
                                 :class="{'form-control': true, 'is-danger': errors.has('número') }" 
                                 class="form-control form-control-lg input__entrar">
                         <div v-show="errors.has('número')" class="help is-danger">{{ errors.first('número') }}</div>
@@ -56,7 +56,8 @@ import { eventBus } from '../app';
             return {
                 toCompleteAddress: false,
                 address: {
-                    cep: ''
+                    cep: '',
+                    number: ''
                 }
             }
         },

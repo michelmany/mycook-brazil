@@ -25,8 +25,8 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <input  id="address_field" type="text" v-model="address.name" placeholder="Nome (Ex.: Minha casa)" 
-                            v-validate="'required|max:15'" data-vv-name="nome"
+                            <input  id="address_name" type="text" v-model="address.name" placeholder="Nome (Ex.: Minha casa)"
+                            v-validate="'required'" data-vv-name="nome"
                             :class="{'form-control': true, 'is-danger': errors.has('nome') }" 
                             class="form-control form-control-lg input__entrar">
                             <div v-show="errors.has('nome')" class="help is-danger">{{ errors.first('nome') }}</div>
@@ -35,7 +35,7 @@
 
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input  id="address_field" type="text" v-model="address.address" placeholder="Endereço" 
+                            <input  id="address_address" type="text" v-model="address.address" placeholder="Endereço"
                             v-validate="'required|max:45'" data-vv-name="endereço"
                             :class="{'form-control': true, 'is-danger': errors.has('endereço') }" 
                             class="form-control form-control-lg input__entrar">
@@ -45,10 +45,11 @@
 
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <input type="text" v-model="address.number" placeholder="Número" 
-                            v-validate="'required|max:8'" data-vv-as="número" data-vv-name="número"
-                            :class="{'form-control': true, 'is-danger': errors.has('número') }" 
-                            class="form-control form-control-lg input__entrar">
+                            <input type="text" placeholder="Número"
+                            v-validate="'required|min:1'" data-vv-name="número"
+                            :class="{'form-control': true, 'is-danger': errors.has('número') }"
+                            class="form-control form-control-lg input__entrar"
+                            v-model="address.number">
                             <div v-show="errors.has('número')" class="help is-danger">{{ errors.first('número') }}</div>
                         </div>
                     </div>

@@ -27,9 +27,8 @@ class MoipOrderController extends Controller
      */
     public function store()
     {
-        $sellerMoipAccountId= 'MPA-94A2651A044E'; // michel
         $sellerMoipAccountId2 = 'MPA-02E511AFA808'; // alfredo
-        $buyerMoipAccountId = 'CUS-GT93C4LE71UI'; // cesar
+        $buyerMoipAccountId = 'CUS-LXRSWKPGFXS3'; // cesar
 
         $customer = $this->moip->customers()->get($buyerMoipAccountId);
 //
