@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="card-block">
-            <div v-if="items.length">
+            <div v-if="items">
                 <ul class="px-0">
                     <li v-for="(item,index) in items" :key="index" class="list-unstyled cart__item">{{ item.name }}
                         <div class="mt-2 d-flex justify-content-between">
@@ -32,7 +32,7 @@
                 <p class="card-text">Tá esperando o que?</p>
             </div>
         </div>
-        <div v-if="items.length > 0" class="card-footer text-muted">
+        <div v-if="items" class="card-footer text-muted">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Código do cupom">
                 <span class="input-group-btn">
