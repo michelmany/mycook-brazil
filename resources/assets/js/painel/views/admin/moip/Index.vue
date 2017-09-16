@@ -65,10 +65,13 @@
         },
         methods: {
             verify() {
-                serviceMoip.get('check')
+                serviceMoip.get(`check?token=${this.authToken}`)
                     .then(res => {
 
-                        toastr.success('Sua conta já foi sincronizada com nosso Marketplace!');
+                        toastr.success('Sua conta já foi sincronizada com nosso Marketplace!',null, {
+                            progressBar: true,
+                            timeOut: 3000
+                        });
                         this.moip = res.data.data;
 
                     }).catch(res => {
@@ -78,9 +81,9 @@
         },
         mounted() {
 
-            this.verify()
-
             this.authToken = Ls.get('auth.token')
+
+            this.verify()
         }
     }
 </script>

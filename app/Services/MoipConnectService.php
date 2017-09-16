@@ -43,7 +43,7 @@ class MoipConnectService
      */
     public function verifySellerSync()
     {
-        $user = JWTAuth::toUser($this->cache->get('auth.token'));
+        $user = JWTAuth::toUser($this->cache->get('auth.token') ?? \request()->get('token'));
 
         $moipSeller = $user->moipseller;
 
