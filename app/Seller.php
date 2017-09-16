@@ -40,4 +40,11 @@ class Seller extends Model
     public function fotos() {
         return $this->hasMany(FotoEstabelecimento::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products() {
+        return $this->hasMany(Product::class);
+    }
 }
