@@ -144,12 +144,21 @@
                         this.checkout.response = res;
                      })
                     .catch(error => {
+                        // 400
                         if(error.response.satus === 400) {
                             toastr.warning(error.response.data.error, 'Impossivel Continuar')
                         }
-
+                        // 412
                         if(error.response.status === 412) {
                             toastr.info(error.response.data.error, 'Processo Necessário', {
+                                onHidden: () => {
+                                    window.location.href = error.response.data._link
+                                }
+                            })
+                        }
+                        // 500
+                        if(error.response.status === 500) {
+                            toastr.error(error.response.data.error, 'Falha Interna', {
                                 onHidden: () => {
                                     window.location.href = error.response.data._link
                                 }
