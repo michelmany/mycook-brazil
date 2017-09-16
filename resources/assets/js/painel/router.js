@@ -212,7 +212,8 @@ const routes = [
         // Admin - Moip
         {
             path: 'admin/settings/moip',
-            component: require('../painel/views/admin/moip/Index.vue')
+            component: require('../painel/views/admin/moip/Index.vue'),
+            name: 'settings-moip',
         }
       ]
     },
