@@ -76,10 +76,13 @@ class FrontendController extends Controller
         //moipseller - by César
         $moipSeller = MoipSeller::select('moipAccount as moipId')->where('user_id', $id)->first();
 
+        if(!$moipSeller) {
+            return redirect()->back()->with('fail', "O Chefe {$seller->name} não está com os dados configurados corretamente.");
+        }
+
         if ( Auth::check() ) {
             $user_id = Auth::id();
             $addressUser = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
-
             $userLocal = new CalculateDistance($addressSeller->latitude, $addressSeller->longitude, 
                         $addressUser->latitude, $addressUser->longitude, "K");
             $seller->distance = round($userLocal->distance(), 2);
@@ -167,7 +170,13 @@ class FrontendController extends Controller
             ->get();
 
             // Get avatar
-            foreach ($this->result as $chef) {
+            foreach ($this->result as $k => $chef) {
+                $moip = \App\Models\Moip\MoipSeller::select('moipAccount as id')->whereUserId($chef->user_id)->first();
+                
+                if(!$moip) {
+                    unset($this->result[$k]);
+                }
+                
                 if (empty($chef->avatar)) {
                     $chef->avatar = url('assets/img/no-image_01.jpg');
                 } else {

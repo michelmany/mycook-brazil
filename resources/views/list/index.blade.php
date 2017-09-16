@@ -15,6 +15,10 @@
                     <h2>Chefs próximos a você</h2>
                 </div>
             </div>      
+        @if(session()->has('fail'))
+            <p class="text-danger">{{ session()->get('fail') }}</p>
+        @endif
+
         @if (isset($latitude))
             <list-chefs :latitude="{{ $latitude }}" :longitude="{{ $longitude }}"></list-chefs>
         @else
@@ -34,6 +38,9 @@
     <script>
         var ListChefsPage = new Vue({
             el: '#list-chefs-page',
+            created() {
+
+            }
         });
     </script>
 @endsection

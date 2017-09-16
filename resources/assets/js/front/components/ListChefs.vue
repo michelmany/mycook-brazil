@@ -5,7 +5,7 @@
 
         <transition-group name="component-fade" mode="out-in">
             <div class="row" v-if="chefs.length > 0" key="results">
-                <div class="col-md-6 col-lg-6" v-for="chef in filteredChefs" >
+                <div class="col-md-6 col-lg-6" v-for="(chef,index) in filteredChefs" :key="index">
                     <div class="chef-item__box" @click="goToSinglePage(chef.user_id)">
                         <div class="d-flex justify-content-start align-items-center">
                             <div class="chef-item__photo mr-3">
