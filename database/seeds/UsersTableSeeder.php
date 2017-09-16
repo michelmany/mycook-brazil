@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             'email' => 'alfmussi@yahoo.com.br',
             'name' => 'Alfredo',
-            'role' => 'comprador',
+            'role' => 'admin',
             'cpf' => '35676756802',
             'active' => true,
             'password' => bcrypt('nit123456')
