@@ -16,16 +16,27 @@ class UsersTableSeeder extends Seeder
         User::create([
             'email' => 'michel@nitdesign.com.br',
             'name' => 'Michel Moraes',
-            'cpf' => '12312312312',
+            'cpf' => '62437163093',
             'active' => true,
             'role' => 'admin',
-            'password' => bcrypt('nit@1049')
+            'password' => bcrypt('nit123456')
         ]);
 
         User::create([
             'email' => 'ale@nitdesign.com.br',
             'name' => 'Alexandra Carneiro',
             'role' => 'admin',
+            'cpf' => '33604894549',
+            'active' => true,
+            'password' => bcrypt('nit123456')
+        ]);
+
+        User::create([
+            'email' => 'alfmussi@yahoo.com.br',
+            'name' => 'Alfredo',
+            'role' => 'comprador',
+            'cpf' => '35676756802',
+            'active' => true,
             'password' => bcrypt('nit123456')
         ]);
         
@@ -53,12 +64,6 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123456')
         ]);
 
-        User::create([
-            'email' => 'alfmussi@yahoo.com.br',
-            'name' => 'Alfredo',
-            'role' => 'comprador',
-            'cpf' => '12312312312',
-            'password' => bcrypt('123456')
-        ]);
+
     }
 }
