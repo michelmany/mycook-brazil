@@ -28,12 +28,12 @@ class UsersTableSeeder extends Seeder
             'role' => 'admin',
             'password' => bcrypt('nit123456')
         ]);
-
+        
         User::create([
-            'email' => 'alfmussi@yahoo.com.br',
-            'name' => 'Alfredo',
+            'email' => 'cesinhagutierres@gmail.com',
+            'name' => 'César Augusto',
             'role' => 'vendedor',
-            'cpf' => '12312312312',
+            'cpf' => '05070216147',
             'password' => bcrypt('123456')
         ]);
 
@@ -54,12 +54,11 @@ class UsersTableSeeder extends Seeder
         ]);
 
         User::create([
-            'email' => 'cesinhagutierres@gmail.com',
-            'name' => 'César Augusto',
+            'email' => 'alfmussi@yahoo.com.br',
+            'name' => 'Alfredo',
             'role' => 'comprador',
-            'cpf' => '53551443734',
+            'cpf' => '12312312312',
             'password' => bcrypt('123456')
         ]);
-
     }
 }
