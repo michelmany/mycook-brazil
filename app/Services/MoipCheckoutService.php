@@ -53,10 +53,11 @@ class MoipCheckoutService
         $this->buyer = $this->user->buyer;
         $this->address = $this->user->addresses;
 
-        // address required
-        if(!$this->address) {
-            return response()->json(['error' => 'É necessário cadastrar um endereço.'], 412);
-        }
+        // check
+        $this->verifyBuyerProfile();
+
+        $this->verifyAddress();
+
         return $this->createCustomer();
     }
 
@@ -146,5 +147,49 @@ class MoipCheckoutService
     private function formatPriceByMoip($price)
     {
         return (int)str_replace([',','.'], null, number_format($price, 2, ',', '.'));
+    }
+
+    /**
+     * Check if buyer has required data
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    private function verifyBuyerProfile()
+    {
+        if(!$this->buyer) {
+            return response()->json([
+                'error' => 'Sua conta não possui um perfil de comprador',
+                '_link' => '/minha-conta/perfil'
+            ],412);
+        }
+
+        if(!$this->user->cpf) {
+            return response()->json([
+                'error' => 'Infome o seu número de CPF',
+                '_link' => '/minha-conta/perfil'
+            ],412);
+        }
+
+        if(!$this->buyer->phone) {
+            return response()->json([
+                'error' => 'Informe seu Celular ou Telefone',
+                '_link' => '/minha-conta/perfil'
+            ],412);
+        }
+
+    }
+
+    /**
+     * Address validation
+     *
+     */
+    private function verifyAddress()
+    {
+        if(!$this->address) {
+            return response()->json([
+                'error' => 'É necessário cadastrar um endereço.',
+                '_link' => '/minha-conta/enderecos'
+            ], 412);
+        }
     }
 }

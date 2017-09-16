@@ -151,7 +151,7 @@
                         if(error.response.status === 412) {
                             toastr.info(error.response.data.error, 'Processo Necessário', {
                                 onHidden: () => {
-                                    window.location.href = '/minha-conta/enderecos'
+                                    window.location.href = error.response.data._link
                                 }
                             })
                         }
@@ -160,7 +160,6 @@
                     })
             },
             clearCartHistory(){
-//                console.log(this.checkout);
 
                 if(!this.checkout.response){
                     // not action
