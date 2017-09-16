@@ -32,7 +32,7 @@ class UserAddressesTableSeeder extends Seeder
             [
                 "name" => null,
                 "cep" => "79094090",
-                "address" => "Rua Dantas Barreto",
+                "address" => "Rua Apetubas",
                 "number" => "803",
                 "complement" => null,
                 "neighborhood" => "Jardim Tijuca",
@@ -63,8 +63,8 @@ class UserAddressesTableSeeder extends Seeder
             [
                 "name" => null,
                 "cep" => "79094090",
-                "address" => "Rua Dantas Barreto",
-                "number" => "1047",
+                "address" => "Rua Dom Pedro II",
+                "number" => "983",
                 "complement" => null,
                 "neighborhood" => "Jardim Tijuca",
                 "city" => "Campo Grande",

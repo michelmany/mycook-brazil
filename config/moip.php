@@ -45,6 +45,6 @@ return [
         'description' => 'Plataforma Marketplace Delivery',
         'token' => '60272841f9d7473a9530d11503e6c2a2_v2',
         'secret'   => '83c763f18c014335bab599d94bc6b436',
-        'redirect' => getenv(APP_URL ) . '/moip/marketplace/callback'
+        'redirect' => getenv('APP_URL' ) . '/moip/marketplace/callback'
     ]
 ];

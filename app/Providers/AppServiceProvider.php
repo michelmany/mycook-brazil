@@ -9,6 +9,7 @@ use App\Observables\MoipSellersObservable;
 use App\Observables\UsersObservable;
 use App\Services\MoipAuthService;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Moip\Auth\OAuth;
 use Moip\Moip;
@@ -26,6 +27,15 @@ class AppServiceProvider extends ServiceProvider
         FotoEstabelecimento::observe(FotoEstabelecimentoObservable::class);
         User::observe(UsersObservable::class);
         MoipSeller::observe(MoipSellersObservable::class);
+
+        /**
+         |
+         |
+         */
+        \View::composer('user.index', function($view) {
+            $request = request();
+            $view->with('intended', $request->get('intended') ?? '');
+        });
     }
 
     /**

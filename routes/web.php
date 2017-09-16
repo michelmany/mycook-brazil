@@ -5,19 +5,24 @@
 |--------------------------------------------------------------------------
 |
 */
-Route::group(['prefix' => 'moip/marketplace', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'moip/marketplace'], function() {
     Route::get('authorize', 'Api\Auth\MoipController@authorizeSellerAndGetCode');
     Route::get('refresh', 'Api\Auth\MoipController@refreshSellerAndUpdate');
     Route::get('callback', 'Api\Auth\MoipController@sellerGetCredentials');
     Route::get('keys', 'Api\Auth\MoipController@getPublicKey');
     /**
-     *
+     | Process checkout
      */
-    Route::group(['prefix' => 'services'], function() {
-        Route::get('customer', 'Moip\MoipCustomerController@store');
-        Route::get('customer/{id}', 'Moip\MoipCustomerController@show');
-        Route::get('order', 'Moip\MoipOrderController@store');
-    });
+    Route::post('order/process', 'Moip\MoipCheckoutController@process');
+});
+
+Route::get('user-is-logged-in', function(\Illuminate\Http\Request $request) {
+   if($request->expectsJson()) {
+       return response()->json([
+           'data' => !Auth::guest()
+       ]);
+   }
+   abort(401, 'not authorized');
 });
 
 

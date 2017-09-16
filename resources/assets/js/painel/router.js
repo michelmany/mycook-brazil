@@ -208,6 +208,11 @@ const routes = [
             path: 'admin/users/:id/remove',
             component: UsersDelete,
             name: 'users-delete',
+        },
+        // Admin - Moip
+        {
+            path: 'admin/settings/moip',
+            component: require('../painel/views/admin/moip/Index.vue')
         }
       ]
     },

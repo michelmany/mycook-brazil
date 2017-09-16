@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\User;
+use Carbon\Carbon;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use JWTAuth;
 use Moip\Auth\Connect;
-use Moip\Auth\OAuth;
-use Moip\Moip;
 
 class MoipConnectService
 {
@@ -23,6 +23,11 @@ class MoipConnectService
     private $request;
 
     /**
+     * @var Cache
+     */
+    private $cache;
+
+    /**
      * MoipConnectService constructor.
      * @param Request $request
      */
@@ -30,6 +35,30 @@ class MoipConnectService
     {
         $this->marketplace = (object) config('moip.marketplace');
         $this->request = $request;
+        $this->cache = Cache::getFacadeRoot();
+    }
+
+    /**
+     * Verificar se vendedor está sincronizado com moip marketplace
+     */
+    public function verifySellerSync()
+    {
+        $user = JWTAuth::toUser($this->cache->get('auth.token'));
+
+        $moipSeller = $user->moipseller;
+
+        if(!$moipSeller) {
+            return response()->json(['error' => 'user not sync'], 412);
+        }
+
+        return response()->json(
+            [
+                'data' => [
+                    'moipId' => $moipSeller->moipAccount,
+                    'moipAccessToken'   => $moipSeller->data['accessToken']
+                ]
+            ]
+        );
     }
 
     /**
@@ -40,11 +69,17 @@ class MoipConnectService
      */
     public function authorize($scopes = null)
     {
-        if(auth()->user()->role !== 'vendedor') {
+        $token = $this->request->token;
+
+        $this->cache->add('auth.token', $token, Carbon::now()->addMinutes(5));
+
+        $user = JWTAuth::toUser($token);
+
+        if($user->role !== 'vendedor') {
             return response()->json(['error' => 'account type not supported!'], 403);
         }
 
-        if(null !== auth()->user()->moipseller) {
+        if(null !== $user->moipseller) {
             return response()->json(['error' => 'your account already has a relationship'], 403);
         }
 
@@ -69,11 +104,12 @@ class MoipConnectService
      */
     public function getSellerAndSaveCredentials()
     {
-        return $this->proxy(function(Connect $connect) {
+        $user = JWTAuth::toUser($this->cache->get('auth.token'));
+
+        return $this->proxy(function(Connect $connect) use ($user){
             $connect->setClientSecret($this->marketplace->secret);
             $connect->setCode($this->request->get('code'));
-            /** @var User $user */
-            $user = auth()->user();
+
             $payload = $connect->authorize();
 
             $user->moipseller()->create([
@@ -86,7 +122,7 @@ class MoipConnectService
                 ]
             ]);
 
-            return redirect()->to('moip/marketplace/authorize');
+            return redirect()->intended('painel/admin/settings/moip');
         });
     }
 

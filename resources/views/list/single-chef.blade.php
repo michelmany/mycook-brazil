@@ -40,14 +40,13 @@
 
             <div class="row">
 
-                {{-- {{ dd($seller) }} --}}
-
+{{--                 {{ dd($seller) }}--}}
                 <div class="col-md-12 col-lg-8">
                     <cardapio :chef-id="{{ $seller->seller->id }}"></cardapio>
                 </div>
 
                 <div class="col-md-12 col-lg-4 hidden-md-down">
-                    <cart chef-name="{{ $seller->name }}"></cart>
+                    <cart chef-name="{{ $seller->name }}" chef-moip-id="{{ $moipseller->moipId }}"></cart>
                 </div>
 
             </div>

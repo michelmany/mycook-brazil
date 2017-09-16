@@ -1,9 +1,8 @@
 @extends('layouts.default')
 @section('title', 'Entre ou Cadastre-se')
 @section('content')
-
-    <section class="hero-pages" 
-        style="background-image: url('/assets/img/hero-01.jpg')"">
+    <section class="hero-pages"
+        style="background-image: url('/assets/img/hero-01.jpg')">
         <div class="hero-pages__mask"></div>
         <div class="container">
             <div class="hero-pages__headline ml-auto">@yield('title')</div>
@@ -34,7 +33,7 @@
 
                         <transition name="slide-fade">
                             <div class="cadastrar__form-email mt-2 mb-3" @if (count($errors) === 0) v-if="show" @endif>
-                                <form action="{{ route('registerPost') }}" method="post">
+                                <form action="{{ route('registerPost', compact('intended')) }}" method="post">
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-lg input__entrar"
@@ -113,7 +112,7 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('login') }}" method="post">
+                        <form action="{{ route('login', compact('intended')) }}" method="post">
                             {{ csrf_field() }}
 
                             <div class="form-group">
@@ -132,12 +131,13 @@
                             </div>
 
                         </form>
-                    </div><!-- /form-content -->
-
-{{--                     <div class="text-center mt-3">
+                    </div>
+                    <!-- /form-content -->
+                    {{--
+                     <div class="text-center mt-3">
                         <a href="{{ route('password.request') }}" class="cadastro__link ">Recuperar senha?</a>
-                    </div> --}}
-
+                    </div>
+                    --}}
                 </div>
             </div>
 

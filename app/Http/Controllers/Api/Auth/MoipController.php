@@ -25,7 +25,16 @@ class MoipController extends Controller
     }
 
     /**
+     * @return mixed
+     */
+    public function checkSellerAuthorization()
+    {
+        return $this->service->verifySellerSync();
+    }
+
+    /**
      * Request permission for the seller
+     *
      * @return mixed
      */
     public function authorizeSellerAndGetCode()

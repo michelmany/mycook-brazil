@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Address;
 use App\Http\Requests;
 use App\Mail\ContactForm;
+use App\Models\Moip\MoipSeller;
 use App\Product;
 use App\ProductExtra;
 use App\Seller;
@@ -71,7 +72,10 @@ class FrontendController extends Controller
     {
         $seller = User::findOrFail($id);
         $addressSeller = Address::where('user_id', $id)->orderBy('id', 'desc')->first();
-        
+
+        //moipseller - by César
+        $moipSeller = MoipSeller::select('moipAccount as moipId')->where('user_id', $id)->first();
+
         if ( Auth::check() ) {
             $user_id = Auth::id();
             $addressUser = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
@@ -87,7 +91,8 @@ class FrontendController extends Controller
 
         if ($seller->role == 'vendedor') {
             return view('list.single-chef')
-                ->withSeller($seller, $seller->seller);
+                        ->with('moipseller', $moipSeller)
+                        ->withSeller($seller, $seller->seller);
         } else {
             return redirect()->route('lista-chefs-page');
         }

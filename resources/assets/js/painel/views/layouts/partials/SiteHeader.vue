@@ -23,6 +23,11 @@
                         <router-link to="/admin/users/new">Novo administrador</router-link>
                         <div class="dropdown-divider"></div>
                     </template>
+
+                    <template v-if="user.role === 'vendedor'">
+                        <router-link class="dropdown-item" to="/admin/settings/moip">Moip</router-link>
+                        <div class="dropdown-divider"></div>
+                    </template>
                     <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
             </li>

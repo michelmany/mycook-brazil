@@ -93,6 +93,8 @@
     import { HttpService } from '../../services/httpService';
     let httpService = new HttpService();
 
+    import Ls from '../../../painel/services/ls'
+
     export default {
         data() {
             return {
@@ -173,17 +175,29 @@
             },
             addItem(item, index) {
 
-                console.log(index)
-
                 //add to the cart
                 this.cartItems.push({
+                    uid: Math.floor(Math.random() * 99999999999999),
                     id: item.id,
                     name: item.name,
                     desc: item.desc,
                     price: item.price,
                     availableQty: item.extras[this.selectedDateIndex].quantity,
                     qty: 1
-                })
+                });
+
+                /**
+                 |
+                 */
+                const cartName = 'my-cart#' + window.location.pathname;
+                if(!Ls.get(cartName)) {
+                    Ls.set(cartName, JSON.stringify(this.cartItems));
+                }else{
+                    const oldCart = JSON.parse(Ls.get(cartName));
+                    Ls.remove(cartName);
+                    Ls.set(cartName, JSON.stringify(this.cartItems.concat(oldCart)));
+                }
+
                 eventBus.$emit('cartItems', this.cartItems, this.cartData);
 
                 // //Remove from array after add to the cart
