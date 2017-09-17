@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\FotoEstabelecimento;
+use App\Models\FotoEstabelecimento;
 use App\Models\Moip\MoipSeller;
 use App\Observers\FotoEstabelecimentoObservable;
 use App\Observers\MoipSellersObservable;

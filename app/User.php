@@ -2,7 +2,11 @@
 
 namespace App;
 
+use App\Models\Address;
+use App\Models\Buyer;
 use App\Models\Moip\MoipSeller;
+use App\Models\Seller;
+use App\Models\Social;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -11,15 +15,11 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
-     * The accessors to append to the model's array form.
-     *
      * @var array
      */
     protected $appends = ['avatar_full_url'];
 
     /**
-     * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
@@ -27,14 +27,15 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
      * @var array
      */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    /**
+     * @return null|string
+     */
     public function getAvatarFullUrlAttribute()
     {
         if (!isset($this->attributes['avatar'])) {
@@ -47,16 +48,25 @@ class User extends Authenticatable
         return 'https://s3-' . env('AWS_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/avatar/' . $this->attributes['avatar'];
     }
 
+    /**
+     * @return string
+     */
     public function getSlugAttribute()
     {
         return str_slug($this->name);
     }
 
+    /**
+     * @return string
+     */
     public function getCityAttribute()
     {
         return str_slug($this->addresses[0]->city . '-' . $this->addresses[0]->state);
     }
 
+    /**
+     * @return string
+     */
     public function getUrlAttribute()
     {
         return action('FrontendController@singleChef', [$this->id, $this->city, $this->slug]);

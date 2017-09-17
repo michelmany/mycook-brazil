@@ -15,7 +15,7 @@ class UserIsLogged
     {
         if($request->expectsJson()) {
             return response()->json([
-                'data' => !Auth::guest()
+                'data' => !\Auth::guest()
             ]);
         }
         abort(401, 'not authorized');

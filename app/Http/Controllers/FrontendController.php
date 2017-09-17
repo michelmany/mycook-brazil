@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Address;
+use App\Models\Address;
 use App\Http\Requests;
 use App\Mail\ContactForm;
 use App\Models\Moip\MoipSeller;
-use App\Product;
-use App\ProductExtra;
-use App\Seller;
+use App\Models\Product;
+use App\Models\ProductExtra;
+use App\Models\Seller;
 use App\Support\CalculateDistance;
 use App\User;
 use Auth;

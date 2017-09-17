@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin\V1;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Admin\V1\ApiControllerTrait;
 use App\Http\Controllers\Controller;
-use App\ProductExtra;
+use App\Models\ProductExtra;
 
 class ProductExtrasController extends Controller
 {

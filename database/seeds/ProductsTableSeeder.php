@@ -1,6 +1,6 @@
 <?php
 
-use App\Seller;
+use App\Models\Seller;
 use Illuminate\Database\Seeder;
 
 class ProductsTableSeeder extends Seeder
@@ -19,6 +19,7 @@ class ProductsTableSeeder extends Seeder
             'photo' => null,
             'price' => '49.90',
         ]);
+
         Seller::find(1)->products()->create([
             'name' => 'Bolo de Cenoura com Chocolate',
             'desc' => 'Bolo caseiro feito com muito amor',

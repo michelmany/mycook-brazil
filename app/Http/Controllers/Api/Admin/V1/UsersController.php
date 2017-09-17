@@ -3,9 +3,9 @@
 
 namespace App\Http\Controllers\Api\Admin\V1;
 
-use App\Buyer;
+use App\Models\Buyer;
 use Illuminate\Http\Request;
-use App\Seller;
+use App\Models\Seller;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\Admin\V1\ApiControllerTrait;
 use App\User;

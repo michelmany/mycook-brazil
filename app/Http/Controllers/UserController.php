@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Address;
-use App\Buyer;
-use App\FotoEstabelecimento;
+use App\Models\Address;
+use App\Models\Buyer;
+use App\Models\FotoEstabelecimento;
 use App\Mail\BuyerAdminRegisterMail;
 use App\Mail\BuyerRegisterMail;
 use App\Mail\SellerAdminRegisterMail;
 use App\Mail\SellerRegisterMail;
 use App\User;
-use App\Seller;
+use App\Models\Seller;
 use App\Http\Requests\BuyerRequest;
 use Illuminate\Http\Request;
 use Auth;

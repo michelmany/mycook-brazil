@@ -3,7 +3,7 @@
 
 namespace App\Services;
 
-use App\Social;
+use App\Models\Social;
 use App\User;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
 use File;

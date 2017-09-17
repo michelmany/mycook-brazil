@@ -4,8 +4,8 @@ namespace App\Services\Moip;
 
 use Illuminate\Http\Request;
 use App\User;
-use App\Buyer;
-use App\Address;
+use App\Models\Buyer;
+use App\Models\Address;
 use Moip\Resource\Customer;
 use Exception;
 

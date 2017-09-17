@@ -3,9 +3,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Buyer;
+use App\Models\Buyer;
 use App\User;
-use App\Address;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Auth;
 
