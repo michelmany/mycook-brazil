@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Services\MoipAuthService;
-use App\Services\MoipConnectService;
+use App\Services\Moip\AuthService;
+use App\Services\Moip\ConnectService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Moip\Auth\Connect;
 
 class MoipController extends Controller
 {
     /**
-     * @var MoipConnectService
+     * @var ConnectService
      */
     private $service;
 
     /**
      * MoipController constructor.
-     * @param MoipConnectService $service
+     * @param ConnectService $service
      */
-    public function __construct(MoipConnectService $service)
+    public function __construct(ConnectService $service)
     {
         $this->service = $service;
     }
@@ -64,10 +63,10 @@ class MoipController extends Controller
     }
 
     /**
-     * @param MoipAuthService $authService
+     * @param AuthService $authService
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function getPublicKey(MoipAuthService $authService)
+    public function getPublicKey(AuthService $authService)
     {
         return $authService->publicKeysAndCreate();
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observables;
+namespace App\Observers;
 
 use App\Models\Moip\MoipSeller;
 

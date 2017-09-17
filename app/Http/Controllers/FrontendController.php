@@ -9,7 +9,7 @@ use App\Models\Moip\MoipSeller;
 use App\Product;
 use App\ProductExtra;
 use App\Seller;
-use App\Space\CalculateDistance;
+use App\Support\CalculateDistance;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -25,9 +25,13 @@ class FrontendController extends Controller
     private $result;
     private $day;
 
+    /**
+     * @param string $latitude
+     * @param string $longitude
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index($latitude = '', $longitude = '')
     {
-        // dd($cep);
         if (!empty($latitude) && !empty($longitude)) {
             return view('list.index', ['latitude' => $latitude, 'longitude' => $longitude]);
         } else {
@@ -35,7 +39,11 @@ class FrontendController extends Controller
         }
     }
 
-    // When logged and have address
+    /**
+     * When logged and have address
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function listChefs()
     {
         if ( Auth::check() ) {
@@ -60,6 +68,10 @@ class FrontendController extends Controller
         return response()->json($this->result);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function listChefsByCep(Request $request)
     {
         $this->address_lat = $request->latitude;
@@ -68,6 +80,12 @@ class FrontendController extends Controller
         return response()->json($this->result);
     }
 
+    /**
+     * @param $id
+     * @param string $city
+     * @param string $slug
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function singleChef($id, $city = '', $slug = '')
     {
         $seller = User::findOrFail($id);
@@ -101,6 +119,11 @@ class FrontendController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @param null $day
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function listProducts($id, $day = null)
     {
         if(empty($day)) {
@@ -118,14 +141,11 @@ class FrontendController extends Controller
 
         return response()->json($products);
     }
-    // public function listFilteredProducts($id)
-    // {
 
-    //     $products = Product::where('seller_id', $id)->with('extras')->orderBy('id', 'asc')->get();
-
-    //     return response()->json($products);
-    // }
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function contatoPost(Request $request)
     {
         $this->validate($request, [
@@ -144,6 +164,9 @@ class FrontendController extends Controller
         return redirect()->route('contatoPost')->with('success', 'Sua mensagem foi enviada com sucesso!');
     }
 
+    /**
+     * @return array
+     */
     public function messages()
     {
         return [
@@ -151,6 +174,9 @@ class FrontendController extends Controller
         ];
     }
 
+    /**
+     *
+     */
     private function getChefsByDistance()
     {
         // Get all chefs 

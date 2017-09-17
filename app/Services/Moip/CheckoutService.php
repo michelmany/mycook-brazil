@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Moip;
 
 use Illuminate\Http\Request;
 use App\User;
@@ -9,7 +9,7 @@ use App\Address;
 use Moip\Resource\Customer;
 use Exception;
 
-class MoipCheckoutService
+class CheckoutService
 {
     /**
      * @var \Moip\Moip
@@ -26,6 +26,9 @@ class MoipCheckoutService
      */
     private $buyer;
 
+    /**
+    * @var
+    */
     private $address;
 
     /**
@@ -176,7 +179,7 @@ class MoipCheckoutService
                 '_link' => '/minha-conta/perfil'
             ],412);
         }
-
+        
     }
 
     /**

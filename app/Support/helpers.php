@@ -1,7 +1,5 @@
 <?php
 
-use App\Space\Settings\Setting;
-
 /**
  * Set Active Path
  *

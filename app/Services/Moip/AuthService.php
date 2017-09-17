@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Moip;
 
 use App\Models\Moip\MoipSeller;
 use App\User;
@@ -8,7 +8,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Moip\Moip;
 
-class MoipAuthService
+class AuthService
 {
     /**
      * @var Moip

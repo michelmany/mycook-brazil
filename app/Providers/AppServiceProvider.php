@@ -4,12 +4,10 @@ namespace App\Providers;
 
 use App\FotoEstabelecimento;
 use App\Models\Moip\MoipSeller;
-use App\Observables\FotoEstabelecimentoObservable;
-use App\Observables\MoipSellersObservable;
-use App\Observables\UsersObservable;
-use App\Services\MoipAuthService;
+use App\Observers\FotoEstabelecimentoObservable;
+use App\Observers\MoipSellersObservable;
+use App\Observers\UsersObservable;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Moip\Auth\OAuth;
 use Moip\Moip;

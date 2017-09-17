@@ -69,6 +69,5 @@ Vue.component('cart', require('./components/single-chef/Cart.vue'));
 Vue.component('profile-dados', require('./components/ProfileDados.vue'));
 Vue.component('profile-senha', require('./components/ProfileSenha.vue'));
 
-
-
-
+//Profile orders 
+Vue.component('list-orders', require('./components/ListOrders.vue'));

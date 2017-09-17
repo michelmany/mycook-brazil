@@ -32,7 +32,7 @@
         "psr-4": {
             "App\\": "app/"
         },
-        "files" : [ "app/Space/helpers.php"]
+        "files" : [ "app/Support/helpers.php"]
     },
     "autoload-dev": {
         "classmap": [

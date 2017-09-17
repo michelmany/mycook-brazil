@@ -1,26 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Moip;
 
-use Carbon\Carbon;
-use Closure;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use JWTAuth;
+use Carbon\Carbon;
 use Moip\Auth\Connect;
+use Illuminate\Support\Facades\Cache;
+use App\Support\Moip\ConnectSupport;
 
-class MoipConnectService
+class ConnectService
 {
-    /**
-     * @var mixed
-     */
-    private $marketplace;
-
-    /**
-     * @var Request
-     */
-    private $request;
 
     /**
      * @var Cache
@@ -29,12 +18,9 @@ class MoipConnectService
 
     /**
      * MoipConnectService constructor.
-     * @param Request $request
      */
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->marketplace = (object) config('moip.marketplace');
-        $this->request = $request;
         $this->cache = Cache::getFacadeRoot();
     }
 
@@ -69,7 +55,7 @@ class MoipConnectService
      */
     public function authorize($scopes = null)
     {
-        $token = $this->request->token;
+        $token = request()->get('token');
 
         $this->cache->add('auth.token', $token, Carbon::now()->addMinutes(5));
 
@@ -83,7 +69,7 @@ class MoipConnectService
             return response()->json(['error' => 'your account already has a relationship'], 403);
         }
 
-        return $this->proxy(function(Connect $connect) use ($scopes){
+        return ConnectSupport::proxy(function(Connect $connect) use ($scopes){
             $connect->setScodeAll(true);
             header('Location: ' . $connect->getAuthUrl());
         });
@@ -106,9 +92,9 @@ class MoipConnectService
     {
         $user = JWTAuth::toUser($this->cache->get('auth.token'));
 
-        return $this->proxy(function(Connect $connect) use ($user){
-            $connect->setClientSecret($this->marketplace->secret);
-            $connect->setCode($this->request->get('code'));
+        return ConnectSupport::proxy(function(Connect $connect) use ($user){
+            $connect->setClientSecret(config('moip.marketplace.secret'));
+            $connect->setCode(request()->get('code'));
 
             $payload = $connect->authorize();
 
@@ -124,26 +110,5 @@ class MoipConnectService
 
             return redirect()->intended('painel/admin/settings/moip');
         });
-    }
-
-    /**
-     * @param null $closure
-     * @return mixed
-     */
-    private function proxy($closure)
-    {
-        try{
-            $connect = new Connect(
-                $this->marketplace->redirect,
-                $this->marketplace->id,
-                true,
-                $this->marketplace->endpoint
-            );
-            return Closure::bind($closure, $this)->call($this, $connect);
-        }catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 400);
-        }
     }
 }

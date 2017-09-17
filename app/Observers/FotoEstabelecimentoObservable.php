@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Observables;
+namespace App\Observers;
 
 use App\FotoEstabelecimento;
 use Illuminate\Support\Facades\Storage;

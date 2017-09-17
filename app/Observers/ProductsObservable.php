@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observables;
+namespace App\Observers;
 
 use App\Product;
 use Illuminate\Support\Facades\Storage;
