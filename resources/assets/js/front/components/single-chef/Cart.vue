@@ -49,7 +49,7 @@
                   you can use custom content here to overwrite
                   default content
                 -->
-                <iframe slot="body" style="width: 100%; min-height: 450px;" :src="checkoutPayment" frameborder="0"></iframe>
+                <iframe slot="body" id="lightbox" style="width: 100%; min-height: 450px;" :src="checkoutPayment" frameborder="0"></iframe>
             </modal>
             <!-- -->
 
@@ -124,23 +124,26 @@
                 return moment(time).format('HH[h]mm') + "~" + moment(time).add(30, 'm').format('HH[h]mm')
             },
             createPayment() {
+
                 const config = {
                     onUploadProgress: progressEvent => {
                         this.checkout.progress = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
                     }
                 };
+
                 const payload = {items: this.items, seller: this.chefMoipId, total: parseFloat(this.total)};
+
                 axios.post('/moip/marketplace/order/process', payload, config)
                      .then(res => {
                         toastr.info('Aguarde.....', 'Seu Pedido foi Criado!', {
                             progressBar: true,
-                            timeout: 3000,
+                            timeout: 2000,
                             onHidden: () => {
                                     this.showModal = true;
                                     this.checkoutPayment = res.data._links.checkout.payCheckout.redirectHref;
                             }
                         });
-
+                        //
                         this.checkout.response = res;
                      })
                     .catch(error => {
@@ -182,12 +185,15 @@
                 // close modal
                 this.showModal = false;
 
+                var lightbox = $('#lightbox')[0];
+                var orderId = lightbox.src.substr(lightbox.src.length - 16);
+
                 // alert and redirect
                 toastr.success('Pedido Concluido!', '', {
                     progressBar: true,
                     timeout: 3000,
                     onHidden: () => {
-                        window.location.href = '/minha-conta/perfil'
+                        window.location.href = '/minha-conta/pedidos/' + orderId
                     }
                 })
 
@@ -214,6 +220,7 @@
 
             // cart session storage
             this.items = this.getLocalStorageCartItems();
+
         },
         created() {
 

@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buyer;
+use App\Services\Moip\Customer\OrderService;
 use App\User;
 use App\Models\Address;
 use Illuminate\Http\Request;
@@ -70,6 +71,7 @@ class MeController
     {
         return view('me.enderecos');
     }
+
     public function getAddressesByUserId()
     {
         $user_id = Auth::user()->id;
@@ -81,6 +83,7 @@ class MeController
         return response()->json($result);
 
     }
+
     public function destroyAddress($id)
     {
         $result = Address::where('id', $id);

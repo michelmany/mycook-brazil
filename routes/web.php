@@ -18,8 +18,23 @@ Route::group(['prefix' => 'moip'], function() {
         Route::post('order/process', 'Moip\CheckoutController@process');
     });
 
+    /**
+     *
+     */
     Route::group(['prefix' => 'services'], function() {
-        Route::get('orders', 'Moip\CustomerOrderController@index');
+        Route::get('orders', 'Moip\CustomerOrderController@allOrders');
+    });
+
+    /**
+     *
+     */
+    Route::get('success', function() {
+        return redirect()->route('orders.show', ['id' => request()->get('orderId')]);
+    });
+
+
+    Route::get('error', function() {
+        return 'Página Pedido Falhou!';
     });
 });
 
@@ -85,13 +100,14 @@ Route::group(['prefix'=>'entrar'], function () {
 });
 
 Route::group(['prefix'=>'minha-conta', 'middleware' => ['auth']], function () {
-    Route::get('enderecos', 'MeController@addresses')->name('profile.adresses');
     Route::get('get-addresses', 'MeController@getAddressesByUserId')->name('get-addresses');
     Route::delete('enderecos/{id}', 'MeController@destroyAddress')->name('destroy-address');
     Route::post('save-address', 'MeController@addressesPost')->name('save-address');
-
+    /**
+    | Profile
+    */
+    Route::get('enderecos', 'MeController@addresses')->name('profile.adresses');
     Route::get('minhas-avaliacoes', 'MeController@score')->name('profile.score');
-
     Route::get('perfil', 'MeController@profile')->name('profile');
     Route::post('perfil', 'MeController@profilePost')->name('profile.post');
     Route::post('troca-senha', 'MeController@passwordPost')->name('profile.password');
@@ -99,8 +115,8 @@ Route::group(['prefix'=>'minha-conta', 'middleware' => ['auth']], function () {
     /**
      | My orders
     */
-    Route::get('pedidos', function() { return view('me.orders'); });
-
+    Route::get('pedidos', 'Moip\CustomerOrderController@index')->name('orders.list');
+    Route::get('pedidos/{id}', 'Moip\CustomerOrderController@show')->name('orders.show');
     /**
      | Action Profile
     */

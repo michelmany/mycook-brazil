@@ -2,62 +2,57 @@
 
 namespace App\Http\Controllers\Moip;
 
+use App\Services\Moip\Customer\OrderService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Moip\Moip;
-use Moip\Helper\Pagination;
 
 class CustomerOrderController extends Controller
 {
     /**
-    * @var Moip
-    */
-    private $moip;
+     * @var OrderService
+     */
+    private $service;
 
-    public function __construct()
+    /**
+     * CustomerOrderController constructor.
+     * @param OrderService $service
+     */
+    public function __construct(OrderService $service)
     {
-        $this->middleware('auth');
-        $this->moip = \Moip::start();
+        $this->service = $service;
+    }
+
+    /**
+     * View orders lists
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('me.orders');
+    }
+
+    /**
+     * View get order
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show($id)
+    {
+        $order = $this->service->find($id);
+
+        return view('me.show_order', compact('order'));
     }
 
     /**
      * List all orders by email user
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function allOrders(Request $request)
     {
-        $pagination = new Pagination(5, 0);
-
-        $customerOrders = $this->moip->orders()->getList($pagination, null, $request->user()->email);
-        
-        $orders = [];
-
-        foreach($customerOrders->getOrders() as $k => $order) {
-
-            $payment = $order->payments[0];
-
-            $orders[$k] = [
-                'code' => $order->ownId,
-                'id' => $order->id,
-                'status' => $order->status  === 'PAID' ? 'Pago' : 'Aguardando',
-                'payment' => [
-                    'type' => $payment->fundingInstrument->method,
-                    'brand' => $payment->fundingInstrument->brand
-                ],
-                'amount' => number_format(
-                    (float)chunk_split($order->amount->total, strlen($order->amount->total)-2, '.'),
-                    2,
-                    ',',
-                    '.'
-                ),
-                'timestamps' => [
-                    'created_at' => $order->createdAt,
-                    'updated_at' => $order->updatedAt
-                ],
-            ];
-        }
-
-        return response()->json($orders);
+        return $this->service->all(10, $request->page);
     }
 }

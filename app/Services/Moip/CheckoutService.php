@@ -132,9 +132,13 @@ class CheckoutService
             foreach ($this->request->items as $item) {
                 $order->addItem($item['name'], $item['qty'], $item['desc'], $this->formatPriceByMoip($item['price']));
             }
+            
+            // redirect
+            $order->setUrlSuccess(config('app.url').'/moip/success')
+                 ->setUrlFailure(config('app.url').'/moip/error');
             $order
                 ->setCustomer($customer)
-                ->addReceiver($this->request->seller, 'SECONDARY', $this->formatPriceByMoip($this->request->total))
+                ->addReceiver($this->request->seller, 'SECONDARY', $this->formatPriceByMoip($this->request->total), null, true)
                 ->create();
             return response()->json($order, 201);
         }catch (\Exception $e) {

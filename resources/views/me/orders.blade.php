@@ -9,15 +9,13 @@
                 <h6>Acompanhe suas compras</h6>
             </div>
             <div>
-                <button class="btn btn-submit-orange mt-3 mb-3">
+                <a href="{{ url('lista-chefs') }}" class="btn btn-submit-orange mt-3 mb-3">
                     Nova Compra
-                </button>    
+                </a>    
             </div>
         </div>
         <hr>
-
         <!-- @include('flash::message') -->
-
         <list-orders></list-orders>
 
     </div>

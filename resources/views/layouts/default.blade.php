@@ -69,7 +69,7 @@
                                         <a class="dropdown-item" href="{{ route('profile') }}">Perfil</a>
                                         <a class="dropdown-item" href="{{ route('profile.adresses') }}">Meus Endereços</a>
                                         <a class="dropdown-item disabled" href="{{-- {{ route('profile.score') }} --}}">Avaliações</a>
-                                        <a class="dropdown-item disabled" href="{{-- {{ route('profile.adresses') }} --}}">Acompanhar pedidos</a>
+                                        <a class="dropdown-item" href="{{ route('orders.list') }}">Acompanhar pedidos</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="{{ route('logout') }}">Sair</a>
                                     </div>

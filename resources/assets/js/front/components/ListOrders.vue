@@ -7,11 +7,10 @@
             <thead>
                 <tr>
                     <th>Código</th>
-                    <th>Chef</th>
                     <th>Meio</th>    
                     <th>Total Pago</th>
                     <th>Status</th>
-                    <th>Atualizado em</th>
+                    <th>Atualização</th>
                     <th>Opções</th>
                 </tr>
             </thead>
@@ -22,12 +21,10 @@
                         <span class="badge badge-primary">{{ order.code }}</span>
                     </td>
                     <td>
-                        chef
-                    </td>
-                    <td>
                         <i class="fa fa-2x" :class="{
                             'fa-barcode': order.payment.type == 'BOLETO',
-                            'fa-credit-card': order.payment.type == 'CREDIT_CARD'
+                            'fa-credit-card': order.payment.type == 'CREDIT_CARD',
+                            'fa-deposit': order.payment.type == 'ONLINE_BANK_DEBIT'
                             }" aria-hidden="true">
                         </i>
                     </td>
@@ -41,8 +38,9 @@
                         {{ order.timestamps.updated_at }}
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-primary">Detalhes</button>
-                        <button class="btn btn-sm btn-primary">Cancelar</button>
+                        <button class="btn btn-sm btn-primary" @click="show(order, index)">
+                            <i class="fa fa-share"></i> detalhes
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -60,7 +58,8 @@ export default {
     data() {
         return {
             loading: false,
-            orders: []
+            orders: [],
+            meta: []
         }
     },
     methods: {
@@ -68,10 +67,13 @@ export default {
             this.loading = true
             axios.get('/moip/services/orders')
                  .then(res => {
-                    this.orders = res.data;
+                    this.orders = res.data.orders;
+                    this.meta = res.data.meta;
                     this.loading = false;
-                    console.log(res.data)
                 })
+        },
+        show(order, index) {
+            window.location.href = '/minha-conta/pedidos/' + order.id
         }
     },
     mounted() {
@@ -81,12 +83,12 @@ export default {
 </script>
 
 <style>
-        .fade-enter-active, 
-        .fade-leave-active {
-          transition: opacity .5s
-        }
-        .fade-enter, 
-        .fade-leave-to {
-          opacity: 0
-        }
-    </style>
+    .fade-enter-active, 
+    .fade-leave-active {  transition: opacity .5s }
+    .fade-enter, 
+    .fade-leave-to {  opacity: 0}
+    .fa-deposit {
+       background-image: url("/assets/img/deposito.png");
+       padding: .5em;
+    }
+</style>
