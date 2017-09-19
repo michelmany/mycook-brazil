@@ -209,9 +209,20 @@ const routes = [
             component: UsersDelete,
             name: 'users-delete',
         },
-        // Admin - Moip
+        // Sellers - Orders
         {
-            path: 'admin/settings/moip',
+            path: 'seller/orders',
+            component: require('../painel/views/admin/orders/Index.vue'),
+            name: 'orders.list'
+        },
+        {
+            path: 'seller/orders/:id',
+            component: require('../painel/views/admin/orders/Show.vue'),
+            name: 'orders.view'
+        },
+        // Sellers - Moip
+        {
+            path: 'seller/settings/moip',
             component: require('../painel/views/admin/moip/Index.vue'),
             name: 'settings-moip',
         }

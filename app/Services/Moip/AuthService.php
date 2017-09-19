@@ -23,12 +23,11 @@ class AuthService
     /**
      * MoipAuthService constructor.
      *
-     * @param Moip $moip
      * @param Request $request
      */
-    public function __construct(Moip $moip, Request $request)
+    public function __construct(Request $request)
     {
-        $this->moip = $moip;
+        $this->moip = \Moip::start();
         $this->request = $request;
     }
 
@@ -41,12 +40,19 @@ class AuthService
     {
         $user = $this->request->user();
 
-        $moipSeller = $user->moipseller;
-
-        if($moipSeller->publicKeys) {
-            return response()->json(['error' => 'We already have a public key for this seller.'], 401);
+        if($user->role !== 'vendedor') {
+            return response()->json(['error' => 'Sua conta deve ser do tipo VENDEDOR'], 403);
         }
 
+        $moipSeller = $user->moipseller;
+
+        if(!$moipSeller) {
+            return response()->json(['error' => 'Antes de solicitar sua chave pública, é necessário sincronizar sua conta com nossa APP'], 403);
+        }
+
+        if($moipSeller->publicKeys) {
+            return response()->json(['error' => 'Você já solicitou sua chave pública.'], 401);
+        }
         return $this->proxy(function($proxy) use($moipSeller){
             $response = $proxy->get('v2/keys');
             $body = json_decode($response->body, true);
@@ -56,6 +62,7 @@ class AuthService
 
             return response()->json(['data' => 'created'], 201);
         });
+
     }
 
     /**
@@ -64,7 +71,7 @@ class AuthService
      */
     private function proxy($closure = null) {
         try{
-            $session = $this->moip->getSession();
+            $session = $this->moip->getApi()->getSession();
             return Closure::bind($closure, $this)->call($this, $session);
         }catch (\Exception $e) {
             return response($e->getMessage(), 400);

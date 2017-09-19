@@ -12,7 +12,7 @@
                         <button class="btn search__button" @click="getcep()">Buscar</button>
                   </div>
                 <div>
-                    <p class="search__text mt-3">Não sabe o CEP? <br class="hidden-sm-up"><strong>Clique aqui</strong> e digite seu endereço.</p>
+                    <p class="search__text mt-3">Não sabe o CEP? <br class="hidden-sm-up"> <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank"><strong>Clique aqui</strong></a> e digite seu endereço.</p>
                 </div>
             </div>
             <div v-else key="number">

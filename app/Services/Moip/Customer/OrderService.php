@@ -69,15 +69,16 @@ class OrderService
                     ],
                 ];
             }
+
+            $summary = $customerOrders->jsonSerialize()->summary;
+
+            $orders['meta'] = [
+                'total' => $summary->count,
+                'pages' => (int)ceil($summary->count/$total),
+                'amount' => Utils::formatAmount($summary->amount)
+            ];
+
         }
-
-        $summary = $customerOrders->jsonSerialize()->summary;
-
-        $orders['meta'] = [
-            'total' => $summary->count,
-            'pages' => (int)ceil($summary->count/$total),
-            'amount' => Utils::formatAmount($summary->amount)
-        ];
 
         return $orders;
     }

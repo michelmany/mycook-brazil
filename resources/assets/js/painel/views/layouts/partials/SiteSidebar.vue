@@ -18,7 +18,7 @@
                 
                 <template v-if="user.role === 'vendedor'">
 
-                    <router-link to="/" tag="li" exact><a><i class="fa fa-shopping-cart"></i> Minhas vendas </a></router-link>
+                    <router-link :to="{name: 'orders.list'}" tag="li" exact><a><i class="fa fa-shopping-cart"></i> Minhas vendas </a></router-link>
 
                     <li :class="{ active : isActive('/admin/cardapio') }">
                         <a href="#" aria-expanded="true"><i class="fa fa-cutlery"></i> Cardapio <span class="fa arrow fa-fw"></span></a>
