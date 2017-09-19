@@ -108,7 +108,7 @@ class ConnectService
                 ]
             ]);
 
-            return redirect()->intended('painel/admin/settings/moip');
+            return redirect()->intended('painel/seller/settings/moip');
         });
     }
 }
