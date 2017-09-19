@@ -13,7 +13,7 @@
                 <a href="{{ route('orders.list') }}" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left"></i> Voltar</a>
                 
                 <!-- refazer pagamento -->
-                @if($order->status->origin === 'WAITING')
+                @if($order->status->origin === 'WAITING' || $order->payment->status->origin === 'WAITING')
                     <a href="{{ $order->_links->checkout }}" class="btn btn-outline-primary">
                         Refazer Pagamento
                     </a>
@@ -79,44 +79,71 @@
                 </div>
             </div>
         </div>
-         <br>
+        <br>
+        <!-- detalhes da compra -->
         <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Detalhes da Compra</h3>
-                    </div>
-                    <div class="card-block">
+             <div class="col-md-4">
+                 <div class="card">
+                     <div class="card-header">
+                         <h3>Dados Entrega</h3>
+                     </div>
+                     <div class="card-block">
+                         @if($order->courier)
+                             <table class="table table-stripped">
+                                 <thead>
+                                 <tr>
+                                     <th>Dia da Entrega</th>
+                                     <th>Hora</th>
+                                 </tr>
+                                 <tr>
+                                     <th>{{ $order->courier->fulldate }}</th>
+                                     <th>{{ \Carbon\Carbon::parse($order->courier->time)->format('H:i A') }}</th>
+                                 </tr>
+                                 </thead>
+                             </table>
+                             @else
+                             <p class="text-info">Sem informações de Entrega</p>
+                             @endif
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-8">
+                 <div class="card">
+                     <div class="card-header">
+                         <h3>Detalhes da Compra</h3>
+                     </div>
+                     <div class="card-block">
 
-                        <div class="row">
-                            <table class="table table-stripped">
-                                <thead>
-                                    <tr>
-                                        <th>Produto</th>
-                                        <th>Descrição</th>
-                                        <th>Quantidade</th>
-                                        <th>Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($order->items as $item)
-                                        <tr>
-                                            <td>{{ $item->name }}</td>
-                                            <td>{{ $item->detail}}</td>
-                                            <td>{{ $item->qty }}x</td>
-                                            <td>R$ {{ $item->price }}</td>
-                                        </tr>
-                                        @empty
-                                        <p>Não localizamos nenhum produto</p>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
+                         <div class="row">
+                             <table class="table table-stripped">
+                                 <thead>
+                                 <tr>
+                                     <th>Produto</th>
+                                     <th>Descrição</th>
+                                     <th>Quantidade</th>
+                                     <th>Valor</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+                                 @forelse($order->items as $item)
+                                     <tr>
+                                         <td>{{ $item->name }}</td>
+                                         <td>{{ $item->detail}}</td>
+                                         <td>{{ $item->qty }}x</td>
+                                         <td>R$ {{ $item->price }}</td>
+                                     </tr>
+                                 @empty
+                                     <p>Não localizamos nenhum produto</p>
+                                 @endforelse
+                                 </tbody>
+                             </table>
+                         </div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+        <!-- detalhes da compra -->
     </div>
 </section>
 @endsection

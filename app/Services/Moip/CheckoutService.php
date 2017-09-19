@@ -2,12 +2,15 @@
 
 namespace App\Services\Moip;
 
+use App\Models\OrderDeliveryData;
 use Illuminate\Http\Request;
 use App\User;
 use App\Models\Buyer;
 use App\Models\Address;
+use Moip\Helper\Utils;
 use Moip\Resource\Customer;
 use Exception;
+use App\Models\Product;
 
 class CheckoutService
 {
@@ -129,31 +132,34 @@ class CheckoutService
             if(count($this->request->items) <= 0){
                 return response()->json(['error' => 'There are no products in the cart.'], 412);
             }
-            foreach ($this->request->items as $item) {
-                $order->addItem($item['name'], $item['qty'], $item['desc'], $this->formatPriceByMoip($item['price']));
-            }
             
+            foreach ($this->request->items as $item) {
+                $this->checkItem($item);
+                $order->addItem($item['name'], $item['qty'], $item['desc'], Utils::toCents((float)$item['price']));
+            }
             // redirect
-            $order->setUrlSuccess(config('app.url').'/moip/success')
-                 ->setUrlFailure(config('app.url').'/moip/error');
+            $order->setUrlSuccess(route('moip.payments.success'))
+                 ->setUrlFailure(route('moip.payments.error'));
             $order
                 ->setCustomer($customer)
-                ->addReceiver($this->request->seller, 'SECONDARY', $this->formatPriceByMoip($this->request->total), null, true)
+                ->addReceiver($this->request->seller, 'SECONDARY', Utils::toCents((float)$this->request->total), null, true)
                 ->create();
+
+            // Register Courier Address
+            OrderDeliveryData::create([
+                'orderId' => $order->jsonSerialize()->id,
+                'day' => $this->request->courier['date'],
+                'fulldate' => $this->request->courier['fulldate'],
+                'time' => $this->request->courier['time'],
+            ]);
+
+            // Clean cart
+            \Cache::forget('my-cart');
+
             return response()->json($order, 201);
         }catch (\Exception $e) {
             return response()->json(['error' => 'Pedido falhou, atualize a página e tente novamente', '__toString'=>$e->__toString()], 400);
         }
-    }
-
-    /**
-     * Format price default moip
-     * @param $price
-     * @return int
-     */
-    private function formatPriceByMoip($price)
-    {
-        return (int)str_replace([',','.'], null, number_format($price, 2, ',', '.'));
     }
 
     /**
@@ -196,6 +202,29 @@ class CheckoutService
             return response()->json([
                 'error' => 'É necessário cadastrar um endereço.',
                 '_link' => '/minha-conta/enderecos'
+            ], 412);
+        }
+    }
+
+    /**
+     * Verify product
+     *
+     * @param $item
+     * @return \Illuminate\Http\JsonResponse
+     */
+    private function checkItem($item)
+    {
+        $product = Product::find($item['id']);
+
+        if(!$product) {
+            return response()->json([
+                'error' => 'Este produto não existe!',
+            ], 412);
+        }
+
+        if($item['price'] !== $product['price']) {
+            return response()->json([
+                'error' => 'Preço do produto não corresponde ao esperado.',
             ], 412);
         }
     }

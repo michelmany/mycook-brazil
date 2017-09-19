@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Services Routes
@@ -23,18 +24,22 @@ Route::group(['prefix' => 'moip'], function() {
      */
     Route::group(['prefix' => 'services'], function() {
         Route::get('orders', 'Moip\CustomerOrderController@allOrders');
+        /**
+        * Cart
+        */
+        Route::group(['prefix' => 'cart', 'namespace' => 'Moip'], function() {
+            Route::get('/', 'CartController@index');
+            Route::post('/', 'CartController@store');
+            Route::put('{index}', 'CartController@update');
+        });
     });
 
     /**
      *
      */
-    Route::get('success', function() {
-        return redirect()->route('orders.show', ['id' => request()->get('orderId')]);
-    });
-
-
-    Route::get('error', function() {
-        return 'Página Pedido Falhou!';
+    Route::group(['prefix' => 'payments', 'as' => 'moip.payments.'], function() {
+        Route::get('success', 'Moip\CheckoutController@paymentSuccess')->name('success');
+        Route::get('error', 'Moip\CheckoutController@paymentError')->name('error');
     });
 });
 

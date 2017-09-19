@@ -177,7 +177,6 @@
 
                 //add to the cart
                 this.cartItems.push({
-                    uid: Math.floor(Math.random() * 99999999999999),
                     id: item.id,
                     name: item.name,
                     desc: item.desc,
@@ -186,22 +185,22 @@
                     qty: 1
                 });
 
-                /**
-                 |
-                 */
-                const cartName = 'my-cart#' + window.location.pathname;
-                if(!Ls.get(cartName)) {
-                    Ls.set(cartName, JSON.stringify(this.cartItems));
-                }else{
-                    const oldCart = JSON.parse(Ls.get(cartName));
-                    Ls.remove(cartName);
-                    Ls.set(cartName, JSON.stringify(this.cartItems.concat(oldCart)));
-                }
+                // /**
+                //  |
+                //  */
+                // const cartName = 'my-cart#' + window.location.pathname;
+                // if(!Ls.get(cartName)) {
+                //     Ls.set(cartName, JSON.stringify(this.cartItems));
+                // }else{
+                //     const oldCart = JSON.parse(Ls.get(cartName));
+                //     Ls.remove(cartName);
+                //     Ls.set(cartName, JSON.stringify(this.cartItems.concat(oldCart)));
+                // }
 
                 eventBus.$emit('cartItems', this.cartItems, this.cartData);
 
                 // //Remove from array after add to the cart
-                this.items.splice(index, 1);
+                //this.items.splice(index, 1);
 
                 //Change message alert for no items available
                 if (this.items.length == 0) {
@@ -341,6 +340,14 @@
         created() {
             this.setNow()
             // console.log(this.chef.times)
+
+            eventBus.$on('remove-item', payload => {
+                console.log(payload)
+                if(payload.qty === 0) {
+                    this.cartData = {};
+                    this.cartItems.splice(index, 1);
+                }
+            })
         }
 
     }

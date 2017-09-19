@@ -2,6 +2,7 @@
 
 namespace App\Services\Moip\Customer;
 
+use App\Models\OrderDeliveryData;
 use App\Support\Moip\Utils;
 use App\User;
 use Carbon\Carbon;
@@ -127,6 +128,7 @@ class OrderService
                     'email' => $chef->email,
                     'avatar' => $chef->avatar
                 ],
+                'courier' => OrderDeliveryData::where('orderId', $orderId)->first(),
                 '_links' => (object)[
                     'order' => $order->_links->self->href,
                     'checkout' => $order->_links->checkout->payCheckout->redirectHref,

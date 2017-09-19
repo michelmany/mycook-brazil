@@ -38,6 +38,10 @@ class UserController extends Controller
     public function logout()
     {
         Auth::logout();
+
+        // Remove
+        \Cache::forget('my-cart');
+
         return redirect('/');
     }
 

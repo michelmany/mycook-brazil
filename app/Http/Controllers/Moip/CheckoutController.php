@@ -29,4 +29,22 @@ class CheckoutController extends Controller
     {
         return $this->service->process($request);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function paymentSuccess(Request $request)
+    {
+        return redirect()->route('orders.show', ['id' => $request->orderId]);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function paymentError(Request $request)
+    {
+        echo 'payment fail';
+        dd($request);
+    }
 }

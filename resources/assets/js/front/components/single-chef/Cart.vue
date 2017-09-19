@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="card-block">
-            <div v-if="items">
+            <div v-if="items && items.length > 0">
                 <ul class="px-0">
                     <li v-for="(item,index) in items" :key="index" class="list-unstyled cart__item">{{ item.name }}
                         <div class="mt-2 d-flex justify-content-between">
@@ -43,16 +43,6 @@
             <a href="#" class="btn btn-primary btn-block" @click="createPayment()" v-if="userIsLogged">Finalizar compra</a>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
 
-            <!-- -->
-            <modal v-if="showModal" @close="clearCartHistory">
-                <!--
-                  you can use custom content here to overwrite
-                  default content
-                -->
-                <iframe slot="body" id="lightbox" style="width: 100%; min-height: 450px;" :src="checkoutPayment" frameborder="0"></iframe>
-            </modal>
-            <!-- -->
-
         </div>
     </div>
 </template>
@@ -67,27 +57,17 @@
 
 
     export default {
-        components: {
-            modal: require('../../components/utils/Modal.vue')
-        },
         props: {
             chefName: String,
             chefMoipId: String
         },
         data() {
             return {
-                showModal: false,
                 items: [],
                 courier: {},
                 total: '',
                 userIsLogged: false,
-                pathname: '',
-                checkoutPayment: null,
-                cartName: 'my-cart#',
-                checkout: {
-                    progress: 0,
-                    response: null
-                }
+                pathname: ''
             }
         },
         watch: {
@@ -100,103 +80,18 @@
                 if (item.qty < item.availableQty) {
                     item.qty++;
                 }
-                this.updateCart(item,index);
+                this.cartProduct(item, this.courier, index);
             },
             dec(item, index) {
-                if (item.qty > 1) {
+
+                if(item.qty > 1){
                     item.qty--;
                 }
-                this.updateCart(item,index);
-            },
-            updateCart(item, index) {
 
-                var currentMyCart = JSON.parse(Ls.get(this.getCartName()));
-                currentMyCart.splice(index, 1);
-
-                var newList = [];
-                newList.push(item);
-
-                Ls.remove(this.getCartName());
-
-                Ls.set(this.getCartName(), JSON.stringify(newList.concat(currentMyCart)))
+                this.cartProduct(item, this.courier, index);
             },
             formatedDate(time) {
                 return moment(time).format('HH[h]mm') + "~" + moment(time).add(30, 'm').format('HH[h]mm')
-            },
-            createPayment() {
-
-                const config = {
-                    onUploadProgress: progressEvent => {
-                        this.checkout.progress = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
-                    }
-                };
-
-                const payload = {items: this.items, seller: this.chefMoipId, total: parseFloat(this.total)};
-
-                axios.post('/moip/marketplace/order/process', payload, config)
-                     .then(res => {
-                        toastr.info('Aguarde.....', 'Seu Pedido foi Criado!', {
-                            progressBar: true,
-                            timeout: 2000,
-                            onHidden: () => {
-                                    this.showModal = true;
-                                    this.checkoutPayment = res.data._links.checkout.payCheckout.redirectHref;
-                            }
-                        });
-                        //
-                        this.checkout.response = res;
-                     })
-                    .catch(error => {
-                        // 400
-                        if(error.response.satus === 400) {
-                            toastr.warning(error.response.data.error, 'Impossivel Continuar')
-                        }
-                        // 412
-                        if(error.response.status === 412) {
-                            toastr.info(error.response.data.error, 'Processo Necessário', {
-                                onHidden: () => {
-                                    window.location.href = error.response.data._link
-                                }
-                            })
-                        }
-                        // 500
-                        if(error.response.status === 500) {
-                            toastr.error(error.response.data.error, 'Falha Interna', {
-                                onHidden: () => {
-                                    window.location.href = error.response.data._link
-                                }
-                            })
-                        }
-
-                        this.checkout.response = error.response;
-                    })
-            },
-            clearCartHistory(){
-
-                if(!this.checkout.response){
-                    // not action
-                    this.showModal = false;
-                    return;
-                }
-
-                // clear ls
-                Ls.remove(this.getCartName());
-
-                // close modal
-                this.showModal = false;
-
-                var lightbox = $('#lightbox')[0];
-                var orderId = lightbox.src.substr(lightbox.src.length - 16);
-
-                // alert and redirect
-                toastr.success('Pedido Concluido!', '', {
-                    progressBar: true,
-                    timeout: 3000,
-                    onHidden: () => {
-                        window.location.href = '/minha-conta/pedidos/' + orderId
-                    }
-                })
-
             },
             userIsLoggedIn() {
                 axios.get('/user-is-logged-in')
@@ -204,11 +99,64 @@
                         this.userIsLogged = res.data.data
                      })
             },
-            getLocalStorageCartItems() {
-                return JSON.parse(Ls.get(this.getCartName()))
+            getCart() {
+                axios.get('/moip/services/cart')
+                     .then(res => {
+                         if(res.status !== 204) {
+                             this.items = res.data.items;
+                             this.courier = res.data.courier;
+                         }
+                     });
             },
-            getCartName() {
-                return this.cartName + this.pathname
+            cartProduct(items, courier, index = '') {
+                axios.post('/moip/services/cart', {items, courier, index})
+                     .then(res => {
+                         console.log(res)
+                     })
+            },
+            createPayment() {
+                const payload = {items: this.items, seller: this.chefMoipId, total: parseFloat(this.total), courier: this.courier};
+                axios.post('/moip/marketplace/order/process', payload)
+                     .then(res => {
+                         toastr.info('Aguarde.....', 'Seu Pedido foi Criado!', {
+                             progressBar: true,
+                             timeout: 2000,
+                             onHidden: () => {
+                                 window.location.href = res.data._links.checkout.payCreditCard.redirectHref;
+                             }
+                         });
+                     })
+                    .catch(error => {
+                        // 400
+                        if(error.response.satus === 400) {
+                            toastr.warning(error.response.data.error, 'Impossivel Continuar',{
+                                progressBar: true,
+                                timeout: 2000,
+                            })
+                        }
+                        // 412
+                        if(error.response.status === 412) {
+                            toastr.info(error.response.data.error, 'Processo Necessário', {
+                                progressBar: true,
+                                timeout: 2000,
+                                onHidden: () => {
+                                    if(error.response.data._link){
+                                        window.location.href = error.response.data._link
+                                    }
+                                }
+                            })
+                        }
+                        // 500
+                        if(error.response.status === 500) {
+                            toastr.error(error.response.data.error, 'Falha Interna', {
+                                progressBar: true,
+                                timeout: 2000,
+                                onHidden: () => {
+                                    window.location.href = error.response.data._link
+                                }
+                            })
+                        }
+                    })
             }
         },
         mounted() {
@@ -217,20 +165,20 @@
 
             // get pathname
             this.pathname = window.location.pathname;
-
-            // cart session storage
-            this.items = this.getLocalStorageCartItems();
-
+            
+            // get cart history
+            this.getCart();
         },
         created() {
 
             eventBus.$on('cartItems', (cartItems, cartData) => {
+                // console.log(cartItems, cartData)
                 this.items = cartItems;
                 this.courier.time = cartData.time;
                 this.courier.fulldate = cartData.fulldate;
+                this.cartProduct(cartItems, cartData);
             })
 
-            console.log(this.checkout.progress)
         },
         computed: {
             calculateTotal() {
