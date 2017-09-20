@@ -16,6 +16,7 @@
                             <span class="cardapio__serve badge badge-primary">Serve {{ item.serve }}</span>
                             <!-- To do: Pegar os dias que tem times setados e mostrar no span abaixo -->
                             <span class="cardapio__serve badge badge-default">{{ dateRangeBadge(item) }}</span>
+                            <div class="cardapio__time mt-3">Hoje: {{ timeRangeAvailableForToday(item) }}</div>
                         </div>
                     </div>
                 </div>
@@ -24,13 +25,12 @@
                         <div class="cardapio__footer d-flex justify-content-between align-items-center flex-wrap mt-3">
                             <div class="cardapio__price">R$ {{ item.price }}</div>
                             <button class="btn btn-outline-primary text-uppercase" @click="openDaysOrAddToCart(item, index, $event)">{{ btnLabel }}</button>
-                            <div class="cardapio__time">{{ timeRangeAvailable(item) }}</div>
                         </div>
                         <transition name="slide-fade" mode="in-out">
                             <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
                                 <li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase" 
-                                    v-bind:disabled="weekDay.quantity == 0" 
-                                    v-bind:class="{ disabled: weekDay.quantity == 0 }" 
+                                    v-bind:disabled="weekDay.quantity == 0 || pastTime(weekDay.time)" 
+                                    v-bind:class="{ disabled: weekDay.quantity == 0 || pastTime(weekDay.time) }" 
                                     @click="selectDate(weekDay, dayIndex, index)">{{ weekDay.date }}</li>
                             </div>
                         </transition>
@@ -52,7 +52,7 @@
 
                     <div class="card">
                         <div class="card-block">
-                            <h6 class="card-title text-uppercase">Informe o horário</h6>
+                            <h6 class="card-title text-uppercase">Escolha o horário para entrega</h6>
                             <h4 class="card-text">
                             <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
                             
@@ -98,7 +98,7 @@
     export default {
         data() {
             return {
-                btnLabel: "Adicionar",
+                btnLabel: "Agendar entrega",
                 noItemTextMessage: "Nenhum produto cadastrado no cardápio!",
                 loading: false,
                 showDays: false,
@@ -199,8 +199,8 @@
 
                 eventBus.$emit('cartItems', this.cartItems, this.cartData);
 
-                // //Remove from array after add to the cart
-                //this.items.splice(index, 1);
+                // Remove from array after add to the cart
+                this.items.splice(index, 1);
 
                 //Change message alert for no items available
                 if (this.items.length == 0) {
@@ -239,7 +239,6 @@
 
                     })
                 });
-
 
 
                 //Change message alert for no items available
@@ -311,16 +310,14 @@
                 return moment(timeSelected).add(30, 'm').format('HH[h]mm')
                 // console.log(date)
             },
-            timeRangeAvailable(item) {
-                var newArrayMin = [];
-                var newArrayMax = [];
-                item.extras.forEach((extra) => {
-                    newArrayMin.push(extra.start_time);
-                })
-                item.extras.forEach((extra) => {
-                    newArrayMax.push(extra.end_time);
-                })
-                return _.min(newArrayMin) + " às " + _.max(newArrayMax);
+            timeRangeAvailableForToday(item) {
+                var arr = item.extras[0].time;
+                var todayTime = arr.slice(-1)[0]; //get the last time
+                console.log(todayTime);
+                if (item.extras[0] && item.extras[0].quantity > 0 && moment(todayTime).unix() > this.now ) {
+                    return item.extras[0].start_time + " às " + item.extras[0].end_time;
+                }
+                return "Indisponível";
             },
             dateRangeBadge(item) {
                 var dateRange = [];
@@ -330,15 +327,23 @@
                     }
                 })
                 return dateRange.join(", ");
+            },
+            pastTime(time) {
+                var todayTime = time.slice(-1)[0]; //get the last time
+                if (moment(todayTime).unix() < this.now) {
+                    return true
+                }
+                return false
             }
 
         },
-
         mounted() {
             this.getProducts()
         },
         created() {
             this.setNow()
+
+            console.log("Date: " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"))
             // console.log(this.chef.times)
 
             eventBus.$on('remove-item', payload => {

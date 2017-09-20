@@ -28,9 +28,10 @@ import { extendMoment } from 'moment-range';
 const momentRange = extendMoment(moment);
 Object.defineProperty(Vue.prototype, '$momentRange', { value: momentRange })
 
-
-
 moment.locale('pt-br')
+
+var momenttz = require('moment-timezone');
+momenttz.tz.setDefault("America/Sao_Paulo");
 
 
 Validator.extend('cpf', CpfValidator)
