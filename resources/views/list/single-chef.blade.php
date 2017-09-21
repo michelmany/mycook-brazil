@@ -13,15 +13,12 @@
                     </div>
                 </div>
 
-                {{-- {{ dd($seller )}} --}}
-
                 <div class="col-md-6 col-lg-6">
                     <h3>{{ $seller->name }}</h3>
                     
                     @if ($seller->distance)
                         <div class="chef-item__distance"><small class="text-uppercase">A {{$seller->distance}} Km de distância</small></div>
                     @endif
-                    {{-- Talvez mais pra frente ver uma maneira de mostrar a distancia também quando a busca for pelo user deslogado. --}}
 
                     <p>A casa aposta no conceito de gastrobar, ou seja, oferece uma boa gastronomia com toda a descontração de um bar. No cardápio assinado pelo chef Waldomiro Santos, que tem passagem pelo Bar des Arts e O Leopolldo, pratos com toque autoral como a picanha grelhada ao molho à base de creme de leite e shoyu com shiitake laminado, guarnecido de risoto do próprio molho.</p>
                 </div>
@@ -36,19 +33,16 @@
     <div class="chefs-list">
         <div class="container generic__wrapper">
             <div class="header mb-3">
-            </div>
+                <h2>Cardápio</h2>
+            </div><br>
 
             <div class="row">
-
-{{--                 {{ dd($seller) }}--}}
                 <div class="col-md-12 col-lg-8">
                     <cardapio :chef-id="{{ $seller->seller->id }}"></cardapio>
                 </div>
-
                 <div class="col-md-12 col-lg-4 hidden-md-down">
                     <cart chef-name="{{ $seller->name }}" chef-moip-id="{{ $moipseller->moipId }}"></cart>
                 </div>
-
             </div>
 
         </div>
