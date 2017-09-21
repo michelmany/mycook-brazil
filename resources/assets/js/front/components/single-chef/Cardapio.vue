@@ -28,6 +28,7 @@
                         </div>
                         <transition name="slide-fade" mode="in-out">
                             <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
+                                <p>Selecione o dia desejado</p>
                                 <li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase" 
                                     v-bind:disabled="weekDay.quantity == 0 || pastTime(weekDay.time)" 
                                     v-bind:class="{ disabled: weekDay.quantity == 0 || pastTime(weekDay.time) }" 
@@ -39,7 +40,6 @@
                 </div>
 
                 <sweet-modal ref="modalTime">
-                    <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
                     
                     <!-- To do: adicionar component de trocar endereço direto no modal -->
         <!--             <div class="card mb-3">
