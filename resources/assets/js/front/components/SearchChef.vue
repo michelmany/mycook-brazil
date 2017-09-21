@@ -1,5 +1,5 @@
 <template>
-    <div class="search-chef">
+    <div class="search-chef" v-if="showFilterBar">
         <div class="container">
             <form class="form-group">
                 <div class="input-group">
@@ -17,7 +17,8 @@
     export default {
         data() {
             return {
-                search: ''
+                search: '',
+                showFilterBar: ''
             }
         },
         methods: {
@@ -25,10 +26,13 @@
                 eventBus.$emit('search-chef', this.search);
                 // console.log('submitted');
             },
+            hasChef(res) {
+                this.showFilterBar = res;
+            },
 
         },
         mounted() {
-
+            eventBus.$on('has-chef', this.hasChef);
         }
     }
 </script>
