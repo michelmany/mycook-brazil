@@ -13,10 +13,10 @@
                         <div>
                             <h5 class="cardapio__title text-uppercase">{{ item.name }}</h5>
                             <div class="cardapio__desc">{{ item.desc }}</div>
-                            <span class="cardapio__serve badge badge-primary">Serve {{ item.serve }}</span>
+                            <div><span class="cardapio__serve badge badge-primary">Serve {{ item.serve }}</span></div>
                             <!-- To do: Pegar os dias que tem times setados e mostrar no span abaixo -->
-                            <span class="cardapio__serve badge badge-default">{{ dateRangeBadge(item) }}</span>
-                            <div class="cardapio__time mt-3">Hoje: {{ timeRangeAvailableForToday(item) }}</div>
+                            <div class="cardapio__desc mt-3">Disponível nos dias: {{ dateRangeBadge(item) }}</div>
+                            <div class="cardapio__time">Hoje: {{ timeRangeAvailableForToday(item) }}</div>
                         </div>
                     </div>
                 </div>
