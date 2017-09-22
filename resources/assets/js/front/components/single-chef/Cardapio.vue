@@ -170,18 +170,18 @@
                 this.addItem(item, index);
             },
             addItem(item, index) {
-
-                //add to the cart
-                this.cartItems.push({
+                const newItem = {
                     id: item.id,
                     name: item.name,
                     desc: item.desc,
                     price: item.price,
                     availableQty: item.extras[this.selectedDateIndex].quantity,
                     qty: 1
-                });
+                };
 
-                eventBus.$emit('cartItems', this.cartItems, this.cartData);
+                this.cartItems.push(newItem);
+
+                eventBus.$emit('cartItems', this.cartItems, this.cartData, newItem);
 
                 // Remove from array after add to the cart
                 this.items.splice(index, 1);

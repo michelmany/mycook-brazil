@@ -79,7 +79,7 @@
                 if (item.qty < item.availableQty) {
                     item.qty++;
                 }
-                this.cartProduct(item, this.courier, index);
+                this.cartProductUpdate(item, index);
             },
             dec(item, index) {
                 const after = item.qty
@@ -92,7 +92,7 @@
                     this.items.splice(index, 1)
                     this.courier = {}
                 }
-                this.cartProduct(item, this.courier, index);
+                this.cartProductUpdate(item, index);
             },
             formatedDate(time) {
                 return moment(time).format('HH[h]mm') + "~" + moment(time).add(30, 'm').format('HH[h]mm')
@@ -112,10 +112,10 @@
                          }
                      });
             },
-            cartProduct(items, courier, index = '') {
-                axios.post(`/moip/services/cart?seller=${this.pathname}`, {items, courier, index})
+            cartProductUpdate(item,index) {
+                axios.put(`/moip/services/cart/${index}?seller=${this.pathname}`, {item})
                      .then(res => {
-                         console.log(res)
+                        console.log(res)
                      })
             },
             createPayment() {
@@ -161,6 +161,13 @@
                             })
                         }
                     })
+            },
+            addItemToCart(item) {
+               // Adicionar item ao carrinho
+               axios.post('/moip/services/cart?seller='+this.pathname, {item, courier: this.courier})
+                    .then(res => {
+                      console.log(res)
+                    })
             }
         },
         mounted() {
@@ -169,21 +176,19 @@
 
             // get pathname
             this.pathname = window.location.pathname;
-            
+
             // get cart history
             this.getCart();
         },
         created() {
-            eventBus.$on('cartItems', (cartItems, cartData) => {
+            eventBus.$on('cartItems', (cartItems, cartData, item) => {
                 // console.log(cartItems, cartData)
                 this.items = cartItems;
                 this.courier.time = cartData.time;
                 this.courier.fulldate = cartData.fulldate;
-                this.cartProduct(cartItems, cartData);
+                // this.cartProduct(cartItems, cartData);
+                this.addItemToCart(item)
             })
-        },
-        mounted(){
-            console.log('moutou: cart');
         },
         computed: {
             calculateTotal() {

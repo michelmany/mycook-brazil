@@ -29,7 +29,7 @@ Route::group(['prefix' => 'moip'], function() {
         */
         Route::group(['prefix' => 'cart', 'namespace' => 'Moip'], function() {
             Route::get('/', 'CartController@index');
-            Route::post('/', 'CartController@store');
+            Route::post('/', 'CartController@addItemToCart');
             Route::put('{index}', 'CartController@update');
         });
     });
