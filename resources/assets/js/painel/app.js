@@ -1,4 +1,5 @@
 import router from './router.js'
+import store from './services/store'
 
 import Layout from './helpers/layout'
 import filters from './filters'
@@ -32,6 +33,7 @@ window.Plugin = Plugin
 
 const app = new Vue({
     router,
+    store,
     methods : {
         onOverlayClick(){
             Layout.toggleSidebar()

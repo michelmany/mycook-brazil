@@ -24,22 +24,33 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(extra, index) in extras">
+                                    <tr v-for="(extra, index) in extras" :key="index">
                                         <td>{{ weekdays[index] }}:</td>
                                         <td>
                                             <div class="input-group">
-                                                <input type="text" class="form-control ls-timepicker" v-model="extra.start_time">
+                                                <!-- -->
+                                                <input type="text"
+                                                       class="form-control ls-timepicker"
+                                                       v-model="extras[index].start_time"
+                                                       :data-index="index"
+                                                       data-type="start"
+                                                       @blur="updateTime({value: $event.target._value, type: 'start', index})">
                                                 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="input-group">
-                                                <input type="text" class="form-control ls-timepicker" v-model="extra.end_time">
+                                                <input type="text"
+                                                       class="form-control ls-timepicker"
+                                                       v-model="extras[index].end_time"
+                                                       :data-index="index"
+                                                       data-type="end"
+                                                       @blur="updateTime({value: $event.target._value, type: 'end', index})">
                                                 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control" placeholder="Quantidade" v-model.number="extra.quantity" >
+                                            <input type="number" class="form-control" placeholder="Quantidade" v-model="extras[index].quantity" @blur="updateQty({qty: $event.target.value, index})">
                                         </td>
                                     </tr>
                                     </tbody>
@@ -53,7 +64,7 @@
                                 <i class="fa fa-arrow-left"></i> Voltar</router-link>
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-success" v-on:click="updateData($event)">
+                            <button type="submit" class="btn btn-success" @click.prevent="updateProductExtras({id: $route.params['id']})">
                                 <i class="fa fa-check" aria-hidden="true"></i> Salvar Produto
                             </button>
                         </div>
@@ -65,56 +76,26 @@
 </template>
 
 <script>
-    import { HttpService } from '../../../services/httpService';
-    let httpService = new HttpService();
+
+    import bus from '../../../services/bus'
+    import { mapActions, mapGetters, mapMutations } from 'vuex'
 
     export default {
         data() {
             return {
                 weekdays: ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'],
-                extras: [
-                    { date: 'Seg', start_time: "09:00",  end_time: "22:30", quantity: 0 },
-                    { date: 'Ter', start_time: "09:00", end_time: "22:30", quantity: 0},
-                    { date: 'Qua', start_time: "09:00", end_time: "22:30", quantity: 0},
-                    { date: 'Qui', start_time: "09:00", end_time: "22:30", quantity: 0},
-                    { date: 'Sex', start_time: "09:00", end_time: "22:30", quantity: 0},
-                    { date: 'Sáb', start_time: "09:00", end_time: "22:30", quantity: 0},
-                    { date: 'Dom', start_time: "09:00", end_time: "22:30", quantity: 0},
-                ]
             }
         },
         methods: {
-            getData() {
-                httpService.build('admin/v1/extras')
-                .list({query: 'where[product_id]='+ this.$route.params['id']})
-                .then((res) => {
-                    // console.log(res.data)
-                    if(res.data.data.length > 0) {
-                        this.extras = res.data.data;
-                    }
-                    // this.user.seller = res.data.seller || {type_delivery: []};
-                });
-            },
-            updateData(evt) {
-                evt.preventDefault();
-                let data = this.extras;
-
-                httpService.build('admin/v1/extras')
-                .update(this.$route.params['id'], data)
-                .then((res) => {
-                    console.log(res)
-                    toastr.success('Configurado com sucesso!', 'Produto');
-                    this.$router.push('/admin/cardapio/' + this.$route.params['id'] + '/edit');
-                })
-                .catch((error) => {
-                    console.log(error)
-                    toastr.error('Não foi possível editar seus dados!', 'Erro de servidor');
-                });
-            }
+            ...mapActions({getData: 'stock/getProductExtra', updateProductExtras: 'stock/updateProductExtras'}),
+            ...mapMutations({updateQty: 'stock/UPDATE_EXTRA_QTY', updateTime: 'stock/UPDATE_EXTRA_TIME'}),
         },
-        mounted() {
+        computed: {
+            ...mapGetters({extras: 'stock/getExtras'})
+        },
+        beforeUpdate() {
 
-            jQuery('input.ls-timepicker').timepicker({
+            $('input.ls-timepicker').timepicker({
                 scrollDefault: 'now',
                 minTime: '6:00am',
                 maxTime: '23:30am',
@@ -122,10 +103,25 @@
                 showDuration: false
             });
 
-
+            $('input.ls-timepicker').on('changeTime', function($e) {
+                bus.$emit('changeTime', {
+                    index: $(this).data('index'),
+                    value: $(this).val(),
+                    type: $(this).data('type')
+                })
+            })
         },
         created() {
-            this.getData()
+            this.getData({id: this.$route.params['id']})
+
+            bus.$on('redirect', (payload) => {
+                this.$router.push(payload.url)
+            })
+
+            // update time input
+            bus.$on('changeTime', ({index, value, type}) => {
+                this.updateTime({value, type, index})
+            })
         }
     }
 

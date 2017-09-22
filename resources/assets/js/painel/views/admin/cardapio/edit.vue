@@ -168,8 +168,12 @@
                     .update(this.$route.params['id'], this.product)
                     .then((res) => {
                         // console.log(res)
-                        toastr.success('Atualizado com sucesso!', 'Produto '+ this.product.name);
-                        this.$router.push('/admin/cardapio/');
+                        toastr.success('Atualizado com sucesso!', 'Produto '+ this.product.name, {
+                            onHidden: () => {
+                                this.$router.push('/admin/cardapio/');
+                            }
+                        });
+
                     })
                     .catch((error) => { 
                         toastr.error('Não foi possível enviar seus dados!', 'Erro de servidor');
