@@ -93,14 +93,13 @@ class MeController
 
     public function addressesPost(Request $request)
     {
-        $user_id = Auth::id();
-
-        $address = $request->all();
-        $address['user_id'] = $user_id;
-
+        $payload = $request->all();
+        $addresses = $request->user()->addresses();
         // Todo: get long and lat
-
-        $save = Address::create($address);
+        if($addresses->where('default', true)->first()){
+            $payload['default'] = false;
+        }
+        $save = $request->user()->addresses()->create($payload);
 
         // if ($save) {
         //     flash('<i class="fa fa-check"></i> Endereço adicionado com sucesso!')->success();
@@ -110,6 +109,24 @@ class MeController
 
         return response()->json($save);
     }
+
+    public function updateAddrDefault(Request $request, $id)
+    {
+        $addresses = $request->user()->addresses();
+
+        //
+        $addresses->update(['default' => false]);
+
+        $current = $addresses->find($id);
+        if(!$current) {
+            return response()->json(['error' => 'Endereço não existe'], 412);
+        }
+        $current->update(['default' => $request->status]);
+
+        return response(null, 204);
+    }
+
+
 
     public function score()
     {

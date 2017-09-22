@@ -19,45 +19,69 @@ class CartController extends Controller
     }
 
     /**
+     * @return string
+     */
+    private function getCartBySeller()
+    {
+        return str_finish(self::CACHE_NAME, str_replace('/', '-', $this->request->seller));
+    }
+
+    /**
     *
     */
     public function index() 
     {
-        if(!Cache::has(self::CACHE_NAME)) {
+        if(!Cache::has($this->getCartBySeller())) {
             return response(null, 204);
         }
 
-        return Cache::get(self::CACHE_NAME);
+        return Cache::get($this->getCartBySeller());
     }
 
-    
+
     public function store()
     {
-        $expiresIn = \Carbon\Carbon::now()->addMinutes(30);
+        $expiresIn = \Carbon\Carbon::now()->addMinutes(5);
 
-        if(!Cache::has(self::CACHE_NAME)) {
+        if(!Cache::has($this->getCartBySeller())) {
             $cart = [
                 'items' => collect([])->merge($this->request->items),
                 'courier' => $this->request->courier
             ];
 
-            Cache::put(self::CACHE_NAME, $cart, $expiresIn);
+            Cache::put($this->getCartBySeller(), $cart, $expiresIn);
             return;
         }
         
-        $cart = Cache::get(self::CACHE_NAME);
+        $cart = Cache::get($this->getCartBySeller());
         
         // remove cart
-        Cache::forget(self::CACHE_NAME);
+        Cache::forget($this->getCartBySeller());
           
         $item = $this->request->items;
-        
-        if(isset($cart['items']->toArray()[$this->request->index])) {
-            $cart['items']->splice($this->request->index, 1);
-            $cart['items']->push($this->request->items);
+
+        if($item['qty'] !== 0) {
+            if(isset($cart['items']->toArray()[$this->request->index])) {
+                $cart['items']->splice($this->request->index, 1);
+                $cart['items']->push($this->request->items);
+            }
+            Cache::put($this->getCartBySeller(), $cart, $expiresIn);
+            return;
         }
-        
-        Cache::put(self::CACHE_NAME, $cart, $expiresIn);
+
+        //remover item
+        $cart['items']->splice($this->request->index, 1);
+
+        if(count($cart['items']) > 0){
+            Cache::put($this->getCartBySeller(), $cart, $expiresIn);
+            return;
+        }
+
+        // se não existir mais produtos, remover cache
+        Cache::forget($this->getCartBySeller());
+
     }
+
+
 
 }

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::group(['prefix' => 'moip'], function() {
-    
+
     Route::group(['prefix' => 'marketplace'], function() {
         Route::get('authorize', 'Api\Auth\MoipController@authorizeSellerAndGetCode');
         Route::get('refresh', 'Api\Auth\MoipController@refreshSellerAndUpdate');
@@ -108,6 +108,7 @@ Route::group(['prefix'=>'minha-conta', 'middleware' => ['auth']], function () {
     Route::get('get-addresses', 'MeController@getAddressesByUserId')->name('get-addresses');
     Route::delete('enderecos/{id}', 'MeController@destroyAddress')->name('destroy-address');
     Route::post('save-address', 'MeController@addressesPost')->name('save-address');
+    Route::patch('enderecos/{id}', 'MeController@updateAddrDefault');
     /**
     | Profile
     */

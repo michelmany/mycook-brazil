@@ -38,7 +38,7 @@
 
             <div class="row">
                 <div class="col-md-12 col-lg-8">
-                    <cardapio :chef-id="{{ $seller->seller->id }}"></cardapio>
+                    <cardapio :chef-id="{{ $seller->seller->id }}" :chef="{{ $seller }}" :chef-moip-id="{{ $moipseller }}"></cardapio>
                 </div>
                 <div class="col-md-12 col-lg-4 hidden-md-down">
                     <cart chef-name="{{ $seller->name }}" chef-moip-id="{{ $moipseller->moipId }}"></cart>

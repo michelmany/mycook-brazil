@@ -3,9 +3,12 @@
         <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
 
         <transition-group name="fade">
-            <div class="address__item d-flex justify-content-between align-items-center" 
+            <div class="address__item d-flex justify-content-between align-items-center"
                 v-for="(address, key, index) in addresses" :key="key">
-                <div>
+                <div class="radio">
+                    <input type="radio" name="address_default" :id="'address_'+key" :checked="address.default" @change="updateDefault(address)">
+                </div>
+                <div class="pl-5">
                     <div class="address__title"v-if="address.name">{{ address.name }}</div>
                     <div class="address__address">
                         <p class="mb-0">{{ address.address }}, {{ address.number }}</p>
@@ -50,7 +53,7 @@
                 setTimeout(() => {
                     axios.get('get-addresses')
                     .then((res) => {
-                        this.addresses = res.data;
+                        this.addresses = _.orderBy(res.data, 'default', 'desc');
                         this.loading = false;
                         console.log(this.addresses)
                     })
@@ -58,7 +61,6 @@
 
             },
             removeAddress(address) {
-
                 //remove from database
                 axios.delete('enderecos' + '/' + address.id)
                 .then((res) => {
@@ -69,7 +71,16 @@
                     toastr.success('Endereço excluído com sucesso!');
 
                 })
-
+            },
+            updateDefault(address) {
+                axios.patch(`enderecos/${address.id}`, {status: true})
+                     .then(res => {
+                       if(res.status === 204) {
+                         toastr.success('Endereço padrão alterado');
+                       }
+                     }).catch(error => {
+                        toastr.info(error.response.data.error)
+                     })
             }
 
         },

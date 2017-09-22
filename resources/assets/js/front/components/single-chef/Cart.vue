@@ -13,7 +13,7 @@
                     <li v-for="(item,index) in items" :key="index" class="list-unstyled cart__item">{{ item.name }}
                         <div class="mt-2 d-flex justify-content-between">
                             <div>
-                                <button type="button" class="btn btn-secondary btn-sm" @click="dec(item, index)">-</button>
+                                <button type="button" class="btn btn-secondary btn-sm remove" @click="dec(item, index)">-</button>
                                 <span>{{ item.qty }}</span>
                                 <button type="button" class="btn btn-secondary btn-sm" @click="inc(item, index)">+</button>
                             </div>
@@ -39,7 +39,6 @@
                     <button class="btn btn-secondary" type="button">Aplicar</button>
                 </span>
             </div>
-
             <a href="#" class="btn btn-primary btn-block" @click="createPayment()" v-if="userIsLogged">Finalizar compra</a>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
 
@@ -83,11 +82,16 @@
                 this.cartProduct(item, this.courier, index);
             },
             dec(item, index) {
-
+                const after = item.qty
                 if(item.qty > 1){
                     item.qty--;
                 }
-
+                const before = item.qty
+                if(after === before) {
+                    item.qty = 0
+                    this.items.splice(index, 1)
+                    this.courier = {}
+                }
                 this.cartProduct(item, this.courier, index);
             },
             formatedDate(time) {
@@ -100,7 +104,7 @@
                      })
             },
             getCart() {
-                axios.get('/moip/services/cart')
+                axios.get(`/moip/services/cart?seller=${this.pathname}`)
                      .then(res => {
                          if(res.status !== 204) {
                              this.items = res.data.items;
@@ -109,7 +113,7 @@
                      });
             },
             cartProduct(items, courier, index = '') {
-                axios.post('/moip/services/cart', {items, courier, index})
+                axios.post(`/moip/services/cart?seller=${this.pathname}`, {items, courier, index})
                      .then(res => {
                          console.log(res)
                      })
@@ -170,7 +174,6 @@
             this.getCart();
         },
         created() {
-
             eventBus.$on('cartItems', (cartItems, cartData) => {
                 // console.log(cartItems, cartData)
                 this.items = cartItems;
@@ -178,7 +181,9 @@
                 this.courier.fulldate = cartData.fulldate;
                 this.cartProduct(cartItems, cartData);
             })
-
+        },
+        mounted(){
+            console.log('moutou: cart');
         },
         computed: {
             calculateTotal() {

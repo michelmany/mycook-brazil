@@ -29,9 +29,9 @@
                         <transition name="slide-fade" mode="in-out">
                             <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
                                 <p>Selecione o dia desejado</p>
-                                <li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase" 
-                                    v-bind:disabled="weekDay.quantity == 0 || pastTime(weekDay.time)" 
-                                    v-bind:class="{ disabled: weekDay.quantity == 0 || pastTime(weekDay.time) }" 
+                                <li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase"
+                                    v-bind:disabled="weekDay.quantity == 0 || pastTime(weekDay.time)"
+                                    v-bind:class="{ disabled: weekDay.quantity == 0 || pastTime(weekDay.time) }"
                                     @click="selectDate(weekDay, dayIndex, index)">{{ weekDay.date }}</li>
                             </div>
                         </transition>
@@ -40,7 +40,7 @@
                 </div>
 
                 <sweet-modal ref="modalTime">
-                    
+
                     <!-- To do: adicionar component de trocar endereço direto no modal -->
                     <div class="card mb-3">
                         <div class="card-block">
@@ -55,7 +55,7 @@
                             <h6 class="card-title text-uppercase">Escolha o horário para entrega</h6>
                             <h4 class="card-text">
                             <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
-                            
+
                             <div class="form-group">
                                 <select class="form-control" v-model="cartData.time">
                                     <option disabled value="">Clique para selecionar</option>
@@ -66,10 +66,10 @@
                             </h4>
                         </div>
                     </div>
-                    
-                    <button slot="button" class="btn btn-submit-orange" 
-                    v-bind:disabled="cartData.time.length == 0" 
-                    v-bind:class="{ disabled: cartData.time.length == 0 }" 
+
+                    <button slot="button" class="btn btn-submit-orange"
+                    v-bind:disabled="cartData.time.length == 0"
+                    v-bind:class="{ disabled: cartData.time.length == 0 }"
                     @click="continueToCart(item, index)">Continuar</button>
                 </sweet-modal>
 
@@ -112,17 +112,14 @@
                     time: '',
                     date: '',
                 },
-                cartItems: []
+                cartItems: [],
+                pathname: window.location.pathname
             }
         },
         props: ["chefId"],
-        watch: {
-
-        },
         methods: {
             getProducts() {
                 this.loading = true;
-
                 setTimeout(() => {
                     axios.get('/get-products/' + this.chefId)
                     .then((res) => {
@@ -134,7 +131,6 @@
                         this.getRangeTime()
                     })
                 }, 500);
-
             },
             setNow() {
                 this.now = moment().unix()
@@ -143,8 +139,8 @@
                 if (this.isListFiltered == false) {
                     this.itemIndex = index;
                     this.showDays = true;
-                } else {          
-                    this.showDays = false;          
+                } else {
+                    this.showDays = false;
                     this.addItem(item, index);
                 }
 
@@ -214,14 +210,14 @@
                     console.log("Inside loop: " + item.name + " - index: " + index)
 
                     item.extras.forEach( (extra) => {
-         
+
                         if (extra.date == this.cartData.date ) {
                             if (!_.includes(extra.time, this.cartData.time) || extra.quantity == 0 ) {
                                 console.log("Date:" + extra.date)
                                 console.log("removing item: " + item.name + " index: " + index)
                                 this.items = _.without(this.items, item);
                             }
-                        } 
+                        }
 
                         //Todo: formatar com moment.js a data do Carrinho e tambem da mensagem de alert.
 
@@ -247,7 +243,7 @@
                 this.items.forEach( (item, index) => {
                     if (item.extras.length > 0) {
 
-                        // Crio um array com os dias da semana, com o primeiro dia sendo o dia atual (Hoje)                             
+                        // Crio um array com os dias da semana, com o primeiro dia sendo o dia atual (Hoje)
                         const weekRange = moment.range(moment(), moment().add(6, 'days'))
                         const ArrayWeek = Array.from(weekRange.by('days'))
                         let ArrayWeekFinal = ArrayWeek.map(d => d.format('ddd'))
@@ -325,24 +321,22 @@
             }
 
         },
-        mounted() {
-            this.getProducts()
-        },
         created() {
+            console.log('criou ');
             this.setNow()
-
-            console.log("Date: " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"))
+            //console.log("Date: " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"))
             // console.log(this.chef.times)
 
             eventBus.$on('remove-item', payload => {
-                console.log(payload)
-                if(payload.qty === 0) {
+              if(payload.qty === 0) {
                     this.cartData = {};
                     this.cartItems.splice(index, 1);
                 }
-            })
+            });
+        },
+        mounted() {
+            this.getProducts();
         }
-
     }
 </script>
 

@@ -57,7 +57,7 @@ class OrderService
                 $orders['orders'][$k] = [
                     'code' => $order->ownId,
                     'id' => $order->id,
-                    'status' => $order->status  === 'PAID' ? 'Pago' : 'Aguardando',
+                    'status' => Utils::formatOrderStatus($order->status),
                     'payment' => [
                         'type' => $payment->fundingInstrument->method,
                         'brand' => $payment->fundingInstrument->brand
@@ -102,7 +102,7 @@ class OrderService
             }
 
             $chef = User::where('email', $seller->moipAccount->login)->first();
-        
+
             return (object)[
                 'id' => $order->id,
                 'ownId' => $order->ownId,

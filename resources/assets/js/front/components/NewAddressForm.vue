@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <input  id="address_name" type="text" v-model="address.name" placeholder="Nome (Ex.: Minha casa)"
                             v-validate="'required'" data-vv-name="nome"
-                            :class="{'form-control': true, 'is-danger': errors.has('nome') }" 
+                            :class="{'form-control': true, 'is-danger': errors.has('nome') }"
                             class="form-control form-control-lg input__entrar">
                             <div v-show="errors.has('nome')" class="help is-danger">{{ errors.first('nome') }}</div>
                         </div>
@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <input  id="address_address" type="text" v-model="address.address" placeholder="Endereço"
                             v-validate="'required|max:45'" data-vv-name="endereço"
-                            :class="{'form-control': true, 'is-danger': errors.has('endereço') }" 
+                            :class="{'form-control': true, 'is-danger': errors.has('endereço') }"
                             class="form-control form-control-lg input__entrar">
                             <div v-show="errors.has('endereço')" class="help is-danger">{{ errors.first('endereço') }}</div>
                         </div>
@@ -56,9 +56,9 @@
 
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <input type="text" v-validate="'max:30'" v-model="address.complement" placeholder="Complemento" 
+                            <input type="text" v-validate="'max:30'" v-model="address.complement" placeholder="Complemento"
                             data-vv-as="complemento" data-vv-name="complemento"
-                            :class="{'form-control': true, 'is-danger': errors.has('complemento') }" 
+                            :class="{'form-control': true, 'is-danger': errors.has('complemento') }"
                             class="form-control form-control-lg input__entrar">
                             <div v-show="errors.has('complemento')" class="help is-danger">{{ errors.first('complemento') }}</div>
                         </div>
@@ -66,9 +66,9 @@
 
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <input id="neighborhood_field" type="text" v-model="address.neighborhood" placeholder="Bairro" 
+                            <input id="neighborhood_field" type="text" v-model="address.neighborhood" placeholder="Bairro"
                             v-validate="'required|max:35'" data-vv-as="bairro" data-vv-name="neighborhood"
-                            :class="{'form-control': true, 'is-danger': errors.has('neighborhood') }" 
+                            :class="{'form-control': true, 'is-danger': errors.has('neighborhood') }"
                             class="form-control form-control-lg input__entrar">
                             <div v-show="errors.has('neighborhood')" class="help is-danger">{{ errors.first('neighborhood') }}</div>
                         </div>
@@ -76,9 +76,9 @@
 
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <input id="city_field" type="text"  v-model="address.city" placeholder="Município" 
+                            <input id="city_field" type="text"  v-model="address.city" placeholder="Município"
                             v-validate="'required|max:35'" data-vv-as="município" data-vv-name="city"
-                            :class="{'form-control': true, 'is-danger': errors.has('city') }" 
+                            :class="{'form-control': true, 'is-danger': errors.has('city') }"
                             class="form-control form-control-lg input__entrar">
                             <div v-show="errors.has('city')" class="help is-danger">{{ errors.first('city') }}</div>
                         </div>
@@ -86,9 +86,9 @@
 
                     <div class="col-lg-2">
                         <div class="form-group">
-                            <input id="state_field" type="text"  v-model="address.state" placeholder="UF" 
+                            <input id="state_field" type="text"  v-model="address.state" placeholder="UF"
                             v-validate="'required|max:2'" data-vv-as="UF" data-vv-name="state"
-                            :class="{'form-control': true, 'is-danger': errors.has('state') }" 
+                            :class="{'form-control': true, 'is-danger': errors.has('state') }"
                             class="form-control form-control-lg input__entrar">
                             <div v-show="errors.has('state')" class="help is-danger">{{ errors.first('state') }}</div>
                         </div>
@@ -112,7 +112,7 @@
                 </div>
             </div>
         </transition>
-    
+
 </form>
 </template>
 
@@ -164,7 +164,7 @@
             saveAddress: function () {
               axios.post('save-address', this.address)
                   .then((res) => {
-
+                      
                     // emit event to addresses component to show the box with the new address
                     Event.$emit('added', res.data);
                   })
@@ -195,7 +195,7 @@
 
                 httpService.xmlHttpRequest('https://maps.googleapis.com/maps/api/geocode/json?address=' + addressUrl + '&sensor=true&key=' + key).then((res) => {
 
-                    // get coordinates 
+                    // get coordinates
                     let resObj = JSON.parse(res);
                     if(resObj.status == "OK") {
                         let location = resObj.results[0].geometry.location;

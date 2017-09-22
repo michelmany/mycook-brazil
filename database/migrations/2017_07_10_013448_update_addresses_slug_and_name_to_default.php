@@ -19,6 +19,7 @@ class UpdateAddressesSlugAndNameToDefault extends Migration
 
         Schema::table('addresses', function (Blueprint $table) {
             $table->string('name')->after('id')->nullable()->default(null)->change();
+            $table->boolean('default')->default(false);
         });
     }
 

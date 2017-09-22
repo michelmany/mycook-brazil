@@ -10,7 +10,7 @@
                     <h6>Selecione o endereço de entrega</h6>
                 </div>
                 <div>
-                    <button class="btn btn-submit-orange mt-3 mb-3" @click="showBuscaCep = true">Adicionar Endereço</button>    
+                    <button class="btn btn-submit-orange mt-3 mb-3" @click="showBuscaCep = true">Adicionar Endereço</button>
                 </div>
             </div>
             <hr>
@@ -46,11 +46,11 @@
         });
     </script>
     <style>
-        .fade-enter-active, 
+        .fade-enter-active,
         .fade-leave-active {
           transition: opacity .5s
         }
-        .fade-enter, 
+        .fade-enter,
         .fade-leave-to {
           opacity: 0
         }
