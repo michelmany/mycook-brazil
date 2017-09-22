@@ -71,13 +71,20 @@ class CartController extends Controller
     {
       // Obtem carrinho atual
       $myCart = Cache::get($this->getCartBySeller());
-      // atualiza item pelo indice
-      $myCart['items'][$index] = $this->request->item;
+      if($this->request->item['qty'] === 0) {
+          $myCart['items']->splice($index,  1);
+      }else{
+        // atualiza item pelo indice
+        $myCart['items'][$index] = $this->request->item;
+      }
 
       // remove carrinho atual
       Cache::forget($this->getCartBySeller());
 
-      // adiciona carrinho atualizado
-      Cache::put($this->getCartBySeller(), $myCart, $this->expiresIn);
+      // caso o carrinho possua items
+      if($myCart['items']->isNotEmpty()) {
+        // adiciona carrinho atualizado
+        Cache::put($this->getCartBySeller(), $myCart, $this->expiresIn);
+      }
     }
 }
