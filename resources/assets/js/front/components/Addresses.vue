@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="ml-auto address__close-icon">
-                    <a href="#" @click.prevent="removeAddress(address)" v-tooltip.top-center="tooltipMessage">
+                    <a href="#" @click.prevent="removeAddress(address,key)" v-tooltip.top-center="tooltipMessage">
                         <i class="fa fa-times" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -60,16 +60,18 @@
                 }, 500);
 
             },
-            removeAddress(address) {
+            removeAddress(address, index) {
                 //remove from database
                 axios.delete('enderecos' + '/' + address.id)
                 .then((res) => {
                     // remove from front-end
-                    var index = this.addresses.indexOf(address);
-                    this.addresses.splice(index, 1);
-
-                    toastr.success('Endereço excluído com sucesso!');
-
+                    if(res.status === 204) {
+                      toastr.success('Endereço excluído com sucesso!', '', {
+                        onHidden: () => {
+                            this.addresses.splice(index, 1);
+                        }
+                      })
+                    }
                 })
             },
             updateDefault(address) {

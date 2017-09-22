@@ -84,11 +84,15 @@ class MeController
 
     }
 
-    public function destroyAddress($id)
+    public function destroyAddress(Request $request, $id)
     {
-        $result = Address::where('id', $id);
-        $result->delete();
-        return response()->json($result);
+        $address = Address::find($id);
+        if($address->default == true) {
+            $first = $request->user()->addresses()->first();
+            $first->update(['default' => true]);
+        }
+        $address->delete();
+        return response(null, 204);
     }
 
     public function addressesPost(Request $request)
