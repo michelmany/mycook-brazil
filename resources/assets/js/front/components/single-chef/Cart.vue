@@ -21,8 +21,8 @@
                                 R$ {{ item.price }}
                             </div>
                         </div>
-                        <div class="cart__qty" v-if="item.availableQty == 1">Apenas 1 disponível para o dia selecionado</div>
-                        <div class="cart__qty" v-else>{{ item.availableQty }} disponíveis para o dia selecionado</div>
+                        <div class="cart__qty" v-if="item.availableQty == 1">Apenas 1 produto disponível para o dia selecionado</div>
+                        <div class="cart__qty" v-else>{{ item.availableQty }} produtos disponíveis para o dia selecionado</div>
                     </li>
                 </ul>
                 <span class="float-right"><strong>Total: R$ {{ total }}</strong></span>

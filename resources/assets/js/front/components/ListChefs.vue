@@ -64,6 +64,8 @@
                         // console.log(res.data)
                         this.loading = false
                         this.chefs = res.data
+
+
                     })
                 }, 500);
 
@@ -77,6 +79,10 @@
                         // console.log(res.data)
                         this.loading = false
                         this.chefs = res.data
+
+                        if(res.data.length != 0) {
+                            eventBus.$emit('has-chef', true);
+                        }
                     })
                 }, 500);
             },
