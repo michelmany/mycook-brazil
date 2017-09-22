@@ -84,7 +84,7 @@ class ConnectService
     }
 
     /**
-     * Obtem código vindo da autorização e salva dados no banco.
+     * Obtem código vindo da autorização e salva dados no    banco.
      *
      * @return mixed
      */
@@ -95,6 +95,7 @@ class ConnectService
         return ConnectSupport::proxy(function(Connect $connect) use ($user){
             $connect->setClientSecret(config('moip.marketplace.secret'));
             $connect->setCode(request()->get('code'));
+
 
             $payload = $connect->authorize();
 
@@ -108,7 +109,7 @@ class ConnectService
                 ]
             ]);
 
-            return redirect()->intended('painel/admin/settings/moip');
+            return redirect()->intended('painel/seller/settings/moip');
         });
     }
 }

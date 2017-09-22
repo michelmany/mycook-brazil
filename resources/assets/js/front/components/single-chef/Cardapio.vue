@@ -42,13 +42,13 @@
                     <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
                     
                     <!-- To do: adicionar component de trocar endereço direto no modal -->
-        <!--             <div class="card mb-3">
+                    <div class="card mb-3">
                         <div class="card-block">
                             <h6 class="card-title text-uppercase">Endereço</h6>
                             <p class="card-text"><small>Estrada Francisco da Cruz Nunes 1234, Piratininga - Niterói/RJ</small></p>
                             <a href="#" class="btn btn-outline-secondary btn-sm">Trocar endereço</a>
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="card">
                         <div class="card-block">
@@ -184,18 +184,6 @@
                     availableQty: item.extras[this.selectedDateIndex].quantity,
                     qty: 1
                 });
-
-                // /**
-                //  |
-                //  */
-                // const cartName = 'my-cart#' + window.location.pathname;
-                // if(!Ls.get(cartName)) {
-                //     Ls.set(cartName, JSON.stringify(this.cartItems));
-                // }else{
-                //     const oldCart = JSON.parse(Ls.get(cartName));
-                //     Ls.remove(cartName);
-                //     Ls.set(cartName, JSON.stringify(this.cartItems.concat(oldCart)));
-                // }
 
                 eventBus.$emit('cartItems', this.cartItems, this.cartData);
 
