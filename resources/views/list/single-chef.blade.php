@@ -2,7 +2,6 @@
 @section('content')
 
 <section id="single-chef-page" class="list-chefs">
-
     <section class="chef-header" style="background-color: white;">
         <div class="container generic__wrapper">
             <div class="row">
@@ -15,7 +14,6 @@
 
                 <div class="col-md-6 col-lg-6">
                     <h3>{{ $seller->name }}</h3>
-                    
                     @if ($seller->distance)
                         <div class="chef-item__distance"><small class="text-uppercase">A {{$seller->distance}} Km de distância</small></div>
                     @endif
@@ -34,17 +32,9 @@
         <div class="container generic__wrapper">
             <div class="header mb-3">
                 <h2>Cardápio</h2>
-            </div><br>
-
-            <div class="row">
-                <div class="col-md-12 col-lg-8">
-                    <cardapio :chef-id="{{ $seller->seller->id }}" :chef="{{ $seller }}" :chef-moip-id="{{ $moipseller }}"></cardapio>
-                </div>
-                <div class="col-md-12 col-lg-4 hidden-md-down">
-                    <cart chef-name="{{ $seller->name }}" chef-moip-id="{{ $moipseller->moipId }}"></cart>
-                </div>
             </div>
-
+            <br>
+            <single-chef :seller="{{ $seller }}" :moip="{{ $moipseller }}"></single-chef>
         </div>
     </div>
 

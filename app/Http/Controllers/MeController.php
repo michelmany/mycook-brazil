@@ -72,16 +72,10 @@ class MeController
         return view('me.enderecos');
     }
 
-    public function getAddressesByUserId()
+    public function getAddressesByUserId(Request $request)
     {
-        $user_id = Auth::user()->id;
-
-        // dd(Auth::id());
-
-        $result = Address::where('user_id', $user_id)->get();
-
+        $result = $request->user()->addresses;
         return response()->json($result);
-
     }
 
     public function destroyAddress(Request $request, $id)
@@ -104,29 +98,18 @@ class MeController
             $payload['default'] = false;
         }
         $save = $request->user()->addresses()->create($payload);
-
-        // if ($save) {
-        //     flash('<i class="fa fa-check"></i> Endereço adicionado com sucesso!')->success();
-        // } else {
-        //     flash('<i class="fa fa-exclamation-triangle"></i> Endereço adicionado com sucesso!')->success();
-        // }
-
         return response()->json($save);
     }
 
     public function updateAddrDefault(Request $request, $id)
     {
         $addresses = $request->user()->addresses();
-
-        //
         $addresses->update(['default' => false]);
-
         $current = $addresses->find($id);
         if(!$current) {
             return response()->json(['error' => 'Endereço não existe'], 412);
         }
         $current->update(['default' => $request->status]);
-
         return response(null, 204);
     }
 

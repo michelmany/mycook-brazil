@@ -11,6 +11,9 @@ window.Vue = require('vue');
 
 export const eventBus = new Vue();
 
+// Event Bus
+Vue.prototype.$bus = new Vue;
+
 import VeeValidate, { Validator } from 'vee-validate'
 import CpfValidator from './components/validators/cpf.validator'
 import Portuguese from 'vee-validate/dist/locale/pt_BR'
@@ -63,8 +66,9 @@ Vue.component('list-chefs', require('./components/ListChefs.vue'));
 Vue.component('search-chef', require('./components/SearchChef.vue'));
 
 //Single Page
-Vue.component('cardapio', require('./components/single-chef/Cardapio.vue'));
-Vue.component('cart', require('./components/single-chef/Cart.vue'));
+//Vue.component('cardapio', require('./components/single-chef/Cardapio.vue'));
+//Vue.component('cart', require('./components/single-chef/Cart.vue'));
+Vue.component('single-chef', require('./components/single-chef/SingleChef.vue'))
 
 //Profile page
 Vue.component('profile-dados', require('./components/ProfileDados.vue'));

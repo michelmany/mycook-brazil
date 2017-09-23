@@ -38,8 +38,13 @@ class CartController extends Controller
         if(!Cache::has($this->getCartBySeller())) {
             return response(null, 204);
         }
+        $cart = Cache::get($this->getCartBySeller());
+        $cart['items'] = $cart['items']->map(function($item, $index) {
+            $item['extras'] = \App\Models\ProductExtra::where('product_id', $item['id'])->get();
+            return $item;
+        })->all();
 
-        return Cache::get($this->getCartBySeller());
+        return $cart;
     }
 
     public function addItemToCart()
@@ -48,7 +53,9 @@ class CartController extends Controller
         if(!Cache::has($this->getCartBySeller())) {
             Cache::put($this->getCartBySeller(), [
               'items' => collect([])->push($this->request->item),
-              'courier' => $this->request->courier
+              'courier' => $this->request->courier,
+              'selectedDateIndex' => $this->request->selectedDateIndex,
+              'selectedTimes' => $this->request->selectedTimes
             ], $this->expiresIn);
             return;
         }

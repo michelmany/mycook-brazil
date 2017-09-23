@@ -40,22 +40,19 @@
                 </div>
 
                 <sweet-modal ref="modalTime">
-
                     <!-- To do: adicionar component de trocar endereço direto no modal -->
-                    <div class="card mb-3">
-                        <div class="card-block">
-                            <h6 class="card-title text-uppercase">Endereço</h6>
-                            <p class="card-text"><small>Estrada Francisco da Cruz Nunes 1234, Piratininga - Niterói/RJ</small></p>
-                            <a href="#" class="btn btn-outline-secondary btn-sm">Trocar endereço</a>
-                        </div>
-                    </div>
-
+                    <!-- <div class="card mb-3"> -->
+                        <!-- <div class="card-block"> -->
+                            <!-- <h6 class="card-title text-uppercase">Endereço</h6> -->
+                            <!-- <p class="card-text"><small>Estrada Francisco da Cruz Nunes 1234, Piratininga - Niterói/RJ</small></p> -->
+                            <!-- <a href="#" class="btn btn-outline-secondary btn-sm">Trocar endereço</a> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
                     <div class="card">
                         <div class="card-block">
                             <h6 class="card-title text-uppercase">Escolha o horário para entrega</h6>
                             <h4 class="card-text">
                             <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
-
                             <div class="form-group">
                                 <select class="form-control" v-model="cartData.time">
                                     <option disabled value="">Clique para selecionar</option>
@@ -111,27 +108,19 @@
                 cartData: {
                     time: '',
                     date: '',
+                    address: null
                 },
                 cartItems: [],
-                pathname: window.location.pathname
+                pathname: window.location.pathname,
+                cartStorage : {
+                  items: [],
+                  courier: {}
+                },
+                clientAddresses: []
             }
         },
         props: ["chefId"],
         methods: {
-            getProducts() {
-                this.loading = true;
-                setTimeout(() => {
-                    axios.get('/get-products/' + this.chefId)
-                    .then((res) => {
-                        this.loading = false
-                        this.items = res.data
-                        // console.log(res.data)
-
-                        this.orderingWeekDays()
-                        this.getRangeTime()
-                    })
-                }, 500);
-            },
             setNow() {
                 this.now = moment().unix()
             },
@@ -181,7 +170,7 @@
 
                 this.cartItems.push(newItem);
 
-                eventBus.$emit('cartItems', this.cartItems, this.cartData, newItem);
+                eventBus.$emit('cartItems', this.cartItems, this.cartData, newItem, this.selectedDateIndex, this.selectedTimes);
 
                 // Remove from array after add to the cart
                 this.items.splice(index, 1);
@@ -198,19 +187,13 @@
 
             },
             FilterByDaySelected(item, index) {
-
                 this.isListFiltered = true;
                 this.showDays = false;
-
                 console.log("time selected: " + this.cartData.time)
                 console.log("Outside loop: " + item.name + " - index: " + index)
-
                 this.items.forEach( (item, index) => {
-
                     console.log("Inside loop: " + item.name + " - index: " + index)
-
                     item.extras.forEach( (extra) => {
-
                         if (extra.date == this.cartData.date ) {
                             if (!_.includes(extra.time, this.cartData.time) || extra.quantity == 0 ) {
                                 console.log("Date:" + extra.date)
@@ -218,18 +201,13 @@
                                 this.items = _.without(this.items, item);
                             }
                         }
-
                         //Todo: formatar com moment.js a data do Carrinho e tambem da mensagem de alert.
-
                     })
                 });
-
-
                 //Change message alert for no items available
                 if (this.items.length == 0) {
                     this.setNoItemsTextMessage();
                 }
-
             },
             clearCart() {
                 this.cartData.time = "";
@@ -318,24 +296,73 @@
                     return true
                 }
                 return false
-            }
+            },
+            getProducts() {
+                this.loading = true;
 
+                const _cart = { items: [], courier: {} };
+                this.$bus.$on('getCartStorage', (storage) => {
+                   _.forEach(storage.items, (item) => {
+                       _cart.items.push(item)
+                   })
+                   _cart.selectedDateIndex = storage.selectedDateIndex
+                   _cart.selectedTimes = storage.selectedTimes
+                   _cart.courier = storage.courier;
+                })
+                // console.log(_cart)
+                this.cartStorage = _cart
+
+                setTimeout(() => {
+                    axios.get('/get-products/' + this.chefId)
+                    .then((res) => {
+                        this.loading = false
+                        this.items = res.data
+                        /**
+                        *
+                        */
+                        this.mapCartStorage();
+                        /**
+                        *
+                        */
+                        this.orderingWeekDays()
+                        this.getRangeTime()
+                    })
+                }, 500);
+            },
+            mapCartStorage() {
+                if(this.cartStorage.items.length > 0) {
+                  this.cartData.date = this.cartStorage.courier.fulldate
+                  this.cartData.time = this.cartStorage.courier.time
+                  this.selectedDateIndex = this.cartStorage.selectedDateIndex
+                  this.selectedTimes = this.cartStorage.selectedTimes
+
+                  _.forEach(this.cartStorage.items, (item, index) => {
+                    //console.log(index)
+                    this.cartItems.push(item);
+                    // Remove from array after add to the cart
+                    this.items.splice(index, 1);
+                    //Change message alert for no items available
+                    if (this.items.length == 0) {
+                        this.setNoItemsTextMessage();
+                    }
+                    //shows only the products available on this day selected
+                    if (this.isListFiltered == false) {
+                        this.FilterByDaySelected(item, index);
+                    }
+                  });
+                }
+            }
         },
         created() {
-            console.log('criou ');
             this.setNow()
             //console.log("Date: " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"))
             // console.log(this.chef.times)
-
-            eventBus.$on('remove-item', payload => {
-              if(payload.qty === 0) {
-                    this.cartData = {};
-                    this.cartItems.splice(index, 1);
-                }
-            });
+            this.$bus.$on('clientAddresses', (addresses) => {
+                this.clientAddresses = addresses
+            })
         },
         mounted() {
-            this.getProducts();
+          this.getProducts();
         }
     }
 </script>

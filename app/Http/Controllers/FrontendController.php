@@ -86,7 +86,7 @@ class FrontendController extends Controller
      * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function singleChef($id, $city = '', $slug = '')
+    public function singleChef(Request $request, $id, $city = '', $slug = '')
     {
         $seller = User::findOrFail($id);
         $addressSeller = Address::where('user_id', $id)->orderBy('id', 'desc')->first();
@@ -99,12 +99,12 @@ class FrontendController extends Controller
         }
 
         if ( Auth::check() ) {
-            $user_id = Auth::id();
-            $addressUser = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
-            $userLocal = new CalculateDistance($addressSeller->latitude, $addressSeller->longitude, 
+            $addressUser = $request->user()->addresses()->orderBy('id', 'desc')->first();
+            $userLocal = new CalculateDistance($addressSeller->latitude, $addressSeller->longitude,
                         $addressUser->latitude, $addressUser->longitude, "K");
+
             $seller->distance = round($userLocal->distance(), 2);
-        } 
+        }
 
         if ($slug !== $seller->slug) {
             return redirect()->to($seller->url);
@@ -114,9 +114,8 @@ class FrontendController extends Controller
             return view('list.single-chef')
                         ->with('moipseller', $moipSeller)
                         ->withSeller($seller, $seller->seller);
-        } else {
-            return redirect()->route('lista-chefs-page');
         }
+        return redirect()->route('lista-chefs-page');
     }
 
     /**
@@ -179,7 +178,7 @@ class FrontendController extends Controller
      */
     private function getChefsByDistance()
     {
-        // Get all chefs 
+        // Get all chefs
         $this->result = DB::table('addresses')
             ->select(DB::raw('user_id, users.name, users.avatar,
                 ( '.$this->earth_radius.' * acos( cos( radians('.$this->address_lat.') ) * cos( radians( latitude ) ) * cos( radians( longitude )
@@ -198,11 +197,11 @@ class FrontendController extends Controller
             // Get avatar
             foreach ($this->result as $k => $chef) {
                 $moip = \App\Models\Moip\MoipSeller::select('moipAccount as id')->whereUserId($chef->user_id)->first();
-                
+
                 if(!$moip) {
                     unset($this->result[$k]);
                 }
-                
+
                 if (empty($chef->avatar)) {
                     $chef->avatar = url('assets/img/no-image_01.jpg');
                 } else {

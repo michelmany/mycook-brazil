@@ -39,9 +39,13 @@
                     <button class="btn btn-secondary" type="button">Aplicar</button>
                 </span>
             </div>
+            <div class="mb-3">
+                <select class="form-control">
+                    <option selected> Escolha o endereço para entrega</option>
+                </select>
+            </div>
             <a href="#" class="btn btn-primary btn-block" @click="createPayment()" v-if="userIsLogged">Finalizar compra</a>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
-
         </div>
     </div>
 </template>
@@ -109,6 +113,12 @@
                          if(res.status !== 204) {
                              this.items = res.data.items;
                              this.courier = res.data.courier;
+                             this.$bus.$emit('getCartStorage', {
+                               items: res.data.items,
+                               courier: res.data.courier,
+                               selectedDateIndex: res.data.selectedDateIndex,
+                               selectedTimes: res.data.selectedTimes
+                             })
                          }
                      });
             },
@@ -164,7 +174,7 @@
             },
             addItemToCart(item) {
                // Adicionar item ao carrinho
-               axios.post('/moip/services/cart?seller='+this.pathname, {item, courier: this.courier})
+               axios.post('/moip/services/cart?seller='+this.pathname, item)
                     .then(res => {
                       console.log(res)
                     })
@@ -181,13 +191,13 @@
             this.getCart();
         },
         created() {
-            eventBus.$on('cartItems', (cartItems, cartData, item) => {
+            eventBus.$on('cartItems', (cartItems, cartData, item, selectedDateIndex, selectedTimes) => {
                 // console.log(cartItems, cartData)
                 this.items = cartItems;
                 this.courier.time = cartData.time;
                 this.courier.fulldate = cartData.fulldate;
                 // this.cartProduct(cartItems, cartData);
-                this.addItemToCart(item)
+                this.addItemToCart({item, selectedDateIndex, selectedTimes, courier: this.courier})
             })
         },
         computed: {
