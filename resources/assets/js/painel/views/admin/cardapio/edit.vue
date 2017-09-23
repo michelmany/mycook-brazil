@@ -29,7 +29,7 @@
                                             <div class="form-group row">
                                                 <label for="formNome" class="col-12 col-md-3 col-form-label">Nome</label>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="text" class="form-control" id="formNome" 
+                                                    <input type="text" class="form-control" id="formNome"
                                                     :class="{'form-control': true, 'is-danger': errors.has('name') }"
                                                     v-validate="'required|max:35'" data-vv-name="name" v-model="product.name">
                                                     <div v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</div>
@@ -49,6 +49,14 @@
                                             </div>
 
                                             <div class="form-group row">
+                                              <label for="product_comments" class="col-12 col-md-3 col-form-label">Observações</label>
+                                              <div class="col-12 col-md-9">
+                                                  <textarea v-model="product.comments" id="product_comments" class="form-control" rows="5"></textarea>
+                                                  <small class="text-muted">Observações sobre o produto.</small>
+                                              </div>
+                                            </div>
+
+                                            <div class="form-group row">
                                                 <label for="formEmail" class="col-12 col-md-3 col-form-label">Serve</label>
                                                 <div class="col-12 col-md-9">
                                                     <input type="text" class="form-control"
@@ -62,7 +70,7 @@
                                             <div class="form-group row">
                                                 <label for="formSenha" class="col-12 col-md-3 col-form-label">Preço (R$)</label>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="number" class="form-control" id="formSenha" 
+                                                    <input type="number" class="form-control" id="formSenha"
                                                     v-validate="'required'" data-vv-name="preço"
                                                     :class="{'form-control': true, 'is-danger': errors.has('preço') }"
                                                     v-model="product.price" >
@@ -97,7 +105,7 @@
                             <div class="card-header">
                                 <div class="caption">
                                     <h6><i class="fa fa-map-marker" aria-hidden="true"></i> Configurações de quantidade</h6>
-                                </div> 
+                                </div>
                                 <div class="actions" v-if="isConfigured">
                                     <router-link :to="'/admin/stock/edit/' + product.id + '/' + product.seller_id + '/'" class="btn btn-warning btn-sm"><i class="fa fa-plus-circle"></i> Editar configurações</router-link>
                                 </div>
@@ -175,7 +183,7 @@
                         });
 
                     })
-                    .catch((error) => { 
+                    .catch((error) => {
                         toastr.error('Não foi possível enviar seus dados!', 'Erro de servidor');
                     })
                 }

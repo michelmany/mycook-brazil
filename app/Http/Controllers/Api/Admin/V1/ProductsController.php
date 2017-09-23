@@ -17,7 +17,7 @@ class ProductsController extends Controller
     {
         $this->model = $model;
     }
-
+    
     public function photo(Request $request, $id)
     {
         $product = $this->model->findOrFail($id);

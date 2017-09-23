@@ -22,9 +22,9 @@
                                             <div class="form-group row">
                                                 <label for="product_name" class="col-12 col-md-3 col-form-label">Nome</label>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="text" class="form-control" id="foproduct_namermNome"
+                                                    <input type="text" class="form-control" id="product_name"
                                                     :class="{'form-control': true, 'is-danger': errors.has('name') }"
-                                                    v-validate="'required|max:35'" data-vv-name="name" v-model="product.name">
+                                                    v-validate="'required|max:35'" data-vv-name="name" v-model.trim="product.name">
                                                     <div v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</div>
                                                     <small class="text-muted">Qual o nome do produto?</small>
                                                 </div>
@@ -33,12 +33,20 @@
                                             <div class="form-group row">
                                                 <label for="product_desc" class="col-12 col-md-3 col-form-label">Descrição</label>
                                                 <div class="col-12 col-md-9">
-                                                    <textarea v-model="product.desc" id="product_desc" class="form-control"
+                                                    <textarea v-model.trim="product.desc" id="product_desc" class="form-control"
                                                         rows="5" v-validate="'required'" data-vv-as="descrição" data-vv-name="desc"
                                                         :class="{'form-control': true, 'is-danger': errors.has('desc') }"></textarea>
                                                     <div v-show="errors.has('desc')" class="help is-danger">{{ errors.first('desc') }}</div>
                                                     <small class="text-muted">Dê mais detalhes sobre este produto.</small>
                                                 </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                              <label for="product_comments" class="col-12 col-md-3 col-form-label">Observações</label>
+                                              <div class="col-12 col-md-9">
+                                                  <textarea v-model="product.comments" id="product_comments" class="form-control" rows="5"></textarea>
+                                                  <small class="text-muted">Observações sobre o produto.</small>
+                                              </div>
                                             </div>
 
                                         </div>
@@ -48,21 +56,21 @@
                                         <div class="form-group row">
                                             <label for="serve" class="col-12 col-md-3 col-form-label">Serve</label>
                                             <div class="col-12 col-md-9">
-                                                <input type="text" id="serve" class="form-control"
+                                                <input type="number" id="serve" class="form-control"
                                                 :class="{'form-control': true, 'is-danger': errors.has('serve') }"
-                                                v-model="product.serve" >
+                                                v-model.number="product.serve">
                                                 <div v-show="errors.has('serve')" class="help is-danger">{{ errors.first('serve') }}</div>
                                                 <small class="text-muted">Este produto serve quantas pessoas?</small>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="number" class="col-12 col-md-3 col-form-label">Preço (R$)</label>
+                                            <label for="product_number" class="col-12 col-md-3 col-form-label">Preço (R$)</label>
                                             <div class="col-12 col-md-9">
-                                                <input type="number" class="form-control" id="number"
+                                                <input type="number" class="form-control" id="product_number"
                                                 v-validate="'required'" data-vv-name="preço"
                                                 :class="{'form-control': true, 'is-danger': errors.has('preço') }"
-                                                v-model="product.price" >
+                                                v-model.trim="product.price" >
                                                 <div v-show="errors.has('preço')" class="help is-danger">{{ errors.first('preço') }}</div>
                                             </div>
                                         </div>
@@ -124,7 +132,7 @@
                         toastr.success('Cadastrado com sucesso!', 'Produto '+ this.product.name);
                         this.$router.push('/admin/cardapio/');
                     })
-                    .catch((error) => { 
+                    .catch((error) => {
                         toastr.error('Não foi possível enviar seus dados!', 'Erro de servidor');
                     })
                 },

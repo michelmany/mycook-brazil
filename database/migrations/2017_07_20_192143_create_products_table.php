@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->string('serve')->nullable();
             $table->string('photo');
             $table->decimal('price', 5, 2);
-
+            $table->string('comments')->nullable();
             $table->timestamps();
         });
     }
