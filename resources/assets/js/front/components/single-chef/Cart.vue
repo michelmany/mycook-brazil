@@ -56,7 +56,8 @@
     export default {
         props: {
             chefName: String,
-            chefMoipId: String
+            chefMoipId: String,
+            chefId: Number
         },
         data() {
             return {
@@ -127,15 +128,22 @@
                 toastr.info('Aguarde só um instante', 'Estamos Processando todas as Informações', {
                     timeOut: 2000,
                     onHidden: () => {
-                        const payload = {items: this.items, seller: this.chefMoipId, total: parseFloat(this.total), courier: this.courier, pathname: this.pathname};
+                        const payload = {
+                            items: this.items,
+                            seller: this.chefMoipId,
+                            seller_id: this.chefId,
+                            total: parseFloat(this.total),
+                            courier: this.courier,
+                            pathname: this.pathname
+                        };
 
                         axios.post('/moip/marketplace/order/process', payload)
                             .then(res => {
                                 toastr.success('Aguarde, iremos redireciona-lo','Seu Pedido foi Criado!', {
                                     progressBar: true,
-                                    timeout: 3000,
+                                    timeout: 2000,
                                     onHidden: () => {
-                                        window.location.href = res.data._links.checkout.payCreditCard.redirectHref;
+                                        window.location.href = res.data;
                                     }
                                 });
                             })

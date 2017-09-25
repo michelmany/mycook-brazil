@@ -2,6 +2,7 @@
 
 namespace App\Services\Moip;
 
+use App\Models\Order;
 use App\Models\OrderDeliveryData;
 use Cache;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ use Moip\Resource\Customer;
 use Exception;
 use App\Models\Product;
 use App\Support\Moip\Utils as MoipUtil;
+use Moip\Resource\Orders;
+
 class CheckoutService
 {
     /**
@@ -58,12 +61,9 @@ class CheckoutService
         $this->request = $request;
         $this->user  = $request->user();
         $this->buyer = $this->user->buyer;
-
         $this->address = $this->getAddress();
 
-        // check
         $this->verifyBuyerProfile();
-
         $this->verifyAddress();
 
         return $this->createCustomer();
@@ -132,6 +132,7 @@ class CheckoutService
                 return $this->createOrder($customer);
 
             }catch (Exception $e) {
+                dd($e);
                 return response()->json([ 'error' => 'Houve um erro no processo de criação do cliente', '__toString' => $e->__toString()], 400);
             }
         }
@@ -164,23 +165,56 @@ class CheckoutService
                   ->addReceiver($this->request->seller, 'SECONDARY', Utils::toCents((float)$this->request->total), null, true)
                   ->create();
 
-            // Register Courier Address
-            OrderDeliveryData::create([
-                'orderId' => $order->jsonSerialize()->id,
-                'address_id' => $this->address->id,
-                'day' => MoipUtil::formatDate($this->request->courier['time'])->format('d'),
-                'fulldate' => $this->request->courier['fulldate'],
-                'time' => $this->request->courier['time'],
-            ]);
+            $this->saveOrder($order);
 
-            // Clean cart
-            Cache::forget(str_finish('my-cart', str_replace('/', '-', $this->request->pathname)));
+            $this->clearCartCache();
 
-            return response()->json($order, 201);
+            return response()->json($order->getLinks()->getCheckout('payCreditCard'), 201);
         }catch (\Exception $e) {
             dd($e);
             return response()->json(['error' => 'Pedido falhou, atualize a página e tente novamente', '__toString'=>$e->__toString()], 400);
         }
+    }
+
+    /**
+     * Cadastra pedido no banco de dados
+     *
+     * @param Orders $order
+     * @return void
+     */
+    private function saveOrder(Orders $order)
+    {
+        $orders = new Order();
+        $orders->orderId = $order->getId();
+        $orders->seller_id = $this->request->seller_id;
+        $orders->buyer_id = $this->buyer->id;
+        $orders->status = $order->getStatus();
+        $orders->items = $order->getItemIterator();
+        $orders->amount = [
+            'total' => $order->getAmountTotal(),
+            'liquid' => $order->getAmountLiquid()
+        ];
+        $orders->_links = $order->getLinks()->getAllCheckout();
+        $orders->save();
+
+        $orderDeliveryData = new OrderDeliveryData();
+        $orderDeliveryData->order()->associate($orders);
+        $orderDeliveryData->address_id = $this->address->id;
+        $orderDeliveryData->day = MoipUtil::formatDate($this->request->courier['time'])->format('d');
+        $orderDeliveryData->fulldate =  $this->request->courier['fulldate'];
+        $orderDeliveryData->time = $this->request->courier['time'];
+        $orderDeliveryData->save();
+    }
+
+    /**
+     * Clear cart
+     *
+     * @return void
+     */
+    private function clearCartCache()
+    {
+        Cache::forget(str_finish('my-cart', str_replace('/', '-', $this->request->pathname)));
+        Cache::forget(str_finish('address', str_replace('/', '-', $this->request->pathname)));
     }
 
     /**

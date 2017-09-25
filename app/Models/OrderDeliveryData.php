@@ -8,12 +8,20 @@ class OrderDeliveryData extends Model
 {
     //
     protected $fillable = [
-      'orderId',
+      'order_id',
       'address_id',
       'day',
       'fulldate',
       'time'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

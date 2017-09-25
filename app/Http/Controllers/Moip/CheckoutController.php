@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Moip;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Services\Moip\CheckoutService;
+use App\Services\Moip\Customer\OrderService;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -11,14 +13,18 @@ class CheckoutController extends Controller
     /** @var CheckoutService */
     private $service;
 
+    /** @var OrderService */
+    private $orderService;
+
     /**
      * CheckoutController constructor.
      * @param CheckoutService $service
      */
-    public function __construct(CheckoutService $service)
+    public function __construct(CheckoutService $service, OrderService $orderService)
     {
         $this->middleware('auth');
         $this->service = $service;
+        $this->orderService = $orderService;
     }
 
     /**
@@ -36,7 +42,16 @@ class CheckoutController extends Controller
      */
     public function paymentSuccess(Request $request)
     {
-        return redirect()->route('orders.show', ['id' => $request->orderId]);
+        $order = $this->orderService->formatOrderById($request->orderId);
+
+        $update = Order::where('orderId', $order->id)->first();
+        $update->status = $order->status->origin;
+        $update->payment = $order->payment;
+        $update->save();
+
+        return 'exibir pedido';
+
+        //return redirect()->route('orders.show', ['id' => $request->orderId]);
     }
 
     /**
@@ -44,7 +59,13 @@ class CheckoutController extends Controller
      */
     public function paymentError(Request $request)
     {
-        echo 'payment fail';
-        dd($request);
+        $order = $this->orderService->formatOrderById($request->orderId);
+
+        $update = Order::where('orderId', $order->id)->first();
+        $update->status = $order->status->origin;
+        $update->payment = $order->payment;
+        $update->save();
+
+        return 'página de falha';
     }
 }
