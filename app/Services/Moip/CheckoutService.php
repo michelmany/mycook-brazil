@@ -3,6 +3,7 @@
 namespace App\Services\Moip;
 
 use App\Models\OrderDeliveryData;
+use Cache;
 use Illuminate\Http\Request;
 use App\User;
 use App\Models\Buyer;
@@ -11,7 +12,7 @@ use Moip\Helper\Utils;
 use Moip\Resource\Customer;
 use Exception;
 use App\Models\Product;
-
+use App\Support\Moip\Utils as MoipUtil;
 class CheckoutService
 {
     /**
@@ -57,7 +58,8 @@ class CheckoutService
         $this->request = $request;
         $this->user  = $request->user();
         $this->buyer = $this->user->buyer;
-        $this->address = $this->user->addresses;
+
+        $this->address = $this->getAddress();
 
         // check
         $this->verifyBuyerProfile();
@@ -84,6 +86,23 @@ class CheckoutService
     }
 
     /**
+     * Get address defined in cart
+     *
+     */
+    public function getAddress()
+    {
+        $pathname = str_finish('address', str_replace('/', '-', $this->request->pathname));
+
+        if(Cache::has($pathname)) {
+            $address = Cache::get($pathname);
+
+            return Address::find($address['id']);
+        }
+
+        return $this->user->addresses()->where('default', true)->first();
+    }
+
+    /**
      * Create customer of order
      * @return \Illuminate\Http\JsonResponse
      */
@@ -100,12 +119,12 @@ class CheckoutService
                     ->setTaxDocument($this->user->cpf)
                     ->setPhone($phone[0], $phone[1])
                     ->addAddress('SHIPPING',
-                        $this->address[0]->address,
-                        $this->address[0]->number,
-                        $this->address[0]->neighborhood,
-                        $this->address[0]->city,
-                        $this->address[0]->state,
-                        $this->address[0]->cep)
+                        $this->address->address,
+                        $this->address->number,
+                        $this->address->neighborhood,
+                        $this->address->city,
+                        $this->address->state,
+                        $this->address->cep)
                     ->create();
 
                 $this->buyer->update(['moipAccount' => $customer->getId()]);
@@ -148,16 +167,18 @@ class CheckoutService
             // Register Courier Address
             OrderDeliveryData::create([
                 'orderId' => $order->jsonSerialize()->id,
-                'day' => $this->request->courier['date'],
+                'address_id' => $this->address->id,
+                'day' => MoipUtil::formatDate($this->request->courier['time'])->format('d'),
                 'fulldate' => $this->request->courier['fulldate'],
                 'time' => $this->request->courier['time'],
             ]);
 
             // Clean cart
-            \Cache::forget('my-cart');
+            Cache::forget(str_finish('my-cart', str_replace('/', '-', $this->request->pathname)));
 
             return response()->json($order, 201);
         }catch (\Exception $e) {
+            dd($e);
             return response()->json(['error' => 'Pedido falhou, atualize a página e tente novamente', '__toString'=>$e->__toString()], 400);
         }
     }

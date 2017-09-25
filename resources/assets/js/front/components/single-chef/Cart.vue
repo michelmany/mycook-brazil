@@ -39,11 +39,6 @@
                     <button class="btn btn-secondary" type="button">Aplicar</button>
                 </span>
             </div>
-            <div class="mb-3">
-                <select class="form-control">
-                    <option selected> Escolha o endereço para entrega</option>
-                </select>
-            </div>
             <a href="#" class="btn btn-primary btn-block" @click="createPayment()" v-if="userIsLogged">Finalizar compra</a>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
         </div>
@@ -54,7 +49,6 @@
     import { eventBus } from '../../app';
     import Moment from 'moment';
     import { extendMoment } from 'moment-range';
-    import Ls from '../../../painel/services/ls'
 
     const moment = extendMoment(Moment);
 
@@ -95,6 +89,7 @@
                     item.qty = 0
                     this.items.splice(index, 1)
                     this.courier = {}
+                    eventBus.$emit('remove-item', item)
                 }
                 this.cartProductUpdate(item, index);
             },
@@ -129,48 +124,54 @@
                      })
             },
             createPayment() {
-                const payload = {items: this.items, seller: this.chefMoipId, total: parseFloat(this.total), courier: this.courier};
-                axios.post('/moip/marketplace/order/process', payload)
-                     .then(res => {
-                         toastr.info('Aguarde.....', 'Seu Pedido foi Criado!', {
-                             progressBar: true,
-                             timeout: 2000,
-                             onHidden: () => {
-                                 window.location.href = res.data._links.checkout.payCreditCard.redirectHref;
-                             }
-                         });
-                     })
-                    .catch(error => {
-                        // 400
-                        if(error.response.satus === 400) {
-                            toastr.warning(error.response.data.error, 'Impossivel Continuar',{
-                                progressBar: true,
-                                timeout: 2000,
-                            })
-                        }
-                        // 412
-                        if(error.response.status === 412) {
-                            toastr.info(error.response.data.error, 'Processo Necessário', {
-                                progressBar: true,
-                                timeout: 2000,
-                                onHidden: () => {
-                                    if(error.response.data._link){
-                                        window.location.href = error.response.data._link
+                toastr.info('Aguarde só um instante', 'Estamos Processando todas as Informações', {
+                    timeOut: 2000,
+                    onHidden: () => {
+                        const payload = {items: this.items, seller: this.chefMoipId, total: parseFloat(this.total), courier: this.courier, pathname: this.pathname};
+
+                        axios.post('/moip/marketplace/order/process', payload)
+                            .then(res => {
+                                toastr.success('Aguarde, iremos redireciona-lo','Seu Pedido foi Criado!', {
+                                    progressBar: true,
+                                    timeout: 3000,
+                                    onHidden: () => {
+                                        window.location.href = res.data._links.checkout.payCreditCard.redirectHref;
                                     }
+                                });
+                            })
+                            .catch(error => {
+                                // 400
+                                if(error.response.status === 400) {
+                                    toastr.warning(error.response.data.error, 'Impossivel Continuar',{
+                                        progressBar: true,
+                                        timeout: 2000,
+                                    })
+                                }
+                                // 412
+                                if(error.response.status === 412) {
+                                    toastr.info(error.response.data.error, 'Processo Necessário', {
+                                        progressBar: true,
+                                        timeout: 2000,
+                                        onHidden: () => {
+                                            if(error.response.data._link){
+                                                window.location.href = error.response.data._link
+                                            }
+                                        }
+                                    })
+                                }
+                                // 500
+                                if(error.response.status === 500) {
+                                    toastr.error(error.response.data.error, 'Falha Interna', {
+                                        progressBar: true,
+                                        timeout: 2000,
+                                        onHidden: () => {
+                                            window.location.href = error.response.data._link
+                                        }
+                                    })
                                 }
                             })
-                        }
-                        // 500
-                        if(error.response.status === 500) {
-                            toastr.error(error.response.data.error, 'Falha Interna', {
-                                progressBar: true,
-                                timeout: 2000,
-                                onHidden: () => {
-                                    window.location.href = error.response.data._link
-                                }
-                            })
-                        }
-                    })
+                    }
+                })
             },
             addItemToCart(item) {
                // Adicionar item ao carrinho

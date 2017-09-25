@@ -31,6 +31,8 @@ Route::group(['prefix' => 'moip'], function() {
             Route::get('/', 'CartController@index');
             Route::post('/', 'CartController@addItemToCart');
             Route::put('{index}', 'CartController@update');
+            Route::post('address', 'CartController@addAddress');
+            Route::get('address', 'CartController@getAddress');
         });
     });
 

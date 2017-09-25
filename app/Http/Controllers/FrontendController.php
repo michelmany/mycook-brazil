@@ -47,8 +47,7 @@ class FrontendController extends Controller
     public function listChefs()
     {
         if ( Auth::check() ) {
-            $user_id = \Auth::id();
-            $address = Address::where('user_id', $user_id)->orderBy('id', 'desc')->first();
+            $address = auth()->user()->addresses()->where('default', true)->orderBy('id', 'desc')->first();
             $this->address_lat = $address->latitude;
             $this->address_lng = $address->longitude;
 

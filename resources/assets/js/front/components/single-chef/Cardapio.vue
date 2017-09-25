@@ -4,7 +4,7 @@
         <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
 
         <transition-group name="component-fade" mode="out-in">
-            <div class="cardapio__item" v-for="(item, index) in items" key="itemKey" v-if="item.extras.length > 0">
+            <div class="cardapio__item" v-for="(item, index) in items" key="index" v-if="item.extras.length > 0">
                 <div class="row px-3">
                     <div class="col-md-3 col-lg-5">
                         <div class="cardapio__image mb-3" style="background-image: url('/assets/img/hero-02.jpg')"></div>
@@ -39,15 +39,13 @@
                     </div>
                 </div>
 
-                <sweet-modal ref="modalTime">
+                <sweet-modal ref="modalTime" :id="index">
                     <!-- To do: adicionar component de trocar endereço direto no modal -->
-                    <!-- <div class="card mb-3"> -->
-                        <!-- <div class="card-block"> -->
-                            <!-- <h6 class="card-title text-uppercase">Endereço</h6> -->
-                            <!-- <p class="card-text"><small>Estrada Francisco da Cruz Nunes 1234, Piratininga - Niterói/RJ</small></p> -->
-                            <!-- <a href="#" class="btn btn-outline-secondary btn-sm">Trocar endereço</a> -->
-                        <!-- </div> -->
-                    <!-- </div> -->
+                     <div class="card mb-3">
+                         <div class="card-block">
+                            <list-addresses></list-addresses>
+                         </div>
+                     </div>
                     <div class="card">
                         <div class="card-block">
                             <h6 class="card-title text-uppercase">Escolha o horário para entrega</h6>
@@ -83,16 +81,17 @@
 
 <script>
     import { eventBus } from '../../app';
+    import ListAddresses from '../utils/ListAddresses.vue'
     import vueLoading from 'vue-loading-template'
     import Moment from 'moment';
     import { extendMoment } from 'moment-range';
-    const moment = extendMoment(Moment);
     import { HttpService } from '../../services/httpService';
+
+    const moment = extendMoment(Moment);
     let httpService = new HttpService();
 
-    import Ls from '../../../painel/services/ls'
-
     export default {
+        components: { ListAddresses },
         data() {
             return {
                 btnLabel: "Agendar entrega",
@@ -103,7 +102,7 @@
                 selectedTimes: [],
                 itemIndex: '',
                 now: '',
-                items: {},
+                items: [],
                 selectedDateIndex: '',
                 cartData: {
                     time: '',
@@ -115,8 +114,7 @@
                 cartStorage : {
                   items: [],
                   courier: {}
-                },
-                clientAddresses: []
+                }
             }
         },
         props: ["chefId"],
@@ -357,12 +355,18 @@
             this.setNow()
             //console.log("Date: " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"))
             // console.log(this.chef.times)
-            this.$bus.$on('clientAddresses', (addresses) => {
-                this.clientAddresses = addresses
-            })
+
         },
         mounted() {
           this.getProducts();
+        },
+        updated() {
+            eventBus.$on('remove-item', (item) => {
+//                this.selectedDateIndex = ''
+//                this.selectedTimes = []
+//                this.getProducts();
+                window.location.reload()
+            })
         }
     }
 </script>

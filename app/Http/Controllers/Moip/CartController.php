@@ -11,11 +11,16 @@ class CartController extends Controller
 
     const CACHE_NAME = 'my-cart';
 
-
+    /** @var static  */
     private $expiresIn;
 
+    /** @var Request  */
     private $request;
 
+    /**
+     * CartController constructor.
+     * @param Request $request
+     */
     public function __construct(Request $request)
     {
         $this->expiresIn = \Carbon\Carbon::now()->addMinutes(10);
@@ -28,6 +33,14 @@ class CartController extends Controller
     private function getCartBySeller()
     {
         return str_finish(self::CACHE_NAME, str_replace('/', '-', $this->request->seller));
+    }
+
+    /**
+     *
+     */
+    private function getAddressBySeller()
+    {
+        return str_finish('address', str_replace('/', '-', $this->request->seller));
     }
 
     /**
@@ -47,6 +60,9 @@ class CartController extends Controller
         return $cart;
     }
 
+    /**
+     *  Adiciona item ao carrinho
+     */
     public function addItemToCart()
     {
         // Verifica se existe carrinho, caso não exista inicia um novo
@@ -73,7 +89,37 @@ class CartController extends Controller
         Cache::put($this->getCartBySeller(), $myCart, $this->expiresIn);
     }
 
+    /**
+     * Adicionar endereço
+     */
+    public function addAddress()
+    {
+        if(Cache::has($this->getAddressBySeller())) {
+           Cache::forget($this->getAddressBySeller());
+        }
 
+        Cache::put($this->getAddressBySeller(), $this->request->get('address'), $this->expiresIn);
+    }
+
+    /**
+     * Obtem endereço
+     *
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        if(Cache::has($this->getAddressBySeller())) {
+            return response()->json(Cache::get($this->getAddressBySeller()));
+        }
+
+        return response(null, 204);
+    }
+
+
+
+    /**
+     * @param $index
+     */
     public function update($index)
     {
       // Obtem carrinho atual
