@@ -7,10 +7,10 @@
             <thead>
                 <tr>
                     <th>Código</th>
-                    <th>Meio</th>    
+                    <th>Cartão</th>
                     <th>Total Pago</th>
                     <th>Status</th>
-                    <th>Atualização</th>
+                    <th>Data</th>
                     <th>Opções</th>
                 </tr>
             </thead>
@@ -18,24 +18,19 @@
             <tbody>
                 <tr v-for="(order,index) in orders" :key="index">
                     <td>
-                        <span class="badge badge-primary">{{ order.code }}</span>
+                        <span class="badge badge-primary">{{ order.orderId }}</span>
                     </td>
                     <td>
-                        <i class="fa fa-2x" :class="{
-                            'fa-barcode': order.payment.type == 'BOLETO',
-                            'fa-credit-card': order.payment.type == 'CREDIT_CARD',
-                            'fa-deposit': order.payment.type == 'ONLINE_BANK_DEBIT'
-                            }" aria-hidden="true">
-                        </i>
+                        <i :class="'fa fa-2x ' + brandCard(order.payment)"></i>
                     </td>
                     <td>
-                        R$ {{ order.amount}}
+                        R$ {{ order.amount.total }}
                     </td>
                     <td>
-                        {{ order.status}}
+                        {{ order.status }}
                     </td>
                     <td>
-                        {{ order.timestamps.updated_at }}
+                        {{ order.created_at }}
                     </td>
                     <td>
                         <button class="btn btn-sm btn-primary" @click="show(order, index)">
@@ -52,14 +47,13 @@
 
 <script>
 import vueLoading from 'vue-loading-template'
-
+import {moment} from '../app'
 export default {
     name: 'list-orders',
     data() {
         return {
             loading: false,
-            orders: [],
-            meta: []
+            orders: []
         }
     },
     methods: {
@@ -68,12 +62,25 @@ export default {
             axios.get('/moip/services/orders')
                  .then(res => {
                     this.orders = res.data.orders;
-                    this.meta = res.data.meta;
                     this.loading = false;
                 })
         },
         show(order, index) {
-            window.location.href = '/minha-conta/pedidos/' + order.id
+            window.location.href = '/minha-conta/pedidos/' + order.orderId
+        },
+        brandCard(payment) {
+            if(!payment) {
+                return 'fa-credit-card';
+            }
+            let brand;
+
+            switch (payment.detail.brand) {
+                case 'MASTERCARD' : brand = 'fa-cc-mastercard'; break;
+                case 'VISA' : brand = 'fa-cc-visa'; break;
+                default: brand = 'fa-credit-card';
+            }
+
+            return brand;
         }
     },
     mounted() {
@@ -87,8 +94,4 @@ export default {
     .fade-leave-active {  transition: opacity .5s }
     .fade-enter, 
     .fade-leave-to {  opacity: 0}
-    .fa-deposit {
-       background-image: url("/assets/img/deposito.png");
-       padding: .5em;
-    }
 </style>

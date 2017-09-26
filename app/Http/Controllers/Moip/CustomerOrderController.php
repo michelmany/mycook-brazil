@@ -53,6 +53,6 @@ class CustomerOrderController extends Controller
      */
     public function allOrders(Request $request)
     {
-        return $this->service->all(10, $request->page);
+        return $this->service->all();
     }
 }

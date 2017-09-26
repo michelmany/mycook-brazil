@@ -14,4 +14,9 @@ class Buyer extends Model
     {
         return $this->belongsTo(\App\User::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

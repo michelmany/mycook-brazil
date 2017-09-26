@@ -191,8 +191,8 @@ class CheckoutService
         $orders->status = $order->getStatus();
         $orders->items = $order->getItemIterator();
         $orders->amount = [
-            'total' => $order->getAmountTotal(),
-            'liquid' => $order->getAmountLiquid()
+            'total' => MoipUtil::formatAmount($order->getAmountTotal()),
+            'liquid' => MoipUtil::formatAmount($order->getAmountLiquid())
         ];
         $orders->_links = $order->getLinks()->getAllCheckout();
         $orders->save();

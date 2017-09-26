@@ -49,9 +49,7 @@ class CheckoutController extends Controller
         $update->payment = $order->payment;
         $update->save();
 
-        return 'exibir pedido';
-
-        //return redirect()->route('orders.show', ['id' => $request->orderId]);
+        return redirect()->route('orders.show', ['id' => $request->orderId]);
     }
 
     /**
@@ -63,9 +61,8 @@ class CheckoutController extends Controller
 
         $update = Order::where('orderId', $order->id)->first();
         $update->status = $order->status->origin;
-        $update->payment = $order->payment;
         $update->save();
 
-        return 'página de falha';
+        return redirect()->route('orders.show', ['id' => $request->orderId])->with('error', 'Ocorreu algum problema, caso o pedido não tiver mudança no status, entre em contato o mais breve possivel!');
     }
 }

@@ -15,6 +15,10 @@ class OrderDeliveryData extends Model
       'time'
     ];
 
+    protected $dates = [
+        'time'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

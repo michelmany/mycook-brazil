@@ -15,7 +15,8 @@
             </div>
         </div>
         <hr>
-        <!-- @include('flash::message') -->
+
+        {{--<!-- @include('flash::message') -->--}}
         <list-orders></list-orders>
 
     </div>

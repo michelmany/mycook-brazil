@@ -2,12 +2,9 @@
 
 namespace App\Services\Moip\Customer;
 
-use App\Models\OrderDeliveryData;
+use App\Models\Order;
 use App\Support\Moip\Utils;
-use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Moip\Helper\Pagination;
 use Moip\Moip;
 use Moip\Resource\Orders;
 
@@ -35,6 +32,16 @@ class OrderService
     }
 
     /**
+     * Order
+     */
+    public function find($orderId)
+    {
+        $order = $this->syncOrderIdMoip($orderId);
+
+        return $order;
+    }
+
+    /**
      * List all orders by user
      *
      * @param int $total
@@ -43,53 +50,23 @@ class OrderService
      */
     public function all($total = 5, $page = 1)
     {
-        $offset = ($total * $page) - $total;
-        $pagination = new Pagination($total, $offset);
+        $orders = $this->request->user()->buyer->orders;
+        $orders = $orders->map(function($order) {
+            $order['status'] = Utils::formatOrderStatus($order['status']);
+            $order->amount['total'] = 10;
+            return $order;
+        })->all();
 
-        $customerOrders = $this->moip->orders()->getList($pagination, null, $this->request->user()->email);
-
-        $orders = [];
-
-        if(count($customerOrders->getOrders()) > 0) {
-            foreach($customerOrders->getOrders() as $k => $order) {
-
-                $payment = $order->payments[0];
-
-                $orders['orders'][$k] = [
-                    'code' => $order->ownId,
-                    'id' => $order->id,
-                    'status' => Utils::formatOrderStatus($order->status),
-                    'payment' => [
-                        'type' => $payment->fundingInstrument->method,
-                        'brand' => $payment->fundingInstrument->brand
-                    ],
-                    'amount' => Utils::formatAmount($order->amount->total),
-                    'timestamps' => [
-                        'created_at' => Utils::formatDate($order->createdAt)->format('d-m-Y H:i:s'),
-                        'updated_at' => Utils::formatDate($order->updatedAt)->diffForHumans()
-                    ],
-                ];
-            }
-
-            $summary = $customerOrders->jsonSerialize()->summary;
-
-            $orders['meta'] = [
-                'total' => $summary->count,
-                'pages' => (int)ceil($summary->count/$total),
-                'amount' => Utils::formatAmount($summary->amount)
-            ];
-
-        }
-
-        return $orders;
+        return compact('orders');
     }
 
     /**
      * Show order by code
      *
+     * @param $orderId
      * @return mixed
      */
-    public function find($orderId)
+    public function findMoip($orderId)
     {
         try{
             /** @var Orders $order */
@@ -101,25 +78,31 @@ class OrderService
     }
 
     /**
-     * Format
+     * Format order
+     *
+     * @param $orderId
+     * @return object
      */
     public function formatOrderById($orderId)
     {
-        $search = $this->find($orderId);
-
+        $search = $this->findMoip($orderId);
         $order = $search->jsonSerialize();
 
-        $payments = $order->payments[0]->jsonSerialize();
-
-        return (object)[
+        $orderFormatted = [
             'id' => $order->id,
             'ownId' => $order->ownId,
             'status' => (object)[
                 'formatted' => Utils::formatOrderStatus($order->status),
                 'origin' => $order->status
             ],
-            'items' => $this->getItemsAndFormat($order->items),
-            'payment' => (object)[
+            'items' => $this->getItemsAndFormat($order->items)
+        ];
+
+        if(isset($order->payments[0])) {
+
+            $payments = $order->payments[0]->jsonSerialize();
+
+            $orderFormatted['payment'] = (object)[
                 'id' => $payments->id,
                 'detail' => $this->getPaymentMethodandFormat($payments),
                 'status' => (object)[
@@ -131,10 +114,29 @@ class OrderService
                     'created_at' => $payments->createdAt->format('d-m-Y H:i:s'),
                     'updated_at' => Utils::formatDate($payments->updatedAt->getTimestamp())->diffForHumans()
                 ]
-            ]
-        ];
+            ];
+        }
+
+        return (object)$orderFormatted;
     }
 
+    /**
+     * Sync order
+     *
+     * @param $orderId
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    public function syncOrderIdMoip($orderId)
+    {
+        $order = $this->formatOrderById($orderId);
+
+        $update = Order::where('orderId', $order->id)->first();
+        $update->status = $order->status->origin;
+        $update->payment = $order->payment ?? null;
+        $update->save();
+
+        return $update;
+    }
 
     /**
      * @param $payment
