@@ -85,6 +85,7 @@ class OrderService
      */
     public function formatOrderById($orderId)
     {
+        /** @var Orders $search */
         $search = $this->findMoip($orderId);
         $order = $search->jsonSerialize();
 
@@ -95,7 +96,8 @@ class OrderService
                 'formatted' => Utils::formatOrderStatus($order->status),
                 'origin' => $order->status
             ],
-            'items' => $this->getItemsAndFormat($order->items)
+            'items' => $this->getItemsAndFormat($order->items),
+            '_links'=> array_merge(['order' => $search->getLinks()->getSelf()], ['checkout' => $search->getLinks()->getAllCheckout()])
         ];
 
         if(isset($order->payments[0])) {
@@ -133,6 +135,7 @@ class OrderService
         $update = Order::where('orderId', $order->id)->first();
         $update->status = $order->status->origin;
         $update->payment = $order->payment ?? null;
+        $update->_links = $order->_links;
         $update->save();
 
         return $update;

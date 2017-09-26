@@ -4,6 +4,7 @@
             <h4>Vendas</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+                <li class="breadcrumb-item"><router-link to="/seller/orders">Minhas Vendas</router-link></li>
                 <li class="breadcrumb-item active">Pedido Detalhado</li>
             </ol>
         </div>
@@ -12,10 +13,112 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title"> Pedido Nº <span class="badge badge-primary">000-0000000</span> </h3>
+                        <h3 class="card-title pull-left"> Pedido Nº <span class="badge badge-primary">{{ order.orderId }}</span> </h3>
+                        <div class="pull-right">
+                            <a :href="order._links.checkout.payCheckout" target="_blank" class="btn btn-sm btn-outline-info">Visualizar Pedido #MOIP</a>
+                        </div>
                     </div>
                     <div class="card-block">
-                        {{ $route.params.id }}
+
+                        <table class="table table-stripped">
+                            <thead>
+                            <tr>
+                                <th style="width: 300px;">Status de Entrega</th>
+                                <th>Valor Total da Compra</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <select class="form-control" v-model="status_delivery">
+                                        <option v-for="(item,index) in status_lists" :value="item.value">
+                                            {{ item.text }}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <h4>R$ {{ order.amount.total }}</h4>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <br>
+
+                        <!-- order detail -->
+                        <table class="table table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>Final <span class="badge badge-info">{{order.payment.detail.last}}</span></th>
+                                    <th>Status Pedido / Pagamento</th>
+                                    <th>Criado em</th>
+                                    <th>Última atualização pedido</th>
+                                    <th>Última atualização pagamento</th>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <i class="fa fa-2x fa-credit-card"
+                                           :class="{'fa-cc-visa': order.payment.detail.brand, 'fa-cc-mastercard': order.payment.detail.brand}"></i>
+                                    </th>
+                                    <th>{{ order.status }} / {{ order.payment.status.formatted }}</th>
+                                    <th>{{ order.created_at }}</th>
+                                    <th>{{ order.updated_at }}</th>
+                                    <th>{{ order.payment.timestamps.updated_at }}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <!-- order detail -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> Detalhes Entrega </h3>
+                    </div>
+                    <div class="card-block">
+                        <table class="table table-stripped">
+                            <tbody>
+                            <tr>
+                                <td>Data</td>
+                                <td>{{ order.address.fulldate }}</td>
+                            </tr>
+                            <tr>
+                                <td>Horário</td>
+                                <td>{{ $moment(order.address.time).format('H:mm A') }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> Produtos Comprados </h3>
+                    </div>
+                    <div class="card-block">
+                        <table class="table table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Descrição</th>
+                                    <th>Quantidade</th>
+                                    <th>Preço</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in order.items">
+                                    <td>{{ item.product }}</td>
+                                    <td>{{ item.detail }}</td>
+                                    <td>{{ item.quantity }}x</td>
+                                    <td>{{ item.price }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -25,24 +128,29 @@
 </template>
 
 <script>
-    import { HttpService } from '../../../services/httpService';
-    import Ls from '../../../services/ls';
-
-    const httpService = new HttpService;
-    const service =  httpService.build('moip/marketplace/seller/orders');
-
+    import {mapGetters, mapActions} from 'vuex'
     export default {
         data() {
           return {
-              authToken: ''
+              status_delivery: 0,
+              status_lists: [
+                  {text: 'Aguardando', value: 0},
+                  {text: 'Encaminhando', value: 1},
+                  {text: 'Saiu para Entrega', value: 2},
+                  {text: 'Endereço não Localizado', value: 3},
+                  {text: 'Entregue', value: 4},
+                  {text: 'Finalizado', value: 5},
+              ]
           }
         },
-        methods: {
+        computed: {
+            ...mapGetters({order: 'orders/getOrder'})
         },
-        mounted() {
-            this.authToken = Ls.get('auth.token');
-
-            console.log(service)
+        methods: {
+            ...mapActions({find: 'orders/find'})
+        },
+        created() {
+            this.find(this.$route.params.id)
         }
     }
 </script>

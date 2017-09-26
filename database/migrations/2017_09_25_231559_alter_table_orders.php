@@ -16,6 +16,15 @@ class AlterTableOrders extends Migration
         Schema::table('orders', function (Blueprint $table) {
             //
             $table->text('payment')->nullable();
+            /**
+             * 0 - Aguardando
+             * 1 - Encaminhando
+             * 2 - Saiu para Entrega
+             * 3 - Endereço não localizado
+             * 4 - Entregue
+             * 5 - Finalizado
+             */
+            $table->integer('status_delivery')->default(0);
         });
     }
 

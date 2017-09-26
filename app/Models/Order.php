@@ -11,6 +11,7 @@ class Order extends Model
         'seller_id',
         'buyer_id',
         'status',
+        'status_delivery',
         'items',
         'amount',
         'payment',

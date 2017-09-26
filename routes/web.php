@@ -37,7 +37,7 @@ Route::group(['prefix' => 'moip'], function() {
     });
 
     /**
-     *
+     * Redirects.
      */
     Route::group(['prefix' => 'payments', 'as' => 'moip.payments.'], function() {
         Route::get('success', 'Moip\CheckoutController@paymentSuccess')->name('success');

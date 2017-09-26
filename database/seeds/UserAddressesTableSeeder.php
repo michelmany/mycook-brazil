@@ -25,6 +25,7 @@ class UserAddressesTableSeeder extends Seeder
                 "state" => "MS",
                 "longitude" => "-54.6625294",
                 "latitude" => "-20.5140515",
+                "default" => true
             ]
         );
 
@@ -40,6 +41,7 @@ class UserAddressesTableSeeder extends Seeder
                 "state" => "MS",
                 "longitude" => "-54.6625294",
                 "latitude" => "-20.5140515",
+                "default" => true
             ]
         );
 
@@ -56,6 +58,7 @@ class UserAddressesTableSeeder extends Seeder
                 "state" => "MS",
                 "longitude" => "-54.6625294",
                 "latitude" => "-20.5140515",
+                "default" => true
             ]
         );
 
@@ -71,6 +74,7 @@ class UserAddressesTableSeeder extends Seeder
                 "state" => "MS",
                 "longitude" => "-54.6625294",
                 "latitude" => "-20.5140515",
+                "default" => true
             ]
         );
 

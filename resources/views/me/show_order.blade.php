@@ -19,7 +19,7 @@
 
             <!-- refazer pagamento -->
             @if($order['status'] === 'WAITING' || empty($order['payment']) )
-                    <a href="{{ $order['_links']['payCreditCard'] }}" class="btn btn-outline-primary">
+                    <a href="{{ $order['_links']['checkout']['payCreditCard'] }}" class="btn btn-outline-primary">
                         Refazer Pagamento
                     </a>
                 @endif
@@ -45,7 +45,7 @@
                              @if(empty($order->payment))
                                  <div class="card-block">
                                      <p>Sem informações de pagamento, caso não tenha feito o pagamento você pode clicar no botão "Refazer Pagamento" que está logo acima;</p>
-                                     <p>Caso tenha feito o pagamento, <a href="{{ $order->_links['payCheckout'] }}" target="_blank" class="btn-link">confira aqui</a> a situação do pedido.</p>
+                                     <p>Caso tenha feito o pagamento, <a href="{{ $order['_links']['checkout']['payCheckout'] }}" target="_blank" class="btn-link">confira aqui</a> a situação do pedido.</p>
                                  </div>
                                  @else
                                  <table class="table table-stripped">
@@ -89,71 +89,72 @@
                                  </table>
                                  @endif
                          </div>
-
                      </div>
                  </div>
              </div>
          </div>
          <br>
          <!-- detalhes da compra -->
-         <div class="row">
-             <div class="col-md-4">
-                 <div class="card">
-                     <div class="card-header">
-                         <h3>Dados Entrega</h3>
-                     </div>
-                     <div class="card-block">
-                         <table class="table table-stripped">
-                             <thead>
-                             <tr>
-                                 <th>Dia</th>
-                                 <td>{{ $order->address->fulldate }}</td>
-                             </tr>
-                             <tr>
-                                 <th>Horário</th>
-                                 <td>entre {{ $order->address->time->format('H:i A') }} à {{ $order->address->time->addMinutes(30)->format('H:i A') }}</td>
-                             </tr>
-                             </thead>
-                         </table>
-                     </div>
-                 </div>
-             </div>
-             <div class="col-md-8">
-                 <div class="card">
-                     <div class="card-header">
-                         <h3>Detalhes da Compra</h3>
-                     </div>
-                     <div class="card-block">
-
-                         <div class="row">
+         @if($order->payment)
+             <div class="row">
+                 <div class="col-md-4">
+                     <div class="card">
+                         <div class="card-header">
+                             <h3>Dados Entrega</h3>
+                         </div>
+                         <div class="card-block">
                              <table class="table table-stripped">
                                  <thead>
                                  <tr>
-                                     <th>Produto</th>
-                                     <th>Descrição</th>
-                                     <th>Quantidade</th>
-                                     <th>Valor</th>
+                                     <th>Dia</th>
+                                     <td>{{ $order->address->fulldate }}</td>
+                                 </tr>
+                                 <tr>
+                                     <th>Horário</th>
+                                     <td>entre {{ $order->address->time->format('H:i A') }} à {{ $order->address->time->addMinutes(30)->format('H:i A') }}</td>
                                  </tr>
                                  </thead>
-                                 <tbody>
-                                 @forelse($order['items'] as $item)
-                                     <tr>
-                                         <td>{{ $item['product'] }}</td>
-                                         <td>{{ $item['detail']}}</td>
-                                         <td>{{ $item['quantity'] }}x</td>
-                                         <td>R$ {{ \App\Support\Moip\Utils::formatAmount($item['price']) }}</td>
-                                     </tr>
-                                 @empty
-                                     <p>Não localizamos nenhum produto</p>
-                                 @endforelse
-                                 </tbody>
                              </table>
                          </div>
+                     </div>
+                 </div>
+                 <div class="col-md-8">
+                     <div class="card">
+                         <div class="card-header">
+                             <h3>Detalhes da Compra</h3>
+                         </div>
+                         <div class="card-block">
 
+                             <div class="row">
+                                 <table class="table table-stripped">
+                                     <thead>
+                                     <tr>
+                                         <th>Produto</th>
+                                         <th>Descrição</th>
+                                         <th>Quantidade</th>
+                                         <th>Valor</th>
+                                     </tr>
+                                     </thead>
+                                     <tbody>
+                                     @forelse($order['items'] as $item)
+                                         <tr>
+                                             <td>{{ $item['product'] }}</td>
+                                             <td>{{ $item['detail']}}</td>
+                                             <td>{{ $item['quantity'] }}x</td>
+                                             <td>R$ {{ \App\Support\Moip\Utils::formatAmount($item['price']) }}</td>
+                                         </tr>
+                                     @empty
+                                         <p>Não localizamos nenhum produto</p>
+                                     @endforelse
+                                     </tbody>
+                                 </table>
+                             </div>
+
+                         </div>
                      </div>
                  </div>
              </div>
-         </div>
+             @endif
          <!-- detalhes da compra -->
     </div>
 </section>

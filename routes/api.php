@@ -35,6 +35,11 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
     Route::resource('products', 'ProductsController');
     Route::post('products/photo/{id}','ProductsController@photo');
     Route::resource('extras', 'ProductExtrasController');
+
+    Route::group(['prefix' => 'orders'], function() {
+        Route::get('/', 'Moip\OrderController@index');
+        Route::get('{order}', 'Moip\OrderController@show');
+    });
 });
 
 Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');

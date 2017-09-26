@@ -5,8 +5,10 @@ import Layout from './helpers/layout'
 import filters from './filters'
 import TheMask from 'vue-the-mask'
 
+import moment from './helpers/moment'
 
-
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import BootstrapVue from 'bootstrap-vue'
 /**
  * First we will load all of this project's JavaScript dependencies which
  * include Vue and Vue Resource. This gives a great starting point for
@@ -17,9 +19,9 @@ require('./bootstrap');
 
 Vue.use(filters)
 Vue.use(TheMask)
+Vue.use(BootstrapVue)
 
-
-
+Vue.prototype.$moment = moment
 Vue.config.debug = true
 
 /**

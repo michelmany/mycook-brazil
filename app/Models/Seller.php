@@ -64,4 +64,12 @@ class Seller extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

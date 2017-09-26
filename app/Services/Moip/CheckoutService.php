@@ -5,6 +5,7 @@ namespace App\Services\Moip;
 use App\Models\Order;
 use App\Models\OrderDeliveryData;
 use Cache;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\User;
 use App\Models\Buyer;
@@ -184,26 +185,31 @@ class CheckoutService
      */
     private function saveOrder(Orders $order)
     {
-        $orders = new Order();
-        $orders->orderId = $order->getId();
-        $orders->seller_id = $this->request->seller_id;
-        $orders->buyer_id = $this->buyer->id;
-        $orders->status = $order->getStatus();
-        $orders->items = $order->getItemIterator();
-        $orders->amount = [
-            'total' => MoipUtil::formatAmount($order->getAmountTotal()),
-            'liquid' => MoipUtil::formatAmount($order->getAmountLiquid())
-        ];
-        $orders->_links = $order->getLinks()->getAllCheckout();
-        $orders->save();
+        try{
+            $orders = new Order();
+            $orders->orderId = $order->getId();
+            $orders->seller_id = $this->request->seller_id;
+            $orders->buyer_id = $this->buyer->id;
+            $orders->status = $order->getStatus();
+            $orders->items = $order->getItemIterator();
+            $orders->status_delivery = 0;
+            $orders->amount = [
+                'total' => MoipUtil::formatAmount($order->getAmountTotal()),
+//                'liquid' => MoipUtil::formatAmount($order->getAmountLiquid() ?? '00')
+            ];
+            $orders->_links = array_merge(['order' => $order->getLinks()->getSelf()], ['checkout' => $order->getLinks()->getAllCheckout()]);
+            $orders->save();
 
-        $orderDeliveryData = new OrderDeliveryData();
-        $orderDeliveryData->order()->associate($orders);
-        $orderDeliveryData->address_id = $this->address->id;
-        $orderDeliveryData->day = MoipUtil::formatDate($this->request->courier['time'])->format('d');
-        $orderDeliveryData->fulldate =  $this->request->courier['fulldate'];
-        $orderDeliveryData->time = $this->request->courier['time'];
-        $orderDeliveryData->save();
+            $orderDeliveryData = new OrderDeliveryData();
+            $orderDeliveryData->order()->associate($orders);
+            $orderDeliveryData->address_id = $this->address->id;
+            $orderDeliveryData->day = MoipUtil::formatDate($this->request->courier['time'])->format('d');
+            $orderDeliveryData->fulldate =  $this->request->courier['fulldate'];
+            $orderDeliveryData->time = Carbon::parse($this->request->courier['time']);
+            $orderDeliveryData->save();
+        }catch (\Error $e) {
+            dd($e);
+        }
     }
 
     /**
