@@ -13,9 +13,11 @@
                         <div>
                             <h5 class="cardapio__title text-uppercase">{{ item.name }}</h5>
                             <div class="cardapio__desc">{{ item.desc }}</div>
+                            <span class="cardapio__readmore" @click="expandReadMore(index)">Ler mais...</span>
+
                             <div><span class="cardapio__serve badge badge-primary">Serve {{ item.serve }}</span></div>
                             <!-- To do: Pegar os dias que tem times setados e mostrar no span abaixo -->
-                            <div class="cardapio__desc mt-3">Disponível nos dias: {{ dateRangeBadge(item) }}</div>
+                            <div class="cardapio__time mt-3">Disponível nos dias: {{ dateRangeBadge(item) }}</div>
                             <div class="cardapio__time">Hoje: {{ timeRangeAvailableForToday(item) }}</div>
                         </div>
                     </div>
@@ -349,7 +351,25 @@
                     }
                   });
                 }
-            }
+            },
+            expandReadMore(index) {
+                var cardapioDesc = $('.cardapio__desc').get(index);
+                var cardapioReadMore = $('.cardapio__readmore').get(index);
+
+                if( $(cardapioDesc).height() < 45 ) {
+                    $(cardapioReadMore).css('display', 'none');
+                }
+                if( $(cardapioDesc).height() == 45 ) {
+                    $(cardapioDesc).css('max-height', '100%');
+                    $(cardapioReadMore).html('Fechar');
+                } else {
+                    this.closeReadMore(cardapioDesc, cardapioReadMore);
+                }
+            },
+            closeReadMore(cardapioDesc, cardapioReadMore) {
+                $(cardapioDesc).css('max-height', 45);
+                $(cardapioReadMore).html('Ler mais...');
+            },
         },
         created() {
             this.setNow()
@@ -372,6 +392,17 @@
 </script>
 
 <style scoped>
+    .cardapio__desc {
+        max-height: 45px;
+        overflow: hidden;
+    }
+    .cardapio__readmore {
+        font-size: 14px;
+        text-decoration: underline;
+        color: #a5adb9;
+        cursor: pointer;
+    }
+
     /* Enter and leave animations can use different */
     /* durations and timing functions.              */
     .slide-fade-enter-active {
