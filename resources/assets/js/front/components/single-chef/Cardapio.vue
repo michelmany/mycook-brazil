@@ -159,10 +159,18 @@
                 this.addItem(item, index);
             },
             addItem(item, index) {
+
+                var itemDescFormated;
+                if(item.desc.length > 45) {
+                    itemDescFormated = item.desc.substring(0, 45) + '...';
+                } else {
+                    itemDescFormated = item.desc;
+                }
+
                 const newItem = {
                     id: item.id,
                     name: item.name,
-                    desc: item.desc,
+                    desc: itemDescFormated,
                     price: item.price,
                     availableQty: item.extras[this.selectedDateIndex].quantity,
                     qty: 1
@@ -375,7 +383,6 @@
             this.setNow()
             //console.log("Date: " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"))
             // console.log(this.chef.times)
-
         },
         mounted() {
           this.getProducts();
