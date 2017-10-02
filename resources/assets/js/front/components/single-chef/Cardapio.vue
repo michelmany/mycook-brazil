@@ -326,6 +326,8 @@
                     .then((res) => {
                         this.loading = false
                         this.items = res.data
+                        this.removeItemNoExtra();
+
                         /**
                         *
                         */
@@ -337,6 +339,13 @@
                         this.getRangeTime()
                     })
                 }, 500);
+            },
+            removeItemNoExtra() {
+                this.items.forEach( (item, index) => {
+                    if (item.extras.length === 0) {
+                        this.items.splice(index, 1);
+                    }
+                })
             },
             mapCartStorage() {
                 if(this.cartStorage.items.length > 0) {
