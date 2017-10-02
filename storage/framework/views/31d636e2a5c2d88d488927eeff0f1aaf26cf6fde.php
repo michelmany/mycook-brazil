@@ -1,35 +1,35 @@
-@extends('layouts.default')
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <section id="show-order" class="addresses">
      <div class="container generic__wrapper">
         <div class="header d-flex justify-content-between align-items-center flex-wrap">
             <div>
-                @if(session()->has('error'))
+                <?php if(session()->has('error')): ?>
                     <div class="card-block text-danger">
-                        {{ session()->get('error') }}
+                        <?php echo e(session()->get('error')); ?>
+
                     </div>
-                    @endif
+                    <?php endif; ?>
                 <h3>
-                    <i class="fa fa-shopping" aria-hidden="true"></i> Pedido Nº <span class="badge badge-primary badge-pill">{{ $order->id}}</span>
+                    <i class="fa fa-shopping" aria-hidden="true"></i> Pedido Nº <span class="badge badge-primary badge-pill"><?php echo e($order->id); ?></span>
                 </h3>
             </div>
             <div>
-                <a href="{{ route('orders.list') }}" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left"></i> Voltar</a>
+                <a href="<?php echo e(route('orders.list')); ?>" class="btn btn-outline-primary"><i class="fa fa-arrow-circle-left"></i> Voltar</a>
 
             <!-- refazer pagamento -->
-            @if($order['status'] === 'WAITING' || empty($order['payment']) )
-                    <a href="{{ $order['_links']['checkout']['payCreditCard'] }}" class="btn btn-outline-primary">
+            <?php if($order['status'] === 'WAITING' || empty($order['payment']) ): ?>
+                    <a href="<?php echo e($order['_links']['checkout']['payCreditCard']); ?>" class="btn btn-outline-primary">
                         Refazer Pagamento
                     </a>
-                @endif
+                <?php endif; ?>
 
             <!-- cancela apenas compras pré autorizadas -->
-            @if(!empty($order['payment']) && $order['payment']['status']['origin'] === "PRE_AUTHORIZED")
+            <?php if(!empty($order['payment']) && $order['payment']['status']['origin'] === "PRE_AUTHORIZED"): ?>
                     <a href="javascript:;" class="btn btn-outline-primary">
                         Cancelar Compra
                     </a>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
         <br>
@@ -42,16 +42,16 @@
                      <div class="card-block">
 
                          <div class="row">
-                             @if(empty($order->payment))
+                             <?php if(empty($order->payment)): ?>
                                  <div class="card-block">
                                      <p>Sem informações de pagamento, caso não tenha feito o pagamento você pode clicar no botão "Refazer Pagamento" que está logo acima;</p>
-                                     <p>Caso tenha feito o pagamento, <a href="{{ $order['_links']['checkout']['payCheckout'] }}" target="_blank" class="btn-link">confira aqui</a> a situação do pedido.</p>
+                                     <p>Caso tenha feito o pagamento, <a href="<?php echo e($order['_links']['checkout']['payCheckout']); ?>" target="_blank" class="btn-link">confira aqui</a> a situação do pedido.</p>
                                  </div>
-                                 @else
+                                 <?php else: ?>
                                  <table class="table table-stripped">
                                      <thead>
                                      <tr>
-                                         <th>final <span class="badge badge-info">{{ $order['payment']['detail']['last'] }}</span></th>
+                                         <th>final <span class="badge badge-info"><?php echo e($order['payment']['detail']['last']); ?></span></th>
                                          <th>Status Pedido :: Pagamento</th>
                                          <th>Criado em</th>
                                          <th>Última atualização</th>
@@ -61,34 +61,38 @@
                                      <tbody>
                                      <tr>
                                          <td>
-                                             @if($order->payment['detail']['brand'] === 'MASTERCARD')
+                                             <?php if($order->payment['detail']['brand'] === 'MASTERCARD'): ?>
                                                  <i class="fa fa-2x fa-cc-mastercard"></i>
-                                             @elseif($order->payment['detail']['brand'] === 'VISA')
+                                             <?php elseif($order->payment['detail']['brand'] === 'VISA'): ?>
                                                  <i class="fa fa-2x fa-cc-visa"></i>
-                                             @else
+                                             <?php else: ?>
                                                  <i class="fa fa-2x fa-credit-card"></i>
-                                             @endif
-                                             <span>R$ {{ $order['payment']['amount'] }}</span>
+                                             <?php endif; ?>
+                                             <span>R$ <?php echo e($order['payment']['amount']); ?></span>
                                          </td>
                                          <td>
-                                             {{ \App\Support\Moip\Utils::formatOrderStatus($order['status']) }}
+                                             <?php echo e(\App\Support\Moip\Utils::formatOrderStatus($order['status'])); ?>
+
                                              ::
-                                             {{ $order['payment']['status']['formatted'] }}
+                                             <?php echo e($order['payment']['status']['formatted']); ?>
+
                                          </td>
                                          <td>
-                                             {{ $order->created_at->diffForHumans() }}
-                                             <!-- {{ \App\Support\Moip\Utils::formatDate($order['payment']['timestamps']['created_at'])->diffForHumans() }} -->
+                                             <?php echo e($order->created_at->diffForHumans()); ?>
+
+                                             <!-- <?php echo e(\App\Support\Moip\Utils::formatDate($order['payment']['timestamps']['created_at'])->diffForHumans()); ?> -->
                                          </td>
                                          <td>
-                                             {{ $order['payment']['timestamps']['updated_at'] }}
+                                             <?php echo e($order['payment']['timestamps']['updated_at']); ?>
+
                                          </td>
                                          <td>
-                                             <span class="badge badge-info">{{ $order->seller->user->name }}</span>
+                                             <span class="badge badge-info"><?php echo e($order->seller->user->name); ?></span>
                                          </td>
                                      </tr>
                                      </tbody>
                                  </table>
-                                 @endif
+                                 <?php endif; ?>
                          </div>
                      </div>
                  </div>
@@ -96,7 +100,7 @@
          </div>
          <br>
          <!-- detalhes da compra -->
-         @if($order->payment)
+         <?php if($order->payment): ?>
              <div class="row">
                  <div class="col-md-4">
                      <div class="card">
@@ -108,11 +112,11 @@
                                  <thead>
                                  <tr>
                                      <th>Dia</th>
-                                     <td>{{ $order->address->time->format('D/M') }}</td>
+                                     <td><?php echo e($order->address->time->format('D/M')); ?></td>
                                  </tr>
                                  <tr>
                                      <th>Horário</th>
-                                     <td>entre {{ $order->address->time->format('H:i A') }} à {{ $order->address->time->addMinutes(30)->format('H:i A') }}</td>
+                                     <td>entre <?php echo e($order->address->time->format('H:i A')); ?> à <?php echo e($order->address->time->addMinutes(30)->format('H:i A')); ?></td>
                                  </tr>
                                  </thead>
                              </table>
@@ -137,16 +141,16 @@
                                      </tr>
                                      </thead>
                                      <tbody>
-                                     @forelse($order['items'] as $item)
+                                     <?php $__empty_1 = true; $__currentLoopData = $order['items']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                          <tr>
-                                             <td>{{ $item['product'] }}</td>
-                                             <td>{{ $item['detail']}}</td>
-                                             <td>{{ $item['quantity'] }}x</td>
-                                             <td>R$ {{ \App\Support\Moip\Utils::formatAmount($item['price']) }}</td>
+                                             <td><?php echo e($item['product']); ?></td>
+                                             <td><?php echo e($item['detail']); ?></td>
+                                             <td><?php echo e($item['quantity']); ?>x</td>
+                                             <td>R$ <?php echo e(\App\Support\Moip\Utils::formatAmount($item['price'])); ?></td>
                                          </tr>
-                                     @empty
+                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                          <p>Não localizamos nenhum produto</p>
-                                     @endforelse
+                                     <?php endif; ?>
                                      </tbody>
                                  </table>
                              </div>
@@ -155,8 +159,9 @@
                      </div>
                  </div>
              </div>
-             @endif
+             <?php endif; ?>
          <!-- detalhes da compra -->
     </div>
 </section>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

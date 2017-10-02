@@ -39,6 +39,7 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
     Route::group(['prefix' => 'orders'], function() {
         Route::get('/', 'Moip\OrderController@index');
         Route::get('{order}', 'Moip\OrderController@show');
+        Route::put('{order}', 'Moip\OrderController@update');
     });
 });
 

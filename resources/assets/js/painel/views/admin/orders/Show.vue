@@ -15,7 +15,7 @@
                     <div class="card-header">
                         <h3 class="card-title pull-left"> Pedido Nº <span class="badge badge-primary">{{ order.orderId }}</span> </h3>
                         <div class="pull-right">
-                            <a :href="order._links.checkout.payCheckout" target="_blank" class="btn btn-sm btn-outline-info">Visualizar Pedido #MOIP</a>
+                            <a href="javascript:;" target="_blank" class="btn btn-sm btn-outline-info">Visualizar Pedido #MOIP</a>
                         </div>
                     </div>
                     <div class="card-block">
@@ -30,7 +30,7 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    <select class="form-control" v-model="status_delivery">
+                                    <select class="form-control" v-model="order.status_delivery" @change="updateDeliveryStatus(order.status_delivery)">
                                         <option v-for="(item,index) in status_lists" :value="item.value">
                                             {{ item.text }}
                                         </option>
@@ -62,8 +62,8 @@
                                            :class="{'fa-cc-visa': order.payment.detail.brand, 'fa-cc-mastercard': order.payment.detail.brand}"></i>
                                     </th>
                                     <th>{{ order.status }} / {{ order.payment.status.formatted }}</th>
-                                    <th>{{ order.created_at | moment('d/m/Y') }}</th>
-                                    <th>{{ order.updated_at | moment('d/m/Y') }}</th>
+                                    <th>{{ order.created_at }}</th>
+                                    <th>{{ order.updated_at }}</th>
                                     <th>{{ order.payment.timestamps.updated_at }}</th>
                                 </tr>
                             </thead>
@@ -133,7 +133,6 @@
     export default {
         data() {
           return {
-              status_delivery: 0,
               status_lists: [
                   {text: 'Aguardando', value: 0},
                   {text: 'Encaminhando', value: 1},
@@ -148,13 +147,16 @@
             ...mapGetters({order: 'orders/getOrder'})
         },
         methods: {
-            ...mapActions({find: 'orders/find'}),
+            ...mapActions({find: 'orders/find', update: 'orders/update'}),
             formatItemPrice(price) {
                 let _price = price.toString()
-
                 let _chunk = parseFloat(chunk_split(_price, (_price.length - 2), '.'))
-
                 return number_format(_chunk, 2, ',', '.');
+            },
+
+            updateDeliveryStatus(status) {
+                let payload = {id: this.order.id, data: {status_delivery: status}}
+                this.update(payload)
             }
         },
         created() {

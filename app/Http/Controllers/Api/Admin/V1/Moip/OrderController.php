@@ -58,4 +58,15 @@ class OrderController
         $order->address->address;
         return response()->json(compact('order'));
     }
+
+
+    public function update(Order $order, Request $request)
+    {   
+        try{
+            $order->update($request->all());
+            return response(null, 204);
+        }catch(\Exception $error) {
+            return response()->json(['error' => $error->__toString()], 400);
+        }
+    }
 }
