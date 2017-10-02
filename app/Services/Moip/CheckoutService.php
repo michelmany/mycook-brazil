@@ -92,13 +92,13 @@ class CheckoutService
      */
     public function getAddress()
     {
-        $pathname = str_finish('address', str_replace('/', '-', $this->request->pathname));
+        // $pathname = str_finish('address', str_replace('/', '-', $this->request->pathname));
 
-        if(Cache::has($pathname)) {
-            $address = Cache::get($pathname);
+        // if(Cache::has($pathname)) {
+        //     $address = Cache::get($pathname);
 
-            return Address::find($address['id']);
-        }
+        //     return Address::find($address['id']);
+        // }
 
         return $this->user->addresses()->where('default', true)->first();
     }

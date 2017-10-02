@@ -42,6 +42,7 @@
                 </div>
 
                 <sweet-modal ref="modalTime" :id="index">
+                     <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
                     <!-- To do: adicionar component de trocar endereço direto no modal -->
                      <div class="card mb-3">
                          <div class="card-block">

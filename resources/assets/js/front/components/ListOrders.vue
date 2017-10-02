@@ -30,7 +30,7 @@
                         {{ order.status }}
                     </td>
                     <td>
-                        {{ order.created_at }}
+                        {{ $moment(order.created_at).format('ddd/MM HH:m:s') }}
                     </td>
                     <td>
                         <button class="btn btn-sm btn-primary" @click="show(order, index)">

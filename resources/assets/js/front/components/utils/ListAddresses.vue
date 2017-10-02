@@ -1,15 +1,22 @@
 <template>
     <div>
-        <h6 class="card-title text-uppercase">Endereço</h6>
+        <h6 class="card-title text-uppercase">
+            {{ list.name ? list.name : 'Endereço' }}
+        </h6>
+        <p class="card-text">
+            <small>{{list.address}} {{ list.number}}, {{list.neighborhood}} - {{list.city}}/{{list.state}}</small>
+        </p>
+        <a href="/minha-conta/enderecos" class="btn btn-outline-secondary btn-sm">Trocar endereço</a>
+        <!-- <h6 class="card-title text-uppercase">Endereço</h6> -->
         <!--<p class="card-text"></p>-->
-        <div class="mb-3">
-            <select class="form-control" v-if="authGuest" v-model="address" @change="save">
+        <!-- <div class="mb-3"> -->
+            <!-- <select class="form-control" v-if="authGuest" v-model="address" @change="save">
                 <option value="" selected> Escolha o endereço para entrega</option>
                 <option v-for="(address, index) in list" :key="index" :value="address">
                     <small>{{address.address}} {{ address.number}}, {{address.neighborhood}} - {{address.city}}/{{address.state}}</small>
                 </option>
-            </select>
-        </div>
+            </select> -->
+        <!-- </div> -->
     </div>
 </template>
 
@@ -28,13 +35,12 @@
             all() {
                 axios.get('/minha-conta/get-addresses')
                     .then((res) => {
-                        this.list = _.orderBy(res.data, 'default', 'desc');
-
-                        this.get();
+                        // this.list = _.orderBy(res.data, 'default', 'desc');
+                        // this.get();
+                        this.list = _.filter(res.data, addr => addr.default === true)[0]
                     })
             },
-            save()
-            {
+            save() {
                 if(this.address !== '') {
                     // salvar endereço em uma sessão
                     axios.post('/moip/services/cart/address', {address: this.address})
