@@ -52,6 +52,7 @@
                                                 <label for="formEmail" class="col-12 col-md-3 col-form-label">Serve</label>
                                                 <div class="col-12 col-md-9">
                                                     <input type="number" min="1" max="15" class="form-control"
+                                                    v-validate="'max_value:15'" data-vv-name="serve"
                                                     :class="{'form-control': true, 'is-danger': errors.has('serve') }"
                                                     v-model="product.serve" >
                                                     <div v-show="errors.has('serve')" class="help is-danger">{{ errors.first('serve') }}</div>
