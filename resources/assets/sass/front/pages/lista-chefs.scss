@@ -54,6 +54,8 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: $mc-color-orange;
+            font-family: DINPro-Medium;
             @media screen and (min-width:576px) {
                 font-size: 20px;
             }
