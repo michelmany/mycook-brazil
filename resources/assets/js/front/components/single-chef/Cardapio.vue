@@ -15,7 +15,7 @@
                             <div class="cardapio__desc">{{ item.desc }}</div>
                             <span class="cardapio__readmore" @click="expandReadMore(index)">Ler mais...</span>
 
-                            <div><span class="cardapio__serve badge badge-primary">Serve {{ item.serve }}</span></div>
+                            <div><span class="cardapio__serve badge badge-primary">Quantidade: Serve {{ item.serve }}</span></div>
                             <!-- To do: Pegar os dias que tem times setados e mostrar no span abaixo -->
                             <div class="cardapio__time mt-3">Disponível nos dias: {{ dateRangeBadge(item) }}</div>
                             <div class="cardapio__time">Hoje: {{ timeRangeAvailableForToday(item) }}</div>
