@@ -41,14 +41,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                              <label for="product_comments" class="col-12 col-md-3 col-form-label">Observações</label>
-                                              <div class="col-12 col-md-9">
-                                                  <textarea v-model="product.comments" id="product_comments" class="form-control" rows="5"></textarea>
-                                                  <small class="text-muted">Observações sobre o produto.</small>
-                                              </div>
-                                            </div>
-
                                         </div>
 
                                         <div class="col-lg-6">
@@ -56,7 +48,7 @@
                                         <div class="form-group row">
                                             <label for="serve" class="col-12 col-md-3 col-form-label">Serve</label>
                                             <div class="col-12 col-md-9">
-                                                <input type="number" id="serve" class="form-control"
+                                                <input type="number" id="serve" min="1" max="15" class="form-control"
                                                 :class="{'form-control': true, 'is-danger': errors.has('serve') }"
                                                 v-model.number="product.serve">
                                                 <div v-show="errors.has('serve')" class="help is-danger">{{ errors.first('serve') }}</div>
@@ -109,6 +101,13 @@
                 return {
                     user: {},
                     product: {},
+                }
+            },
+            watch: {
+                'product.serve'(current) {
+                    if(current > 15) {
+                        this.product.serve = 15
+                    }
                 }
             },
             methods: {
