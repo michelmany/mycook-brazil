@@ -42,12 +42,14 @@ export default {
         getOrders : (state) => {
             return _.forEach(state.orders, order => {
                 order.status = service.formatStatus(order.status)
+                order.status_delivery = service.formatStatusDelivery(order.status_delivery)
                 order.created_at = moment(order.created_at).format('DD/MM/Y H:m')
             })
         },
         getOrder: (state) => {
             let order = state.order
                 order.status =  service.formatStatus(order.status)
+                order.status_delivery = service.formatStatusDelivery(order.status_delivery)
                 order.created_at =  moment(order.created_at).format('DD/MM/Y H:m:s')
                 order.updated_at =  moment(order.updated_at).format('DD/MM/Y H:m:s')
             return order

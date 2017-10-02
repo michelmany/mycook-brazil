@@ -37,7 +37,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <h4>R$ {{ order.amount.total }}</h4>
+                                    <h4>R${{ order.amount.total }}</h4>
                                 </td>
                             </tr>
                             </tbody>
@@ -62,8 +62,8 @@
                                            :class="{'fa-cc-visa': order.payment.detail.brand, 'fa-cc-mastercard': order.payment.detail.brand}"></i>
                                     </th>
                                     <th>{{ order.status }} / {{ order.payment.status.formatted }}</th>
-                                    <th>{{ order.created_at }}</th>
-                                    <th>{{ order.updated_at }}</th>
+                                    <th>{{ order.created_at | moment('d/m/Y') }}</th>
+                                    <th>{{ order.updated_at | moment('d/m/Y') }}</th>
                                     <th>{{ order.payment.timestamps.updated_at }}</th>
                                 </tr>
                             </thead>
@@ -83,11 +83,11 @@
                             <tbody>
                             <tr>
                                 <td>Data</td>
-                                <td>{{ order.address.fulldate }}</td>
+                                <td>{{ $moment(order.address.time).format('d/MMMM') }}</td>
                             </tr>
                             <tr>
                                 <td>Horário</td>
-                                <td>{{ $moment(order.address.time).format('H:mm A') }}</td>
+                                <td>{{ $moment(order.address.time).format('H:mm') }} à {{ $moment(order.address.time).add({minutes: 30}).format('H:mm A') }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -115,7 +115,7 @@
                                     <td>{{ item.product }}</td>
                                     <td>{{ item.detail }}</td>
                                     <td>{{ item.quantity }}x</td>
-                                    <td>{{ item.price }}</td>
+                                    <td>R$ {{ formatItemPrice(item.price) }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -128,6 +128,7 @@
 </template>
 
 <script>
+    import {chunk_split, number_format} from '../../../helpers/functions'
     import {mapGetters, mapActions} from 'vuex'
     export default {
         data() {
@@ -147,7 +148,14 @@
             ...mapGetters({order: 'orders/getOrder'})
         },
         methods: {
-            ...mapActions({find: 'orders/find'})
+            ...mapActions({find: 'orders/find'}),
+            formatItemPrice(price) {
+                let _price = price.toString()
+
+                let _chunk = parseFloat(chunk_split(_price, (_price.length - 2), '.'))
+
+                return number_format(_chunk, 2, ',', '.');
+            }
         },
         created() {
             this.find(this.$route.params.id)

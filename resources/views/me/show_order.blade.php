@@ -76,7 +76,8 @@
                                              {{ $order['payment']['status']['formatted'] }}
                                          </td>
                                          <td>
-                                             {{ \App\Support\Moip\Utils::formatDate($order['payment']['timestamps']['created_at'])->diffForHumans() }}
+                                             {{ $order->created_at->diffForHumans() }}
+                                             <!-- {{ \App\Support\Moip\Utils::formatDate($order['payment']['timestamps']['created_at'])->diffForHumans() }} -->
                                          </td>
                                          <td>
                                              {{ $order['payment']['timestamps']['updated_at'] }}

@@ -133,7 +133,7 @@ class CheckoutService
                 return $this->createOrder($customer);
 
             }catch (Exception $e) {
-                dd($e);
+                // dd($e);
                 return response()->json([ 'error' => 'Houve um erro no processo de criação do cliente', '__toString' => $e->__toString()], 400);
             }
         }
@@ -172,7 +172,7 @@ class CheckoutService
 
             return response()->json($order->getLinks()->getCheckout('payCreditCard'), 201);
         }catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             return response()->json(['error' => 'Pedido falhou, atualize a página e tente novamente', '__toString'=>$e->__toString()], 400);
         }
     }
@@ -208,7 +208,7 @@ class CheckoutService
             $orderDeliveryData->time = Carbon::parse($this->request->courier['time']);
             $orderDeliveryData->save();
         }catch (\Error $e) {
-            dd($e);
+            return response()->json(['error' => $e->__toString()], 400);
         }
     }
 

@@ -204,7 +204,7 @@
                 // console.log(cartItems, cartData)
                 this.items = cartItems;
                 this.courier.time = cartData.time;
-                this.courier.fulldate = cartData.fulldate;
+                this.courier.fulldate = cartData.date;
                 // this.cartProduct(cartItems, cartData);
                 this.addItemToCart({item, selectedDateIndex, selectedTimes, courier: this.courier})
             })

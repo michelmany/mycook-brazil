@@ -48,10 +48,6 @@
                                 R$ {{row.value.total}}
                             </template>
 
-                            <template slot="status_delivery" scope="row">
-                                Entregue
-                            </template>
-
                             <template slot="actions" scope="row">
                                 <a :href="'/painel/seller/orders/'+row.item.id" class="btn btn-sm btn-info">
                                     <i class="fa fa-plus"></i> Detalhes

@@ -6,8 +6,18 @@ const list_status = {
     'RECERTED' : 'Reembolsado'
 };
 
+const delivery_status = {
+	'0' : 'Aguardando',
+	'1' : 'Encaminhando',
+	'2' : 'Saiu para Entrega',
+	'3' : 'Endereço não localizado',
+	'4' : 'Entregue',
+	'5' : 'Finalizado'  
+}
+
+
 export default {
-    formatStatus : (status) => {
-        return _.get(list_status, status)
-    }
+    formatStatus: (status) => _.get(list_status, status),
+    
+    formatStatusDelivery: (status) => _.get(delivery_status, status)
 };
