@@ -94,7 +94,7 @@
                 if(item.qty > 1){
                     item.qty--;
                 }
-                const before = item.qty
+                const before = item.qtycle
                 if(after === before) {
                     item.qty = 0
                     this.items.splice(index, 1)
