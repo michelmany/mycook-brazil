@@ -408,17 +408,24 @@
     }
 </script>
 
-<style scoped>
-    .cardapio__desc {
-        max-height: 45px;
-        overflow: hidden;
+<style scoped lang="scss">
+    .cardapio {
+        &__desc {
+            max-height: 45px;
+            overflow: hidden;
+            text-align: justify;
+            @media screen and (min-width: 768px) {  
+                max-width: 90%;
+            }
+        }
+        &__readmore {
+            font-size: 14px;
+            text-decoration: underline;
+            color: #a5adb9;
+            cursor: pointer;
+        }
     }
-    .cardapio__readmore {
-        font-size: 14px;
-        text-decoration: underline;
-        color: #a5adb9;
-        cursor: pointer;
-    }
+
 
     /* Enter and leave animations can use different */
     /* durations and timing functions.              */
