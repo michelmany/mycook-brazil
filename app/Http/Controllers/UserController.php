@@ -39,8 +39,8 @@ class UserController extends Controller
     {
         Auth::logout();
 
-        // Remove
-        \Cache::forget('my-cart');
+        // Limpa cache do usuario
+        \Cache::flush();
 
         return redirect('/');
     }

@@ -15,6 +15,7 @@
                 </div>
             </div>      
         <?php if(session()->has('fail')): ?>
+
             <p class="text-danger"><?php echo e(session()->get('fail')); ?></p>
         <?php endif; ?>
 

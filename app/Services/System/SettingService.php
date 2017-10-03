@@ -46,4 +46,23 @@ class SettingService
             return response()->isInvalid();
         }
     }
+
+    /**
+     * Get value setting
+     *
+     * @param $setting
+     * @return mixed
+     */
+    public function get($setting)
+    {
+        $all = $this->all();
+
+        try{
+            if($all->has($setting)) {
+                return $all->get($setting);
+            }
+        }catch(\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 400);
+        }
+    }
 }

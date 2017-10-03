@@ -16,6 +16,7 @@
                 </div>
             </div>      
         @if(session()->has('fail'))
+
             <p class="text-danger">{{ session()->get('fail') }}</p>
         @endif
 

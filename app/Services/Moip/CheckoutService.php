@@ -4,6 +4,7 @@ namespace App\Services\Moip;
 
 use App\Models\Order;
 use App\Models\OrderDeliveryData;
+use App\Services\System\SettingService;
 use Cache;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -43,14 +44,20 @@ class CheckoutService
      * @var Request
      */
     private $request;
+    /**
+     * @var SettingService
+     */
+    private $settingService;
 
     /**
      * MoipCheckoutService constructor.
      * @param Request $request
+     * @param SettingService $settingService
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, SettingService $settingService)
     {
         $this->moip = \Moip::start();
+        $this->settingService = $settingService;
     }
 
     /**
@@ -109,7 +116,12 @@ class CheckoutService
      */
     public function createCustomer()
     {
-        $phone = explode(' ', $this->buyer->phone);
+        if(!$this->buyer->phone) {
+            return response()->json(['error' => 'Informe seu telefone de contato'], 422);
+        }
+
+        $phone_ddd = substr($this->buyer->phone, 0 ,2);
+        $phone_number = substr($this->buyer->phone, 2);
 
         if(!$this->buyer->moipAccount) {
             try{
@@ -118,7 +130,7 @@ class CheckoutService
                     ->setFullname($this->user->name)
                     ->setEmail($this->user->email)
                     ->setTaxDocument($this->user->cpf)
-                    ->setPhone($phone[0], $phone[1])
+                    ->setPhone($phone_ddd, $phone_number)
                     ->addAddress('SHIPPING',
                         $this->address->address,
                         $this->address->number,
@@ -158,6 +170,7 @@ class CheckoutService
                 $this->checkItem($item);
                 $order->addItem($item['name'], $item['qty'], $item['desc'], Utils::toCents((float)$item['price']));
             }
+            $order->setAddition(Utils::toCents( $this->settingService->get('delivery_fee'))); //
             // redirect
             $order->setUrlSuccess(route('moip.payments.success'))
                   ->setUrlFailure(route('moip.payments.error'));
