@@ -1,6 +1,5 @@
-@extends('layouts.default')
-@section('title', 'Registrar')
-@section('content')
+<?php $__env->startSection('title', 'Registrar'); ?>
+<?php $__env->startSection('content'); ?>
 
 <section id="profile" class="profile">
     <div class="container generic__wrapper">
@@ -12,25 +11,20 @@
         </div>
         <hr>
 
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
+                <?php echo e(session('success')); ?>
 
-{{--         @if (Auth::user()->social)
-            <img src="https://graph.facebook.com/{{ Auth::user()->social->provider_user_id }}/picture?type=large" 
-                 class="rounded-circle ml-2" width="150" height="150">
-        @else 
-             @if ($user->avatar_full_url)
-                 <avatar photo-url="{{ $user->avatar_full_url }}"></avatar>
-             @endif
-        @endif --}}
+            </div>
+        <?php endif; ?>
+        <?php if(session('error')): ?>
+            <div class="alert alert-danger">
+                <?php echo e(session('error')); ?>
+
+            </div>
+        <?php endif; ?>
+
+
 
         <div>
                 <div class="row">
@@ -38,13 +32,13 @@
                     <div class="col-md-6">
                         <h5 class="mb-3 bg-faded p-3">Informações pessoais</h5>
 
-                        <profile-dados :user="{{ $user }}" :buyer="{{ $buyer }}"></profile-dados>
+                        <profile-dados :user="<?php echo e($user); ?>" :buyer="<?php echo e($buyer); ?>"></profile-dados>
 
                     </div>
                     <div class="col-md-6">
                         <h5 class="mb-3 bg-faded p-3">Senha</h5>
 
-                        <profile-senha password-is-null="{{ $passwordIsNull }}"></profile-senha>
+                        <profile-senha password-is-null="<?php echo e($passwordIsNull); ?>"></profile-senha>
                             
                     </div>
 
@@ -54,12 +48,13 @@
     </div><!-- /container -->
 </section>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
     <script>
         const profile = new Vue({
             el: '#profile'
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
