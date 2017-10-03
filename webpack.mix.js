@@ -68,9 +68,9 @@ mix.combine([
 .js('resources/assets/js/front/app.js','public/assets/js/front.js')
 .version()
 
-.standaloneSass('resources/assets/sass/painel/mycook.scss', 'public/assets/css/')
-.standaloneSass('resources/assets/sass/front/style.scss', 'public/assets/css/')
-// .version();
+.sass('resources/assets/sass/painel/mycook.scss', 'public/assets/css/')
+.sass('resources/assets/sass/front/style.scss', 'public/assets/css/')
+.version()
 
 
 
