@@ -9,6 +9,7 @@ use App\Models\Moip\MoipSeller;
 use App\Models\Product;
 use App\Models\ProductExtra;
 use App\Models\Seller;
+use App\Services\System\SettingService;
 use App\Support\CalculateDistance;
 use App\User;
 use Auth;
@@ -18,12 +19,25 @@ use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
 {
+    /** @var  SettingService */
+    private $serviceSetting;
+
     private $radius = 5;
     private $earth_radius = 6371;
     private $address_lat;
     private $address_lng;
     private $result;
     private $day;
+
+    /**
+     * FrontendController constructor.
+     * @param SettingService $serviceSetting
+     */
+    public function __construct(SettingService $serviceSetting)
+    {
+        $this->serviceSetting = $serviceSetting;
+    }
+
 
     /**
      * @param string $latitude
@@ -93,6 +107,8 @@ class FrontendController extends Controller
         //moipseller - by César
         $moipSeller = MoipSeller::select('moipAccount as moipId')->where('user_id', $id)->first();
 
+        $settings = $this->serviceSetting->all();
+
         if(!$moipSeller) {
             return redirect()->back()->with('fail', "O Chefe {$seller->name} não está com os dados configurados corretamente.");
         }
@@ -112,6 +128,7 @@ class FrontendController extends Controller
         if ($seller->role == 'vendedor') {
             return view('list.single-chef')
                         ->with('moipseller', $moipSeller)
+                        ->with('settings', $settings)
                         ->withSeller($seller, $seller->seller);
         }
         return redirect()->route('lista-chefs-page');

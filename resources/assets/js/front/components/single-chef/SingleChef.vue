@@ -6,7 +6,7 @@
       </div>
       <!-- Carrinho -->
       <div class="col-md-12 col-lg-4 hidden-md-down">
-          <cart :chef-name="seller.name" :chef-moip-id="moip.moipId" :chef-id="seller.seller.id"></cart>
+          <cart :chef-name="seller.name" :chef-moip-id="moip.moipId" :chef-id="seller.seller.id" :settings="settings"></cart>
       </div>
     </div>
 </template>
@@ -17,7 +17,7 @@
   import Cart from './Cart.vue'
 
   export default {
-      props: ['seller', 'moip'],
+      props: ['seller', 'moip', 'settings'],
       components: {
         Cardapio, Cart
       }

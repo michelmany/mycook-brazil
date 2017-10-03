@@ -33,7 +33,7 @@
                 <h2>Cardápio</h2>
             </div>
             <br>
-            <single-chef :seller="<?php echo e($seller); ?>" :moip="<?php echo e($moipseller); ?>"></single-chef>
+            <single-chef :seller="<?php echo e($seller); ?>" :moip="<?php echo e($moipseller); ?>" :settings="<?php echo e($settings); ?>"></single-chef>
         </div>
     </div>
 

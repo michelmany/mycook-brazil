@@ -4,6 +4,7 @@ namespace App\Services\System;
 
 
 use App\Models\SystemSetting;
+use Cache;
 
 class SettingService
 {
@@ -17,7 +18,9 @@ class SettingService
      */
     public function all()
     {
-        return SystemSetting::first()->data;
+        return Cache::rememberForever(self::PREFIX, function() {
+            return SystemSetting::first()->data;
+        });
     }
 
     /**
@@ -29,7 +32,7 @@ class SettingService
      */
     public function updateSetting($column, $value)
     {
-        $current = SystemSetting::first()->data;
+        $current = Cache::get(self::PREFIX);
 
         $payload = $current->each(function ($item, $key) use ($current, $column, $value){
             if($column === $key) {
@@ -38,6 +41,9 @@ class SettingService
             }
             return $current;
         });
+
+        // remove cache storage
+        Cache::forget(self::PREFIX);
 
         try{
             SystemSetting::first()->update(['data' => $payload]);

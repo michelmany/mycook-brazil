@@ -34,7 +34,7 @@
                 <h2>Cardápio</h2>
             </div>
             <br>
-            <single-chef :seller="{{ $seller }}" :moip="{{ $moipseller }}"></single-chef>
+            <single-chef :seller="{{ $seller }}" :moip="{{ $moipseller }}" :settings="{{ $settings }}"></single-chef>
         </div>
     </div>
 

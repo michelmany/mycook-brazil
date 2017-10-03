@@ -41,12 +41,17 @@
             </div>
             <a href="#" class="btn btn-primary btn-block" @click="createPayment()" v-if="userIsLogged">Finalizar compra</a>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
+
+            <p class="text-info mt-3 text-center">
+               <small> * Cobramos o valor fixo de R$ {{ getDeliveryFee() }} para entregas</small>
+            </p>
         </div>
     </div>
 </template>
 '
 <script>
     import { eventBus } from '../../app';
+    import {number_format} from '../../../painel/helpers/functions'
     import Moment from 'moment';
     import { extendMoment } from 'moment-range';
 
@@ -57,7 +62,8 @@
         props: {
             chefName: String,
             chefMoipId: String,
-            chefId: Number
+            chefId: Number,
+            settings: Object
         },
         data() {
             return {
@@ -74,6 +80,9 @@
             }
         },
         methods: {
+            getDeliveryFee(){
+                return number_format(this.settings.delivery_fee, 2, ',', '.');
+            },
             inc(item, index) {
                 if (item.qty < item.availableQty) {
                     item.qty++;
