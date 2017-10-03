@@ -41,6 +41,11 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
         Route::get('{order}', 'Moip\OrderController@show');
         Route::put('{order}', 'Moip\OrderController@update');
     });
+
+    Route::group(['prefix' => 'settings'], function() {
+        Route::get('/', 'System\SettingController@index');
+        Route::put('/', 'System\SettingController@update');
+    });
 });
 
 Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');

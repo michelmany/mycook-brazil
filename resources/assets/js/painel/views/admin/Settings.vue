@@ -1,65 +1,65 @@
 <template>
     <div class="main-content">
         <div class="page-header">
-            <h3 class="page-title">Settings</h3>
+            <h4>Definições do Sistema</h4>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active"><a href="#">Settings</a></li>
+                <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+                <li class="breadcrumb-item active">Configurações</li>
             </ol>
         </div>
         <div class="card">
             <div class="card-header">
-                <h6>Easy Site Settings API</h6>
+                <h6>Configurações Básicas</h6>
             </div>
             <div class="card-block">
-                <p>Laraspace provides easy way to store and retrieve your Site Settings</p>
-                <p><code>Setting::setSetting('key','value')</code></p>
-                <p><code>Setting::getSetting('key')</code></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-lg-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h6>Example Social Settings</h6>
-                    </div>
-                    <div class="card-block">
-                        <form action="/admin/settings/social" method="post">
-                            <div class="form-body">
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-lg-2 form-control-label">Facebook Page URL</label>
-                                    <div class="col-md-8 col-lg-10">
-                                        <div class="input-icon">
-                                            <i class="fa fa-facebook"></i>
-                                            <input type="text" class="form-control" name="facebook" value="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-lg-2 form-control-label">Google Plus URL</label>
-                                    <div class="col-md-8 col-lg-10">
-                                        <div class="input-icon">
-                                            <i class="fa fa-google-plus"></i>
-                                            <input type="text" class="form-control" name="google" value="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-lg-2 form-control-label">Twitter URL</label>
-                                    <div class="col-md-8 col-lg-10">
-                                        <div class="input-icon">
-                                            <i class="fa fa-twitter"></i>
-                                            <input type="text" class="form-control" name="twitter" value="">
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="form-body">
+                    <div class="form-group row">
+                        <label class="col-md-12 col-lg-2 form-control-label">
+                            Valor de Entrega
+                        </label>
+                        <div class="col-md-12 col-lg-6">
+                            <div class="input-icon">
+                                <i class="fa fa-money"></i>
+                                <input type="number"
+                                       class="form-control"
+                                       :value="settings.delivery_fee"
+                                       min="1"
+                                       max="100"
+                                       @blur="update($event, 'delivery_fee')">
                             </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
+
+<script>
+    import {mapActions, mapGetters} from 'vuex'
+
+    export default {
+
+        computed: {
+            ...mapGetters({settings: 'settings/all'})
+        },
+        methods: {
+            ...mapActions({all: 'settings/all', updateSetting: 'settings/update'}),
+            update(event, column) {
+
+                let value = event.target.value;
+
+                if(_.get(this.settings, column) === value) {
+                    return;
+                }
+
+                this.updateSetting({column, value})
+            }
+        },
+
+        created() {
+            this.all()
+        }
+
+    }
+</script>

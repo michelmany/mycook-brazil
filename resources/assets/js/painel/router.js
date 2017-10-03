@@ -209,6 +209,11 @@ const routes = [
             component: UsersDelete,
             name: 'users-delete',
         },
+        {
+            path: 'admin/settings',
+            component: require('../painel/views/admin/Settings.vue'),
+            name: 'system-settings'
+        },
         // Sellers - Orders
         {
             path: 'seller/orders',
