@@ -1,12 +1,11 @@
 <template>
     <div>
-        <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1">
-            
-        </vue-loading>
-        
+        <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
 
-        <div v-if="!loading">
+        <div v-if="!loading && orders.length > 0">
+
             <div class="row">
+
             <div class="col-md-3">
                 <div class="form-group">
                     <select class="form-control form-control-sm" v-model="perPage">
@@ -15,52 +14,58 @@
                     </select>
                 </div>
             </div>
+
             <div class="col-md-6">
                 <div class="form-group">
                     <input type="text" placeholder="faça uma busca" class="form-control form-control-sm" v-model.trim="filter">
                 </div>
             </div>
-        </div>
 
-        <b-table striped hover show-empty
-            :items="orders"
-            :fields="table.cols"
-            :current-page="currentPage"
-            :per-page="perPage"
-            :filter="filter"
-            :sort-by.sync="sortBy"
-            :sort-desc.sync="sortDesc"
-            @filtered="onFiltered">
+            </div>
 
-            <template slot="payment" scope="row">
-                <i :class="'fa fa-2x ' + brandCard(row.value)"></i>
-            </template>
+            <b-table striped hover show-empty
+                :items="orders"
+                :fields="table.cols"
+                :current-page="currentPage"
+                :per-page="perPage"
+                :filter="filter"
+                :sort-by.sync="sortBy"
+                :sort-desc.sync="sortDesc"
+                @filtered="onFiltered">
 
-            <template slot="status_delivery" scope="row">
-                {{ statusDelivery(row.value) }}
-            </template>
+                <template slot="payment" scope="row">
+                    <i :class="'fa fa-2x ' + brandCard(row.value)"></i>
+                </template>
 
-            <template slot="amount" scope="row">
-                R$ {{ row.value.total }}
-            </template>
+                <template slot="status_delivery" scope="row">
+                    {{ statusDelivery(row.value) }}
+                </template>
 
-            <template slot="created_at" scope="row">
-                {{ $moment(row.value).format('DD/M/Y H:m:s') }}
-            </template>
+                <template slot="amount" scope="row">
+                    R$ {{ row.value.total }}
+                </template>
 
-            <template slot="actions" scope="row">
-                <button class="btn btn-sm btn-primary" @click="show(row.item, index)">
-                    <i class="fa fa-share"></i> detalhes
-                </button>
-            </template>
-        
-        </b-table>
-        
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <b-pagination :total-rows="table.rows" :per-page="perPage" v-model="currentPage" />
+                <template slot="created_at" scope="row">
+                    {{ $moment(row.value).format('DD/M/Y H:m:s') }}
+                </template>
+
+                <template slot="actions" scope="row">
+                    <button class="btn btn-sm btn-primary" @click="show(row.item, index)">
+                        <i class="fa fa-share"></i> Detalhes
+                    </button>
+                </template>
+
+            </b-table>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <b-pagination :total-rows="table.rows" :per-page="perPage" v-model="currentPage" />
+                </div>
             </div>
         </div>
+
+        <div v-else>
+            <p class="text-muted">Você não realizou nenhuma compra!</p>
         </div>
     </div>
 </template>
