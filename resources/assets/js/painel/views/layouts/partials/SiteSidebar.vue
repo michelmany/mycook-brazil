@@ -7,6 +7,22 @@
                 <template v-if="user.role === 'admin'">
                     <router-link to="/admin/sellers" tag="li"><a><i class="fa fa-user"></i> Vendedores </a></router-link>
                     <router-link to="/admin/buyers" tag="li"><a><i class="fa fa-user"></i> Compradores </a></router-link>
+
+                    <li :class="{active: isActive('/admin/categories') }">
+
+                        <a href="#" aria-expanded="true">
+                            <i class="fa fa-list"></i> Categorias <span class="fa arrow fa-fw"></span>
+                        </a>
+                        <ul aria-expanded="true">
+                            <router-link :to="{name: 'system-categories'}" tag="li" exact>
+                                <a>Lista de Categorias</a>
+                            </router-link>
+                            <router-link :to="{name: 'system-categories-new'}" tag="li">
+                                <a>Adicionar Categoria</a>
+                            </router-link>
+                        </ul>
+                    </li>
+
                     <li :class="{ active : isActive('/admin/settings') }">
                         <a href="#" aria-expanded="true"><i class="fa fa-cogs"></i> Sistema <span class="fa arrow fa-fw"></span></a>
                         <ul aria-expanded="true">

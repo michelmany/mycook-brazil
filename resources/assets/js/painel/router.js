@@ -214,6 +214,22 @@ const routes = [
             component: require('../painel/views/admin/Settings.vue'),
             name: 'system-settings'
         },
+        // Categorias
+        {
+            path: 'admin/categories',
+            component: require('../painel/views/admin/categories/Index.vue'),
+            name: 'system-categories'
+        },
+        {
+            path: 'admin/categories/new',
+            component: require('../painel/views/admin/categories/New.vue'),
+            name: 'system-categories-new'
+        },
+        {
+            path: 'admin/categories/:id',
+            component: require('../painel/views/admin/categories/Edit.vue'),
+            name: 'system-categories-edit'
+        },
         // Sellers - Orders
         {
             path: 'seller/orders',

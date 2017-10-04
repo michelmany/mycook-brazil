@@ -170,7 +170,7 @@ class CheckoutService
                 $this->checkItem($item);
                 $order->addItem($item['name'], $item['qty'], $item['desc'], Utils::toCents((float)$item['price']));
             }
-            $order->setAddition(Utils::toCents( $this->settingService->get('delivery_fee'))); //
+            $order->setAddition(Utils::toCents((float)$this->settingService->get('delivery_fee'))); //
             // redirect
             $order->setUrlSuccess(route('moip.payments.success'))
                   ->setUrlFailure(route('moip.payments.error'));
