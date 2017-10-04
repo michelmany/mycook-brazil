@@ -6,6 +6,7 @@ import filters from './filters'
 import TheMask from 'vue-the-mask'
 
 import moment from './helpers/moment'
+import bus from './services/bus'
 
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import BootstrapVue from 'bootstrap-vue'
@@ -21,6 +22,7 @@ Vue.use(filters)
 Vue.use(TheMask)
 Vue.use(BootstrapVue)
 
+Vue.prototype.$bus = bus
 Vue.prototype.$moment = moment
 Vue.config.debug = true
 

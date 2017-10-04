@@ -57,5 +57,11 @@
                 this.name = ''
             }
         },
+
+        created() {
+            this.$bus.$on('category store success', () => {
+                toastr.success('Categoria adicionada com sucesso.', null, {timeOut: 1500})
+            })
+        }
     }
 </script>

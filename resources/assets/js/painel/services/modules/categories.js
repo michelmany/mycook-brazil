@@ -30,8 +30,7 @@ const actions = {
     store({commit}, payload) {
         httpService.create(payload)
             .then(response => {
-                //toastr.success('Categoria adicionada com sucesso.', null, {timeOut: 1500})
-                bus.$emit('category store')
+                bus.$emit('category store success')
             })
             .catch(error => alert(error.response.data))
     },
@@ -57,7 +56,8 @@ const actions = {
         httpService.update(payload.id, payload.data)
             .then(response => {
                 if(response.status === 204) {
-                    bus.$emit('category update', payload.data)
+                    bus.$emit('category update success', payload.data)
+                    commit('UPDATE_CATEGORY', payload)
                     //toastr.success('Categoria alterada com sucesso.', 'Atualização!', {onHidden:() => commit('UPDATE_CATEGORY', payload), timeOut:1000})
                 }
             })
@@ -68,7 +68,7 @@ const actions = {
         httpService.remove(payload.id)
             .then(response => {
                 if(response.status === 204) {
-                    bus.$emit('category delete', payload)
+                    bus.$emit('category delete success', payload)
                 }
             })
             .catch(error => console.log(error))

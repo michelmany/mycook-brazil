@@ -11,9 +11,23 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <!--<div class="card-header">-->
-                        <!--<h3 class="card-title"> Gerenciar Categorias </h3>-->
-                    <!--</div>-->
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3">
+                                <div class="form-group">
+                                    <select class="form-control form-control-sm" v-model="perPage">
+                                        <option selected>Escolha uma quantidade</option>
+                                        <option v-for="option in pageOptions" :value="option.value">{{ option.text }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-9">
+                                <div class="form-group">
+                                    <input type="text" placeholder="faça uma busca" class="form-control form-control-sm" v-model.trim="filter">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-block">
 
                         <b-table striped hover show-empty
@@ -55,6 +69,11 @@
                                 </div>
                             </template>
                         </b-table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="pull-right">
+                            <b-pagination :total-rows="table.rows" :per-page="perPage" v-model="currentPage" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,11 +134,15 @@
         created() {
             this.all();
 
-            bus.$on('category delete', payload => {
+            bus.$on('category delete success', payload => {
                 toastr.info('Categoria removida!', null, {
                     timeOut: 1500,
                     onHidden:() => this.categories.splice(payload.index, 1)
                 })
+            })
+
+            bus.$on('category update success', payload => {
+                toastr.success('Status alterado com sucesso', null, {timeOut: 1000});
             })
         }
 

@@ -1,7 +1,7 @@
 <template>
     <div class="main-content" id="moipPage">
         <div class="page-header">
-            <h4>Vendas</h4>
+            <h4>Minhas Vendas</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
                 <li class="breadcrumb-item active">Minhas Vendas</li>
@@ -12,9 +12,6 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title"> Minhas Vendas </h3>
-                    </div>
-                    <div class="card-block">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -30,6 +27,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="card-block">
                         <b-table striped hover show-empty
                                  :items="orders"
                                  :fields="table.cols"
@@ -54,8 +53,8 @@
                                 </a>
                             </template>
                         </b-table>
-                        <div class="row">
-                            <div class="col-md-4 col-md-offset-4">
+                        <div class="card-footer">
+                            <div class="pull-right">
                                 <b-pagination :total-rows="table.rows" :per-page="perPage" v-model="currentPage" />
                             </div>
                         </div>
