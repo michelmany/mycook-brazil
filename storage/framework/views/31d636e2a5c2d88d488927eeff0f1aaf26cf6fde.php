@@ -112,7 +112,7 @@
                                  <thead>
                                  <tr>
                                      <th>Dia</th>
-                                     <td><?php echo e($order->address->time->format('D/M')); ?></td>
+                                     <td><?php echo e($order->address->fulldate); ?> / <?php echo e($order->address->day); ?></td>
                                  </tr>
                                  <tr>
                                      <th>Horário</th>
@@ -133,12 +133,12 @@
                              <div class="row">
                                  <table class="table table-stripped">
                                      <thead>
-                                     <tr>
-                                         <th>Produto</th>
-                                         <th>Descrição</th>
-                                         <th>Quantidade</th>
-                                         <th>Valor</th>
-                                     </tr>
+                                         <tr>
+                                             <th>Produto</th>
+                                             <th>Descrição</th>
+                                             <th>Quantidade</th>
+                                             <th>Valor</th>
+                                         </tr>
                                      </thead>
                                      <tbody>
                                      <?php $__empty_1 = true; $__currentLoopData = $order['items']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>

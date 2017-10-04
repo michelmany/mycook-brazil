@@ -106,7 +106,6 @@ class CheckoutService
 
         //     return Address::find($address['id']);
         // }
-
         return $this->user->addresses()->where('default', true)->first();
     }
 
@@ -170,7 +169,7 @@ class CheckoutService
                 $this->checkItem($item);
                 $order->addItem($item['name'], $item['qty'], $item['desc'], Utils::toCents((float)$item['price']));
             }
-            $order->setAddition(Utils::toCents((float)$this->settingService->get('delivery_fee'))); //
+            $order->setShippingAmount(Utils::toCents((float)$this->settingService->get('delivery_fee'))); //
             // redirect
             $order->setUrlSuccess(route('moip.payments.success'))
                   ->setUrlFailure(route('moip.payments.error'));
@@ -180,9 +179,7 @@ class CheckoutService
                   ->create();
 
             $this->saveOrder($order);
-
             $this->clearCartCache();
-
             return response()->json($order->getLinks()->getCheckout('payCreditCard'), 201);
         }catch (\Exception $e) {
             // dd($e);
@@ -204,11 +201,18 @@ class CheckoutService
             $orders->seller_id = $this->request->seller_id;
             $orders->buyer_id = $this->buyer->id;
             $orders->status = $order->getStatus();
-            $orders->items = $order->getItemIterator();
+            $orders->items = array_merge($order->getItemIterator()->getArrayCopy(), [
+                [
+                    'product' => 'Frete',
+                    'detail' => 'sem informações adicionais...',
+                    'price' => (float)$this->settingService->get('delivery_fee'),
+                    'quantity' => 1
+                ]
+            ]);
+
             $orders->status_delivery = 0;
             $orders->amount = [
                 'total' => MoipUtil::formatAmount($order->getAmountTotal()),
-//                'liquid' => MoipUtil::formatAmount($order->getAmountLiquid() ?? '00')
             ];
             $orders->_links = array_merge(['order' => $order->getLinks()->getSelf()], ['checkout' => $order->getLinks()->getAllCheckout()]);
             $orders->save();

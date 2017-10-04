@@ -108,7 +108,7 @@
                                  <thead>
                                  <tr>
                                      <th>Dia</th>
-                                     <td>{{ $order->address->time->format('D/M') }}</td>
+                                     <td>{{ $order->address->fulldate}} / {{ $order->address->day }}</td>
                                  </tr>
                                  <tr>
                                      <th>Horário</th>
@@ -129,12 +129,12 @@
                              <div class="row">
                                  <table class="table table-stripped">
                                      <thead>
-                                     <tr>
-                                         <th>Produto</th>
-                                         <th>Descrição</th>
-                                         <th>Quantidade</th>
-                                         <th>Valor</th>
-                                     </tr>
+                                         <tr>
+                                             <th>Produto</th>
+                                             <th>Descrição</th>
+                                             <th>Quantidade</th>
+                                             <th>Valor</th>
+                                         </tr>
                                      </thead>
                                      <tbody>
                                      @forelse($order['items'] as $item)

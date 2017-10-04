@@ -12,7 +12,8 @@ class OrderDeliveryData extends Model
       'address_id',
       'day',
       'fulldate',
-      'time'
+      'time',
+      'delivery_fee'
     ];
 
     protected $dates = [
