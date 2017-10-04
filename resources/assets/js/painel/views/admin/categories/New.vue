@@ -4,6 +4,7 @@
             <h4>Categorias</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+                <li class="breadcrumb-item"><router-link :to="{name: 'system-categories'}">Categorias</router-link></li>
                 <li class="breadcrumb-item active">Adicionar Categoria</li>
             </ol>
         </div>
@@ -28,7 +29,7 @@
                                     </div>
                                 </div>
                                 <!-- input group -->
-                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                <button type="submit" class="btn btn-primary" :disabled="!name">Salvar</button>
                             </div>
                         </form>
                     </div>
@@ -39,7 +40,7 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
+    import {mapActions} from 'vuex'
 
     export default {
         data() {
@@ -49,8 +50,11 @@
         },
 
         methods: {
+            ...mapActions({store: 'categories/store'}),
+
             save(name) {
-                console.log('save: ' + name)
+                this.store({name});
+                this.name = ''
             }
         },
     }

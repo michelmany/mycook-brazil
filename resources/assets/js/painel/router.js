@@ -230,6 +230,11 @@ const routes = [
             component: require('../painel/views/admin/categories/Edit.vue'),
             name: 'system-categories-edit'
         },
+        {
+            path: 'admin/categories/delete/:id',
+            component: require('../painel/views/admin/categories/Delete.vue'),
+            name: 'system-categories-delete'
+        },
         // Sellers - Orders
         {
             path: 'seller/orders',

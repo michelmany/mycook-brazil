@@ -33,46 +33,26 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return mixed|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        return $this->service->store($request->all());
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\SystemCategory  $systemCategory
-     * @return \Illuminate\Http\Response
+     * @return mixed|\Illuminate\Http\Response
      */
     public function show(SystemCategory $systemCategory)
     {
         //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\SystemCategory  $systemCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(SystemCategory $systemCategory)
-    {
-        //
+        return $this->service->findById($systemCategory);
     }
 
     /**
@@ -80,21 +60,22 @@ class CategoryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\SystemCategory  $systemCategory
-     * @return \Illuminate\Http\Response
+     * @return mixed|\Illuminate\Http\Response
      */
     public function update(Request $request, SystemCategory $systemCategory)
     {
-        //
+        return $this->service->update($systemCategory, $request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\SystemCategory  $systemCategory
-     * @return \Illuminate\Http\Response
+     * @return mixed|\Illuminate\Http\Response
      */
     public function destroy(SystemCategory $systemCategory)
     {
         //
+        return $this->service->destroy($systemCategory);
     }
 }

@@ -1,5 +1,5 @@
 import { HttpService } from '../httpService';
-
+import bus from '../../services/bus'
 import moment from '../../helpers/moment'
 
 const httpService = new HttpService();
@@ -15,17 +15,65 @@ const actions = {
      * @param payload
      */
     all({commit}){
-        console.log('list all categories')
+        httpService.list()
+            .then(response => {
+                commit('SET_CATEGORIES', response.data.categories)
+            })
     },
+
+    /**
+     * Store category
+     *
+     * @param commit
+     * @param payload
+     */
+    store({commit}, payload) {
+        httpService.create(payload)
+            .then(response => {
+                //toastr.success('Categoria adicionada com sucesso.', null, {timeOut: 1500})
+                bus.$emit('category store')
+            })
+            .catch(error => alert(error.response.data))
+    },
+
+    /**
+     * Find category by params
+     *
+     * @param commit
+     * @param payload
+     */
+    find({commit}, payload) {
+        httpService.get(payload)
+            .then(response => commit('SET_CATEGORY', response.data.category))
+            .catch(error => alert(error.response.data))
+    },
+
     /**
      *
      * @param commit
      * @param payload
      */
     update({commit}, payload){
-        console.log('update category')
+        httpService.update(payload.id, payload.data)
+            .then(response => {
+                if(response.status === 204) {
+                    bus.$emit('category update', payload.data)
+                    //toastr.success('Categoria alterada com sucesso.', 'Atualização!', {onHidden:() => commit('UPDATE_CATEGORY', payload), timeOut:1000})
+                }
+            })
+            .catch(error => console.log(error))
+    },
+
+    destroy({commit}, payload) {
+        httpService.remove(payload.id)
+            .then(response => {
+                if(response.status === 204) {
+                    bus.$emit('category delete', payload)
+                }
+            })
+            .catch(error => console.log(error))
     }
-}
+};
 
 /**
  * Getters
@@ -42,13 +90,20 @@ const getters = {
     all: (state) => {
         return state.list;
     },
+
     /**
      * Get category by id
      * @param state
      */
     find: (state) => (id) => {
         return _.find(state.list, item => item.id === id)
-    }
+    },
+
+    /**
+     * Get item endpoint
+     *
+     */
+    item: (state) => state.item
 
 };
 
@@ -57,7 +112,8 @@ export default {
     namespaced: true,
 
     state: {
-        list: []
+        list: [],
+        item: {}
     },
 
     mutations: {
@@ -70,6 +126,17 @@ export default {
         SET_CATEGORIES: (state, payload) => {
             state.list = payload
         },
+
+        /**
+         *
+         * @param state
+         * @param payload
+         * @constructor
+         */
+        SET_CATEGORY: (state, payload) => {
+            state.item = payload
+        },
+
         /**
          *
          * @param state
@@ -77,7 +144,10 @@ export default {
          * @constructor
          */
         UPDATE_CATEGORY: (state, payload) => {
-            console.log('update category')
+            let index = _.findIndex(state.list, item => item.id === payload.id);
+            _.forEach(payload.data, (value, key) => {
+                _.set(state.list[index], key, value)
+            })
         },
     },
 

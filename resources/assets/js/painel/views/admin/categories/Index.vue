@@ -27,7 +27,33 @@
                                  :empty-text="emptyText"
                                  :empty-filtered-text="emptyFilteredText"
                                  @filtered="onFiltered">
-
+                            <template slot="status" scope="row">
+                                <div class="onoffswitch">
+                                    <input type="checkbox"
+                                           class="onoffswitch-checkbox"
+                                           :id="'status_'+row.item.id"
+                                           :checked="row.value"
+                                           @change="updateStatus($event,row)"
+                                    >
+                                    <label class="onoffswitch-label" :for="'status_'+row.item.id"></label>
+                                </div>
+                            </template>
+                            <template slot="created_at" scope="row">
+                                {{ $moment(row.value).format('DD/MM/Y HH:mm:ss') }}
+                            </template>
+                            <template slot="actions" scope="row">
+                                <div class="btn-group btn-group-sm">
+                                    <router-link :to="{name: 'system-categories-edit', params: {id: row.item.id}}" class="btn btn-primary">
+                                        <i class="fa fa-edit"></i> editar
+                                    </router-link>
+                                    <button class="btn btn-primary" @click="destroy({id: row.item.id, index: row.index})">
+                                        <i class="fa fa-trash-o"></i> remover
+                                    </button>
+                                       <!--<router-link :to="{name: 'system-categories-delete', params: {id: row.item.id}}" class="btn btn-primary">-->
+                                        <!--<i class="fa fa-trash-o"></i> remover-->
+                                    <!--</router-link>-->
+                                </div>
+                            </template>
                         </b-table>
                     </div>
                 </div>
@@ -37,7 +63,8 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex'
+    import {mapActions, mapGetters, mapState} from 'vuex'
+    import bus from '../../../services/bus'
 
     export default {
         data(){
@@ -45,12 +72,15 @@
                 table: {
                     cols: {
                         id: {label: 'ID', sortable: true},
+                        name: {label: 'Nome', sortable: true},
+                        status: {label: 'Status', sortable: true},
+                        created_at: {label: 'Data Criação', sortable: true},
                         actions: {label: 'Gerenciar'}
                     },
                     rows: 0
                 },
                 currentPage: 1,
-                perPage: 5,
+                perPage: 10,
                 pageOptions: [{text:5,value:5}, {text:10,value:10}, {text:15,value:15}, {text:50,value:50}],
                 sortBy: null,
                 sortDesc: false,
@@ -59,6 +89,7 @@
                 emptyFilteredText: 'Não há registros que correspondam ao seu pedido',
             }
         },
+
         computed: {
             ...mapGetters({categories: 'categories/all'}),
             'table.totalRows'(){
@@ -67,14 +98,30 @@
         },
 
         methods: {
-            ...mapActions({all: 'categories/all'}),
+            ...mapActions({all: 'categories/all', update: 'categories/update', destroy: 'categories/destroy'}),
 
             onFiltered(filterItems) {
-                this.table.rows = filterItems.length
+                this.table.rows = filterItems.length;
                 this.currentPage = 1
-            }
+            },
+
+            updateStatus(event, category) {
+                let status = event.target.checked;
+                let payload = {id: category.item.id, data: {status} };
+                this.update(payload)
+            },
         },
 
+        created() {
+            this.all();
+
+            bus.$on('category delete', payload => {
+                toastr.info('Categoria removida!', null, {
+                    timeOut: 1500,
+                    onHidden:() => this.categories.splice(payload.index, 1)
+                })
+            })
+        }
 
     }
 </script>
