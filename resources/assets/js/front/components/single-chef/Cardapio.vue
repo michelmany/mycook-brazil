@@ -15,7 +15,7 @@
                             <div class="cardapio__desc">{{ item.desc }}</div>
                             <span class="cardapio__readmore" @click="expandReadMore(index)">Ler mais...</span>
 
-                            <div><span class="cardapio__serve badge badge-primary">Serve {{ item.serve }}</span></div>
+                            <div><span class="cardapio__serve badge badge-primary">Quantidade: Serve {{ item.serve }}</span></div>
                             <!-- To do: Pegar os dias que tem times setados e mostrar no span abaixo -->
                             <div class="cardapio__time mt-3">Disponível nos dias: {{ dateRangeBadge(item) }}</div>
                             <div class="cardapio__time">Hoje: {{ timeRangeAvailableForToday(item) }}</div>
@@ -251,7 +251,7 @@
                 this.items.forEach( (item, index) => {
                     item.extras.forEach( (extra, index) => {
                         const TimeRange = moment.range(moment(extra.start_time,'HH:mm'), moment(extra.end_time, 'HH:mm'));
-                        const ArrayTimes = Array.from(TimeRange.by('hours'))
+                        const ArrayTimes = Array.from(TimeRange.by('hours', { step: 0.5 }))
                         //To do: Colocar o range de 30 em 30 minutos ao invés de hora em hora
                         let arrayTimesFinal = ArrayTimes.map(h => moment(h).add(index, 'days').format())
 
@@ -326,6 +326,8 @@
                     .then((res) => {
                         this.loading = false
                         this.items = res.data
+                        this.removeItemNoExtra();
+
                         /**
                         *
                         */
@@ -337,6 +339,13 @@
                         this.getRangeTime()
                     })
                 }, 500);
+            },
+            removeItemNoExtra() {
+                this.items.forEach( (item, index) => {
+                    if (item.extras.length === 0) {
+                        this.items.splice(index, 1);
+                    }
+                })
             },
             mapCartStorage() {
                 if(this.cartStorage.items.length > 0) {
@@ -399,17 +408,24 @@
     }
 </script>
 
-<style scoped>
-    .cardapio__desc {
-        max-height: 45px;
-        overflow: hidden;
+<style scoped lang="scss">
+    .cardapio {
+        &__desc {
+            max-height: 45px;
+            overflow: hidden;
+            text-align: justify;
+            @media screen and (min-width: 768px) {  
+                max-width: 90%;
+            }
+        }
+        &__readmore {
+            font-size: 14px;
+            text-decoration: underline;
+            color: #a5adb9;
+            cursor: pointer;
+        }
     }
-    .cardapio__readmore {
-        font-size: 14px;
-        text-decoration: underline;
-        color: #a5adb9;
-        cursor: pointer;
-    }
+
 
     /* Enter and leave animations can use different */
     /* durations and timing functions.              */

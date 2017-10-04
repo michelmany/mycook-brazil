@@ -25,7 +25,7 @@
 
             <div v-if="addresses.length == 0" :key="1">
                 <div class="alert alert-warning" role="alert">
-                    Nenhum produto cadastrado no cardápio!
+                    Nenhum endereço de entrega cadastrado na plataforma
                 </div>
             </div>
         </transition-group>

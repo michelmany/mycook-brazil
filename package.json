@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "laravel-mix": "0.10.0",
+    "laravel-mix": "0.11.0",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
     "webpack": "^3.5.2"

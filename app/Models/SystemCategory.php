@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SystemCategory extends Model
 {
     protected $fillable = ['name', 'status'];
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
