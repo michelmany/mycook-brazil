@@ -46,6 +46,8 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
         Route::get('/', 'System\SettingController@index');
         Route::put('/', 'System\SettingController@update');
     });
+    
+    Route::resource('categories', 'System\CategoryController');
 });
 
 Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
