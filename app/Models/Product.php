@@ -15,7 +15,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'seller_id', 'name', 'desc', 'serve', 'photo', 'price', 'comments'
+        'seller_id', 'name', 'desc', 'serve', 'photo', 'price', 'comments', 'category_id'
     ];
 
     /**
@@ -34,5 +34,13 @@ class Product extends Model
     public function extras()
     {
         return $this->hasMany(ProductExtra::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function category()
+    {
+        return $this->hasOne(SystemCategory::class, 'id', 'category_id');
     }
 }

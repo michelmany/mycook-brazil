@@ -18,6 +18,7 @@ class ProductsTableSeeder extends Seeder
             'serve' => '4',
             'photo' => null,
             'price' => '49.90',
+
         ]);
 
         Seller::find(1)->products()->create([
@@ -26,6 +27,7 @@ class ProductsTableSeeder extends Seeder
             'serve' => '6',
             'photo' => null,
             'price' => '30.00',
+            'category_id' => 6
         ]);
         Seller::find(2)->products()->create([
             'name' => 'Feijoada Carregada',
@@ -33,6 +35,7 @@ class ProductsTableSeeder extends Seeder
             'serve' => '8',
             'photo' => null,
             'price' => '54.50',
+            'category_id' => 4
         ]);
         Seller::find(2)->products()->create([
             'name' => 'Costela Gaúcha',
@@ -40,6 +43,7 @@ class ProductsTableSeeder extends Seeder
             'serve' => '10',
             'photo' => null,
             'price' => '69.40',
+            'category_id' => 4
         ]);
     }
 }

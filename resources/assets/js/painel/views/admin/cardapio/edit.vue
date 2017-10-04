@@ -70,6 +70,22 @@
                                                 </div>
                                             </div>
 
+                                            <div class="form-group row">
+                                                <label for="product_category_id" class="col-12 col-md-3 col-form-label">Categoria</label>
+                                                <div class="col-12 col-md-9">
+                                                    <app-category>
+                                                        <template slot="all" scope="rows">
+                                                            <select id="product_category_id" class="form-control" v-model="product.category_id">
+                                                                <option value="" selected>Escolha a categoria referente ao produto</option>
+                                                                <option v-for="category in rows.categories" :value="category.id">
+                                                                    {{ category.name }}
+                                                                </option>
+                                                            </select>
+                                                        </template>
+                                                    </app-category>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
 

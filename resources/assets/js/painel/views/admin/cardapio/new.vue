@@ -45,27 +45,43 @@
 
                                         <div class="col-lg-6">
 
-                                        <div class="form-group row">
-                                            <label for="serve" class="col-12 col-md-3 col-form-label">Serve</label>
-                                            <div class="col-12 col-md-9">
-                                                <input type="number" id="serve" min="1" max="15" class="form-control"
-                                                :class="{'form-control': true, 'is-danger': errors.has('serve') }"
-                                                v-model.number="product.serve">
-                                                <div v-show="errors.has('serve')" class="help is-danger">{{ errors.first('serve') }}</div>
-                                                <small class="text-muted">Este produto serve quantas pessoas?</small>
+                                            <div class="form-group row">
+                                                <label for="serve" class="col-12 col-md-3 col-form-label">Serve</label>
+                                                <div class="col-12 col-md-9">
+                                                    <input type="number" id="serve" min="1" max="15" class="form-control"
+                                                    :class="{'form-control': true, 'is-danger': errors.has('serve') }"
+                                                    v-model="product.serve">
+                                                    <div v-show="errors.has('serve')" class="help is-danger">{{ errors.first('serve') }}</div>
+                                                    <small class="text-muted">Este produto serve quantas pessoas?</small>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="form-group row">
-                                            <label for="product_number" class="col-12 col-md-3 col-form-label">Preço (R$)</label>
-                                            <div class="col-12 col-md-9">
-                                                <input type="number" class="form-control" id="product_number"
-                                                v-validate="'required'" data-vv-name="preço"
-                                                :class="{'form-control': true, 'is-danger': errors.has('preço') }"
-                                                v-model.trim="product.price" >
-                                                <div v-show="errors.has('preço')" class="help is-danger">{{ errors.first('preço') }}</div>
+                                            <div class="form-group row">
+                                                <label for="product_number" class="col-12 col-md-3 col-form-label">Preço (R$)</label>
+                                                <div class="col-12 col-md-9">
+                                                    <input type="number" class="form-control" id="product_number"
+                                                    v-validate="'required'" data-vv-name="preço"
+                                                    :class="{'form-control': true, 'is-danger': errors.has('preço') }"
+                                                    v-model.trim="product.price" min="1">
+                                                    <div v-show="errors.has('preço')" class="help is-danger">{{ errors.first('preço') }}</div>
+                                                </div>
                                             </div>
-                                        </div>
+
+                                            <div class="form-group row">
+                                                <label for="product_category_id" class="col-12 col-md-3 col-form-label">Categoria</label>
+                                                <div class="col-12 col-md-9">
+                                                    <app-category>
+                                                        <template slot="all" scope="rows">
+                                                            <select id="product_category_id" class="form-control" v-model.trim="product.category_id">
+                                                                <option value="0" selected>Escolha a categoria referente ao produto</option>
+                                                                <option v-for="category in rows.categories" :value="category.id">
+                                                                    {{ category.name }}
+                                                                </option>
+                                                            </select>
+                                                        </template>
+                                                    </app-category>
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -100,7 +116,11 @@
             data: function () {
                 return {
                     user: {},
-                    product: {},
+                    product: {
+                        price: '',
+                        serve: '',
+                        category_id: 0
+                    },
                 }
             },
             watch: {

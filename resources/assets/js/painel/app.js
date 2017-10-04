@@ -35,6 +35,13 @@ Vue.config.debug = true
 import Plugin from './helpers/plugin'
 window.Plugin = Plugin
 
+/**
+ * Register Components Global
+ */
+
+Vue.component('app-category', require('./components/categories/AppCategory.vue'));
+
+
 const app = new Vue({
     router,
     store,
