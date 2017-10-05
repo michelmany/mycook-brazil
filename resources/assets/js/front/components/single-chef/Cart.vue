@@ -39,6 +39,12 @@
                         </b-modal>
                         <!-- close modal note. -->
                     </li>
+
+                    <li class="list-unstyled cart__item">
+                        <div class="mt-2 d-flex justify-content-between">
+                            Items adicionais
+                        </div>
+                    </li>
                 </ul>
                 <span class="float-right"><strong>Total: R$ {{ total }}</strong></span>
             </div>
@@ -48,12 +54,7 @@
             </div>
         </div>
         <div v-if="items" class="card-footer text-muted">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Código do cupom">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button">Aplicar</button>
-                </span>
-            </div>
+            <coupon></coupon>
             <button class="btn btn-primary btn-block" :disabled="items.length <= 0" @click="createPayment()" v-if="userIsLogged">Finalizar compra</button>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
 
@@ -69,6 +70,7 @@
     import {number_format} from '../../../painel/helpers/functions'
     import Moment from 'moment';
     import { extendMoment } from 'moment-range';
+    import Coupon from '../utils/Coupon.vue'
 
     const moment = extendMoment(Moment);
 
@@ -79,9 +81,13 @@
             chefId: Number,
             settings: Object
         },
+        components: {
+            Coupon
+        },
         data() {
             return {
                 items: [],
+                additional: [],
                 courier: {},
                 total: '',
                 userIsLogged: false,

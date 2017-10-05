@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 |
 */
 Route::group(['prefix' => 'moip'], function() {
-
     Route::group(['prefix' => 'marketplace'], function() {
         Route::get('authorize', 'Api\Auth\MoipController@authorizeSellerAndGetCode');
         Route::get('refresh', 'Api\Auth\MoipController@refreshSellerAndUpdate');
@@ -18,7 +17,6 @@ Route::group(['prefix' => 'moip'], function() {
          */
         Route::post('order/process', 'Moip\CheckoutController@process');
     });
-
     /**
      *
      */
@@ -34,6 +32,7 @@ Route::group(['prefix' => 'moip'], function() {
             Route::post('address', 'CartController@addAddress');
             Route::get('address', 'CartController@getAddress');
         });
+        Route::post('coupon-verify', 'Api\Admin\V1\System\CouponController@verify');
     });
 
     /**

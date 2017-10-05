@@ -55,6 +55,18 @@ class CouponController extends Controller
     }
 
     /**
+     * Check coupon
+     *
+     * @param Request $request
+     */
+    public function verify(Request $request)
+    {
+        $coupon = SystemCoupon::where('code', '=', $request->input('code'))->first();
+
+        return $coupon->settings;
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

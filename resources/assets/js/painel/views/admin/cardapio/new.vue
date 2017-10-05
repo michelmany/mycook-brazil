@@ -4,7 +4,7 @@
             <h4>Adicionar Produto</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                <li class="breadcrumb-item"><router-link to="/admin/cardapio">Cardapio</router-link></li>
+                <li class="breadcrumb-item"><router-link :to="{name: 'panel.seller.cardapio-list'}">Cardapio</router-link></li>
                 <li class="breadcrumb-item active">Adicionar produto</li>
             </ol>
         </div>
@@ -150,7 +150,7 @@
                     .then((res) => {
                         console.log(res)
                         toastr.success('Cadastrado com sucesso!', 'Produto '+ this.product.name);
-                        this.$router.push('/admin/cardapio/');
+                        this.$router.push('/seller/cardapio');
                     })
                     .catch((error) => {
                         toastr.error('Não foi possível enviar seus dados!', 'Erro de servidor');
