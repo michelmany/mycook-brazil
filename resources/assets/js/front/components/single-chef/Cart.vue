@@ -11,18 +11,6 @@
             <div v-if="items && items.length > 0">
                 <ul class="px-0">
                     <li v-for="(item,index) in items" :key="index" class="list-unstyled cart__item">{{ item.name }}
-                        <!-- modal note -->
-                        <b-modal :id="'item_note_'+index" size="sm">
-                            <template slot="modal-title">
-                                <h3 style="color:#141414;">Observação</h3>
-                                <h4 style="color: #9d9d9d; font-size: 16px;">Atenção! Items adicionais poderão ser cobrados</h4>
-                            </template>
-                            <textarea class="form-control" :value="items[0].note" v-model="item.note" rows="4" onresize="false"></textarea>
-                            <template slot="modal-footer">
-                                <b-btn variant="success" @click="cartProductUpdate(item, index)" block>Adicionar</b-btn>
-                            </template>
-                        </b-modal>
-                        <!-- close modal note. -->
                         <div class="mt-2 d-flex justify-content-between">
                             <div>
                                 <button type="button" class="btn btn-secondary btn-sm remove" @click="dec(item, index)">-</button>
@@ -38,6 +26,18 @@
                         </div>
                         <div class="cart__qty" v-if="item.availableQty == 1">Apenas 1 produto disponível para o dia selecionado</div>
                         <div class="cart__qty" v-else>{{ item.availableQty }} produtos disponíveis para o dia selecionado</div>
+                        <!-- modal note -->
+                        <b-modal :id="'item_note_'+index" size="sm">
+                            <template slot="modal-title">
+                                <h3 style="color:#141414;">Observação</h3>
+                                <h4 style="color: #9d9d9d; font-size: 16px;">Atenção! Items adicionais poderão ser cobrados</h4>
+                            </template>
+                            <textarea class="form-control" :value="items[0].note" v-model="item.note" rows="4" onresize="false"></textarea>
+                            <template slot="modal-footer">
+                                <b-btn variant="success" @click="cartProductUpdate(item, index)" block>Adicionar</b-btn>
+                            </template>
+                        </b-modal>
+                        <!-- close modal note. -->
                     </li>
                 </ul>
                 <span class="float-right"><strong>Total: R$ {{ total }}</strong></span>

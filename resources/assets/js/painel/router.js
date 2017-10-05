@@ -234,6 +234,22 @@ const routes = [
             component: require('../painel/views/admin/categories/Delete.vue'),
             name: 'system-categories-delete'
         },
+        // Coupons
+        {
+            path: 'admin/coupons',
+            component: require('../painel/views/admin/coupons/Index.vue'),
+            name: 'system-coupons'
+        },
+        {
+            path: 'admin/coupons/new',
+            component: require('../painel/views/admin/coupons/New.vue'),
+            name: 'system-coupons-new'
+        },
+        {
+            path: 'admin/coupons/:id',
+            component: require('../painel/views/admin/coupons/Edit.vue'),
+            name: 'system-coupons-edit'
+        },
         // Sellers
         {
             path: 'seller/my-page',

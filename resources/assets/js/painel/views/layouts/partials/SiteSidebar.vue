@@ -23,6 +23,21 @@
                         </ul>
                     </li>
 
+                    <li :class="{active: isActive('/admin/coupons') }">
+
+                        <a href="#" aria-expanded="true">
+                            <i class="fa fa-ticket"></i> Cupons <span class="fa arrow fa-fw"></span>
+                        </a>
+                        <ul aria-expanded="true">
+                            <router-link :to="{name: 'system-coupons'}" tag="li" exact>
+                                <a>Lista de Cupons</a>
+                            </router-link>
+                            <router-link :to="{name: 'system-coupons-new'}" tag="li">
+                                <a>Adicionar Cupon</a>
+                            </router-link>
+                        </ul>
+                    </li>
+
                     <li :class="{ active : isActive('/admin/settings') }">
                         <a href="#" aria-expanded="true"><i class="fa fa-cogs"></i> Sistema <span class="fa arrow fa-fw"></span></a>
                         <ul aria-expanded="true">

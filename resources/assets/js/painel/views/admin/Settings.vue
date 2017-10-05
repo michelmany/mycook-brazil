@@ -50,6 +50,25 @@
                         </div>
                     </div>
 
+                    <div class="form-body">
+                        <div class="form-group row">
+                            <label class="col-md-12 col-lg-4 form-control-label">
+                                Tempo de existência de cupons (dias)
+                            </label>
+                            <div class="col-md-12 col-lg-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-ticket"></i>
+                                    <input type="number"
+                                           class="form-control"
+                                           min="1"
+                                           max="360"
+                                           :value="settings.coupon_expires_in"
+                                           @blur="update($event, 'coupon_expires_in')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
