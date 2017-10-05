@@ -37,6 +37,8 @@
                                  :filter="filter"
                                  :sort-by.sync="sortBy"
                                  :sort-desc.sync="sortDesc"
+                                 :empty-text="emptyText"
+                                 :empty-filtered-text="emptyFilteredText"
                                  @filtered="onFiltered">
 
                             <template slot="status" scope="row">
@@ -89,6 +91,8 @@
                 sortBy: null,
                 sortDesc: false,
                 filter: null,
+                emptyText: 'Não há registros para mostrar',
+                emptyFilteredText: 'Não há registros que correspondam ao seu pedido',
             }
         },
         computed: {
