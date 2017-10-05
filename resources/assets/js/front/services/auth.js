@@ -4,7 +4,7 @@ export default {
             axios.get('/user-is-logged-in')
                 .then((response) => {
                     const {data, status} = response;
-                    if(status === 200) {
+                    if(status === 200 && data === true) {
                         resolve(true)
                     }else{
                         reject(false)

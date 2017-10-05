@@ -37,6 +37,8 @@ class SettingService
             if($column === $key) {
                 $current->forget($key);
                 $current[$key] = $value;
+            }else{
+                $current->put($column, $value);
             }
             return $current;
         });

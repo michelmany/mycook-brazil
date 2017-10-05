@@ -152,7 +152,6 @@ const routes = [
                 }
 
                 return next()
-
             }
         },
 
@@ -234,6 +233,13 @@ const routes = [
             path: 'admin/categories/delete/:id',
             component: require('../painel/views/admin/categories/Delete.vue'),
             name: 'system-categories-delete'
+        },
+        // Sellers
+        {
+            path: 'seller/my-page',
+            component: require('../painel/views/admin/SettingPageSeller.vue'),
+            name: 'seller-my-page',
+
         },
         // Sellers - Orders
         {

@@ -204,9 +204,9 @@ class FrontendController extends Controller
                     AS distance
                 '))
             ->where('role', '=', 'vendedor')
-            ->where('user_id', "!=", auth()->user()->id) // evitar que vendedor compre em sua próprio "loja"
+            ->where('user_id', "!=", auth()->check() ? auth()->user()->id : null) // evitar que vendedor compre em sua próprio "loja"
             ->where('active', '=', 1)
-            ->having('distance', '<=', $this->radius)
+            ->having('distance', '<=', $this->serviceSetting->get('radius') ?? $this->radius)
             ->join('users', 'addresses.user_id', '=', 'users.id')
             ->orderBy('distance', 'asc')
             ->get();

@@ -107,7 +107,7 @@
             </div>
             <div class="card-block">
                 <div class="row">
-                    <div v-if="user.seller.fotos.length === 0" class="col-md-12">
+                    <div v-if="user.seller.fotos && user.seller.fotos.length === 0" class="col-md-12">
                         <p><small>Nenhuma imagem cadastrada</small></p>
                     </div>
                     <div class="col-md-4 image-wrapper" v-for="photo in user.seller.fotos" >

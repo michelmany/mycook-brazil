@@ -14,7 +14,7 @@
             <div class="card-block">
                 <div class="form-body">
                     <div class="form-group row">
-                        <label class="col-md-12 col-lg-2 form-control-label">
+                        <label class="col-md-12 col-lg-4 form-control-label">
                             Valor de Entrega
                         </label>
                         <div class="col-md-12 col-lg-6">
@@ -29,6 +29,27 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-body">
+                        <div class="form-group row">
+                            <label class="col-md-12 col-lg-4 form-control-label">
+                                Radio de Distância Atendida (Km)
+                            </label>
+                            <div class="col-md-12 col-lg-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-home"></i>
+                                    <input type="number"
+                                           class="form-control"
+                                           min="1"
+                                           max="10"
+                                           step="0,1"
+                                           :value="settings.radius"
+                                           @blur="update($event, 'radius')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

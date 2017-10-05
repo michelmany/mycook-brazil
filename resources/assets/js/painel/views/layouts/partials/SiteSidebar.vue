@@ -46,7 +46,7 @@
                     <li :class="{ active : isActive('/admin/settings') }">
                         <a href="#" aria-expanded="true"><i class="fa fa-cog"></i> Configurações <span class="fa arrow fa-fw"></span></a>
                         <ul aria-expanded="true">
-                            <router-link to="/" tag="li" exact><a>Minha Página</a></router-link>
+                            <router-link :to="{ name: 'seller-my-page' }" tag="li" exact><a>Minha Página</a></router-link>
                             <router-link :to="{ name: 'settings-moip' }" tag="li"><a>Moip Pagamentos</a></router-link>
                         </ul>
                     </li>
