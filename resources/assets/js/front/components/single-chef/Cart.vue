@@ -11,11 +11,26 @@
             <div v-if="items && items.length > 0">
                 <ul class="px-0">
                     <li v-for="(item,index) in items" :key="index" class="list-unstyled cart__item">{{ item.name }}
+                        <!-- modal note -->
+                        <b-modal :id="'item_note_'+index" size="sm">
+                            <template slot="modal-title">
+                                <h3 style="color:#141414;">Observação</h3>
+                                <h4 style="color: #9d9d9d; font-size: 16px;">Atenção! Items adicionais poderão ser cobrados</h4>
+                            </template>
+                            <textarea class="form-control" v-model="items[index].note" rows="4" onresize="false"></textarea>
+                            <template slot="modal-footer">
+                                <b-btn variant="success" @click="cartProductUpdate(item, index)" block>Adicionar</b-btn>
+                            </template>
+                        </b-modal>
+                        <!-- close modal note. -->
                         <div class="mt-2 d-flex justify-content-between">
                             <div>
                                 <button type="button" class="btn btn-secondary btn-sm remove" @click="dec(item, index)">-</button>
                                 <span>{{ item.qty }}</span>
                                 <button type="button" class="btn btn-secondary btn-sm" @click="inc(item, index)">+</button>
+                                <b-button size="sm" secondary v-b-modal="'item_note_'+index" :ref="'btnShowItemNote'+index">
+                                    <i class="fa fa-commenting"></i>
+                                </b-button>
                             </div>
                             <div>
                                 R$ {{ item.price }}
@@ -39,7 +54,7 @@
                     <button class="btn btn-secondary" type="button">Aplicar</button>
                 </span>
             </div>
-            <a href="#" class="btn btn-primary btn-block" @click="createPayment()" v-if="userIsLogged">Finalizar compra</a>
+            <button class="btn btn-primary btn-block" :disabled="items.length <= 0" @click="createPayment()" v-if="userIsLogged">Finalizar compra</button>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
 
             <p class="text-info mt-3 text-center">
@@ -56,7 +71,6 @@
     import { extendMoment } from 'moment-range';
 
     const moment = extendMoment(Moment);
-
 
     export default {
         props: {
@@ -95,7 +109,7 @@
                     item.qty--;
                 }
                 const before = item.qty
-                
+
                 if(after === before) {
                     item.qty = 0
                     this.items.splice(index, 1)
@@ -130,9 +144,7 @@
             },
             cartProductUpdate(item,index) {
                 axios.put(`/moip/services/cart/${index}?seller=${this.pathname}`, {item})
-                     .then(res => {
-                        console.log(res)
-                     })
+                     .then(res => this.$root.$emit('bv::hide::modal', 'item_note_'+index))
             },
             createPayment() {
                 toastr.info('Aguarde só um instante', 'Estamos Processando todas as Informações', {
@@ -166,8 +178,8 @@
                                     })
                                 }
                                 // 412
-                                if(error.response.status === 412) {
-                                    toastr.info(error.response.data.error, 'Processo Necessário', {
+                                if(error.response.status === 422) {
+                                    toastr.error(error.response.data.error, 'Processo Necessário', {
                                         progressBar: true,
                                         timeout: 2000,
                                         onHidden: () => {
@@ -197,7 +209,8 @@
                     .then(res => {
                       console.log(res)
                     })
-            }
+            },
+
         },
         mounted() {
             // check user logged
