@@ -18,7 +18,7 @@ class UpdateOrderDeliveryDatas extends Migration
             $table->unsignedInteger('order_id');
             $table->foreign('order_id')->references('id')->on('addresses')->onDelete('cascade');
             $table->unsignedInteger('address_id');
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+            $table->foreign('address_id')->references('id')->on('addresses');
         });
     }
 

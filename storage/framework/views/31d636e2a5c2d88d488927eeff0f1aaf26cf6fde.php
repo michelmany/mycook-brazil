@@ -144,10 +144,16 @@
                                      <?php $__empty_1 = true; $__currentLoopData = $order['items']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                          <tr>
                                              <td><?php echo e($item['product']); ?></td>
-                                             <td><?php echo e($item['detail']); ?></td>
+                                             <td><?php echo $item['detail']; ?></td>
                                              <td><?php echo e($item['quantity']); ?>x</td>
                                              <td>R$ <?php echo e(\App\Support\Moip\Utils::formatAmount($item['price'])); ?></td>
                                          </tr>
+                                         <?php if($item['product'] !== 'Frete'): ?>
+                                             <tr class="bg-color-gray" style="border-bottom: 2px solid rgba(0, 0, 0, 0.2);">
+                                                 <td colspan="1">  <i class="fa fa-info-circle"></i> Observações </td>
+                                                 <td colspan="3"> <?php echo e($item['note']); ?>  </td>
+                                             </tr>
+                                             <?php endif; ?>
                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                          <p>Não localizamos nenhum produto</p>
                                      <?php endif; ?>

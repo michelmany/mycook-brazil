@@ -195,13 +195,24 @@ class CheckoutService
      */
     private function saveOrder(Orders $order)
     {
+        $items = [];
+        foreach ($order->getItemIterator()->getArrayCopy() as $key => $item) {
+            $items[$key] = [
+                'product' => $item->product,
+                'price' => $item->price,
+                'detail' => $item->detail,
+                'quantity' => $item->quantity,
+                'note'  => $this->request->items[$key]['note'] ?? 'sem observações...'
+            ];
+        }
+
         try{
             $orders = new Order();
             $orders->orderId = $order->getId();
             $orders->seller_id = $this->request->seller_id;
             $orders->buyer_id = $this->buyer->id;
             $orders->status = $order->getStatus();
-            $orders->items = array_merge($order->getItemIterator()->getArrayCopy(), [
+            $orders->items = array_merge($items, [
                 [
                     'product' => 'Frete',
                     'detail' => 'sem informações adicionais...',

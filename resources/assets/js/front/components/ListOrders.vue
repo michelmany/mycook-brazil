@@ -83,8 +83,8 @@ export default {
             orders: [],
             table: {
                     cols: {
-                        orderId: {label: 'Código', sortable:true},
-                        payment: {label: 'Dados Pagamento', sortable:true},
+                        orderId: {label: 'Código'},
+                        payment: {label: 'Dados Pagamento'},
                         amount: {label: 'Status Pedido', sortable: true},
                         status: {label: 'Status', sortable: true},
                         status_delivery: {label: 'Status da Entrega', sortable: true},

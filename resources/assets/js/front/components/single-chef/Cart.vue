@@ -17,7 +17,7 @@
                                 <h3 style="color:#141414;">Observação</h3>
                                 <h4 style="color: #9d9d9d; font-size: 16px;">Atenção! Items adicionais poderão ser cobrados</h4>
                             </template>
-                            <textarea class="form-control" v-model="items[index].note" rows="4" onresize="false"></textarea>
+                            <textarea class="form-control" :value="items[0].note" v-model="item.note" rows="4" onresize="false"></textarea>
                             <template slot="modal-footer">
                                 <b-btn variant="success" @click="cartProductUpdate(item, index)" block>Adicionar</b-btn>
                             </template>
@@ -144,7 +144,9 @@
             },
             cartProductUpdate(item,index) {
                 axios.put(`/moip/services/cart/${index}?seller=${this.pathname}`, {item})
-                     .then(res => this.$root.$emit('bv::hide::modal', 'item_note_'+index))
+                     .then(res => {
+                         this.$root.$emit('bv::hide::modal', 'item_note_'+index)
+                     })
             },
             createPayment() {
                 toastr.info('Aguarde só um instante', 'Estamos Processando todas as Informações', {
@@ -177,8 +179,8 @@
                                         timeout: 2000,
                                     })
                                 }
-                                // 412
-                                if(error.response.status === 422) {
+                                // 422 and 412
+                                if(error.response.status === 422 || error.response.status === 412) {
                                     toastr.error(error.response.data.error, 'Processo Necessário', {
                                         progressBar: true,
                                         timeout: 2000,
@@ -204,11 +206,9 @@
                 })
             },
             addItemToCart(item) {
-               // Adicionar item ao carrinho
+               _.set(item.item, 'note', 'observações....')
                axios.post('/moip/services/cart?seller='+this.pathname, item)
-                    .then(res => {
-                      console.log(res)
-                    })
+                    .then(res => console.log(''))
             },
 
         },

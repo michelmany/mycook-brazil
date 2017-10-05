@@ -18,7 +18,6 @@ class CreateOrderDeliveryDatasTable extends Migration
             $table->string('day');
             $table->string('fulldate');
             $table->timestamp('time');
-            $table->decimal('delivery_fee', 10, 2)->nullable();
             $table->timestamps();
         });
     }

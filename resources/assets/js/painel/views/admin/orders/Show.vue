@@ -82,8 +82,8 @@
                         <table class="table table-stripped">
                             <tbody>
                             <tr>
-                                <td>Data</td>
-                                <td>{{ $moment(order.address.time).format('d/MMMM') }}</td>
+                                <td>Dia</td>
+                                <td>{{ order.address.fulldate }}  / {{ order.address.day }}</td>
                             </tr>
                             <tr>
                                 <td>Horário</td>
@@ -110,12 +110,17 @@
                                     <th>Preço</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr v-for="(item,index) in order.items">
+                            <tbody v-for="item in order.items">
+                                <tr >
                                     <td>{{ item.product }}</td>
                                     <td>{{ item.detail }}</td>
                                     <td>{{ item.quantity }}x</td>
                                     <td>R$ {{ formatItemPrice(item.price) }}</td>
+                                </tr>
+
+                                <tr class="bg-color-gray" v-if="item.product !== 'Frete'">
+                                    <td colspan="1"><i class="fa fa-info-circle"></i> Observações </td>
+                                    <td colspan="3">{{ item.note }}</td>
                                 </tr>
                             </tbody>
                         </table>
