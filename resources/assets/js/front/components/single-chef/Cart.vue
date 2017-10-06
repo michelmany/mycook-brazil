@@ -40,9 +40,19 @@
                         <!-- close modal note. -->
                     </li>
 
-                    <li class="list-unstyled cart__item">
+                    <li class="list-unstyled cart__item" v-if="additional.length > 0" v-for="(item,index) in additional" :key="index">
+                        {{ item.name }}
                         <div class="mt-2 d-flex justify-content-between">
-                            Items adicionais
+                            <div>
+                                <button class="btn btn-sm btn-secondary" :disabled="item.type === 'delivery_fee'" @click="removeAdditional(item,index)">-</button>
+                                {{ item.desc }}
+                            </div>
+                            <div v-if="item.type && item.type === 'coupon'">
+                                - R$ {{ item.price }}
+                            </div>
+                            <div v-else>
+                                + R$ {{ item.price }}
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -54,13 +64,9 @@
             </div>
         </div>
         <div v-if="items" class="card-footer text-muted">
-            <coupon></coupon>
+            <coupon :total="totalItems" @couponDiscount="couponDiscount"></coupon>
             <button class="btn btn-primary btn-block" :disabled="items.length <= 0" @click="createPayment()" v-if="userIsLogged">Finalizar compra</button>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
-
-            <p class="text-info mt-3 text-center">
-               <small> * Cobramos o valor fixo de R$ {{ getDeliveryFee() }} para entregas</small>
-            </p>
         </div>
     </div>
 </template>
@@ -90,16 +96,38 @@
                 additional: [],
                 courier: {},
                 total: '',
+                totalItems: '',
                 userIsLogged: false,
                 pathname: ''
             }
         },
         watch: {
             calculateTotal(total) {
-                this.total = total;
+                this.totalItems = total.toFixed(2);
+                this.additional.forEach(m => {
+                    this.total = (parseFloat(total) + parseFloat(m.price)).toFixed(2)
+                })
             }
         },
         methods: {
+            removeAdditional(item,index) {
+                if(item.type === 'delivery_fee') {
+                    toastr.info('Este item adicional não pode ser removido!', 'Opsssss', {timeOut: 1000});
+                    return;
+                }
+                this.additional.splice(index, 1)
+                this.total = (parseFloat(this.total) + parseFloat(item.price)).toFixed(2)
+            },
+            couponDiscount(coupon) {
+                this.additional.push({
+                    name: coupon.code,
+                    type: 'coupon',
+                    price: coupon.discount,
+                    desc: coupon.detail
+                });
+
+                this.total = (this.total - coupon.discount).toFixed(2);
+            },
             getDeliveryFee(){
                 return number_format(this.settings.delivery_fee, 2, ',', '.');
             },
@@ -160,6 +188,7 @@
                     onHidden: () => {
                         const payload = {
                             items: this.items,
+                            additional: this.additional,
                             seller: this.chefMoipId,
                             seller_id: this.chefId,
                             total: parseFloat(this.total),
@@ -216,7 +245,6 @@
                axios.post('/moip/services/cart?seller='+this.pathname, item)
                     .then(res => console.log(''))
             },
-
         },
         mounted() {
             // check user logged
@@ -236,6 +264,14 @@
                 this.courier.fulldate = cartData.date;
                 // this.cartProduct(cartItems, cartData);
                 this.addItemToCart({item, selectedDateIndex, selectedTimes, courier: this.courier})
+            })
+
+            // add frete to addcitional
+            this.additional.push({
+                name: 'Frete',
+                type: 'delivery_fee',
+                price: this.settings.delivery_fee,
+                desc: 'Taxa fixa de entrega'
             })
         },
         computed: {

@@ -170,6 +170,12 @@ class CheckoutService
                 $order->addItem($item['name'], $item['qty'], $item['desc'], Utils::toCents((float)$item['price']));
             }
             $order->setShippingAmount(Utils::toCents((float)$this->settingService->get('delivery_fee'))); //
+
+            if(isset($this->request->additional[1])) {
+                $coupon = $this->request->additional[1];
+                $order->setDiscount(Utils::toCents((float)$coupon['price']));
+            }
+
             // redirect
             $order->setUrlSuccess(route('moip.payments.success'))
                   ->setUrlFailure(route('moip.payments.error'));

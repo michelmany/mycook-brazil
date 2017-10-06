@@ -10,18 +10,71 @@
 </template>
 
 <script>
+
+    import {number_format} from '../../../painel/helpers/functions'
+
     export default {
+        props: ['total'],
         data() {
             return {
-                code: ''
+                code: '',
+                coupon: ''
             }
         },
 
         methods: {
             send(code) {
-                axios.post('/moip/services/coupon-verify', {code})
-                     .then(response => console.log(response))
-                     .catch(error => console.log(error))
+                axios.post('/moip/services/coupon-verify?settings=true', {code})
+                     .then(response => {
+                         this.coupon = response.data
+                         this.calc(this.total, this.coupon.discount)
+                     })
+                      .catch(error => toastr.error(error.response.data.error, 'Cupom inválido'))
+            },
+
+            verifyTotalOfUser() {
+               return axios.post('/moip/services/coupon-verify', {code: this.code})
+                           .then(response => {
+
+                               if(response.data >= this.coupon.limit_of_user) {
+                                   toastr.info('Este cupom já utrapassou o limite de uso.', 'Cupom esgotou', {timeOut: 1500});
+                                   return;
+                               }
+
+                           })
+                            .catch(error => toastr.error(error.response.data.error, 'Cupom inválido'))
+            },
+
+            calc(total, discount) {
+
+                // check compatibility
+                if(this.coupon.minimum_purchase && total <= parseFloat(this.coupon.minimum_purchase)) {
+                    toastr.info(`Sua compra deve ser no mínimo R$ ${ number_format(this.coupon.minimum_purchase, 2, ',', '.')}`, 'Cupom inválido', {timeOut: 1500});
+                    return;
+                }
+
+                // check limit usage
+                if(this.coupon.limit_of_user) {
+                    this.verifyTotalOfUser();
+                }
+
+                this.$emit('couponDiscount', {
+                    code: this.code.toUpperCase(),
+                    discount: (total * discount) / 100,
+                    real: parseFloat(((total - (total * discount) / 100)).toFixed(2)),
+                    detail: 'Cupom promossional'
+                })
+            }
+        },
+
+        watch: {
+            total(current) {
+
+                if(!this.coupon) {
+                    return;
+                }
+
+                return this.calc(current, this.coupon.discount);
             }
         }
     }
