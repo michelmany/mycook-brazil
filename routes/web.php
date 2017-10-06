@@ -44,6 +44,10 @@ Route::group(['prefix' => 'moip'], function() {
     });
 });
 
+Route::group(['prefix' => 'services/cardapio'], function(){
+    Route::get('categories', 'Api\Admin\V1\System\CategoryController@index');
+});
+
 Route::get('user-is-logged-in', function(\Illuminate\Http\Request $request) {
     return \App\Support\Auth\UserIsLogged::run($request);
 });
