@@ -37,7 +37,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <h4>R${{ order.amount.total }}</h4>
+                                    <h4>R${{ order.amount.total | number_format }}</h4>
                                 </td>
                             </tr>
                             </tbody>
@@ -46,7 +46,7 @@
                         <br>
 
                         <!-- order detail -->
-                        <table class="table table-stripped">
+                        <table class="table table-stripped" v-if="order.payment">
                             <thead>
                                 <tr>
                                     <th>Final <span class="badge badge-info">{{order.payment.detail.last}}</span></th>
@@ -115,7 +115,7 @@
                                     <td>{{ item.product }}</td>
                                     <td>{{ item.detail }}</td>
                                     <td>{{ item.quantity }}x</td>
-                                    <td>R$ {{ formatItemPrice(item.price) }}</td>
+                                    <td>R$ {{ item.price | number_format }}</td>
                                 </tr>
 
                                 <tr class="bg-color-gray" v-if="!item.type">
@@ -153,11 +153,6 @@
         },
         methods: {
             ...mapActions({find: 'orders/find', update: 'orders/update'}),
-            formatItemPrice(price) {
-                let _price = price.toString()
-                let _chunk = parseFloat(chunk_split(_price, (_price.length - 2), '.'))
-                return number_format(_chunk, 2, ',', '.');
-            },
 
             updateDeliveryStatus(status) {
                 let payload = {id: this.order.id, data: {status_delivery: status}}

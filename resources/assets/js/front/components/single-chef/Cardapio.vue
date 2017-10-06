@@ -40,7 +40,6 @@
 
                     </div>
                 </div>
-
                 <sweet-modal ref="modalTime" :id="index">
                      <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
                     <!-- To do: adicionar component de trocar endereço direto no modal -->
@@ -70,7 +69,6 @@
                     v-bind:class="{ disabled: cartData.time.length == 0 }"
                     @click="continueToCart(item, index)">Continuar</button>
                 </sweet-modal>
-
             </div>
             <div v-show="items.length == 0" key="message">
                 <div class="alert alert-warning" role="alert">

@@ -45,14 +45,17 @@ class CheckoutController extends Controller
         $order = $this->orderService->formatOrderById($request->orderId);
 
         $update = Order::where('orderId', $order->id)->first();
+        $items = collect($update->items);
 
-        if($update->items[2]) {
-            $coupon = \App\Models\SystemCoupon::find($update->items[2]['id']);
-            if($coupon) {
-                $coupon->uses++;
-                $coupon->save();
+        $items->each(function($item) {
+            if(isset($item['type']) && $item['type'] === 'coupon') {
+                $coupon = \App\Models\SystemCoupon::find($item['id']);
+                if($coupon) {
+                    $coupon->uses++;
+                    $coupon->save();
+                }
             }
-        }
+        });
 
         $update->status = $order->status->origin;
         $update->payment = $order->payment;

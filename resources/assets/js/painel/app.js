@@ -41,6 +41,15 @@ window.Plugin = Plugin
 
 Vue.component('app-category', require('./components/categories/AppCategory.vue'));
 
+/**
+ * Filters
+ */
+import {number_format} from "./helpers/functions";
+
+Vue.filter('number_format', (value) => {
+     return number_format(value, 2, ',', '.')
+})
+
 
 const app = new Vue({
     router,

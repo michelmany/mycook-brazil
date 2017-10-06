@@ -146,7 +146,7 @@
                                              <td><?php echo e($item['product']); ?></td>
                                              <td><?php echo $item['detail']; ?></td>
                                              <td><?php echo e($item['quantity']); ?>x</td>
-                                             <td>R$ <?php echo e(\App\Support\Moip\Utils::formatAmount($item['price'])); ?></td>
+                                             <td>R$ <?php echo e($item['price']); ?></td>
                                          </tr>
                                          <?php if(!isset($item['type'])): ?>
                                              <tr class="bg-color-gray" style="border-bottom: 2px solid rgba(0, 0, 0, 0.2);">

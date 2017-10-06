@@ -42,7 +42,7 @@
                 </template>
 
                 <template slot="amount" scope="row">
-                    R$ {{ row.value.total }}
+                    R$ {{ row.value.total | number_format }}
                 </template>
 
                 <template slot="created_at" scope="row">
@@ -57,7 +57,7 @@
 
             </b-table>
 
-            <div class="row">
+            <div class="row" v-if="table.rows > perPage">
                 <div class="col-md-4 col-md-offset-4">
                     <b-pagination :total-rows="table.rows" :per-page="perPage" v-model="currentPage" />
                 </div>
@@ -65,7 +65,7 @@
         </div>
 
         <div v-else>
-            <p class="text-muted">Você não realizou nenhuma compra!</p>
+            <p class="text-muted text-uppercase">Você não efetuou nenhuma compra!</p>
         </div>
     </div>
 </template>
@@ -74,6 +74,7 @@
 import vueLoading from 'vue-loading-template'
 import {moment} from '../app'
 import services from '../../painel/services/moip/orders'
+import {number_format} from '../../painel/helpers/functions'
 
 export default {
     name: 'list-orders',
@@ -85,7 +86,7 @@ export default {
                     cols: {
                         orderId: {label: 'Código'},
                         payment: {label: 'Dados Pagamento'},
-                        amount: {label: 'Status Pedido', sortable: true},
+                        amount: {label: 'Valor da Compra', sortable: true},
                         status: {label: 'Status', sortable: true},
                         status_delivery: {label: 'Status da Entrega', sortable: true},
                         created_at: {label: 'Data Compra', sortable:true},
@@ -134,6 +135,10 @@ export default {
         },
         statusDelivery(status) {
             return services.formatStatusDelivery(status)
+        },
+
+        formatItemPrice(price) {
+            return number_format(price, 2, ',', '.')
         },
 
         onFiltered(filterItems) {

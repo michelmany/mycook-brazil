@@ -43,12 +43,7 @@ class Utils
      */
     public static function formatAmount($amount)
     {
-        return number_format(
-            (float)chunk_split($amount, strlen($amount)-2, '.'),
-            2,
-            ',',
-            '.'
-        );
+        return (float)chunk_split($amount, strlen($amount)-2, '.');
     }
 
     /**

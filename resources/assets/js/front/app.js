@@ -1,9 +1,9 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
 
 require('./bootstrap');
 
@@ -81,3 +81,9 @@ Vue.component('profile-senha', require('./components/ProfileSenha.vue'));
 
 //Profile orders
 Vue.component('list-orders', require('./components/ListOrders.vue'));
+
+import {number_format} from "../painel/helpers/functions"
+
+Vue.filter('number_format', (value) => {
+    return number_format(value, 2, ',', '.')
+})

@@ -3,7 +3,7 @@
         <form class="input-group mb-3" method="post" @submit.prevent="send(code)">
             <input type="text" class="form-control" placeholder="Código do cupom" v-model="code">
             <span class="input-group-btn">
-                <button class="btn btn-secondary">Aplicar</button>
+                <button class="btn btn-secondary" :disabled="!code && !total">Aplicar</button>
             </span>
         </form>
     </div>
@@ -48,7 +48,7 @@
             calc(total, discount) {
 
                 // check compatibility
-                if(this.coupon.minimum_purchase && total <= parseFloat(this.coupon.settings.minimum_purchase)) {
+                if(this.coupon.settings.minimum_purchase && total <= parseFloat(this.coupon.settings.minimum_purchase)) {
                     toastr.info(`Sua compra deve ser no mínimo R$ ${ number_format(this.coupon.settings.minimum_purchase, 2, ',', '.')}`, 'Cupom inválido', {timeOut: 1500});
                     return;
                 }
@@ -69,6 +69,9 @@
         },
 
         watch: {
+            code(current) {
+                this.code = current.toUpperCase()
+            },
             total(current) {
 
                 if(!this.coupon) {

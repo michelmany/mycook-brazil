@@ -46,7 +46,7 @@
                             </template>
 
                             <template slot="amount" scope="row">
-                                R$ {{row.value.total}}
+                                R$ {{ row.value.total | number_format}}
                             </template>
 
                             <template slot="actions" scope="row">
@@ -55,7 +55,7 @@
                                 </a>
                             </template>
                         </b-table>
-                        <div class="card-footer">
+                        <div class="card-footer" v-if="table.rows > perPage">
                             <div class="pull-right">
                                 <b-pagination :total-rows="table.rows" :per-page="perPage" v-model="currentPage" />
                             </div>

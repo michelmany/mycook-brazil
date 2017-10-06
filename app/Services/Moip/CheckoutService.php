@@ -205,10 +205,10 @@ class CheckoutService
         foreach ($order->getItemIterator()->getArrayCopy() as $key => $item) {
             $items[$key] = [
                 'product' => $item->product,
-                'price' => $item->price,
+                'price' => MoipUtil::formatAmount($item->price),
                 'detail' => $item->detail,
                 'quantity' => $item->quantity,
-                'note'  => $this->request->items[$key]['note'] ?? 'sem observações...'
+                'note'  => $this->request->items[$key]['note'] ?? 'sem observações.'
             ];
         }
 

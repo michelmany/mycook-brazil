@@ -122,7 +122,7 @@
                 this.additional.push({
                     product: coupon.code,
                     type: 'coupon',
-                    price: coupon.discount,
+                    price: parseFloat(coupon.discount),
                     detail: coupon.detail,
                     quantity: 1,
                     id: coupon.id
