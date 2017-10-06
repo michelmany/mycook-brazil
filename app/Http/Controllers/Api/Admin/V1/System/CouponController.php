@@ -63,7 +63,7 @@ class CouponController extends Controller
     {
         $coupon = SystemCoupon::where('code', '=', $request->input('code'))->first();
 
-        return $request->has('settings') ? $coupon->settings : $coupon->uses;
+        return $request->has('settings') ? $coupon : $coupon->uses;
     }
 
     /**

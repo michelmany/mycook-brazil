@@ -148,7 +148,7 @@
                                              <td><?php echo e($item['quantity']); ?>x</td>
                                              <td>R$ <?php echo e(\App\Support\Moip\Utils::formatAmount($item['price'])); ?></td>
                                          </tr>
-                                         <?php if($item['product'] !== 'Frete'): ?>
+                                         <?php if(!isset($item['type'])): ?>
                                              <tr class="bg-color-gray" style="border-bottom: 2px solid rgba(0, 0, 0, 0.2);">
                                                  <td colspan="1">  <i class="fa fa-info-circle"></i> Observações </td>
                                                  <td colspan="3"> <?php echo e($item['note']); ?>  </td>

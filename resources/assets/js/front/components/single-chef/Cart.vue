@@ -41,11 +41,11 @@
                     </li>
 
                     <li class="list-unstyled cart__item" v-if="additional.length > 0" v-for="(item,index) in additional" :key="index">
-                        {{ item.name }}
+                        {{ item.product }}
                         <div class="mt-2 d-flex justify-content-between">
                             <div>
                                 <button class="btn btn-sm btn-secondary" :disabled="item.type === 'delivery_fee'" @click="removeAdditional(item,index)">-</button>
-                                {{ item.desc }}
+                                {{ item.detail }}
                             </div>
                             <div v-if="item.type && item.type === 'coupon'">
                                 - R$ {{ item.price }}
@@ -120,10 +120,12 @@
             },
             couponDiscount(coupon) {
                 this.additional.push({
-                    name: coupon.code,
+                    product: coupon.code,
                     type: 'coupon',
                     price: coupon.discount,
-                    desc: coupon.detail
+                    detail: coupon.detail,
+                    quantity: 1,
+                    id: coupon.id
                 });
 
                 this.total = (this.total - coupon.discount).toFixed(2);
@@ -268,10 +270,11 @@
 
             // add frete to addcitional
             this.additional.push({
-                name: 'Frete',
+                product: 'Frete',
                 type: 'delivery_fee',
                 price: this.settings.delivery_fee,
-                desc: 'Taxa fixa de entrega'
+                detail: 'Taxa fixa de entrega',
+                quantity: 1
             })
         },
         computed: {

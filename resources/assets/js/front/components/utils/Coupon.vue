@@ -27,7 +27,7 @@
                 axios.post('/moip/services/coupon-verify?settings=true', {code})
                      .then(response => {
                          this.coupon = response.data
-                         this.calc(this.total, this.coupon.discount)
+                         this.calc(this.total, this.coupon.settings.discount)
                      })
                       .catch(error => toastr.error(error.response.data.error, 'Cupom inválido'))
             },
@@ -36,7 +36,7 @@
                return axios.post('/moip/services/coupon-verify', {code: this.code})
                            .then(response => {
 
-                               if(response.data >= this.coupon.limit_of_user) {
+                               if(response.data >= this.coupon.settings.limit_of_user) {
                                    toastr.info('Este cupom já utrapassou o limite de uso.', 'Cupom esgotou', {timeOut: 1500});
                                    return;
                                }
@@ -48,13 +48,13 @@
             calc(total, discount) {
 
                 // check compatibility
-                if(this.coupon.minimum_purchase && total <= parseFloat(this.coupon.minimum_purchase)) {
-                    toastr.info(`Sua compra deve ser no mínimo R$ ${ number_format(this.coupon.minimum_purchase, 2, ',', '.')}`, 'Cupom inválido', {timeOut: 1500});
+                if(this.coupon.minimum_purchase && total <= parseFloat(this.coupon.settings.minimum_purchase)) {
+                    toastr.info(`Sua compra deve ser no mínimo R$ ${ number_format(this.coupon.settings.minimum_purchase, 2, ',', '.')}`, 'Cupom inválido', {timeOut: 1500});
                     return;
                 }
 
                 // check limit usage
-                if(this.coupon.limit_of_user) {
+                if(this.coupon.settings.limit_of_user) {
                     this.verifyTotalOfUser();
                 }
 
@@ -62,7 +62,8 @@
                     code: this.code.toUpperCase(),
                     discount: (total * discount) / 100,
                     real: parseFloat(((total - (total * discount) / 100)).toFixed(2)),
-                    detail: 'Cupom promossional'
+                    detail: 'Cupom promossional',
+                    id: this.coupon.id
                 })
             }
         },
@@ -74,7 +75,7 @@
                     return;
                 }
 
-                return this.calc(current, this.coupon.discount);
+                return this.calc(current, this.coupon.settings.discount);
             }
         }
     }
