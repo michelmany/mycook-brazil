@@ -11,18 +11,6 @@
             <div v-if="items && items.length > 0">
                 <ul class="px-0">
                     <li v-for="(item,index) in items" :key="index" class="list-unstyled cart__item">{{ item.name }}
-                        <!-- modal note -->
-                        <b-modal :id="'item_note_'+index" size="sm">
-                            <template slot="modal-title">
-                                <h3 style="color:#141414;">Observação</h3>
-                                <h4 style="color: #9d9d9d; font-size: 16px;">Atenção! Items adicionais poderão ser cobrados</h4>
-                            </template>
-                            <textarea class="form-control" :value="items[0].note" v-model="item.note" rows="4" onresize="false"></textarea>
-                            <template slot="modal-footer">
-                                <b-btn variant="success" @click="cartProductUpdate(item, index)" block>Adicionar</b-btn>
-                            </template>
-                        </b-modal>
-                        <!-- close modal note. -->
                         <div class="mt-2 d-flex justify-content-between">
                             <div>
                                 <button type="button" class="btn btn-secondary btn-sm remove" @click="dec(item, index)">-</button>
@@ -38,6 +26,34 @@
                         </div>
                         <div class="cart__qty" v-if="item.availableQty == 1">Apenas 1 produto disponível para o dia selecionado</div>
                         <div class="cart__qty" v-else>{{ item.availableQty }} produtos disponíveis para o dia selecionado</div>
+                        <!-- modal note -->
+                        <b-modal :id="'item_note_'+index" size="sm">
+                            <template slot="modal-title">
+                                <h3 style="color:#141414;">Observação</h3>
+                                <h4 style="color: #9d9d9d; font-size: 16px;">Atenção! Items adicionais poderão ser cobrados</h4>
+                            </template>
+                            <textarea class="form-control" :value="items[0].note" v-model="item.note" rows="4" onresize="false"></textarea>
+                            <template slot="modal-footer">
+                                <b-btn variant="success" @click="cartProductUpdate(item, index)" block>Adicionar</b-btn>
+                            </template>
+                        </b-modal>
+                        <!-- close modal note. -->
+                    </li>
+
+                    <li class="list-unstyled cart__item" v-if="additional.length > 0" v-for="(item,index) in additional" :key="index">
+                        {{ item.product }}
+                        <div class="mt-2 d-flex justify-content-between">
+                            <div>
+                                <button class="btn btn-sm btn-secondary" :disabled="item.type === 'delivery_fee'" @click="removeAdditional(item,index)">-</button>
+                                {{ item.detail }}
+                            </div>
+                            <div v-if="item.type && item.type === 'coupon'">
+                                - R$ {{ item.price }}
+                            </div>
+                            <div v-else>
+                                + R$ {{ item.price }}
+                            </div>
+                        </div>
                     </li>
                 </ul>
                 <span class="float-right"><strong>Total: R$ {{ total }}</strong></span>
@@ -48,18 +64,9 @@
             </div>
         </div>
         <div v-if="items" class="card-footer text-muted">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Código do cupom">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button">Aplicar</button>
-                </span>
-            </div>
+            <coupon :total="totalItems" @couponDiscount="couponDiscount"></coupon>
             <button class="btn btn-primary btn-block" :disabled="items.length <= 0" @click="createPayment()" v-if="userIsLogged">Finalizar compra</button>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
-
-            <p class="text-info mt-3 text-center">
-               <small> * Cobramos o valor fixo de R$ {{ getDeliveryFee() }} para entregas</small>
-            </p>
         </div>
     </div>
 </template>
@@ -69,6 +76,7 @@
     import {number_format} from '../../../painel/helpers/functions'
     import Moment from 'moment';
     import { extendMoment } from 'moment-range';
+    import Coupon from '../utils/Coupon.vue'
 
     const moment = extendMoment(Moment);
 
@@ -79,21 +87,49 @@
             chefId: Number,
             settings: Object
         },
+        components: {
+            Coupon
+        },
         data() {
             return {
                 items: [],
+                additional: [],
                 courier: {},
                 total: '',
+                totalItems: '',
                 userIsLogged: false,
                 pathname: ''
             }
         },
         watch: {
             calculateTotal(total) {
-                this.total = total;
+                this.totalItems = total.toFixed(2);
+                this.additional.forEach(m => {
+                    this.total = (parseFloat(total) + parseFloat(m.price)).toFixed(2)
+                })
             }
         },
         methods: {
+            removeAdditional(item,index) {
+                if(item.type === 'delivery_fee') {
+                    toastr.info('Este item adicional não pode ser removido!', 'Opsssss', {timeOut: 1000});
+                    return;
+                }
+                this.additional.splice(index, 1)
+                this.total = (parseFloat(this.total) + parseFloat(item.price)).toFixed(2)
+            },
+            couponDiscount(coupon) {
+                this.additional.push({
+                    product: coupon.code,
+                    type: 'coupon',
+                    price: coupon.discount,
+                    detail: coupon.detail,
+                    quantity: 1,
+                    id: coupon.id
+                });
+
+                this.total = (this.total - coupon.discount).toFixed(2);
+            },
             getDeliveryFee(){
                 return number_format(this.settings.delivery_fee, 2, ',', '.');
             },
@@ -154,6 +190,7 @@
                     onHidden: () => {
                         const payload = {
                             items: this.items,
+                            additional: this.additional,
                             seller: this.chefMoipId,
                             seller_id: this.chefId,
                             total: parseFloat(this.total),
@@ -210,7 +247,6 @@
                axios.post('/moip/services/cart?seller='+this.pathname, item)
                     .then(res => console.log(''))
             },
-
         },
         mounted() {
             // check user logged
@@ -230,6 +266,15 @@
                 this.courier.fulldate = cartData.date;
                 // this.cartProduct(cartItems, cartData);
                 this.addItemToCart({item, selectedDateIndex, selectedTimes, courier: this.courier})
+            })
+
+            // add frete to addcitional
+            this.additional.push({
+                product: 'Frete',
+                type: 'delivery_fee',
+                price: this.settings.delivery_fee,
+                detail: 'Taxa fixa de entrega',
+                quantity: 1
             })
         },
         computed: {

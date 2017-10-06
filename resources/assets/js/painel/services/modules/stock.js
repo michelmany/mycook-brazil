@@ -57,7 +57,7 @@ export default {
                         progressBar: true,
                         timeout: 2000,
                         onHidden: () => {
-                           bus.$emit('redirect', {url: '/admin/cardapio/' + payload.id + '/edit'})
+                           bus.$emit('redirect', {url: '/seller/cardapio/' + payload.id + '/edit'})
                         }
                     });
                 })

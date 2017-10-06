@@ -45,7 +45,7 @@
 
                     let action = `
                         <a href="/painel/admin/sellers/${value.id}/ver" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>Detalhes</a>
-                        <a href="/painel/admin/cardapio/${value.seller.id}/" class="btn btn-success btn-xs"><i class="fa fa-eye"></i>Cardápio</a>
+                        <a href="/painel/seller/cardapio/${value.seller.id}/" class="btn btn-success btn-xs"><i class="fa fa-eye"></i>Cardápio</a>
                         `;
                     value.active = (value.active ? 'Ativo' : 'Inativo');
                     data.push([

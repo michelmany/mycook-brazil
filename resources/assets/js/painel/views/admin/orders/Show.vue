@@ -118,7 +118,7 @@
                                     <td>R$ {{ formatItemPrice(item.price) }}</td>
                                 </tr>
 
-                                <tr class="bg-color-gray" v-if="item.product !== 'Frete'">
+                                <tr class="bg-color-gray" v-if="!item.type">
                                     <td colspan="1"><i class="fa fa-info-circle"></i> Observações </td>
                                     <td colspan="3">{{ item.note }}</td>
                                 </tr>

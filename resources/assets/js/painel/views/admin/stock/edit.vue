@@ -4,7 +4,7 @@
             <h4>Configurar produto</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                <li class="breadcrumb-item"><router-link to="/admin/cardapio">Cardapio</router-link></li>
+                <li class="breadcrumb-item"><router-link :to="{name: 'panel.seller.cardapio-list'}">Cardapio</router-link></li>
                 <li class="breadcrumb-item active">Configurar</li>
             </ol>
         </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         <div class="mt-1">
-                            <router-link :to="'/admin/cardapio/' + $route.params['id'] + '/edit'" class="btn btn-default btn-sm">
+                            <router-link :to="'/seller/cardapio/' + $route.params['id'] + '/edit'" class="btn btn-default btn-sm">
                                 <i class="fa fa-arrow-left"></i> Voltar</router-link>
                         </div>
                         <div>

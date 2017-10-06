@@ -46,6 +46,7 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
         Route::get('/', 'System\SettingController@index');
         Route::put('/', 'System\SettingController@update');
     });
+
     Route::group(['prefix' => 'categories'], function() {
         Route::get('/', 'System\CategoryController@index');
         Route::put('{category}', 'System\CategoryController@update');
@@ -53,6 +54,15 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
         Route::post('/', 'System\CategoryController@store');
         Route::delete('{category}', 'System\CategoryController@destroy');
     });
+
+    Route::group(['prefix' => 'coupons'], function() {
+        Route::get('/', 'System\CouponController@index');
+        Route::post('/', 'System\CouponController@store');
+        Route::get('{coupon}', 'System\CouponController@show');
+        Route::put('{coupon}', 'System\CouponController@update');
+        Route::delete('{coupon}', 'System\CouponController@destroy');
+    });
+
 });
 
 Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');

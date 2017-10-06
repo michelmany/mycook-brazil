@@ -4,7 +4,7 @@
             <h4>Produtos</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                <li class="breadcrumb-item"><router-link to="/admin/cardapio">Cardapio</router-link></li>
+                <li class="breadcrumb-item"><router-link :to="{name: 'panel.seller.cardapio-list'}">Cardapio</router-link></li>
                 <li class="breadcrumb-item active">Produtos</li>
             </ol>
         </div>
@@ -43,7 +43,7 @@
                     let data = [];
 
                     res.data.data.forEach((value) => {
-                        let action = `<a href="/painel/admin/cardapio/${value.id}/edit" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>Detalhes</a>`;
+                        let action = `<a href="/painel/seller/cardapio/${value.id}/edit" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>Detalhes</a>`;
                         value.active = (value.active ? 'Ativo' : 'Inativo');
                         data.push([
                             value.id,

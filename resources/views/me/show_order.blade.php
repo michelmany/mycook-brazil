@@ -144,7 +144,7 @@
                                              <td>{{ $item['quantity'] }}x</td>
                                              <td>R$ {{ \App\Support\Moip\Utils::formatAmount($item['price']) }}</td>
                                          </tr>
-                                         @if($item['product'] !== 'Frete')
+                                         @if(!isset($item['type']))
                                              <tr class="bg-color-gray" style="border-bottom: 2px solid rgba(0, 0, 0, 0.2);">
                                                  <td colspan="1">  <i class="fa fa-info-circle"></i> Observações </td>
                                                  <td colspan="3"> {{ $item['note'] }}  </td>

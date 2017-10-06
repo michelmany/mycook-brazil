@@ -4,7 +4,7 @@
             <h4>Detalhes do Produto</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                <li class="breadcrumb-item"><router-link to="/admin/cardapio">Cardapio</router-link></li>
+                <li class="breadcrumb-item"><router-link :to="{name: 'panel.seller.cardapio-list'}">Cardapio</router-link></li>
                 <li class="breadcrumb-item active">Detalhes do produto</li>
             </ol>
         </div>
@@ -96,11 +96,11 @@
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         <div class="mt-1">
-                            <router-link :to="'/admin/cardapio/'" class="btn btn-default btn-sm">
+                            <router-link :to="{name: 'panel.seller.cardapio-list'}" class="btn btn-default btn-sm">
                                 <i class="fa fa-arrow-left"></i> Voltar</router-link>
                             </div>
                             <div>
-                                <router-link :to="'/admin/cardapio/' + product.id + '/remove'" class="btn btn-danger">
+                                <router-link :to="'/seller/cardapio/' + product.id + '/remove'" class="btn btn-danger">
                                     <i class="fa fa-trash"></i>Excluir Produto</router-link>
                                     <button type="submit" class="btn btn-success" v-on:click="submitForm($event)">
                                         <i class="fa fa-check" aria-hidden="true"></i> Atualizar Produto
@@ -116,13 +116,13 @@
                                     <h6><i class="fa fa-map-marker" aria-hidden="true"></i> Configurações de quantidade</h6>
                                 </div>
                                 <div class="actions" v-if="isConfigured">
-                                    <router-link :to="'/admin/stock/edit/' + product.id + '/' + product.seller_id + '/'" class="btn btn-warning btn-sm"><i class="fa fa-plus-circle"></i> Editar configurações</router-link>
+                                    <router-link :to="'/seller/stock/edit/' + product.id + '/' + product.seller_id + '/'" class="btn btn-warning btn-sm"><i class="fa fa-plus-circle"></i> Editar configurações</router-link>
                                 </div>
                             </div>
                             <div class="card-block">
                                 <div class="row">
                                     <div v-if="!isConfigured" class="col-md-12">
-                                        <p><small>Você ainda não configurou os horários e quantidades para esse produto. <br>Configure agora para que o produto apareça no site: <router-link :to="'/admin/stock/edit/' + product.id + '/' + product.seller_id + '/'" class="btn btn-link">Configurar agora!</router-link></small></p>
+                                        <p><small>Você ainda não configurou os horários e quantidades para esse produto. <br>Configure agora para que o produto apareça no site: <router-link :to="'/seller/stock/edit/' + product.id + '/' + product.seller_id + '/'" class="btn btn-link">Configurar agora!</router-link></small></p>
                                     </div>
                                     <div class="col-md-6" v-show="isConfigured">
                                         <table class="table table-bordered table-striped">
@@ -194,7 +194,7 @@
                         // console.log(res)
                         toastr.success('Atualizado com sucesso!', 'Produto '+ this.product.name, {
                             onHidden: () => {
-                                this.$router.push('/admin/cardapio/');
+                                this.$router.push('/seller/cardapio/');
                             }
                         });
 

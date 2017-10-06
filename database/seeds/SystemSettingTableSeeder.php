@@ -16,7 +16,9 @@ class SystemSettingTableSeeder extends Seeder
         $systemSetting = new \App\Models\SystemSetting();
 
         $systemSetting->data = [
-            'delivery_fee' => 11.50
+            'delivery_fee' => 11.50,
+            'radius' => 5,
+            'coupon_expires_in' => 5
         ];
 
         $systemSetting->save();

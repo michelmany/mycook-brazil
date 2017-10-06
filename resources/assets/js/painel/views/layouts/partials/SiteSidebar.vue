@@ -23,6 +23,21 @@
                         </ul>
                     </li>
 
+                    <li :class="{active: isActive('/admin/coupons') }">
+
+                        <a href="#" aria-expanded="true">
+                            <i class="fa fa-ticket"></i> Cupons <span class="fa arrow fa-fw"></span>
+                        </a>
+                        <ul aria-expanded="true">
+                            <router-link :to="{name: 'system-coupons'}" tag="li" exact>
+                                <a>Lista de Cupons</a>
+                            </router-link>
+                            <router-link :to="{name: 'system-coupons-new'}" tag="li">
+                                <a>Adicionar Cupon</a>
+                            </router-link>
+                        </ul>
+                    </li>
+
                     <li :class="{ active : isActive('/admin/settings') }">
                         <a href="#" aria-expanded="true"><i class="fa fa-cogs"></i> Sistema <span class="fa arrow fa-fw"></span></a>
                         <ul aria-expanded="true">
@@ -34,20 +49,19 @@
                 
                 <template v-if="user.role === 'vendedor'">
 
-                    <router-link :to="{name: 'orders.list'}" tag="li" exact><a><i class="fa fa-shopping-cart"></i> Minhas vendas </a></router-link>
-
-                    <li :class="{ active : isActive('/admin/cardapio') }">
+                    <router-link :to="{name: 'panel.seller.orders-list'}" tag="li" exact><a><i class="fa fa-shopping-cart"></i> Minhas vendas </a></router-link>
+                    <li :class="{ active : isActive('/seller/cardapio') }">
                         <a href="#" aria-expanded="true"><i class="fa fa-cutlery"></i> Cardapio <span class="fa arrow fa-fw"></span></a>
                         <ul aria-expanded="true">
-                            <router-link to="/admin/cardapio/" tag="li" exact><a>Produtos cadastrados</a></router-link>
-                            <router-link :to="{ name: 'cardapio-new' }" tag="li"><a>Adicionar novo produto</a></router-link>
+                            <router-link :to="{name: 'panel.seller.cardapio-list'}" tag="li" exact><a>Produtos cadastrados</a></router-link>
+                            <router-link :to="{ name: 'panel.seller.cardapio-new' }" tag="li"><a>Adicionar novo produto</a></router-link>
                         </ul>
                     </li>
                     <li :class="{ active : isActive('/admin/settings') }">
                         <a href="#" aria-expanded="true"><i class="fa fa-cog"></i> Configurações <span class="fa arrow fa-fw"></span></a>
                         <ul aria-expanded="true">
-                            <router-link :to="{ name: 'seller-my-page' }" tag="li" exact><a>Minha Página</a></router-link>
-                            <router-link :to="{ name: 'settings-moip' }" tag="li"><a>Moip Pagamentos</a></router-link>
+                            <router-link :to="{ name: 'panel.seller.my-page' }" tag="li" exact><a>Minha Página</a></router-link>
+                            <router-link :to="{ name: 'panel.seller.settings-moip' }" tag="li"><a>Moip Pagamentos</a></router-link>
                         </ul>
                     </li>
                 </template>

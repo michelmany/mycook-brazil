@@ -3,7 +3,7 @@ import bus from '../../services/bus'
 import moment from '../../helpers/moment'
 
 const httpService = new HttpService();
-httpService.build('admin/v1/categories');
+httpService.build('admin/v1/coupons');
 
 /**
  * Actions
@@ -17,7 +17,7 @@ const actions = {
     all({commit}){
         httpService.list()
             .then(response => {
-                commit('SET_CATEGORIES', response.data.categories)
+                commit('SET_COUPONS', response.data.coupons)
             })
     },
 
@@ -30,7 +30,7 @@ const actions = {
     store({commit}, payload) {
         httpService.create(payload)
             .then(response => {
-                bus.$emit('category store success')
+                bus.$emit('coupon store success')
             })
             .catch(error => alert(error.response.data))
     },
@@ -43,7 +43,7 @@ const actions = {
      */
     find({commit}, payload) {
         httpService.get(payload)
-            .then(response => commit('SET_CATEGORY', response.data.category))
+            .then(response => commit('SET_COUPON', response.data.coupon))
             .catch(error => alert(error.response.data))
     },
 
@@ -56,9 +56,8 @@ const actions = {
         httpService.update(payload.id, payload.data)
             .then(response => {
                 if(response.status === 204) {
-                    bus.$emit('category update success', payload.data)
-                    commit('UPDATE_CATEGORY', payload)
-                    //toastr.success('Categoria alterada com sucesso.', 'Atualização!', {onHidden:() => commit('UPDATE_CATEGORY', payload), timeOut:1000})
+                    bus.$emit('coupon update success', payload.data)
+                    commit('UPDATE_COUPON', payload)
                 }
             })
             .catch(error => console.log(error))
@@ -68,7 +67,7 @@ const actions = {
         httpService.remove(payload.id)
             .then(response => {
                 if(response.status === 204) {
-                    bus.$emit('category delete success', payload)
+                    bus.$emit('coupon delete success', payload)
                 }
             })
             .catch(error => console.log(error))
@@ -92,7 +91,8 @@ const getters = {
     },
 
     /**
-     * Get category by id
+     * Get coupon by id
+     *
      * @param state
      */
     find: (state) => (id) => {
@@ -123,7 +123,7 @@ export default {
          * @param payload
          * @constructor
          */
-        SET_CATEGORIES: (state, payload) => {
+        SET_COUPONS: (state, payload) => {
             state.list = payload
         },
 
@@ -133,7 +133,7 @@ export default {
          * @param payload
          * @constructor
          */
-        SET_CATEGORY: (state, payload) => {
+        SET_COUPON: (state, payload) => {
             state.item = payload
         },
 
@@ -143,11 +143,9 @@ export default {
          * @param payload
          * @constructor
          */
-        UPDATE_CATEGORY: (state, payload) => {
+        UPDATE_COUPON: (state, payload) => {
             let index = _.findIndex(state.list, item => item.id === payload.id);
-            _.forEach(payload.data, (value, key) => {
-                _.set(state.list[index], key, value)
-            })
+            console.log('update coupon ', index)
         },
     },
 

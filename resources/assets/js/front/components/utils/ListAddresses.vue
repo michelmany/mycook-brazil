@@ -11,7 +11,7 @@
 
             <a href="/minha-conta/enderecos" class="btn btn-outline-secondary btn-sm">Trocar endereço</a>
         </div>
-        
+
         <p class="card-text" v-else> Você precisa estar logado para prosseguir.</p>
         <!-- <h6 class="card-title text-uppercase">Endereço</h6> -->
         <!--<p class="card-text"></p>-->

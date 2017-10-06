@@ -170,6 +170,12 @@ class CheckoutService
                 $order->addItem($item['name'], $item['qty'], $item['desc'], Utils::toCents((float)$item['price']));
             }
             $order->setShippingAmount(Utils::toCents((float)$this->settingService->get('delivery_fee'))); //
+
+            if(isset($this->request->additional[1])) {
+                $coupon = $this->request->additional[1];
+                $order->setDiscount(Utils::toCents((float)$coupon['price']));
+            }
+
             // redirect
             $order->setUrlSuccess(route('moip.payments.success'))
                   ->setUrlFailure(route('moip.payments.error'));
@@ -206,20 +212,15 @@ class CheckoutService
             ];
         }
 
-        try{
-            $orders = new Order();
+        $orders = new Order();
+        $orderDeliveryData = new OrderDeliveryData();
+        
+        try{    
             $orders->orderId = $order->getId();
             $orders->seller_id = $this->request->seller_id;
             $orders->buyer_id = $this->buyer->id;
             $orders->status = $order->getStatus();
-            $orders->items = array_merge($items, [
-                [
-                    'product' => 'Frete',
-                    'detail' => 'sem informações adicionais...',
-                    'price' => (float)$this->settingService->get('delivery_fee'),
-                    'quantity' => 1
-                ]
-            ]);
+            $orders->items = array_merge($items, $this->request->additional);
 
             $orders->status_delivery = 0;
             $orders->amount = [
@@ -227,17 +228,23 @@ class CheckoutService
             ];
             $orders->_links = array_merge(['order' => $order->getLinks()->getSelf()], ['checkout' => $order->getLinks()->getAllCheckout()]);
             $orders->save();
+        }catch (\Error $e) {
+            return response()->json(['error' => $e->__toString()], 400);
+        }
 
-            $orderDeliveryData = new OrderDeliveryData();
+        try {
             $orderDeliveryData->order()->associate($orders);
             $orderDeliveryData->address_id = $this->address->id;
             $orderDeliveryData->day = MoipUtil::formatDate($this->request->courier['time'])->format('d');
             $orderDeliveryData->fulldate =  $this->request->courier['fulldate'];
             $orderDeliveryData->time = Carbon::parse($this->request->courier['time']);
             $orderDeliveryData->save();
-        }catch (\Error $e) {
-            return response()->json(['error' => $e->__toString()], 400);
+        } catch (Exception $e) {
+          $orders->delete();
+          $orderDeliveryData->delete();
+          return response()->json(['error' => $e->__toString()], 400);
         }
+
     }
 
     /**
