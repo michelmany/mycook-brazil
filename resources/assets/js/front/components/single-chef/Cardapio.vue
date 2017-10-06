@@ -436,7 +436,7 @@
                         */
                         this.orderingWeekDays();
                         this.getRangeTime();
-                        this.getCategories();
+                        // this.getCategories();
                     })
                 }, 500);
             },
