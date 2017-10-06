@@ -58,7 +58,7 @@ class CheckoutController extends Controller
         $update->payment = $order->payment;
         $update->save();
 
-        // return redirect()->route('orders.show', ['id' => $request->orderId]);
+        return redirect()->route('orders.show', ['id' => $request->orderId]);
     }
 
     /**
