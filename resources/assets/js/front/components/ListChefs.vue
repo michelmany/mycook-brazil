@@ -136,7 +136,16 @@
     }
 </script>
 
-<style>
+<style lang="scss">
+
+    .sweet-modal .sweet-content + .sweet-buttons {
+        @media screen and (max-width: 600px) {
+            position: fixed;
+            text-align: center;
+            background-color: #efefef;
+        }
+    }
+
     .component-fade-enter-active, .component-fade-leave-active {
       transition: opacity .5s ease;
     }

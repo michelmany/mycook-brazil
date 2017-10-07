@@ -100,7 +100,7 @@
         <!-- implements filter by category -->
 
 
-        <trasition-group name="component-fade" mode="out-in">
+        <transition-group name="component-fade" mode="out-in">
             <div class="cardapio__item" v-for="(item, index) in items" key="index" v-if="item.extras.length > 0">
                 <div class="row px-3">
                     <div class="col-md-3 col-lg-5">
@@ -173,7 +173,7 @@
                     {{noItemTextMessage}}
                 </div>
             </div>
-        </trasition-group>
+        </transition-group>
 
     </section>
 </template>

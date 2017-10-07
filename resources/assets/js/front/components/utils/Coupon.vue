@@ -62,7 +62,7 @@
                     code: this.code.toUpperCase(),
                     discount: (total * discount) / 100,
                     real: parseFloat(((total - (total * discount) / 100)).toFixed(2)),
-                    detail: 'Cupom promossional',
+                    detail: 'Cupom promocional',
                     id: this.coupon.id
                 })
             }

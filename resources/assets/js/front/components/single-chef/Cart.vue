@@ -16,7 +16,7 @@
                                 <button type="button" class="btn btn-secondary btn-sm remove" @click="dec(item, index)">-</button>
                                 <span>{{ item.qty }}</span>
                                 <button type="button" class="btn btn-secondary btn-sm" @click="inc(item, index)">+</button>
-                                <b-button size="sm" secondary v-b-modal="'item_note_'+index" :ref="'btnShowItemNote'+index">
+                                <b-button size="sm" variant="primary" v-b-modal="'item_note_'+index" :ref="'btnShowItemNote'+index" class="ml-3">
                                     <i class="fa fa-commenting"></i>
                                 </b-button>
                             </div>
@@ -63,8 +63,8 @@
                 <p class="card-text">Tá esperando o que?</p>
             </div>
         </div>
-        <div v-if="items" class="card-footer text-muted">
-            <coupon :total="totalItems" @couponDiscount="couponDiscount"></coupon>
+        <div v-if="items.length > 0" class="card-footer text-muted">
+            <coupon :total="totalItems" @couponDiscount="couponDiscount" v-if="additional.length < 2"></coupon>
             <button class="btn btn-primary btn-block" :disabled="items.length <= 0" @click="createPayment()" v-if="userIsLogged">Finalizar compra</button>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
         </div>
