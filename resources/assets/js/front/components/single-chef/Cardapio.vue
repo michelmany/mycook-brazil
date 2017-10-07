@@ -1,180 +1,118 @@
 <template>
     <section class="cardapio">
 
-        <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1">
-            
-        </vue-loading>
+        <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
 
-        <!-- implements collapse products -->
-        <!-- implements filter by category -->
-        <!--<div role="tablist" v-if="items.length > 0">-->
-           <!--<b-card no-body class="mb-1" v-for="(category,index) in categories" :key="index">-->
-              <!--<b-card-header header-tag="header" class="p-1" role="tab">-->
-                 <!--<div class="d-flex justify-content-end">-->
-                    <!--<div class="mr-auto p-2" style="line-height: 2.25">-->
-                      <!--{{ category.name.toUpperCase() }}-->
-                    <!--</div>-->
-                    <!--<div class="p-2">-->
-                       <!--<b-btn href="#" v-b-toggle="'accordion_category_'+index" variant="default" @click.native="filterProductByCategory(category)">-->
-                            <!--Visualizar Produtos-->
-                       <!--</b-btn>-->
-                    <!--</div>-->
-                 <!--</div>-->
-              <!--</b-card-header>-->
-
-              <!--<b-collapse :data-category="category.id" :id="'accordion_category_'+index" accordion="my-accordion" role="tabpanel">-->
-                 <!--<b-card-body>-->
-                 <!--&lt;!&ndash; product filtered &ndash;&gt;-->
-                     <!--<div class="cardapio__item" v-for="(item, index) in category.items" key="index" v-if="item.extras.length > 0">-->
-                         <!--<div class="row px-3">-->
-                             <!--<div class="col-md-3 col-lg-5">-->
-                                 <!--<div class="cardapio__image mb-3" style="background-image: url('/assets/img/hero-02.jpg')"></div>-->
-                             <!--</div>-->
-                             <!--<div class="col-md-9 col-lg-7">-->
-                                 <!--<div>-->
-                                     <!--<h5 class="cardapio__title text-uppercase">{{ item.name }}</h5>-->
-                                     <!--<div class="cardapio__desc">{{ item.desc }}</div>-->
-                                     <!--<span class="cardapio__readmore" @click="expandReadMore(index)">Ler mais...</span>-->
-
-                                     <!--<div><span class="cardapio__serve badge badge-primary">Quantidade: Serve {{ item.serve }}</span></div>-->
-                                     <!--&lt;!&ndash; To do: Pegar os dias que tem times setados e mostrar no span abaixo &ndash;&gt;-->
-                                     <!--<div class="cardapio__time mt-3">Disponível nos dias: {{ dateRangeBadge(item) }}</div>-->
-                                     <!--<div class="cardapio__time">Hoje: {{ timeRangeAvailableForToday(item) }}</div>-->
-                                 <!--</div>-->
-                             <!--</div>-->
-                         <!--</div>-->
-                         <!--<div class="row no-gutters">-->
-                             <!--<div class="col-md-12 px-0">-->
-                                 <!--<div class="cardapio__footer d-flex justify-content-between align-items-center flex-wrap mt-3">-->
-                                     <!--<div class="cardapio__price">R$ {{ item.price }}</div>-->
-                                     <!--<button class="btn btn-outline-primary text-uppercase" @click="openDaysOrAddToCart(item, index, $event)">{{ btnLabel }}</button>-->
-                                 <!--</div>-->
-                                 <!--<transition name="slide-fade" mode="in-out">-->
-                                     <!--<div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">-->
-                                         <!--<p>Selecione o dia desejado</p>-->
-                                         <!--<li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase"-->
-                                             <!--v-bind:disabled="weekDay.quantity == 0 || pastTime(weekDay.time)"-->
-                                             <!--v-bind:class="{ disabled: weekDay.quantity == 0 || pastTime(weekDay.time) }"-->
-                                             <!--@click="selectDate(weekDay, dayIndex, index)">{{ weekDay.date }}</li>-->
-                                     <!--</div>-->
-                                 <!--</transition>-->
-
-                             <!--</div>-->
-                         <!--</div>-->
-                         <!--<sweet-modal ref="modalTime" :id="index">-->
-                             <!--<div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>-->
-                             <!--&lt;!&ndash; To do: adicionar component de trocar endereço direto no modal &ndash;&gt;-->
-                             <!--<div class="card mb-3">-->
-                                 <!--<div class="card-block">-->
-                                     <!--<list-addresses></list-addresses>-->
-                                 <!--</div>-->
-                             <!--</div>-->
-                             <!--<div class="card">-->
-                                 <!--<div class="card-block">-->
-                                     <!--<h6 class="card-title text-uppercase">Escolha o horário para entrega</h6>-->
-                                     <!--<h4 class="card-text">-->
-                                         <!--&lt;!&ndash; <i class="fa fa-arrow-circle-o-left"></i> &ndash;&gt;-->
-                                         <!--<div class="form-group">-->
-                                             <!--<select class="form-control" v-model="cartData.time">-->
-                                                 <!--<option disabled value="">Clique para selecionar</option>-->
-                                                 <!--<option v-for="time in selectedTimes" :value="time">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>-->
-                                             <!--</select>-->
-                                         <!--</div>-->
-                                         <!--&lt;!&ndash; <i class="fa fa-arrow-circle-o-right"></i> &ndash;&gt;-->
-                                     <!--</h4>-->
-                                 <!--</div>-->
-                             <!--</div>-->
-
-                             <!--<button slot="button" class="btn btn-submit-orange"-->
-                                     <!--v-bind:disabled="cartData.time.length == 0"-->
-                                     <!--v-bind:class="{ disabled: cartData.time.length == 0 }"-->
-                                     <!--@click="continueToCart(item, index)">Continuar</button>-->
-                         <!--</sweet-modal>-->
-                     <!--</div>-->
-                 <!--&lt;!&ndash; product filtered &ndash;&gt;-->
-                 <!--</b-card-body>-->
-              <!--</b-collapse>-->
-           <!--</b-card>-->
-        <!--</div>-->
-        <!-- implements filter by category -->
         <!-- implements filter by category -->
 
+        <div class="d-flex flex-row-reverse">
+            <div class="p-2 btn-group btn-group-sm">
+                <button class="btn btn-default" @click="filterCategories.orderBy = !filterCategories.orderBy">
+                    <i class="fa" :class="{'fa-sort-alpha-asc': filterCategories.orderBy, 'fa-sort-alpha-desc': !filterCategories.orderBy}"></i>
+                </button>
+            </div>
+        </div>
 
-        <transition-group name="component-fade" mode="out-in">
-            <div class="cardapio__item" v-for="(item, index) in items" key="index" v-if="item.extras.length > 0">
-                <div class="row px-3">
-                    <div class="col-md-3 col-lg-5">
-                        <div class="cardapio__image mb-3" style="background-image: url('/assets/img/hero-02.jpg')"></div>
-                    </div>
-                    <div class="col-md-9 col-lg-7">
-                        <div>
-                            <h5 class="cardapio__title text-uppercase">{{ item.name }}</h5>
-                            <div class="cardapio__desc">{{ item.desc }}</div>
-                            <span class="cardapio__readmore" @click="expandReadMore(index)">Ler mais...</span>
-
-                            <div><span class="cardapio__serve badge badge-primary">Quantidade: Serve {{ item.serve }}</span></div>
-                            <!-- To do: Pegar os dias que tem times setados e mostrar no span abaixo -->
-                            <div class="cardapio__time mt-3">Disponível nos dias: {{ dateRangeBadge(item) }}</div>
-                            <div class="cardapio__time">Hoje: {{ timeRangeAvailableForToday(item) }}</div>
+        <div role="tablist" v-if="categories.length > 0 && items.length > 0">
+            <b-card no-body class="mb-1" v-for="(category,index) in categories" :key="index">
+                <b-card-header header-tag="header" class="p-1" role="tab">
+                    <div class="d-flex justify-content-end">
+                        <div class="mr-auto p-2" style="line-height: 2.25">
+                            {{ category.name.toUpperCase() }}
+                        </div>
+                        <div class="p-2">
+                            <span class="p-2 badge badge-default">
+                                {{ category.items.length }} items
+                            </span>
+                            <b-btn href="#" size="sm" v-b-toggle="'accordion_category_'+index" variant="secondary" v-on:click.native="filterProductByCategory(category)">
+                                <i class="fa fa-plus" :class="{'fa-plus': filterCategories.collapse.id === '',
+                                                       'fa-minus': filterCategories.collapse.id === category.id}">
+                                </i>
+                            </b-btn>
                         </div>
                     </div>
-                </div>
-                <div class="row no-gutters">
-                    <div class="col-md-12 px-0">
-                        <div class="cardapio__footer d-flex justify-content-between align-items-center flex-wrap mt-3">
-                            <div class="cardapio__price">R$ {{ item.price }}</div>
-                            <button class="btn btn-outline-primary text-uppercase" @click="openDaysOrAddToCart(item, index, $event)">{{ btnLabel }}</button>
-                        </div>
-                        <transition name="slide-fade" mode="in-out">
-                            <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
-                                <p>Selecione o dia desejado</p>
-                                <li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase"
-                                    v-bind:disabled="weekDay.quantity == 0 || pastTime(weekDay.time)"
-                                    v-bind:class="{ disabled: weekDay.quantity == 0 || pastTime(weekDay.time) }"
-                                    @click="selectDate(weekDay, dayIndex, index)">{{ weekDay.date }}</li>
-                            </div>
-                        </transition>
+                </b-card-header>
 
-                    </div>
-                </div>
-                <sweet-modal ref="modalTime" :id="index">
-                    <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
-                    <!-- To do: adicionar component de trocar endereço direto no modal -->
-                    <div class="card mb-3">
-                        <div class="card-block">
-                            <list-addresses></list-addresses>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-block">
-                            <h6 class="card-title text-uppercase">Escolha o horário para entrega</h6>
-                            <h4 class="card-text">
-                                <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
-                                <div class="form-group">
-                                    <select class="form-control" v-model="cartData.time">
-                                        <option disabled value="">Clique para selecionar</option>
-                                        <option v-for="time in selectedTimes" :value="time">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>
-                                    </select>
+                <b-collapse :data-category="category.id" :id="'accordion_category_'+index" accordion="my-accordion" role="tabpanel">
+                    <b-card-body>
+                        <!-- product filtered -->
+                        <div class="cardapio__item" v-for="(item, index) in category.items" key="index" v-if="item.extras.length > 0">
+                            <div class="row px-3">
+                                <div class="col-md-3 col-lg-5">
+                                    <div class="cardapio__image mb-3" style="background-image: url('/assets/img/hero-02.jpg')"></div>
                                 </div>
-                                <!-- <i class="fa fa-arrow-circle-o-right"></i> -->
-                            </h4>
+                                <div class="col-md-9 col-lg-7">
+                                    <div>
+                                        <h5 class="cardapio__title text-uppercase">{{ item.name }}</h5>
+                                        <div class="cardapio__desc">{{ item.desc }}</div>
+                                        <span class="cardapio__readmore" @click="expandReadMore(index)">Ler mais...</span>
+
+                                        <div><span class="cardapio__serve badge badge-primary">Quantidade: Serve {{ item.serve }}</span></div>
+                                        <!-- To do: Pegar os dias que tem times setados e mostrar no span abaixo -->
+                                        <div class="cardapio__time mt-3">Disponível nos dias: {{ dateRangeBadge(item) }}</div>
+                                        <div class="cardapio__time">Hoje: {{ timeRangeAvailableForToday(item) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters">
+                                <div class="col-md-12 px-0">
+                                    <div class="cardapio__footer d-flex justify-content-between align-items-center flex-wrap mt-3">
+                                        <div class="cardapio__price">R$ {{ item.price }}</div>
+                                        <button class="btn btn-outline-primary text-uppercase" @click="openDaysOrAddToCart(item, index, $event)">{{ btnLabel }}</button>
+                                    </div>
+                                    <transition name="slide-fade" mode="in-out">
+                                        <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
+                                            <p>Selecione o dia desejado</p>
+                                            <li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase"
+                                                v-bind:disabled="weekDay.quantity == 0 || pastTime(weekDay.time)"
+                                                v-bind:class="{ disabled: weekDay.quantity == 0 || pastTime(weekDay.time) }"
+                                                @click="selectDate(weekDay, dayIndex, index)">{{ weekDay.date }}</li>
+                                        </div>
+                                    </transition>
+
+                                </div>
+                            </div>
+                            <sweet-modal ref="modalTime" :id="index">
+                                <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
+                                <!-- To do: adicionar component de trocar endereço direto no modal -->
+                                <div class="card mb-3">
+                                    <div class="card-block">
+                                        <list-addresses></list-addresses>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-block">
+                                        <h6 class="card-title text-uppercase">Escolha o horário para entrega</h6>
+                                        <h4 class="card-text">
+                                            <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
+                                            <div class="form-group">
+                                                <select class="form-control" v-model="cartData.time">
+                                                    <option disabled value="">Clique para selecionar</option>
+                                                    <option v-for="time in selectedTimes" :value="time">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>
+                                                </select>
+                                            </div>
+                                            <!-- <i class="fa fa-arrow-circle-o-right"></i> -->
+                                        </h4>
+                                    </div>
+                                </div>
+
+                                <button slot="button" class="btn btn-submit-orange"
+                                        v-bind:disabled="cartData.time.length == 0"
+                                        v-bind:class="{ disabled: cartData.time.length == 0 }"
+                                        @click="continueToCart(item, index)">Continuar</button>
+                            </sweet-modal>
                         </div>
-                    </div>
-
-                    <button slot="button" class="btn btn-submit-orange"
-                            v-bind:disabled="cartData.time.length == 0"
-                            v-bind:class="{ disabled: cartData.time.length == 0 }"
-                            @click="continueToCart(item, index)">Continuar</button>
-                </sweet-modal>
+                        <!-- product filtered -->
+                    </b-card-body>
+                </b-collapse>
+            </b-card>
+        </div>
+        <div v-show="items.length == 0" key="message">
+            <div class="alert alert-warning" role="alert">
+                {{noItemTextMessage}}
             </div>
-
-            <div v-show="items.length == 0" key="message">
-                <div class="alert alert-warning" role="alert">
-                    {{noItemTextMessage}}
-                </div>
-            </div>
-        </transition-group>
-
+        </div>
+        <!-- implements filter by category -->
     </section>
 </template>
 
@@ -215,7 +153,14 @@
                   courier: {}
                 },
                 // filtered !
-                categories: []
+                categories: [],
+                filterCategories : {
+                    orderBy: false,
+                    collapse: {
+                        id: '',
+                        target: ''
+                    }
+                }
             }
         },
         props: ["chefId"],
@@ -260,12 +205,7 @@
             },
             addItem(item, index) {
 
-                var itemDescFormated;
-                if(item.desc.length > 45) {
-                    itemDescFormated = item.desc.substring(0, 45) + '...';
-                } else {
-                    itemDescFormated = item.desc;
-                }
+                let itemDescFormated = item.desc.length > 45 ? item.desc.substring(0, 45) + '...' : item.desc;
 
                 const newItem = {
                     id: item.id,
@@ -275,6 +215,13 @@
                     availableQty: item.extras[this.selectedDateIndex].quantity,
                     qty: 1
                 };
+
+                if(this.categories.length > 0) {
+                    let _index = _.findIndex(this.categories, category => category.id === item.category_id);
+                    let _indexItem = _.findIndex(this.categories[_index].items, product => product.id === item.id)
+                    this.categories[_index].items.splice(_indexItem, 1)
+                    console.log(_index, _indexItem)
+                }
 
                 this.cartItems.push(newItem);
 
@@ -436,7 +383,7 @@
                         */
                         this.orderingWeekDays();
                         this.getRangeTime();
-                        // this.getCategories();
+                        this.getCategories();
                     })
                 }, 500);
             },
@@ -459,6 +406,7 @@
                     this.cartItems.push(item);
                     // Remove from array after add to the cart
                     this.items.splice(index, 1);
+
                     //Change message alert for no items available
                     if (this.items.length == 0) {
                         this.setNoItemsTextMessage();
@@ -498,26 +446,34 @@
                              let category = _.find(categories, cat => cat.id === product_category);
                              let _index = _.findIndex(this.categories, cat => cat.id === product_category);
                              if(_index < 0) {
-                                 this.categories.push({
-                                     id: category.id,
-                                     name: category.name,
-                                     items: [product]
-                                 })
-                             }else{
+                                 this.categories.push({ id: category.id, name: category.name, items: [product] })
+                             }else {
                                  this.categories[_index].items.push(product)
                              }
                             });
-
                      })
             }
         },
-        computed:{
+        watch:{
+            'filterCategories.orderBy'(current) {
+                let type = (current ? 'asc' : 'desc');
+                this.categories = _.orderBy(this.categories, ['name'], [type])
+            }
         },
-        watch:{},
         created() {
             this.setNow();
             //console.log("Date: " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"))
             // console.log(this.chef.times)
+
+            this.$root.$on('bv::toggle::collapse', element => {
+                let line = $(`#${element}`);
+                let category = line.data('category')
+                if(category === this.filterCategories.collapse.id) {
+                    this.filterCategories.collapse.id = ''
+                }else {
+                    this.filterCategories.collapse.id = category
+                }
+            })
         },
         mounted() {
           this.getProducts();
@@ -547,6 +503,7 @@
             cursor: pointer;
         }
     }
+
 
     /* Enter and leave animations can use different */
     /* durations and timing functions.              */
