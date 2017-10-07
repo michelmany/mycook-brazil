@@ -12,7 +12,7 @@
         </div>
 
 
-        <b-button size="sm" variant="primary" v-b-modal="'modal_cart'" @click="showModal" class="btn-view-cart">
+        <b-button size="sm" variant="primary" @click="showModal" class="btn-view-cart hidden-lg-up">
             Ver carrinho
         </b-button>
 
