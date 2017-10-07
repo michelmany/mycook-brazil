@@ -15,7 +15,7 @@ class UserAddressesTableSeeder extends Seeder
         // Vendedor
         User::find(3)->addresses()->create(
             [
-                "name" => null,
+                "name" => 'Casa',
                 "cep" => "79094090",
                 "address" => "Rua Dantas Barreto",
                 "number" => "803",
@@ -31,7 +31,7 @@ class UserAddressesTableSeeder extends Seeder
 
         User::find(4)->addresses()->create(
             [
-                "name" => null,
+                "name" => 'Casa',
                 "cep" => "79094090",
                 "address" => "Rua Apetubas",
                 "number" => "803",
@@ -48,7 +48,7 @@ class UserAddressesTableSeeder extends Seeder
         // Comprador
         User::find(5)->addresses()->create(
             [
-                "name" => null,
+                "name" => 'Casa',
                 "cep" => "79094090",
                 "address" => "Rua Dantas Barreto",
                 "number" => "1047",
@@ -64,7 +64,7 @@ class UserAddressesTableSeeder extends Seeder
 
         User::find(6)->addresses()->create(
             [
-                "name" => null,
+                "name" => 'Casa',
                 "cep" => "79094090",
                 "address" => "Rua Dom Pedro II",
                 "number" => "983",
