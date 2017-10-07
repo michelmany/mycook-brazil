@@ -133,11 +133,11 @@
                         </form>
                     </div>
                     <!-- /form-content -->
-                    {{--
+                    
                      <div class="text-center mt-3">
                         <a href="{{ route('password.request') }}" class="cadastro__link ">Recuperar senha?</a>
                     </div>
-                    --}}
+                    
                 </div>
             </div>
 
