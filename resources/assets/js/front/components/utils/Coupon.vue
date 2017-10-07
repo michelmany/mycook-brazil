@@ -83,3 +83,15 @@
         }
     }
 </script>
+
+<style scoped>
+::-webkit-input-placeholder {
+    font-size: 14px!important;
+}
+::-moz-placeholder {
+    font-size: 14px!important;
+}
+::-moz-placeholder {
+    font-size: 14px!important;
+}
+</style>

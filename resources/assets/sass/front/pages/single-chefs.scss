@@ -115,6 +115,9 @@
 
 .cart {
     &__item {
+        @media screen and (max-width: 991px) {
+            font-size: 14px;
+        }
         border-bottom: 1px solid #e2e2e2;
         padding: 20px 0;
     }

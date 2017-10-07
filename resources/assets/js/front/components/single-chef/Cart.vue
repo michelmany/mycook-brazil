@@ -11,12 +11,12 @@
             <div v-if="items && items.length > 0">
                 <ul class="px-0">
                     <li v-for="(item,index) in items" :key="index" class="list-unstyled cart__item">{{ item.name }}
-                        <div class="mt-2 d-flex justify-content-between">
+                        <div class="mt-2 d-flex justify-content-between flex-wrap">
                             <div>
                                 <button type="button" class="btn btn-secondary btn-sm remove" @click="dec(item, index)">-</button>
                                 <span>{{ item.qty }}</span>
                                 <button type="button" class="btn btn-secondary btn-sm" @click="inc(item, index)">+</button>
-                                <b-button size="sm" variant="primary" v-b-modal="'item_note_'+index" :ref="'btnShowItemNote'+index" class="ml-3">
+                                <b-button size="sm" variant="primary" v-b-modal="'item_note_'+index" :ref="'btnShowItemNote'+index" class="ml-3" v-b-tooltip title="Adicionar observação!">
                                     <i class="fa fa-commenting"></i>
                                 </b-button>
                             </div>
@@ -42,7 +42,7 @@
 
                     <li class="list-unstyled cart__item" v-if="additional.length > 0" v-for="(item,index) in additional" :key="index">
                         {{ item.product }}
-                        <div class="mt-2 d-flex justify-content-between">
+                        <div class="mt-2 d-flex justify-content-between flex-wrap">
                             <div>
                                 <button class="btn btn-sm btn-secondary" :disabled="item.type === 'delivery_fee'" @click="removeAdditional(item,index)">-</button>
                                 {{ item.detail }}
@@ -286,3 +286,7 @@
         }
     }
 </script>
+
+<style scoped lang="scss">
+
+</style>
