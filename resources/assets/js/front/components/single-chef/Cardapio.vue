@@ -6,7 +6,7 @@
         <!-- implements filter by category -->
 
         <div class="d-flex flex-row-reverse">
-            <div class="p-2 btn-group btn-group-sm">
+            <div class="p-2 btn-group btn-group-sm" v-show="items.length > 0">
                 <button class="btn btn-default" @click="filterCategories.orderBy = !filterCategories.orderBy">
                     <i class="fa" :class="{'fa-sort-alpha-asc': filterCategories.orderBy, 'fa-sort-alpha-desc': !filterCategories.orderBy}"></i>
                 </button>
@@ -22,7 +22,7 @@
                         </div>
                         <div class="p-2">
                             <span class="p-2 badge badge-default">
-                                {{ category.items.length }} items
+                                {{ category.items.length }} {{ category.items.length == 1 ? 'produto' : 'produtos' }}
                             </span>
                             <b-btn href="#" size="sm" v-b-toggle="'accordion_category_'+index" variant="secondary" v-on:click.native="filterProductByCategory(category)">
                                 <i class="fa fa-plus" :class="{'fa-plus': filterCategories.collapse.id === '',
