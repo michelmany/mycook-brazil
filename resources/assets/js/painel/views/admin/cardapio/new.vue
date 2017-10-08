@@ -145,10 +145,10 @@
                 },
                 validateBeforeSubmit() {
                     this.$validator.validateAll().then((res) => {
-                        console.log(res)
                         if(res) {
                             this.save();
                         }
+                        toastr.warning('Favor preencher os campos obrigatórios', 'Atenção');
                     }).catch(() => {
                         toastr.warning('Favor preencher os campos obrigatórios', 'Atenção');
                     });

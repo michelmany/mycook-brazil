@@ -101,10 +101,11 @@
                 this.validateBeforeSubmit();
             },
             validateBeforeSubmit() {
-                this.$validator.validateAll().then(() => {
-                    this.save();
-                }).catch(() => {
-                    toastr.warning('Favor conferir os dados cadastrados', 'Atenção');
+                this.$validator.validateAll().then((result) => {
+                    if(result) {
+                        this.save();
+                    }
+                    toastr.warning('Favor preencher os campos obrigatórios', 'Atenção');
                 });
             },
             save() {
