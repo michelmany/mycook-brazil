@@ -66,41 +66,11 @@
                                             <li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase"
                                                 v-bind:disabled="weekDay.quantity == 0 || pastTime(weekDay.time)"
                                                 v-bind:class="{ disabled: weekDay.quantity == 0 || pastTime(weekDay.time) }"
-                                                @click="selectDate(weekDay, dayIndex, index)">{{ weekDay.date }}</li>
+                                                @click="selectDate(weekDay, dayIndex, index, item)">{{ weekDay.date }}</li>
                                         </div>
                                     </transition>
-
                                 </div>
                             </div>
-                            <sweet-modal ref="modalTime" :id="index">
-                                <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
-                                <!-- To do: adicionar component de trocar endereço direto no modal -->
-                                <div class="card mb-3">
-                                    <div class="card-block">
-                                        <list-addresses></list-addresses>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-block">
-                                        <h6 class="card-title text-uppercase">Escolha o horário para entrega</h6>
-                                        <h4 class="card-text">
-                                            <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
-                                            <div class="form-group">
-                                                <select class="form-control" v-model="cartData.time">
-                                                    <option disabled value="">Clique para selecionar</option>
-                                                    <option v-for="time in selectedTimes" :value="time">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>
-                                                </select>
-                                            </div>
-                                            <!-- <i class="fa fa-arrow-circle-o-right"></i> -->
-                                        </h4>
-                                    </div>
-                                </div>
-
-                                <button slot="button" class="btn btn-submit-orange"
-                                        v-bind:disabled="cartData.time.length == 0"
-                                        v-bind:class="{ disabled: cartData.time.length == 0 }"
-                                        @click="continueToCart(item, index)">Continuar</button>
-                            </sweet-modal>
                         </div>
                         <!-- product filtered -->
                     </b-card-body>
@@ -113,6 +83,37 @@
             </div>
         </div>
         <!-- implements filter by category -->
+
+        <sweet-modal ref="modalTime" :id="currentModalTime.index">
+            <div class="text-uppercase mb-3">Você receberá o pedido no seu endereço</div>
+            <!-- To do: adicionar component de trocar endereço direto no modal -->
+            <div class="card mb-3">
+                <div class="card-block">
+                    <list-addresses></list-addresses>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-block">
+                    <h6 class="card-title text-uppercase">Escolha o horário para entrega</h6>
+                    <h4 class="card-text">
+                        <!-- <i class="fa fa-arrow-circle-o-left"></i> -->
+                        <div class="form-group">
+                            <select class="form-control" v-model="cartData.time">
+                                <option disabled value="">Clique para selecionar</option>
+                                <option v-for="time in selectedTimes" :value="time">{{ formatTime(time) }} ~ {{  formatTimeMore30(time) }}</option>
+                            </select>
+                        </div>
+                        <!--<i class="fa fa-arrow-circle-o-right"></i>-->
+                    </h4>
+                </div>
+            </div>
+
+            <button slot="button" class="btn btn-submit-orange"
+                    v-bind:disabled="cartData.time.length == 0"
+                    v-bind:class="{ disabled: cartData.time.length == 0 }"
+                    @click="continueToCart(currentModalTime.item, currentModalTime.index)">Continuar</button>
+        </sweet-modal>
+
     </section>
 </template>
 
@@ -160,6 +161,10 @@
                         id: '',
                         target: ''
                     }
+                },
+                currentModalTime: {
+                    index: null,
+                    item: {}
                 }
             }
         },
@@ -179,13 +184,17 @@
 
                 // console.log(event)
             },
-            selectDate(weekday, dayIndex, index) {
+            selectDate(weekday, dayIndex, index, item = '') {
                 this.setNow()
                 this.selectedTimes = weekday.time;
                 this.cartData.date = weekday.date;
                 this.cartData.fulldate = weekday.fulldate;
 
                 this.selectedDateIndex = dayIndex;
+
+                // Current Modal
+                this.currentModalTime.index = index;
+                this.currentModalTime.item = item;
 
                 // Fitler the time for today
                 if(weekday.date == 'Hoje') {
@@ -194,13 +203,18 @@
 
                 // Open Modal
                 this.referenceProductIndex = index;
-                this.$refs.modalTime[index].open()
+                this.$refs.modalTime.open(index)
 
                 // Clear cart when user selects new date or time
                 this.clearCart()
             },
             continueToCart(item, index) {
-                this.$refs.modalTime[index].close()
+                this.$refs.modalTime.close(index)
+
+                // Current Modal
+                this.currentModalTime.index = null;
+                this.currentModalTime.item = {};
+
                 this.addItem(item, index);
             },
             addItem(item, index) {

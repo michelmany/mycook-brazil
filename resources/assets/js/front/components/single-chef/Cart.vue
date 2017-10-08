@@ -16,9 +16,11 @@
                                 <button type="button" class="btn btn-secondary btn-sm remove" @click="dec(item, index)">-</button>
                                 <span>{{ item.qty }}</span>
                                 <button type="button" class="btn btn-secondary btn-sm" @click="inc(item, index)">+</button>
-                                <b-button size="sm" variant="primary" v-b-modal="'item_note_'+index" :ref="'btnShowItemNote'+index" class="ml-3" v-b-tooltip title="Adicionar observação!">
+                                <!-- open dialog -->
+                                <b-button size="sm" variant="primary" class="ml-3" @click="addNote(item, index)" v-b-tooltip title="Adicionar observação!">
                                     <i class="fa fa-commenting"></i>
                                 </b-button>
+                                <!-- open dialog -->
                             </div>
                             <div>
                                 R$ {{ item.price }}
@@ -63,11 +65,20 @@
                 <p class="card-text">Tá esperando o que?</p>
             </div>
         </div>
+
         <div v-if="items.length > 0" class="card-footer text-muted">
             <coupon :total="totalItems" @couponDiscount="couponDiscount" v-if="additional.length < 2"></coupon>
             <button class="btn btn-primary btn-block" :disabled="items.length <= 0" @click="createPayment()" v-if="userIsLogged">Finalizar compra</button>
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
         </div>
+
+        <!-- modal note -->
+        <sweet-modal  ref="modalNote" title="Adicionar Observações" :id="currentModal.index">
+            <textarea class="form-control" v-model="currentModal.item.note" rows="4" onresize="false"></textarea>
+            <button class="btn btn-block btn-success mt-2" @click="cartProductUpdate(currentModal.item, currentModal.index)">Adicionar</button>
+        </sweet-modal>
+        <!-- modal note -->
+
     </div>
 </template>
 '
@@ -98,7 +109,11 @@
                 total: '',
                 totalItems: '',
                 userIsLogged: false,
-                pathname: ''
+                pathname: '',
+                currentModal: {
+                    index: null,
+                    item: {}
+                }
             }
         },
         watch: {
@@ -110,6 +125,13 @@
             }
         },
         methods: {
+            addNote(item, index){
+
+                this.currentModal.index = index
+                this.currentModal.item = item
+
+                this.$refs.modalNote.open(index)
+            },
             removeAdditional(item,index) {
                 if(item.type === 'delivery_fee') {
                     toastr.info('Este item adicional não pode ser removido!', 'Opsssss', {timeOut: 1000});
@@ -181,7 +203,8 @@
             cartProductUpdate(item,index) {
                 axios.put(`/moip/services/cart/${index}?seller=${this.pathname}`, {item})
                      .then(res => {
-                         this.$root.$emit('bv::hide::modal', 'item_note_'+index)
+//                         this.$root.$emit('bv::hide::modal', 'item_note_'+index)
+                            this.$refs.modalNote.close(index)
                      })
             },
             createPayment() {
@@ -287,6 +310,9 @@
     }
 </script>
 
-<style scoped lang="scss">
-
+<style lang="css">
+    .sweet-modal{max-width: 480px;}
+    .sweet-modal .sweet-title > h2 {
+        line-height: 3;
+    }
 </style>
