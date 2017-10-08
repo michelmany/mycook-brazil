@@ -18,6 +18,7 @@ class ProductsTableSeeder extends Seeder
             'serve' => '4',
             'photo' => null,
             'price' => '49.90',
+            'category_id' => 2
 
         ]);
 
