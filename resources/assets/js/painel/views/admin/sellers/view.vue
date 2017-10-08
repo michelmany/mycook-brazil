@@ -178,6 +178,9 @@
     import { HttpService } from '../../../services/httpService';
     import AvatarUpload from '../../../components/AvatarUpload';
 
+    const httpService = new HttpService();
+          httpService.build('admin/v1/users');
+
     export default {
         data: function () {
             return {
@@ -190,12 +193,10 @@
         components: {
           avatar: AvatarUpload
         },
-        mounted() {
-            let httpService = new HttpService();
-            httpService.build('admin/v1/users/' + this.$route.params['id'])
-            .list()
+        created() {
+            httpService.get(this.$route.params['id'])
             .then((res) => {
-                this.user = res.data;
+                this.user = res.data[1];
                 this.user.seller = res.data.seller || {};
             });
         }

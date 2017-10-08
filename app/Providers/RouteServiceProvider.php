@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Order;
+use App\Models\Seller;
 use App\Models\SystemCategory;
 use App\Models\SystemCoupon;
+use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -33,6 +35,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('order', Order::class);
         Route::model('category', SystemCategory::class);
         Route::model('coupon', SystemCoupon::class);
+        Route::model('user', User::class);
+        Route::model('seller', Seller::class);
     }
 
     /**

@@ -63,6 +63,13 @@ Route::group(['prefix' => 'admin/v1', 'namespace'=>'Api\Admin\V1'], function () 
         Route::delete('{coupon}', 'System\CouponController@destroy');
     });
 
+    Route::group(['prefix' => 'sellers'], function() {
+        Route::get('{user}', 'System\SellerController@show');
+        Route::post('{seller}', 'System\SellerController@update');
+        Route::put('{seller}', 'System\SellerController@update');
+    });
+
+
 });
 
 Route::post('/quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');

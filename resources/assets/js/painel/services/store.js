@@ -8,6 +8,7 @@ import orders from './modules/orders'
 import settings from './modules/settings'
 import categories from './modules/categories'
 import coupons from './modules/coupons'
+import sellers from './modules/sellers'
 
 export default new Vuex.Store({
     modules: {
@@ -15,6 +16,7 @@ export default new Vuex.Store({
         orders,
         settings,
         categories,
-        coupons
+        coupons,
+        sellers
     }
 })
