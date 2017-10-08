@@ -73,7 +73,14 @@ class SellerService
                 return $data;
             });
         }
-        $seller->update(['data' => $data]);
+
+        try{
+            $seller->update(['data' => $data]);
+            return response(null, 204);
+        }catch(\Exception $exception) {
+            return response()->isInvalid();
+        }
+
     }
 
     /**

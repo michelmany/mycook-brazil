@@ -32,7 +32,7 @@
                         <div class="form-group row">
                             <label for="description" class="col-md-4 col-lg-3 form-control-label">Descrição</label>
                             <div class="col-md-8 col-lg-9">
-                                <textarea class="form-control" :value="seller.data.description" id="description" @blur="send($event, 'description')" placeholder="Descreva para o público seu estabelecimento"></textarea>
+                                <textarea class="form-control" rows="7" :value="seller.data.description" id="description" @blur="send($event, 'description')" placeholder="Descreva para o público seu estabelecimento"></textarea>
                             </div>
                         </div>
 
@@ -63,9 +63,6 @@
             },
             actionUrl() {
                 return `/api/admin/v1/sellers/${this.seller.id}`
-            },
-            photoUrl() {
-//                return this.info.avatar ? this.info.avatar : null
             }
         },
 
@@ -73,8 +70,15 @@
             ...mapActions({find: 'sellers/find', update: 'sellers/update'}),
 
             send(event, column) {
+
+                let _value = event.target.value;
+
+                if(_.get(this.seller.data, column) === _value) {
+                    return;
+                }
+
                 let payload = {id: this.seller.id, data: {}}
-                _.set(payload.data, column, event.target.value)
+                _.set(payload.data, column, _value)
                 this.update(payload)
             }
         },
@@ -83,6 +87,10 @@
             let user = JSON.parse(Ls.get('auth.user'));
 
             this.find(user.id)
+
+            this.$bus.$on('seller update success', payload => {
+                toastr.success('alterações aplicadas com sucesso.', 'Pagina Atualizada', {timeOut: 1000})
+            })
         }
     }
 </script>
