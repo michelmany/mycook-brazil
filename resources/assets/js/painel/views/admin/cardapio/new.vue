@@ -73,12 +73,19 @@
                                                 <div class="col-12 col-md-9">
                                                     <app-category>
                                                         <template slot="all" scope="rows">
-                                                            <select id="product_category_id" class="form-control" v-model.trim="product.category_id">
-                                                                <option value="0" selected>Escolha a categoria referente ao produto</option>
+                                                            <select id="product_category_id"
+                                                            v-model.trim="product.category_id"
+                                                            data-vv-name="categoria"
+                                                            v-validate="'required'"
+                                                            :class="{'form-control': true, 'is-danger': errors.has('categoria') }">
+                                                                <option value="" disabled>Escolha a categoria referente ao produto</option>
                                                                 <option v-for="category in rows.categories" :value="category.id">
                                                                     {{ category.name }}
                                                                 </option>
                                                             </select>
+                                                            <div v-show="errors.has('categoria')" class="help is-danger">
+                                                                {{ errors.first('categoria') }}
+                                                            </div>
                                                         </template>
                                                     </app-category>
                                                 </div>
@@ -120,7 +127,7 @@
                     product: {
                         price: '',
                         serve: '',
-                        category_id: 0
+                        category_id: ''
                     },
                 }
             },
@@ -137,8 +144,11 @@
                     this.validateBeforeSubmit();
                 },
                 validateBeforeSubmit() {
-                    this.$validator.validateAll().then(() => {
-                        this.save();
+                    this.$validator.validateAll().then((res) => {
+                        console.log(res)
+                        if(res) {
+                            this.save();
+                        }
                     }).catch(() => {
                         toastr.warning('Favor preencher os campos obrigatórios', 'Atenção');
                     });
