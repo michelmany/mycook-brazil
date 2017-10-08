@@ -68,8 +68,14 @@
 
         <div v-if="items.length > 0" class="card-footer text-muted">
             <coupon :total="totalItems" @couponDiscount="couponDiscount" v-if="additional.length < 2"></coupon>
-            <button class="btn btn-primary btn-block" :disabled="items.length <= 0" @click="createPayment()" v-if="userIsLogged">Finalizar compra</button>
+
+            <div v-if="userIsLogged" class="btn-group" style="width: 100%;">
+                <!--<button class="btn btn-primary" :disabled="items.length <= 0"><i class="fa fa-cart-arrow-down"></i> Limpar </button>-->
+                <button class="btn btn-primary" :disabled="items.length <= 0" @click="createPayment()">Finalizar compra</button>
+            </div>
+
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
+
         </div>
 
         <!-- modal note -->
@@ -81,7 +87,7 @@
 
     </div>
 </template>
-'
+
 <script>
     import { eventBus } from '../../app';
     import {number_format} from '../../../painel/helpers/functions'
@@ -286,8 +292,9 @@
                 // console.log(cartItems, cartData)
                 this.items = cartItems;
                 this.courier.time = cartData.time;
-                this.courier.fulldate = cartData.date;
-                // this.cartProduct(cartItems, cartData);
+                this.courier.date = cartData.date;
+                this.courier.fulldate = cartData.fulldate;
+//                 this.cartProduct(cartItems, cartData);
                 this.addItemToCart({item, selectedDateIndex, selectedTimes, courier: this.courier})
             })
 

@@ -227,14 +227,15 @@
                     desc: itemDescFormated,
                     price: item.price,
                     availableQty: item.extras[this.selectedDateIndex].quantity,
-                    qty: 1
+                    qty: 1,
+                    category_id: item.category_id
                 };
 
                 if(this.categories.length > 0) {
                     let _index = _.findIndex(this.categories, category => category.id === item.category_id);
                     let _indexItem = _.findIndex(this.categories[_index].items, product => product.id === item.id)
                     this.categories[_index].items.splice(_indexItem, 1)
-                    console.log(_index, _indexItem)
+                    //console.log(_index, _indexItem)
                 }
 
                 this.cartItems.push(newItem);
@@ -258,6 +259,7 @@
             FilterByDaySelected(item, index) {
                 this.isListFiltered = true;
                 this.showDays = false;
+
                 console.log("time selected: " + this.cartData.time)
                 console.log("Outside loop: " + item.name + " - index: " + index)
                 this.items.forEach( (item, index) => {
@@ -371,14 +373,17 @@
 
                 const _cart = { items: [], courier: {} };
                 this.$bus.$on('getCartStorage', (storage) => {
-                   _.forEach(storage.items, (item) => {
-                       _cart.items.push(item)
-                   })
-                   _cart.selectedDateIndex = storage.selectedDateIndex
-                   _cart.selectedTimes = storage.selectedTimes
-                   _cart.courier = storage.courier;
+                    _.forEach(storage.items, (item) => {
+                        const index = _.find(this.cartStorage.items, e => e.id === item.id);
+                        if(!index || index < 0){
+                            _cart.items.push(item)
+                        }
+                    })
+                    _cart.selectedDateIndex = storage.selectedDateIndex
+                    _cart.selectedTimes = storage.selectedTimes
+                    _cart.courier = storage.courier;
                 })
-                // console.log(_cart)
+
                 this.cartStorage = _cart
 
                 setTimeout(() => {
@@ -410,25 +415,28 @@
             },
             mapCartStorage() {
                 if(this.cartStorage.items.length > 0) {
-                  this.cartData.date = this.cartStorage.courier.fulldate
+                  this.cartData.date = this.cartStorage.courier.date
+                  this.cartData.fulldate = this.cartStorage.courier.fulldate
                   this.cartData.time = this.cartStorage.courier.time
                   this.selectedDateIndex = this.cartStorage.selectedDateIndex
                   this.selectedTimes = this.cartStorage.selectedTimes
-
+                  this.itemIndex = 0
                   _.forEach(this.cartStorage.items, (item, index) => {
-                    //console.log(index)
-                    this.cartItems.push(item);
-                    // Remove from array after add to the cart
-                    this.items.splice(index, 1);
 
-                    //Change message alert for no items available
-                    if (this.items.length == 0) {
-                        this.setNoItemsTextMessage();
-                    }
-                    //shows only the products available on this day selected
-                    if (this.isListFiltered == false) {
-                        this.FilterByDaySelected(item, index);
-                    }
+                      this.cartItems.push(item);
+
+                      const __item = _.find(this.items, i => i.id === item.id)
+                      const __index = _.findIndex(this.items, i => i.id === item.id)
+
+                      // Remove from array after add to the cart
+                      this.items.splice(__index, 1);
+
+                      //Change message alert for no items available
+                      if (this.items.length === 0) {
+                          this.setNoItemsTextMessage();
+                      }
+
+                      this.isListFiltered = true;
                   });
                 }
             },
@@ -478,7 +486,6 @@
             this.setNow();
             //console.log("Date: " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"))
             // console.log(this.chef.times)
-
             this.$root.$on('bv::toggle::collapse', element => {
                 let line = $(`#${element}`);
                 let category = line.data('category')
@@ -493,9 +500,7 @@
           this.getProducts();
         },
         updated() {
-            eventBus.$on('remove-item', (item) => {
-                window.location.reload()
-            })
+            eventBus.$on('remove-item', (item) => window.location.reload())
         }
     }
 </script>

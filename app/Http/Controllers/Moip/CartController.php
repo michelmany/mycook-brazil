@@ -79,11 +79,15 @@ class CartController extends Controller
         // caso exista apenas adicionar aos produtos
         $myCart = Cache::get($this->getCartBySeller());
 
-        // adiciona produto ao carrinho
-        $myCart['items']->push($this->request->item);
-
         // remove carrinho atual
         Cache::forget($this->getCartBySeller());
+
+        $myCart['items']->each(function ($product, $index) use ($myCart){
+            if($product['id'] !== $this->request->item['id']) {
+                $myCart['items']->push($this->request->item);
+            }
+            return $myCart;
+        });
 
         // adiciona carrinho atualizado
         Cache::put($this->getCartBySeller(), $myCart, $this->expiresIn);
