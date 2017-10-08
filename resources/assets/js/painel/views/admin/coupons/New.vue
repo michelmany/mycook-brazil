@@ -145,7 +145,7 @@
 
         created() {
             this.$bus.$on('coupon store success', () => {
-                toastr.success('Categoria adicionada com sucesso.', null, {timeOut: 1500, onHidden:() => this.reset() })
+                toastr.success('Cupom criado com sucesso.', null, {timeOut: 1500, onHidden:() => this.reset() })
 
             })
         }
