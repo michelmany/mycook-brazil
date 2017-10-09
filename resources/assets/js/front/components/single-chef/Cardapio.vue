@@ -124,6 +124,7 @@
     import Moment from 'moment';
     import { extendMoment } from 'moment-range';
     import { HttpService } from '../../services/httpService';
+    import {refreshAt} from '../../../painel/helpers/functions'
 
     const moment = extendMoment(Moment);
     let httpService = new HttpService();
@@ -492,6 +493,9 @@
                              }
                             });
                      })
+            },
+            refreshAt() {
+                return refreshAt(0,1,0); //Will refresh the page at 00:01:00am
             }
         },
         watch:{
@@ -502,6 +506,7 @@
         },
         created() {
             this.setNow();
+            this.refreshAt();
             //console.log("Date: " + moment().format("dddd, MMMM Do YYYY, h:mm:ss a"))
             // console.log(this.chef.times)
             this.$root.$on('bv::toggle::collapse', element => {
