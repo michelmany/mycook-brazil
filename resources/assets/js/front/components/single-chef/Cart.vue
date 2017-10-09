@@ -71,7 +71,7 @@
 
             <div v-if="userIsLogged" class="btn-group" style="width: 100%;">
                 <!--<button class="btn btn-primary" :disabled="items.length <= 0"><i class="fa fa-cart-arrow-down"></i> Limpar </button>-->
-                <button class="btn btn-primary" :disabled="items.length <= 0" @click="createPayment()">Finalizar compra</button>
+                <button class="btn btn-primary btn-block" :disabled="items.length <= 0" @click="createPayment()">Finalizar compra</button>
             </div>
 
             <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
