@@ -18,21 +18,21 @@
                         <div class="form-group row">
                             <label class="col-md-4 col-lg-3 form-control-label">Imagem</label>
                             <div class="col-md-8">
-                                <avatar :photo-url="seller.data.avatar" :action-url="actionUrl"></avatar>
+                                <avatar :photo-url="avatarUrl" :action-url="actionUrl"></avatar>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="title" class="col-md-4 col-lg-3 form-control-label">Titulo</label>
                             <div class="col-md-8 col-lg-9">
-                                <input type="text" :value="seller.data.title" class="form-control" id="title" @blur="send($event, 'title')" placeholder="Como se chama seu estabelecimento?">
+                                <input type="text" :value="checkProperty('title') ? seller.data.title : null" class="form-control" id="title" @blur="send($event, 'title')" placeholder="Como se chama seu estabelecimento?">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="description" class="col-md-4 col-lg-3 form-control-label">Descrição</label>
                             <div class="col-md-8 col-lg-9">
-                                <textarea class="form-control" rows="7" :value="seller.data.description" id="description" @blur="send($event, 'description')" placeholder="Descreva para o público seu estabelecimento"></textarea>
+                                <textarea class="form-control" rows="7" :value="checkProperty('description') ? seller.data.description : null" id="description" @blur="send($event, 'description')" placeholder="Descreva para o público seu estabelecimento"></textarea>
                             </div>
                         </div>
 
@@ -58,16 +58,22 @@
 
         computed: {
             ...mapGetters({seller: 'sellers/get'}),
-            info() {
-                return this.seller.data
-            },
+            
             actionUrl() {
                 return `/api/admin/v1/sellers/${this.seller.id}`
+            },
+            
+            avatarUrl() {
+                return this.checkProperty('avatar') ? this.seller.data.avatar : null
             }
         },
 
         methods: {
             ...mapActions({find: 'sellers/find', update: 'sellers/update'}),
+
+            checkProperty(column) {
+                return _.has(this.seller.data, column)
+            },
 
             send(event, column) {
 
