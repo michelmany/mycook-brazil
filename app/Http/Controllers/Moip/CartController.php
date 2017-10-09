@@ -85,6 +85,9 @@ class CartController extends Controller
         $myCart['items']->each(function ($product, $index) use ($myCart){
             if($product['id'] !== $this->request->item['id']) {
                 $myCart['items']->push($this->request->item);
+            }else{
+                $myCart['items']->slice($index);
+                T_BREAK;
             }
             return $myCart;
         });

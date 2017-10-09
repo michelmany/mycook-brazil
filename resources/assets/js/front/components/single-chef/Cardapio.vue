@@ -211,6 +211,7 @@
             continueToCart(item, index) {
                 this.$refs.modalTime.close(index)
 
+                console.log('continueToCart')
                 // Current Modal
                 this.currentModalTime.index = null;
                 this.currentModalTime.item = {};
@@ -218,7 +219,7 @@
                 this.addItem(item, index);
             },
             addItem(item, index) {
-
+                console.log('addItem')
                 let itemDescFormated = item.desc.length > 45 ? item.desc.substring(0, 45) + '...' : item.desc;
 
                 const newItem = {
@@ -235,12 +236,11 @@
                     let _index = _.findIndex(this.categories, category => category.id === item.category_id);
                     let _indexItem = _.findIndex(this.categories[_index].items, product => product.id === item.id)
                     this.categories[_index].items.splice(_indexItem, 1)
-                    //console.log(_index, _indexItem)
                 }
 
                 this.cartItems.push(newItem);
 
-                eventBus.$emit('cartItems', this.cartItems, this.cartData, newItem, this.selectedDateIndex, this.selectedTimes);
+                this.$bus.$emit('cartItems', this.cartItems, this.cartData, newItem, this.selectedDateIndex, this.selectedTimes);
 
                 // Remove from array after add to the cart
                 this.items.splice(index, 1);
@@ -392,19 +392,13 @@
                         this.loading = false;
                         this.items = res.data;
                         this.removeItemNoExtra();
-
-                        /**
-                        *
-                        */
-                        this.mapCartStorage();
-                        /**
-                        *
-                        */
                         this.orderingWeekDays();
                         this.getRangeTime();
                         this.getCategories();
+
+                        this.mapCartStorage();
                     })
-                }, 500);
+                }, 300);
             },
             removeItemNoExtra() {
                 this.items.forEach( (item, index) => {
@@ -420,7 +414,8 @@
                   this.cartData.time = this.cartStorage.courier.time
                   this.selectedDateIndex = this.cartStorage.selectedDateIndex
                   this.selectedTimes = this.cartStorage.selectedTimes
-                  this.itemIndex = 0
+                  this.itemIndex = 0;
+
                   _.forEach(this.cartStorage.items, (item, index) => {
 
                       this.cartItems.push(item);
@@ -431,13 +426,36 @@
                       // Remove from array after add to the cart
                       this.items.splice(__index, 1);
 
+                      // remove items not refer in date
+                      if(this.items.length > 0) {
+                          this.items.forEach((product, _index) => {
+                              let filteredExtras = product.extras.some(e => e.date === this.cartData.date)
+                              if(!filteredExtras) {
+                                  this.items.splice(_index, 1)
+                              }else{
+                                  product.extras.forEach((extra, indexExtra) => {
+                                      if(this.cartData.date === extra.date && !_.includes(extra.time, this.cartData.time)) {
+                                          console.log('remover pois não existe horário')
+                                          this.items.splice(_index, 1);
+                                      }
+
+                                      if(this.cartData.date === extra.date && extra.quantity === 0) {
+                                          console.log('remover pois não possui items.')
+                                          this.items.splice(_index, 1);
+                                      }
+
+                                  })
+                              }
+                          })
+                      }
+
                       //Change message alert for no items available
                       if (this.items.length === 0) {
                           this.setNoItemsTextMessage();
                       }
-
                       this.isListFiltered = true;
                   });
+
                 }
             },
             expandReadMore(index) {

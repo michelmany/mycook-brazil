@@ -209,7 +209,6 @@
             cartProductUpdate(item,index) {
                 axios.put(`/moip/services/cart/${index}?seller=${this.pathname}`, {item})
                      .then(res => {
-//                         this.$root.$emit('bv::hide::modal', 'item_note_'+index)
                             this.$refs.modalNote.close(index)
                      })
             },
@@ -288,13 +287,11 @@
             this.getCart();
         },
         created() {
-            eventBus.$on('cartItems', (cartItems, cartData, item, selectedDateIndex, selectedTimes) => {
-                // console.log(cartItems, cartData)
+            this.$bus.$on('cartItems', (cartItems, cartData, item, selectedDateIndex, selectedTimes) => {
                 this.items = cartItems;
                 this.courier.time = cartData.time;
                 this.courier.date = cartData.date;
                 this.courier.fulldate = cartData.fulldate;
-//                 this.cartProduct(cartItems, cartData);
                 this.addItemToCart({item, selectedDateIndex, selectedTimes, courier: this.courier})
             })
 
