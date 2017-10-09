@@ -83,7 +83,7 @@
                             <tbody>
                             <tr>
                                 <td>Dia</td>
-                                <td>{{ order.address.fulldate }}  / {{ order.address.day }}</td>
+                                <td>{{ order.address.fulldate }}</td>
                             </tr>
                             <tr>
                                 <td>Horário</td>

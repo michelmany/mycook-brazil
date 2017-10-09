@@ -24,7 +24,7 @@
                                                 <div class="col-12 col-md-9">
                                                     <input type="text" class="form-control" id="product_name"
                                                     :class="{'form-control': true, 'is-danger': errors.has('name') }"
-                                                    v-validate="'required|max:35'" data-vv-name="name" v-model.trim="product.name">
+                                                    v-validate="'required|max:50'" data-vv-name="name" v-model.trim="product.name">
                                                     <div v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</div>
                                                     <small class="text-muted">Qual o nome do produto?</small>
                                                 </div>
@@ -34,7 +34,7 @@
                                                 <label for="product_desc" class="col-12 col-md-3 col-form-label">Descrição</label>
                                                 <div class="col-12 col-md-9">
                                                     <textarea v-model.trim="product.desc" id="product_desc" class="form-control"
-                                                        rows="5" v-validate="'required'" data-vv-as="descrição" data-vv-name="desc"
+                                                        rows="5" v-validate="'required|max:500'" data-vv-as="descrição" data-vv-name="desc"
                                                         :class="{'form-control': true, 'is-danger': errors.has('desc') }"></textarea>
                                                     <div v-show="errors.has('desc')" class="help is-danger">{{ errors.first('desc') }}</div>
                                                     <small class="text-muted">Dê mais detalhes sobre este produto.</small>

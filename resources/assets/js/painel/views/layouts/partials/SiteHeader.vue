@@ -25,7 +25,7 @@
                     </template>
 
                     <template v-if="user.role === 'vendedor'">
-                        <router-link class="dropdown-item" to="/admin/settings/moip">Moip</router-link>
+                        <router-link class="dropdown-item" :to="{ name: 'panel.seller.settings-moip' }">Moip</router-link>
                         <div class="dropdown-divider"></div>
                     </template>
                     <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i> Logout</a>

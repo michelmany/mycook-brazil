@@ -20,9 +20,9 @@ export default {
 
     logout(){
         return axios.get('/api/auth/logout').then(response =>  {
-            Ls.remove('auth.token')
+            Ls.remove('auth.token');
             Ls.remove('auth.user');
-            toastr['success']('Logged out!', 'Success');
+            toastr['success']('Você saiu do Painel!', 'Sucesso');
         }).catch(error => {
             console.log('Erro', error.message);
         });

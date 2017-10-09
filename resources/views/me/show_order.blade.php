@@ -108,7 +108,7 @@
                                  <thead>
                                  <tr>
                                      <th>Dia</th>
-                                     <td>{{ $order->address->fulldate}} / {{ $order->address->day }}</td>
+                                     <td>{{ $order->address->fulldate}}</td>
                                  </tr>
                                  <tr>
                                      <th>Horário</th>
