@@ -135,6 +135,7 @@
           this.$validator.validateAll().then((result) => {
             if(result) {
                 this.save();
+                return;
             }
             toastr.warning('Favor preencher os campos obrigatórios', 'Atenção');
           });

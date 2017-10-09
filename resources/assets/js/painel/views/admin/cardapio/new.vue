@@ -147,6 +147,7 @@
                     this.$validator.validateAll().then((res) => {
                         if(res) {
                             this.save();
+                            return;
                         }
                         toastr.warning('Favor preencher os campos obrigatórios', 'Atenção');
                     }).catch(() => {
