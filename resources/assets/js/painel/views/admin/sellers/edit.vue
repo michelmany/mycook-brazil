@@ -220,7 +220,7 @@
           httpService.build('admin/v1/users/' + this.$route.params['id'])
           .list()
           .then((res) => {
-              this.user = res.data[1];
+              this.user = res.data;
               this.user.password = null;
               this.user.seller = res.data.seller || {type_delivery: []};
               if (!!res.data.active) {

@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('order', Order::class);
         Route::model('category', SystemCategory::class);
         Route::model('coupon', SystemCoupon::class);
-        Route::model('user', User::class);
+//        Route::model('user', User::class);
         Route::model('seller', Seller::class);
     }
 

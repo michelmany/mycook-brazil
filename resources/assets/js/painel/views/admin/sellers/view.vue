@@ -196,7 +196,7 @@
         created() {
             httpService.get(this.$route.params['id'])
             .then((res) => {
-                this.user = res.data[1];
+                this.user = res.data;
                 this.user.seller = res.data.seller || {};
             });
         }
