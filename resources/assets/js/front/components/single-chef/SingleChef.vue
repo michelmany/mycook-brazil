@@ -11,16 +11,16 @@
           </div>
         </div>
 
-        <!--<b-button size="sm" variant="primary" @click="showModal" class="btn-view-cart hidden-lg-up">-->
-            <!--Ver carrinho-->
-        <!--</b-button>-->
+        <b-button size="sm" variant="primary" @click="showModal" class="btn-view-cart hidden-lg-up">
+            Ver carrinho
+        </b-button>
 
-        <!--<b-modal ref="modalCart" size="lg" class="hidden-lg-up">-->
-            <!--<cart :chef-name="seller.name" :chef-moip-id="moip.moipId" :chef-id="seller.seller.id" :settings="settings"></cart>-->
-            <!--<template slot="modal-footer">-->
-                <!--<b-btn variant="link" @click="hideModal" block>Fechar carrinho</b-btn>-->
-            <!--</template>-->
-        <!--</b-modal>-->
+        <b-modal ref="modalCart" size="lg" class="hidden-lg-up">
+            <cart :chef-name="seller.name" :chef-moip-id="moip.moipId" :chef-id="seller.seller.id" :settings="settings"></cart>
+            <template slot="modal-footer">
+                <b-btn variant="link" @click="hideModal" block>Fechar carrinho</b-btn>
+            </template>
+        </b-modal>
 
     </div>
 </template>
@@ -41,7 +41,18 @@
           },
           hideModal() {
               this.$refs.modalCart.hide();
+          },
+          onResize() {
+            var self = this;
+            window.onresize = function(e) {
+                if(window.innerWidth >= 992) {
+                    self.hideModal();
+                }
+            }
           }
+      },
+      mounted() {
+        this.onResize();
       }
   }
 </script>
