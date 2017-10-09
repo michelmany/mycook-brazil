@@ -295,12 +295,12 @@
                 this.addItemToCart({item, selectedDateIndex, selectedTimes, courier: this.courier})
             })
 
-            // add frete to addcitional
+            // add frete to additional
             this.additional.push({
-                product: 'Frete',
+                product: 'Adicional',
                 type: 'delivery_fee',
-                price: this.settings.delivery_fee,
-                detail: 'Taxa fixa de entrega',
+                price: parseFloat(this.settings.delivery_fee).toFixed(2),
+                detail: 'Taxa de entrega',
                 quantity: 1
             })
         },
