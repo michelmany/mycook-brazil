@@ -8,7 +8,7 @@
                 <div class="col-lg-6" v-for="(chef,index) in filteredChefs" :key="index">
                     <div class="chef-item__box" @click="goToSinglePage(chef.user_id)">
                         <div class="d-flex justify-content-start align-items-center">
-                            <div class="chef-item__photo mr-3">
+                            <div class="chef-item__photo--list mr-3">
                                 <img :src="chef.avatar" class="rounded-circle" width="85" height="85">
                             </div>
                             <div class="chef-item__text ">
@@ -64,7 +64,7 @@
                         // console.log(res.data)
                         this.loading = false
                         this.chefs = res.data
-
+                        console.log(res.data)
 
                     })
                 }, 500);
@@ -109,6 +109,7 @@
         computed: {
             filteredChefs() {
                 var self = this;
+                console.log(this.chefs)
                 return this.chefs.filter(function(chef) {
                     return chef.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
                 });
