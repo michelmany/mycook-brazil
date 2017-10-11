@@ -18,6 +18,18 @@ export default {
 
     },
 
+    recovery(loginData) {
+
+        return axios.post('/entrar/password/email', loginData).then(response =>  {
+            console.log(response)
+            // Ls.set('auth.token',response.data.token)
+            toastr.success('O link para redefinição de senha foi enviado para o seu e-mail!', 'Sucesso');
+        }).catch(error => {
+            console.log('Erro', error.message);
+        });
+
+    },
+
     logout(){
         return axios.get('/api/auth/logout').then(response =>  {
             Ls.remove('auth.token');

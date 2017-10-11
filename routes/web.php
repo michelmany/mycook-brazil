@@ -102,7 +102,7 @@ Route::group(['prefix'=>'entrar'], function () {
     // Cadastro de usuário
     Route::post('register', 'UserController@registerPost')->name('registerPost');
 
-    // Resete de senha
+    // Reset de senha
     $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');

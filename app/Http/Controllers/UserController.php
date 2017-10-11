@@ -32,7 +32,7 @@ class UserController extends Controller
             }
             return redirect()->route('lista-chefs-page');
         }
-        return redirect()->route('authHome')->with('validation-error', 'Verifique seu e-mail e senha!');;
+        return redirect()->route('authHome')->with('validation-error', 'Verifique seu e-mail e senha!');
     }
 
     public function logout()

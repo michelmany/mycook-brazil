@@ -54,6 +54,7 @@ import StockEdit from './views/admin/stock/edit.vue'
 //Auth
 import Login from './views/auth/Login.vue'
 import Register from './views/auth/Register.vue'
+import Recovery from './views/auth/Recovery.vue'
 
 import NotFoundPage from './views/errors/404.vue'
 
@@ -301,6 +302,11 @@ const routes = [
           path: 'login',
           component: Login,
           name: 'login'
+        },
+        {
+          path: 'recovery',
+          component: Recovery,
+          name: 'recovery'
         },
         {
           path: 'register',
