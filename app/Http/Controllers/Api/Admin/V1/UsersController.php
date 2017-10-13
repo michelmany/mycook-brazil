@@ -31,15 +31,18 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
-        $result = $this->model->create($request->all());
-        $result->update($request->all());
+        $data = $request->all();
+        $data['password'] = bcrypt($request->input('password'));
 
-        if (!empty($request->all()['buyer'])) {
-            Buyer::firstOrCreate(['user_id'=>$result->id], $request->all()['buyer']);
+        $result = $this->model->create($data);
+        $result->update($data);
+
+        if (!empty($data['buyer'])) {
+            Buyer::firstOrCreate(['user_id'=>$result->id], $data['buyer']);
         }
 
-        if (!empty($request->all()['seller'])) {
-            Seller::firstOrCreate(['user_id'=>$result->id], $request->all()['seller']);
+        if (!empty($data['seller'])) {
+            Seller::firstOrCreate(['user_id'=>$result->id], $data['seller']);
         }
 
         return response()->json($result);
@@ -47,17 +50,20 @@ class UsersController extends Controller
 
     public function update(Request $request, $id)
     {
+        $data = $request->all();
+        $data['password'] = bcrypt($request->input('password'));
+        
         $result = $this->model->findOrFail($id);
-        $result->update($request->all());
+        $result->update($data);
 
-        if (!empty($request->all()['buyer'])) {
-            $buyer = Buyer::firstOrCreate(['user_id'=>$id], $request->all()['buyer']);
-            $buyer->update($request->all()['buyer']);
+        if (!empty($data['buyer'])) {
+            $buyer = Buyer::firstOrCreate(['user_id'=>$id], $data['buyer']);
+            $buyer->update($data['buyer']);
         }
 
-        if (!empty($request->all()['seller'])) {
-            $seller = Seller::firstOrCreate(['user_id'=>$id], $request->all()['seller']);
-            $seller->update($request->all()['seller']);
+        if (!empty($data['seller'])) {
+            $seller = Seller::firstOrCreate(['user_id'=>$id], $data['seller']);
+            $seller->update($data['seller']);
         }
 
         return response()->json($result);
