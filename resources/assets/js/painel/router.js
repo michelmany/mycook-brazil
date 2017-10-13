@@ -268,8 +268,10 @@ const routes = [
                 name: 'panel.seller.stock-edit',
                 beforeEnter: (to, from, next) => {
                     let user = JSON.parse(Ls.get('auth.user'));
-                    if (to.params.sellerid != user.seller.id){
-                        return next({ path : 'seller/stock/edit/'+ to.params.id +'/'+ user.seller.id})
+                    if(user.role != 'admin') {
+                        if (to.params.sellerid != user.seller.id){
+                            return next({ path : 'seller/stock/edit/'+ to.params.id +'/'+ user.seller.id})
+                        }
                     }
                     return next()
                 }
