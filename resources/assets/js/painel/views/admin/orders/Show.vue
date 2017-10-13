@@ -15,7 +15,7 @@
                     <div class="card-header">
                         <h3 class="card-title pull-left"> Pedido Nº <span class="badge badge-primary">{{ order.orderId }}</span> </h3>
                         <div class="pull-right">
-                            <a href="javascript:;" target="_blank" class="btn btn-sm btn-outline-info">Visualizar Pedido #MOIP</a>
+                            <!-- <a href="javascript:;" target="_blank" class="btn btn-sm btn-outline-info">Visualizar Pedido #MOIP</a> -->
                         </div>
                     </div>
                     <div class="card-block">
@@ -41,6 +41,20 @@
                                 </td>
                             </tr>
                             </tbody>
+                        </table>
+
+                        <br>
+
+                        <table class="table table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>Dados do comprador:</th>
+                                </tr>
+
+                                <tr>
+                                    <th><h4>Adicionar nome e email do COMPRADOR aqui.</h4></th>
+                                </tr>
+                            </thead>
                         </table>
 
                         <br>
@@ -88,6 +102,15 @@
                             <tr>
                                 <td>Horário</td>
                                 <td>{{ $moment(order.address.time).format('H:mm') }} à {{ $moment(order.address.time).add({minutes: 30}).format('H:mm A') }}</td>
+                            </tr>
+                            <tr>
+                                <td>Endereço</td>
+                                <td>{{ order.address.address.address }}<br>
+                                    {{ order.address.address.neighborhood }}<br>
+                                    {{ order.address.address.city }} -  {{ order.address.address.state }}<br>
+                                    {{ order.address.address.complement }}<br>
+                                    CEP:  {{ order.address.address.cep }}
+                            </td>
                             </tr>
                             </tbody>
                         </table>
