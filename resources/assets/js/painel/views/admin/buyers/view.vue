@@ -44,14 +44,16 @@
                             :mask="'###.###.###-##'" v-model="user.cpf"/>
                             <hr>
                         </div>
-                        <div v-if="user.buyer.phone2 != null">
+                        <div v-if="user.buyer.phone">
+                            <small>Telefone:</small> {{ user.buyer.phone }}
                             <the-mask style="display: none;" :masked="true" 
                             :mask="['(##) ####-####', '(##) #####-####']" v-model="user.buyer.phone"/>
-                            <small>Telefone:</small> {{ user.buyer.phone }}
                             <hr>
                         </div>
                         <div v-if="user.buyer.birth">
-                        <p><small>Data de nascimento:</small> {{ user.buyer.birth | datetime('DD/MM/YYYY')}}</p>
+                            <the-mask style="display: none;" :masked="true" 
+                            :mask="'##/##/####'" v-model="user.buyer.birth"/>
+                            <small>Data de nascimento:</small> {{ user.buyer.birth }}
                         </div>
                     </div>
                 </div>

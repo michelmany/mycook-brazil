@@ -88,7 +88,11 @@
                                 <div class="form-group row">
                                     <label for="formBirth" class="col-12 col-md-3 col-form-label">Data de nasc.</label>
                                     <div class="col-12 col-md-9">
-                                        <input type="date" class="form-control" id="formBirth" placeholder="Seu email" v-model="user.buyer.birth">
+                                      <the-mask type="text" class="form-control" id="formBirth" mask="##/##/####"
+                                      data-vv-name="data de nascimento" placeholder="dd/mm/aaaa" 
+                                      :class="{'form-control': true, 'is-danger': errors.has('data de nascimento') }" 
+                                      v-model="user.buyer.birth"/>
+                                      <div v-show="errors.has('data de nascimento')" class="help is-danger">{{ errors.first('data de nascimento') }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +103,7 @@
             </div>
             <div class="card-footer d-flex justify-content-between">
                 <div>
-                    <router-link :to="'/admin/buyers/' + user.id + '/ver'" class="btn btn-default btn-sm mt-1">
+                    <router-link :to="'/admin/buyers/'" class="btn btn-default btn-sm mt-1">
                         <i class="fa fa-arrow-left"></i> Voltar</router-link>
                 </div>
                 <div>

@@ -4,6 +4,7 @@ import store from './services/store'
 import Layout from './helpers/layout'
 import filters from './filters'
 import TheMask from 'vue-the-mask'
+import money from 'v-money'
 
 import moment from './helpers/moment'
 import bus from './services/bus'
@@ -20,6 +21,15 @@ require('./bootstrap');
 
 Vue.use(filters)
 Vue.use(TheMask)
+Vue.use(money, {
+        precision: 4,
+        decimal: ',',
+        thousands: '.',
+        prefix: 'R$ ',
+        precision: 2,
+        masked: false
+    })
+
 Vue.use(BootstrapVue)
 
 Vue.prototype.$bus = bus

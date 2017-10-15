@@ -9,10 +9,11 @@
                     <div class="chef-item__box" @click="goToSinglePage(chef.user_id)">
                         <div class="d-flex justify-content-start align-items-center">
                             <div class="chef-item__photo--list mr-3">
-                                <img :src="chef.avatar" class="rounded-circle" width="85" height="85">
+                                <img :src="chef.logo" class="rounded-circle" width="85" height="85">
                             </div>
                             <div class="chef-item__text ">
-                                <div class="chef-item__title text-uppercase">{{ chef.name }}</div>
+                                <div class="chef-item__title text-uppercase" v-if="chef.custom_name == 'null' || chef.custom_name == null">{{ chef.name }}</div>
+                                <div class="chef-item__title text-uppercase" v-else>{{ chef.custom_name }}</div>
                                 <div class="chef-item__distance"><small class="text-uppercase">{{ roundDistance(chef.distance) }}</small></div>
                             </div>
                             <div class="chef-item__icon-arrow ml-auto"><i class="fa fa-chevron-right"></i></div>
@@ -46,6 +47,7 @@
             return {
                 loading: false,
                 chefs: {},
+                data: [],
                 user: {},
                 address: {},
                 coordinates: {},
@@ -58,33 +60,34 @@
 
                 this.loading = true;
 
-                setTimeout(() => {
-                    axios.get('get-chefs')
-                    .then((res) => {
-                        // console.log(res.data)
-                        this.loading = false
-                        this.chefs = res.data
-                        console.log(res.data)
+                axios.get('get-chefs')
+                .then((res) => {
+                    // console.log(res.data)
+                    this.loading = false
+                    this.chefs = res.data
 
-                    })
-                }, 500);
+                    if(res.data.length != 0) {
+                        eventBus.$emit('has-chef', true);
+                    }
+
+                });
 
             },
             listChefsByCoordinates() {
                 this.loading = true;
 
-                setTimeout(() => {
-                    axios.post('get-chefs-by-cep', this.coordinates)
-                    .then((res) => {
-                        // console.log(res.data)
-                        this.loading = false
-                        this.chefs = res.data
+                axios.post('get-chefs-by-cep', this.coordinates)
+                .then((res) => {
+                    // console.log(res.data)
+                    this.loading = false
+                    this.chefs = res.data
 
-                        if(res.data.length != 0) {
-                            eventBus.$emit('has-chef', true);
-                        }
-                    })
-                }, 500);
+                    if(res.data.length != 0) {
+                        eventBus.$emit('has-chef', true);
+                    }
+
+                });
+
             },
             searchChef(chefName) {
                 this.search = chefName;
@@ -109,15 +112,20 @@
         computed: {
             filteredChefs() {
                 var self = this;
-                console.log(this.chefs)
+              
                 return this.chefs.filter(function(chef) {
-                    return chef.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
+                    if(chef.custom_name === "null" || chef.custom_name.length == 0) {
+                        return chef.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
+                    } else {
+                        return chef.custom_name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
+                    }
                 });
+                
             }
         },
         mounted() {
             // if there's coordinates from the url
-            var coordinatesObjectSize = Object.keys(this.coordinates).length;
+            let coordinatesObjectSize = Object.keys(this.coordinates).length;
             if (coordinatesObjectSize > 0) {
                 this.listChefsByCoordinates()
             } else {
@@ -133,6 +141,7 @@
 
             // Receive data from SearchChef.vue
             eventBus.$on('search-chef', this.searchChef);
+
         }
     }
 </script>

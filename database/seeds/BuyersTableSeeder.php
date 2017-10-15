@@ -13,31 +13,31 @@ class BuyersTableSeeder extends Seeder
     {
         /** @var \App\User $user */
         $user = \App\User::find(1)->buyer()->create([
-            'phone' => '21 99994444',
-            'birth' => '10-10-1950'
+            'phone' => '2199994444',
+            'birth' => '10101950'
         ]);
 
         /** @var \App\User $user */
         $user = \App\User::find(3)->buyer()->create([
-            'phone' => '21 99994444',
-            'birth' => '10-10-1950'
+            'phone' => '2199994444',
+            'birth' => '10101950'
         ]);
 
         /** @var \App\User $user */
         $user = \App\User::find(4)->buyer()->create([
-            'phone' => '67 992502088',
-            'birth' => '05-05-1994'
+            'phone' => '67992502088',
+            'birth' => '05051994'
         ]);
 
         /** @var \App\User $user */
         $user = \App\User::find(5)->buyer()->create([
-            'phone' => '67 992502088',
-            'birth' => '05-05-1994'
+            'phone' => '67992502088',
+            'birth' => '05051994'
         ]);
 
         $cesar = \App\User::find(6)->buyer()->create([
-            'phone' => '67 992502088',
-            'birth' => '05-05-1994'
+            'phone' => '6992502088',
+            'birth' => '05051994'
         ]);
     }
 }

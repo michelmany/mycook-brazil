@@ -12,17 +12,11 @@ class SellersTableSeeder extends Seeder
     public function run()
     {
         \App\User::find(4)->seller()->create([
-            'phone' => '67 0000-0000',
-            'type_delivery'=>'seilá',
-            'distance_delivery'=>'não-sei',
-            'plates_quantity'=>'10',
+            'phone' => '67999994444'
         ]);
 
         \App\User::find(5)->seller()->create([
-            'phone' => '67 0000-0000',
-            'type_delivery'=>'seilá',
-            'distance_delivery'=>'não-sei',
-            'plates_quantity'=>'10',
+            'phone' => '67999998822'
         ]);
 
     }

@@ -58,12 +58,15 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="product_number" class="col-12 col-md-3 col-form-label">Preço (R$)</label>
+                                                <label for="product_number" class="col-12 col-md-3 col-form-label">Preço</label>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="number" class="form-control" id="product_number"
-                                                    v-validate="'required'" data-vv-name="preço"
-                                                    :class="{'form-control': true, 'is-danger': errors.has('preço') }"
-                                                    v-model.trim="product.price" min="1">
+                                                    <money  v-model="product.price" 
+                                                            class="form-control" 
+                                                            id="formSenha"
+                                                            v-validate="'required|min_value:0.10'"
+                                                            data-vv-name="preço"
+                                                            :class="{'form-control': true, 'is-danger': errors.has('preço') }"
+                                                            ></money>
                                                     <div v-show="errors.has('preço')" class="help is-danger">{{ errors.first('preço') }}</div>
                                                 </div>
                                             </div>

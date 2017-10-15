@@ -196,20 +196,27 @@ class FrontendController extends Controller
     {
         // Get all chefs
         $this->result = DB::table('addresses')
-            ->select(DB::raw('user_id, users.name, users.avatar,
+            ->select(DB::raw("
+                addresses.user_id, 
+                users.name, (sellers.data->>'$.avatar') AS logo, 
+                (sellers.data->>'$.title') AS custom_name, 
+                (sellers.data->>'$.description') AS description, 
                 ( '.$this->earth_radius.' * acos( cos( radians('.$this->address_lat.') ) * cos( radians( latitude ) ) * cos( radians( longitude )
                     - radians('.$this->address_lng.') )
                     + sin( radians('.$this->address_lat.') )
                     * sin(radians(latitude)) ) )
                     AS distance
-                '))
+                "))
             ->where('role', '=', 'vendedor')
-            ->where('user_id', "!=", auth()->check() ? auth()->user()->id : null) // evitar que vendedor compre em sua próprio "loja"
+            ->where('users.id', "!=", auth()->check() ? auth()->user()->id : null) // evitar que vendedor compre em sua próprio "loja"
             ->where('active', '=', 1)
             ->having('distance', '<=', $this->serviceSetting->get('radius') ?? $this->radius)
             ->join('users', 'addresses.user_id', '=', 'users.id')
+            ->join('sellers', 'addresses.user_id', '=', 'sellers.user_id')
             ->orderBy('distance', 'asc')
             ->get();
+
+
 
             // Get avatar
             foreach ($this->result as $k => $chef) {
@@ -219,10 +226,8 @@ class FrontendController extends Controller
                     unset($this->result[$k]);
                 }
 
-                if (empty($chef->avatar)) {
-                    $chef->avatar = url('assets/img/no-image_01.jpg');
-                } else {
-                    $chef->avatar = \Storage::cloud()->url('avatar/' . $chef->avatar);
+                if (empty($chef->logo)) {
+                    $chef->logo = url('assets/img/no-image_01.jpg');
                 }
             }
 

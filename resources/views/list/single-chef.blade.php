@@ -8,7 +8,7 @@
                 <div class="col-md-4">
                     <div class="chef-item__photo mr-3">
                         {{-- <img src="https://graph.facebook.com/10154279898587202/picture?type=large" class="rounded-circle" width="150" height="150"> --}}
-                        <img class="rounded-circle" src="{{ $seller->seller->data['avatar'] ?? $seller->avatar_full_url }}" style="background-color: #E9EBEE;">
+                        <img class="rounded-circle" src="{{ $seller->seller->data['avatar'] ?? url('/').'/assets/img/no-image_01.jpg' }}" style="background-color: #E9EBEE;">
                     </div>
                 </div>
 
