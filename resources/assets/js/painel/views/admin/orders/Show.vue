@@ -48,11 +48,19 @@
                         <table class="table table-stripped">
                             <thead>
                                 <tr>
-                                    <th>Dados do comprador:</th>
+                                    <th>Nome do comprador:</th>
+                                    <th>Email</th>
+                                    <th>Telefone</th>
                                 </tr>
 
                                 <tr>
-                                    <th><h4>Adicionar nome e email do COMPRADOR aqui.</h4></th>
+                                    <td>{{ order.buyer.user.name }}</td>
+                                    <td>{{ order.buyer.user.email }}</td>
+                                    <td>
+                                        {{ order.buyer.phone }}
+                                        <the-mask style="display: none;" :masked="true" 
+                                        :mask="['(##) ####-####', '(##) #####-####']" v-model="order.buyer.phone"></the-mask>
+                                    </td>
                                 </tr>
                             </thead>
                         </table>
@@ -101,7 +109,7 @@
                             </tr>
                             <tr>
                                 <td>Horário</td>
-                                <td>{{ $moment(order.address.time).format('H:mm') }} à {{ $moment(order.address.time).add({minutes: 30}).format('H:mm A') }}</td>
+                                <td>{{ $moment(order.address.time).format('LT') }} às {{ $moment(order.address.time).add({minutes: 30}).format('LT') }}</td>
                             </tr>
                             <tr>
                                 <td>Endereço</td>

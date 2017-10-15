@@ -112,7 +112,7 @@
                                  </tr>
                                  <tr>
                                      <th>Horário</th>
-                                     <td>entre {{ $order->address->time->format('H:i A') }} à {{ $order->address->time->addMinutes(30)->format('H:i A') }}</td>
+                                     <td>entre {{ $order->address->time->format('H:i') }} e {{ $order->address->time->addMinutes(30)->format('H:i') }}</td>
                                  </tr>
                                  </thead>
                              </table>

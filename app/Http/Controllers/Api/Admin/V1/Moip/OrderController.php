@@ -56,6 +56,7 @@ class OrderController
         /** @var Order $order */
         $order = $this->service->syncOrderIdMoip($order->orderId);
         $order->address->address;
+        $order->buyer->user;
         return response()->json(compact('order'));
     }
 
