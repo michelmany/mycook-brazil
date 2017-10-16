@@ -47,7 +47,10 @@
                                         <div class="cardapio__desc">{{ item.desc }}</div>
                                         <span class="cardapio__readmore" @click="expandReadMore(index)">Ler mais...</span>
 
-                                        <div><span class="cardapio__serve badge badge-primary">Quantidade: Serve {{ item.serve }}</span></div>
+                                        <div>
+                                            <span class="cardapio__serve badge badge-primary" v-if="item.serve > 0">
+                                                Quantidade: Serve {{ item.serve }} {{ people(item.serve) }}</span>
+                                        </div>
                                         <!-- To do: Pegar os dias que tem times setados e mostrar no span abaixo -->
                                         <div class="cardapio__time mt-3">Disponível nos dias: {{ dateRangeBadge(item) }}</div>
                                         <div class="cardapio__time">Hoje: {{ timeRangeAvailableForToday(item) }}</div>
@@ -496,6 +499,14 @@
             },
             refreshAt() {
                 return refreshAt(0,1,0); //Will refresh the page at 00:01:00am
+            },
+            people(serve) {
+                console.log(serve)
+                if(serve == "1") {
+                    return "pessoa"
+                } else if(serve >= "2") {
+                    return "pessoas"
+                }
             }
         },
         watch:{
@@ -503,6 +514,9 @@
                 let type = (current ? 'asc' : 'desc');
                 this.categories = _.orderBy(this.categories, ['name'], [type])
             }
+        },
+        computed: {
+
         },
         created() {
             this.setNow();
