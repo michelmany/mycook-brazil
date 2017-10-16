@@ -50,7 +50,15 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control" placeholder="Quantidade" v-model="extras[index].quantity" @blur="updateQty({qty: $event.target.value, index})">
+                                            <input 
+                                            class="form-control" 
+                                            placeholder="Quantidade" 
+                                            v-model.trim="extras[index].quantity" 
+                                            @blur="updateQty({qty: $event.target.value, index})"
+                                            v-validate="'numeric'" data-vv-as="quantidade" data-vv-name="quantidade"
+                                            :class="{'form-control': true, 'is-danger': errors.has('quantidade') }">
+
+                                            <div v-show="errors.has('quantidade')" class="help is-danger">{{ errors.first('quantidade') }}</div>
                                         </td>
                                     </tr>
                                     </tbody>
