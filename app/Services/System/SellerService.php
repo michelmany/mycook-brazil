@@ -40,7 +40,7 @@ class SellerService
     public function update(Seller $seller, Request $request)
     {
         /** @var Collection $data */
-        $data = $seller->data;
+        $data = collect($seller->data);
 
         $payload = null;
 

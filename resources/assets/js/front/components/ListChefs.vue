@@ -114,7 +114,7 @@
                 var self = this;
               
                 return this.chefs.filter(function(chef) {
-                    if(chef.custom_name === "null" || chef.custom_name.length == 0) {
+                    if(!chef.custom_name || chef.custom_name == "null") {
                         return chef.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
                     } else {
                         return chef.custom_name.toLowerCase().indexOf(self.search.toLowerCase())>=0;

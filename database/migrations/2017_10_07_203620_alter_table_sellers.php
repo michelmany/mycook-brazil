@@ -15,7 +15,7 @@ class AlterTableSellers extends Migration
     {
         Schema::table('sellers', function (Blueprint $table) {
             //
-            $table->text('data');
+            $table->text('data')->nullable() ;
         });
     }
 
