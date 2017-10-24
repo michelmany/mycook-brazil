@@ -31,7 +31,7 @@
                                                 <div class="col-12 col-md-9">
                                                     <input type="text" class="form-control" id="formNome"
                                                     :class="{'form-control': true, 'is-danger': errors.has('name') }"
-                                                    v-validate="'required|max:35'" data-vv-name="name" v-model="product.name">
+                                                    v-validate="'required|max:50'" data-vv-name="name" v-model="product.name">
                                                     <div v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</div>
                                                     <small class="text-muted">Qual o nome do produto?</small>
                                                 </div>
