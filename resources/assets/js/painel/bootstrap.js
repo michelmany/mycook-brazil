@@ -6,6 +6,7 @@ import Dictionary from './components/validators/dictionary'
 
 import Axios from 'axios';
 import Ls from './services/ls'
+require("babel-polyfill");
 require('es6-promise').polyfill();
 
 window._ = require('lodash');

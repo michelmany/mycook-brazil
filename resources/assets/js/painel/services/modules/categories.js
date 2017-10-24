@@ -1,6 +1,7 @@
 import { HttpService } from '../httpService';
 import bus from '../../services/bus'
 import moment from '../../helpers/moment'
+import { removeAccent } from '../../helpers/functions'
 
 const httpService = new HttpService();
 httpService.build('admin/v1/categories');
@@ -88,7 +89,7 @@ const getters = {
      * @returns {Array|*|state.list|{}}
      */
     all: (state) => {
-        return state.list;
+        return _.orderBy(state.list, ['name', 'status'], ['asc']);
     },
 
     /**
