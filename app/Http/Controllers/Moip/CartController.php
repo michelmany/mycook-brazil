@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Moip;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Cache;
@@ -23,11 +24,13 @@ class CartController extends Controller
      */
     public function __construct(Request $request)
     {
-        $this->expiresIn = \Carbon\Carbon::now()->addMinutes(10);
+        $this->expiresIn = Carbon::now()->addMinutes(10);
         $this->request = $request;
     }
 
     /**
+     * Get cache name by cart
+     *
      * @return string
      */
     private function getCartBySeller()
@@ -36,7 +39,9 @@ class CartController extends Controller
     }
 
     /**
+     * Get cache name by address seller.
      *
+     * @return string
      */
     private function getAddressBySeller()
     {
@@ -44,8 +49,9 @@ class CartController extends Controller
     }
 
     /**
-    *
-    */
+     * Get cart
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|mixed|\Symfony\Component\HttpFoundation\Response
+     */
     public function index()
     {
         if(!Cache::has($this->getCartBySeller())) {
@@ -65,13 +71,12 @@ class CartController extends Controller
      */
     public function addItemToCart()
     {
-        // Verifica se existe carrinho, caso não exista inicia um novo
         if(!Cache::has($this->getCartBySeller())) {
             Cache::put($this->getCartBySeller(), [
-              'items' => collect([])->push($this->request->item),
-              'courier' => $this->request->courier,
-              'selectedDateIndex' => $this->request->selectedDateIndex,
-              'selectedTimes' => $this->request->selectedTimes
+                'items' => collect([])->push($this->request->item),
+                'courier' => $this->request->courier,
+                'selectedDateIndex' => $this->request->selectedDateIndex,
+                'selectedTimes' => $this->request->selectedTimes
             ], $this->expiresIn);
             return;
         }
@@ -86,7 +91,7 @@ class CartController extends Controller
             if($product['id'] !== $this->request->item['id']) {
                 $myCart['items']->push($this->request->item);
             }else{
-                $myCart['items']->slice($index);
+                $myCart['items']->splice($index, 1);
                 T_BREAK;
             }
             return $myCart;
@@ -97,12 +102,14 @@ class CartController extends Controller
     }
 
     /**
-     * Adicionar endereço
+     * Adicionar endereço ao cache
+     *
+     * @return void
      */
     public function addAddress()
     {
         if(Cache::has($this->getAddressBySeller())) {
-           Cache::forget($this->getAddressBySeller());
+            Cache::forget($this->getAddressBySeller());
         }
 
         Cache::put($this->getAddressBySeller(), $this->request->get('address'), $this->expiresIn);
@@ -122,29 +129,27 @@ class CartController extends Controller
         return response(null, 204);
     }
 
-
-
     /**
      * @param $index
      */
     public function update($index)
     {
-      // Obtem carrinho atual
-      $myCart = Cache::get($this->getCartBySeller());
-      if($this->request->item['qty'] === 0) {
-          $myCart['items']->splice($index,  1);
-      }else{
-        // atualiza item pelo indice
-        $myCart['items'][$index] = $this->request->item;
-      }
+        // Obtem carrinho atual
+        $myCart = Cache::get($this->getCartBySeller());
+        if($this->request->item['qty'] === 0) {
+            $myCart['items']->splice($index,  1);
+        }else{
+            // atualiza item pelo indice
+            $myCart['items'][$index] = $this->request->item;
+        }
 
-      // remove carrinho atual
-      Cache::forget($this->getCartBySeller());
+        // remove carrinho atual
+        Cache::forget($this->getCartBySeller());
 
-      // caso o carrinho possua items
-      if($myCart['items']->isNotEmpty()) {
-        // adiciona carrinho atualizado
-        Cache::put($this->getCartBySeller(), $myCart, $this->expiresIn);
-      }
+        // caso o carrinho possua items
+        if($myCart['items']->isNotEmpty()) {
+            // adiciona carrinho atualizado
+            Cache::put($this->getCartBySeller(), $myCart, $this->expiresIn);
+        }
     }
 }

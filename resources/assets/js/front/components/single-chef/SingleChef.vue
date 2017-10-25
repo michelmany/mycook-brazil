@@ -1,14 +1,14 @@
 <template>
     <div>
         <div class="row">
-          <!-- Cardápio -->
-          <div class="col-md-12 col-lg-8">
-              <cardapio :chef-id="seller.seller.id"></cardapio>
-          </div>
-          <!-- Carrinho -->
-          <div class="col-md-12 col-lg-4 hidden-md-down">
-              <cart :chef-name="seller.name" :chef-moip-id="moip.moipId" :chef-id="seller.seller.id" :settings="settings"></cart>
-          </div>
+            <!-- Cardápio -->
+            <div class="col-md-12 col-lg-8">
+                <cardapio :chef-id="seller.seller.id"></cardapio>
+            </div>
+            <!-- Carrinho -->
+            <div class="col-md-12 col-lg-4 hidden-md-down">
+                <cart :chef-name="seller.name" :chef-moip-id="moip.moipId" :chef-id="seller.seller.id" :settings="settings"></cart>
+            </div>
         </div>
 
         <b-button size="sm" variant="primary" @click="showModal" class="btn-view-cart hidden-lg-up">
@@ -27,34 +27,35 @@
 
 
 <script>
-  import Cardapio from './Cardapio.vue'
-  import Cart from './Cart.vue'
+    import Cardapio from './Cardapio.vue'
+    import Cart from './Cart.vue'
 
-  export default {
-      props: ['seller', 'moip', 'settings'],
-      components: {
-        Cardapio, Cart
-      },
-      methods: {
-          showModal() {
-              this.$refs.modalCart.show();
-          },
-          hideModal() {
-              this.$refs.modalCart.hide();
-          },
-          onResize() {
-            var self = this;
-            window.onresize = function(e) {
-                if(window.innerWidth >= 992) {
-                    self.hideModal();
+    export default {
+        props: ['seller', 'moip', 'settings'],
+        components: {
+            Cardapio, Cart
+        },
+        methods: {
+            showModal() {
+                this.$refs.modalCart.show();
+            },
+            hideModal() {
+                this.$refs.modalCart.hide();
+            },
+            onResize() {
+                var self = this;
+                window.onresize = function(e) {
+                    if(window.innerWidth >= 992) {
+                        self.hideModal();
+                    }
                 }
             }
-          }
-      },
-      mounted() {
-        this.onResize();
-      }
-  }
+        },
+        mounted() {
+            console.log('motou cardápio!');
+            this.onResize();
+        }
+    }
 </script>
 
 <style scoped>
