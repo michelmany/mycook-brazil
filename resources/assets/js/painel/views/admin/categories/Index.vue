@@ -101,7 +101,7 @@
                 currentPage: 1,
                 perPage: 10,
                 pageOptions: [{text:5,value:5}, {text:10,value:10}, {text:15,value:15}, {text:50,value:50}],
-                sortBy: null,
+                sortBy: 'name',
                 sortDesc: false,
                 filter: null,
                 emptyText: 'Não há registros para mostrar',
