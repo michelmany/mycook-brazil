@@ -110,6 +110,7 @@ class MeController
             return response()->json(['error' => 'Endereço não existe'], 412);
         }
         $current->update(['default' => $request->status]);
+        \Cache::flush();
         return response(null, 204);
     }
 
