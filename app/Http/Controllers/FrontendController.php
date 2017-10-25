@@ -61,7 +61,7 @@ class FrontendController extends Controller
     public function listChefs()
     {
         if ( Auth::check() ) {
-            $address = auth()->user()->addresses()->orderBy('id', 'desc')->first();
+            $address = auth()->user()->addresses()->where('default', 1)->orderBy('id', 'desc')->first();
             $this->address_lat = $address->latitude;
             $this->address_lng = $address->longitude;
 
@@ -209,7 +209,7 @@ class FrontendController extends Controller
                 "))
             ->where('role', '=', 'vendedor')
             ->where('users.id', "!=", auth()->check() ? auth()->user()->id : null) // evitar que vendedor compre em sua próprio "loja"
-            ->where('default', '=', 1)
+            ->where('active', '=', 1)
             ->having('distance', '<=', $this->serviceSetting->get('radius') ?? $this->radius)
             ->join('users', 'addresses.user_id', '=', 'users.id')
             ->join('sellers', 'addresses.user_id', '=', 'sellers.user_id')

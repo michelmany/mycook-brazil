@@ -4,8 +4,11 @@ namespace App\Providers;
 
 use App\Models\FotoEstabelecimento;
 use App\Models\Moip\MoipSeller;
+use App\Models\Product;
+
 use App\Observers\FotoEstabelecimentoObservable;
 use App\Observers\MoipSellersObservable;
+use App\Observers\ProductsObservable;
 use App\Observers\UsersObservable;
 use App\User;
 use Illuminate\Support\ServiceProvider;
@@ -25,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         FotoEstabelecimento::observe(FotoEstabelecimentoObservable::class);
         User::observe(UsersObservable::class);
         MoipSeller::observe(MoipSellersObservable::class);
-
+        Product::observe(ProductsObservable::class);
         /**
          |
          |

@@ -24,7 +24,7 @@ class Product extends Model
     public function getPhotoFullUrlAttribute()
     {
         if (isset($this->attributes['photo'])) {
-            return 'https://s3-' . env('AWS_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/products/' . $this->attributes['photo'];
+            return 'https://s3-' . env('AWS_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/avatar/products/' . $this->attributes['photo'] ?? '/assets/img/no_image_01.jpg';
         }
     }
 

@@ -16,7 +16,7 @@ class ProductsObservable
 
     public function deleting(Product $model)
     {
-        Storage::disk('s3')->delete('avatar/' . $model->photo);
+        Storage::disk('s3')->delete('avatar/products' . $model->photo);
     }
 
     public function updating(Product $model)
@@ -26,7 +26,7 @@ class ProductsObservable
 
             $this->upload($model);
             if ($previous_image) {
-                Storage::disk('s3')->delete('avatar/' . $previous_image);
+                Storage::disk('s3')->delete('avatar/products/' . $previous_image);
             }
         }
     }
@@ -35,12 +35,13 @@ class ProductsObservable
     {
         $extension = $model->photo->extension();
         $name = bin2hex(openssl_random_pseudo_bytes(8));
-        $name = $name . '.' . $extension;
+        echo 'update: ' . $name = $name . '.' . $extension;
 
         $img = \Image::make($model->photo->getPathname());
         $img->fit(200);
 
-        Storage::disk('s3')->put('avatar/' . $name, (string)$img->stream());
+        Storage::disk('s3')->put('avatar/products/' . $name, (string)$img->stream());
+
         $model->photo = $name;
     }
 }
