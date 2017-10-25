@@ -209,7 +209,7 @@ class FrontendController extends Controller
                 "))
             ->where('role', '=', 'vendedor')
             ->where('users.id', "!=", auth()->check() ? auth()->user()->id : null) // evitar que vendedor compre em sua próprio "loja"
-            ->where('active', '=', 1)
+            ->where('default', '=', 1)
             ->having('distance', '<=', $this->serviceSetting->get('radius') ?? $this->radius)
             ->join('users', 'addresses.user_id', '=', 'users.id')
             ->join('sellers', 'addresses.user_id', '=', 'sellers.user_id')
