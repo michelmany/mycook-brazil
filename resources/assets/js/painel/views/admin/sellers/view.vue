@@ -125,9 +125,11 @@
                 <div class="caption">
                     <h6><i class="fa fa-map-marker" aria-hidden="true"></i> Endereços</h6>
                 </div> 
-                <div class="actions">
+                <transition name="fade">
+                <div class="actions" v-if="showAddButton">
                     <router-link :to="'/admin/address/new/' + user.id + '/' + user.role" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> Adicionar Novo</router-link>
                 </div>
+            </transition>
             </div>
             <div class="card-block">
                 <div class="row">
@@ -197,9 +199,10 @@
     export default {
         data: function () {
             return {
+                showAddButton: true,
                 user: {
-                  addresses: [],
-                  seller: {},
+                    addresses: [],
+                    seller: {},
                 }
             }
         },
@@ -213,6 +216,7 @@
                 .then((res) => {
                     toastr.success('Endereço excluído com sucesso!');
                     this.user.addresses.splice(index, 1);
+                    this.showAddButton = true;
                 });
             }
         },
@@ -222,7 +226,20 @@
             .then((res) => {
                 this.user = res.data;
                 this.user.seller = res.data.seller || {};
+
+                if (this.user.addresses.length > 0) {
+                    this.showAddButton = false;
+                }
             });
         }
     }
 </script>
+
+<style>
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0
+    }
+</style>
