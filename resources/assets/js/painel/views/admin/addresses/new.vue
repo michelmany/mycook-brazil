@@ -139,7 +139,8 @@
                     city: '',
                     state: '',
                     latitude: "",
-                    longitude: ""
+                    longitude: "",
+                    default: 1
                 },
             }
         },
