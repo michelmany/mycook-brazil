@@ -24,7 +24,7 @@ class CartController extends Controller
      */
     public function __construct(Request $request)
     {
-        $this->expiresIn = Carbon::now()->addMinutes(10);
+        $this->expiresIn = Carbon::now()->addMinutes(5);
         $this->request = $request;
     }
 

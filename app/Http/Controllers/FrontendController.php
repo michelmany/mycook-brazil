@@ -196,17 +196,19 @@ class FrontendController extends Controller
     {
         // Get all chefs
         $this->result = DB::table('addresses')
-            ->select(DB::raw("
+            ->select(DB::raw('
                 addresses.user_id, 
-                users.name, (sellers.data->>'$.avatar') AS logo, 
-                (sellers.data->>'$.title') AS custom_name, 
-                (sellers.data->>'$.description') AS description, 
-                ( '.$this->earth_radius.' * acos( cos( radians('.$this->address_lat.') ) * cos( radians( latitude ) ) * cos( radians( longitude )
-                    - radians('.$this->address_lng.') )
+                users.name, (sellers.data->>"$.avatar") AS logo, 
+                (sellers.data->>"$.title") AS custom_name, 
+                (sellers.data->>"$.description") AS description, 
+                ( '.$this->earth_radius.' 
+                    * acos( cos( radians('.$this->address_lat.') ) 
+                    * cos( radians( latitude ) ) 
+                    * cos( radians( longitude ) - radians('.$this->address_lng.') )
                     + sin( radians('.$this->address_lat.') )
-                    * sin(radians(latitude)) ) )
-                    AS distance
-                "))
+                    * sin(radians(latitude)) ) 
+                ) AS distance
+            '))
             ->where('role', '=', 'vendedor')
             ->where('users.id', "!=", auth()->check() ? auth()->user()->id : null) // evitar que vendedor compre em sua próprio "loja"
             ->where('active', '=', 1)

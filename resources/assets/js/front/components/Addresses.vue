@@ -66,11 +66,8 @@
                 .then((res) => {
                     // remove from front-end
                     if(res.status === 204) {
-                      toastr.success('Endereço excluído com sucesso!', '', {
-                        onHidden: () => {
-                            this.addresses.splice(index, 1);
-                        }
-                      })
+                      toastr.success('Endereço excluído com sucesso!')
+                      this.addresses.splice(index, 1);
                     }
                 })
             },
@@ -79,6 +76,7 @@
                      .then(res => {
                        if(res.status === 204) {
                          toastr.success('Endereço padrão alterado');
+                          window.location.href = "/lista-chefs/"
                        }
                      }).catch(error => {
                         toastr.info(error.response.data.error)
