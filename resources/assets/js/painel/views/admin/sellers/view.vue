@@ -211,12 +211,8 @@
                 httpService.build('admin/v1/address')
                 .remove(id)
                 .then((res) => {
-                    toastr.success('Endereço excluído com sucesso!', '', {
-                    timeOut: 500,
-                      onHidden: () => {
-                          this.user.addresses.splice(index, 1);
-                      }
-                    })
+                    toastr.success('Endereço excluído com sucesso!');
+                    this.user.addresses.splice(index, 1);
                 });
             }
         },
