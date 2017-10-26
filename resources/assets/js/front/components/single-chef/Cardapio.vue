@@ -39,7 +39,9 @@
                         <div class="cardapio__item" v-for="(item, index) in category.items" key="index" v-if="item.extras.length > 0">
                             <div class="row px-3">
                                 <div class="col-md-3 col-lg-5">
-                                    <div class="cardapio__image mb-3" style="background-image: url('/assets/img/hero-02.jpg')"></div>
+                                    <div class="cardapio__image mb-3">
+                                        <img :src="item.photo ? item.photo_full_url : '/assets/img/no-image_01.jpg'" :alt="item.name">
+                                    </div>
                                 </div>
                                 <div class="col-md-9 col-lg-7">
                                     <div>
