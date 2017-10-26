@@ -76,7 +76,7 @@
                      .then(res => {
                        if(res.status === 204) {
                          toastr.success('Endereço padrão alterado');
-                          window.location.href = "/lista-chefs/"
+                          window.location.href = "/lista-chefs"
                        }
                      }).catch(error => {
                         toastr.info(error.response.data.error)
