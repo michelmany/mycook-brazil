@@ -153,12 +153,12 @@
                 }
             },
             validateBeforeSubmit() {
-                this.$validator.validateAll().then(() => {
-                    this.saveAddress();
-
-                }).catch((res) => {
-                    console.log(res);
-                    toastr.warning('Favor conferir os dados cadastrados!', 'Atenção');
+                this.$validator.validateAll().then((result) => { 
+                    if(result) {
+                        this.saveAddress();
+                        return;
+                    }
+                    toastr.warning('Favor preencher os campos obrigatórios', 'Atenção');
                 });
             },
             saveAddress: function () {

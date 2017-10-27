@@ -67,14 +67,15 @@
         methods: {
             validateBeforeSubmit() {
                 this.$validator.validateAll().then((res) => {
-                    if(this.new_password != this.confirm_password) {
-                        toastr.warning('As senhas não conferem!', 'Atenção');
-                    } else {
-                        this.updateData();
+                    if(res) {
+                        if(this.new_password != this.confirm_password) {
+                            toastr.warning('As senhas não conferem!', 'Atenção');
+                        } else {
+                            this.updateData();
+                            return;
+                        }
+                        toastr.warning('Favor conferir seus dados!', 'Atenção');
                     }
-                }).catch((error) => {
-                    console.log(error)
-                    toastr.warning('Favor conferir seus dados!', 'Atenção');
                 });
             },
             updateData() {

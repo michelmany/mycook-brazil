@@ -76,9 +76,10 @@
         methods: {
             validateBeforeSubmit() {
                 this.$validator.validateAll().then((res) => {
-                    this.updateData();
-                }).catch((error) => {
-                    console.log(error)
+                    if(res) {
+                        this.updateData();
+                        return;
+                    }
                     toastr.warning('Favor conferir seus dados!', 'Atenção');
                 });
             },
