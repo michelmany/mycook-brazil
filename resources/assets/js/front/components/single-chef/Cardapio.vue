@@ -13,8 +13,9 @@
             </div>
         </div>
 
+        <transition name="fade" mode="in-out">
         <div role="tablist" v-if="categories.length > 0 && items.length > 0">
-            <b-card no-body class="mb-1" v-for="(category,index) in categories" :key="index">
+            <b-card no-body class="mb-1" v-for="(category,index) in categories" :key="index" v-if="category.items.length > 0">
                 <b-card-header header-tag="header" class="p-1" role="tab">
                     <div class="d-flex justify-content-end">
                         <div class="mr-auto p-2" style="line-height: 2.25">
@@ -22,7 +23,7 @@
                         </div>
                         <div class="p-2">
                             <span class="p-2 badge badge-default">
-                                {{ category.items.length >= 1 ?  category.items.length + ' produto(s)' : 'Vázio'  }}
+                                {{ category.items.length >= 1 ?  category.items.length + ' produto(s)' : 'Vazio'  }}
                             </span>
                             <b-btn href="#" size="sm" v-b-toggle="'accordion_category_'+index" variant="secondary" v-on:click.native="filterProductByCategory(category)">
                                 <i class="fa fa-plus" :class="{'fa-plus': filterCategories.collapse.id === '',
@@ -81,7 +82,9 @@
                 </b-collapse>
             </b-card>
         </div>
-        <div v-show="items.length == 0" key="message">
+    </transition>
+    
+        <div v-if="noItemsToShow" key="message">
             <div class="alert alert-warning" role="alert">
                 {{noItemTextMessage}}
             </div>
@@ -138,6 +141,7 @@
         data() {
             return {
                 btnLabel: "Agendar entrega",
+                noItemsToShow: '',
                 noItemTextMessage: "Nenhum produto cadastrado no cardápio!",
                 loading: false,
                 showDays: false,
@@ -252,10 +256,11 @@
 
                 //Change message alert for no items available
                 if (this.items.length == 0) {
+                    this.noItemsToShow = true;
                     this.setNoItemsTextMessage();
                 }
 
-                //shows only the products available on this day selected
+                //shows only the products available on this selected day 
                 if (this.isListFiltered == false) {
                     this.FilterByDaySelected(item, index);
                 }
@@ -265,29 +270,29 @@
                 this.isListFiltered = true;
                 this.showDays = false;
 
-                console.log("time selected: " + this.cartData.time)
-                console.log("Outside loop: " + item.name + " - index: " + index);
+                // console.log("time selected: " + this.cartData.time)
+                // console.log("Outside loop: " + item.name + " - index: " + index);
                 this.items.forEach( (item, index) => {
-                    console.log("Inside loop: " + item.name + " - index: " + index);
+                    // console.log("Inside loop: " + item.name + " - index: " + index);
                     item.extras.forEach( (extra) => {
 
                         if(this.cartData.date === extra.date && !_.includes(extra.time, this.cartData.time)) {
-                            console.log("Date:" + extra.date);
-                            console.log("removing item: " + item.name + " index: " + index);
+                            // console.log("Date:" + extra.date);
+                            // console.log("removing item: " + item.name + " index: " + index);
                             this.removeProductCategoryById(item.id);
                         }
 
                         if(this.cartData.date === extra.date && extra.quantity === 0) {
-                            console.log("Date:" + extra.date);
-                            console.log("removing item: " + item.name + " index: " + index);
+                            // console.log("Date:" + extra.date);
+                            // console.log("removing item: " + item.name + " index: " + index);
                             this.removeProductCategoryById(item.id);
                         }
-                        //Todo: formatar com moment.js a data do Carrinho e tambem da mensagem de alert.
+
                     })
                 });
 
                 //Change message alert for no items available
-                if (this.items.length == 0) {
+                if (this.items.length === 0) {
                     this.setNoItemsTextMessage();
                 }
             },
@@ -357,7 +362,7 @@
             timeRangeAvailableForToday(item) {
                 var arr = item.extras[0].time;
                 var todayTime = arr.slice(-1)[0]; //get the last time
-                console.log(todayTime);
+                // console.log(todayTime);
                 if (item.extras[0] && item.extras[0].quantity > 0 && moment(todayTime).unix() > this.now ) {
                     return item.extras[0].start_time + " às " + item.extras[0].end_time;
                 }
@@ -397,17 +402,15 @@
 
                 this.cartStorage = _cart
 
-                setTimeout(() => {
-                    axios.get('/get-products/' + this.chefId)
-                        .then((res) => {
-                            this.loading = false;
-                            this.items = res.data;
-                            this.removeItemNoExtra();
-                            this.orderingWeekDays();
-                            this.getRangeTime();
-                            this.getCategories();
-                        })
-                }, 300);
+                axios.get('/get-products/' + this.chefId)
+                    .then((res) => {
+                        this.loading = false;
+                        this.items = res.data;
+                        this.removeItemNoExtra();
+                        this.orderingWeekDays();
+                        this.getRangeTime();
+                        this.getCategories();
+                    });
             },
             removeItemNoExtra() {
                 this.items.forEach( (item, index) => {
@@ -467,6 +470,7 @@
 
                         //Change message alert for no items available
                         if (this.items.length === 0) {
+                            this.noItemsToShow = true;
                             this.setNoItemsTextMessage();
                         }
                         this.isListFiltered = true;
@@ -511,12 +515,39 @@
                         this.mapCartStorage();
 
                     });
+
+            },
+            pushCategoriesBack(item) {
+
+                let test = {
+                category_id: 6,
+                comments: null,
+                created_at: "2017-10-26 21:06:59",
+                desc: "Bolo caseiro feito com muito amor",
+                extras: [],
+                id: 2,
+                name: "Bolo de Cenoura com Chocolate",
+                photo: null,
+                photo_full_url: null,
+                price: "30.00",
+                seller_id: 1,
+                serve: "6",
+                updated_at:"2017-10-26 21:06:59"
+                }
+
+                this.categories.some((category) => {
+                    category.id === item.category_id ? category.items.push(test) : null
+                })
+
+                // Todo: rodar a função abaixo caso o carrinho esteja vazio. Mandar essa informação via EventBus junto com esse item
+                this.isListFiltered = false;
+
             },
             refreshAt() {
                 return refreshAt(0,1,0); //Will refresh the page at 00:01:00am
             },
             people(serve) {
-                console.log(serve)
+                // console.log(serve)
                 if(serve == "1") {
                     return "pessoa"
                 } else if(serve >= "2") {
@@ -547,12 +578,21 @@
                     this.filterCategories.collapse.id = category
                 }
             })
+
+            var self = this;
+
+            eventBus.$on('remove-item', (item) => {
+                // console.log(self.categories)
+                self.pushCategoriesBack(item);
+            })
+
+
         },
         mounted() {
-            this.getProducts();
+            this.getProducts();    
         },
         updated() {
-            eventBus.$on('remove-item', (item) => window.location.reload())
+
         }
     }
 </script>
@@ -573,6 +613,13 @@
             color: #a5adb9;
             cursor: pointer;
         }
+    }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to  {
+      opacity: 0
     }
 
 
