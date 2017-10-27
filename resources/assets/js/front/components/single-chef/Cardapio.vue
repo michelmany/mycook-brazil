@@ -330,7 +330,7 @@
                     item.extras.forEach( (extra, index) => {
                         const TimeRange = moment.range(moment(extra.start_time,'HH:mm'), moment(extra.end_time, 'HH:mm'));
                         const ArrayTimes = Array.from(TimeRange.by('hours', { step: 0.5 }))
-                        //To do: Colocar o range de 30 em 30 minutos ao invés de hora em hora
+
                         let arrayTimesFinal = ArrayTimes.map(h => moment(h).add(index, 'days').format())
 
                         extra.time = arrayTimesFinal;
@@ -345,9 +345,10 @@
                 })
             },
             filterTodayTime(times) {
+                var now = moment().add(1, 'hours').unix();
                 this.selectedTimes = []
                 times.forEach((time, index) =>  {
-                    if (moment(time).unix() > this.now) {
+                    if (moment(time).unix() > now) {
                         this.selectedTimes.push(time)
                     }
                 })
