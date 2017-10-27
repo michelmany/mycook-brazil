@@ -239,7 +239,7 @@
 
                 if(this.categories.length > 0) {
                     let _index = _.findIndex(this.categories, category => category.id === item.category_id);
-                    let _indexItem = _.findIndex(this.categories[_index].items, product => product.id === item.id)
+                    let _indexItem = _.findIndex(this.categories[_index].items, product => product.id === item.id);
                     this.categories[_index].items.splice(_indexItem, 1)
                 }
 
@@ -270,14 +270,17 @@
                 this.items.forEach( (item, index) => {
                     console.log("Inside loop: " + item.name + " - index: " + index);
                     item.extras.forEach( (extra) => {
-                        if (extra.date === this.cartData.date ) {
-                            if (!_.includes(extra.time, this.cartData.time) || extra.quantity == 0 ) {
-                                console.log("Date:" + extra.date);
-                                console.log("removing item: " + item.name + " index: " + index);
-                                this.items = _.without(this.items, item);
-                                /** Remover da lista de categorias */
-                                this.categories.some((category, index) => category.items.some((product, _index) => product.id === item.id ? category.items.splice(_index, 1) : null))
-                            }
+
+                        if(this.cartData.date === extra.date && !_.includes(extra.time, this.cartData.time)) {
+                            console.log("Date:" + extra.date);
+                            console.log("removing item: " + item.name + " index: " + index);
+                            this.removeProductCategoryById(item.id);
+                        }
+
+                        if(this.cartData.date === extra.date && extra.quantity === 0) {
+                            console.log("Date:" + extra.date);
+                            console.log("removing item: " + item.name + " index: " + index);
+                            this.removeProductCategoryById(item.id);
                         }
                         //Todo: formatar com moment.js a data do Carrinho e tambem da mensagem de alert.
                     })
@@ -521,22 +524,13 @@
                 }
             },
             removeProductCategoryById(id) {
-                this.categories.some((category, index) => {
-                    category.items.some((product, _index) => {
-                        if(product.id === id){
-                            category.items.splice(_index, 1);
-                        }
-                    })
-                })
+                this.categories.some((category) => category.items.some((product, _index) => product.id === id ? category.items.splice(_index, 1) : null))
             }
         },
         watch:{
             'filterCategories.orderBy'(current) {
                 let type = (current ? 'asc' : 'desc');
                 this.categories = _.orderBy(this.categories, ['name'], [type])
-            },
-            categories(category) {
-                console.log(category);
             }
         },
         created() {

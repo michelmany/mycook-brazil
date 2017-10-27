@@ -273,7 +273,7 @@
             addItemToCart(item) {
                _.set(item.item, 'note', 'observações....');
                axios.post('/moip/services/cart?seller='+this.pathname, item)
-                    .then(res => console.log(''))
+                    .then(res => window.location.reload())
             },
         },
         mounted() {
