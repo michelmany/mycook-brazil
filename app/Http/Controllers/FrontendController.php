@@ -94,6 +94,7 @@ class FrontendController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param $id
      * @param string $city
      * @param string $slug
@@ -102,7 +103,7 @@ class FrontendController extends Controller
     public function singleChef(Request $request, $id, $city = '', $slug = '')
     {
         $seller = User::findOrFail($id);
-        $addressSeller = Address::where('user_id', $id)->orderBy('id', 'desc')->first();
+        $addressSeller = Address::where('user_id', $id)->where('default', 1)->orderBy('id', 'desc')->first();
 
         //moipseller - by César
         $moipSeller = MoipSeller::select('moipAccount as moipId')->where('user_id', $id)->first();
@@ -194,13 +195,15 @@ class FrontendController extends Controller
      */
     private function getChefsByDistance()
     {
+//        (sellers.data->>'$.avatar') AS logo,
+//                (sellers.data->>'$.title') AS custom_name,
+//                (sellers.data->>'$.description') AS description
+//
         // Get all chefs
         $this->result = DB::table('addresses')
             ->select(DB::raw("
                 addresses.user_id, 
-                users.name, (sellers.data->>'$.avatar') AS logo, 
-                (sellers.data->>'$.title') AS custom_name, 
-                (sellers.data->>'$.description') AS description, 
+                users.name, 
                 ( '.$this->earth_radius.' * acos( cos( radians('.$this->address_lat.') ) * cos( radians( latitude ) ) * cos( radians( longitude )
                     - radians('.$this->address_lng.') )
                     + sin( radians('.$this->address_lat.') )

@@ -22,7 +22,7 @@
                         </div>
                         <div class="p-2">
                             <span class="p-2 badge badge-default">
-                                {{ category.items.length }} {{ category.items.length == 1 ? 'produto' : 'produtos' }}
+                                {{ category.items.length >= 1 ?  category.items.length + ' produto(s)' : 'Vázio'  }}
                             </span>
                             <b-btn href="#" size="sm" v-b-toggle="'accordion_category_'+index" variant="secondary" v-on:click.native="filterProductByCategory(category)">
                                 <i class="fa fa-plus" :class="{'fa-plus': filterCategories.collapse.id === '',
@@ -156,8 +156,8 @@
                 cartItems: [],
                 pathname: window.location.pathname,
                 cartStorage : {
-                  items: [],
-                  courier: {}
+                    items: [],
+                    courier: {}
                 },
                 // filtered !
                 categories: [],
@@ -225,7 +225,7 @@
                 this.addItem(item, index);
             },
             addItem(item, index) {
-                console.log('addItem')
+//                console.log('addItem');
                 let itemDescFormated = item.desc.length > 45 ? item.desc.substring(0, 45) + '...' : item.desc;
 
                 const newItem = {
@@ -267,20 +267,23 @@
                 this.showDays = false;
 
                 console.log("time selected: " + this.cartData.time)
-                console.log("Outside loop: " + item.name + " - index: " + index)
+                console.log("Outside loop: " + item.name + " - index: " + index);
                 this.items.forEach( (item, index) => {
-                    console.log("Inside loop: " + item.name + " - index: " + index)
+                    console.log("Inside loop: " + item.name + " - index: " + index);
                     item.extras.forEach( (extra) => {
-                        if (extra.date == this.cartData.date ) {
+                        if (extra.date === this.cartData.date ) {
                             if (!_.includes(extra.time, this.cartData.time) || extra.quantity == 0 ) {
-                                console.log("Date:" + extra.date)
-                                console.log("removing item: " + item.name + " index: " + index)
+                                console.log("Date:" + extra.date);
+                                console.log("removing item: " + item.name + " index: " + index);
                                 this.items = _.without(this.items, item);
+                                /** Remover da lista de categorias */
+                                this.categories.some((category, index) => category.items.some((product, _index) => product.id === item.id ? category.items.splice(_index, 1) : null))
                             }
                         }
                         //Todo: formatar com moment.js a data do Carrinho e tambem da mensagem de alert.
                     })
                 });
+
                 //Change message alert for no items available
                 if (this.items.length == 0) {
                     this.setNoItemsTextMessage();
@@ -394,16 +397,14 @@
 
                 setTimeout(() => {
                     axios.get('/get-products/' + this.chefId)
-                    .then((res) => {
-                        this.loading = false;
-                        this.items = res.data;
-                        this.removeItemNoExtra();
-                        this.orderingWeekDays();
-                        this.getRangeTime();
-                        this.getCategories();
-
-                        this.mapCartStorage();
-                    })
+                        .then((res) => {
+                            this.loading = false;
+                            this.items = res.data;
+                            this.removeItemNoExtra();
+                            this.orderingWeekDays();
+                            this.getRangeTime();
+                            this.getCategories();
+                        })
                 }, 300);
             },
             removeItemNoExtra() {
@@ -415,52 +416,59 @@
             },
             mapCartStorage() {
                 if(this.cartStorage.items.length > 0) {
-                  this.cartData.date = this.cartStorage.courier.date
-                  this.cartData.fulldate = this.cartStorage.courier.fulldate
-                  this.cartData.time = this.cartStorage.courier.time
-                  this.selectedDateIndex = this.cartStorage.selectedDateIndex
-                  this.selectedTimes = this.cartStorage.selectedTimes
-                  this.itemIndex = 0;
+                    this.cartData.date = this.cartStorage.courier.date
+                    this.cartData.fulldate = this.cartStorage.courier.fulldate
+                    this.cartData.time = this.cartStorage.courier.time
+                    this.selectedDateIndex = this.cartStorage.selectedDateIndex
+                    this.selectedTimes = this.cartStorage.selectedTimes
+                    this.itemIndex = 0;
 
-                  _.forEach(this.cartStorage.items, (item, index) => {
+                    this.cartStorage.items.forEach((item, index) => {
+                        // add item
+                        this.cartItems.push(item);
+                        // find item
+                        const __item = _.find(this.items, i => i.id === item.id);
+                        // find item index
+                        const __index = _.findIndex(this.items, i => i.id === item.id);
+                        // filter category by id
+                        this.categories.some((category) => {
+                            if(category.id === __item.category_id) {
+                                category.items.some((product,index) => product.id === __item.id ? category.items.splice(index, 1) : null)
+                            }
+                        });
+                        // Remove from array after add to the cart
+                        this.items.splice(__index, 1);
+                        // remove items not refer in date
+                        if(this.items.length > 0) {
+                            this.items.forEach((product, _index) => {
+                                //this.cartItems.some((item) => item.id === product.id ? this.removeProductCategoryById(product.id) : '')
 
-                      this.cartItems.push(item);
+                                let filteredExtras = product.extras.some(e => e.date === this.cartData.date);
+                                if(!filteredExtras) {
+                                    this.items.splice(_index, 1)
+                                }else{
+                                    product.extras.forEach((extra, indexExtra) => {
+                                        if(this.cartData.date === extra.date && !_.includes(extra.time, this.cartData.time)) {
+                                            console.log('remover pois não existe horário');
+                                            this.removeProductCategoryById(product.id);
+                                        }
 
-                      const __item = _.find(this.items, i => i.id === item.id)
-                      const __index = _.findIndex(this.items, i => i.id === item.id)
+                                        if(this.cartData.date === extra.date && extra.quantity === 0) {
+                                            console.log('remover pois não possui items', extra.date, extra.quantity, product.name);
+                                            this.removeProductCategoryById(product.id);
+                                        }
 
-                      // Remove from array after add to the cart
-                      this.items.splice(__index, 1);
+                                    })
+                                }
+                            })
+                        }
 
-                      // remove items not refer in date
-                      if(this.items.length > 0) {
-                          this.items.forEach((product, _index) => {
-                              let filteredExtras = product.extras.some(e => e.date === this.cartData.date)
-                              if(!filteredExtras) {
-                                  this.items.splice(_index, 1)
-                              }else{
-                                  product.extras.forEach((extra, indexExtra) => {
-                                      if(this.cartData.date === extra.date && !_.includes(extra.time, this.cartData.time)) {
-                                          console.log('remover pois não existe horário')
-                                          this.items.splice(_index, 1);
-                                      }
-
-                                      if(this.cartData.date === extra.date && extra.quantity === 0) {
-                                          console.log('remover pois não possui items.')
-                                          this.items.splice(_index, 1);
-                                      }
-
-                                  })
-                              }
-                          })
-                      }
-
-                      //Change message alert for no items available
-                      if (this.items.length === 0) {
-                          this.setNoItemsTextMessage();
-                      }
-                      this.isListFiltered = true;
-                  });
+                        //Change message alert for no items available
+                        if (this.items.length === 0) {
+                            this.setNoItemsTextMessage();
+                        }
+                        this.isListFiltered = true;
+                    });
 
                 }
             },
@@ -483,21 +491,24 @@
                 $(cardapioReadMore).html('Ler mais...');
             },
             getCategories() {
-                axios.get('/services/cardapio/categories')
-                     .then(response => {
-                         let categories = response.data.categories;
+                window.axios.get('/services/cardapio/categories')
+                    .then(response => {
+                        let categories = response.data.categories;
 
-                         _.forEach(this.items, product => {
-                             let product_category = product.category_id
-                             let category = _.find(categories, cat => cat.id === product_category);
-                             let _index = _.findIndex(this.categories, cat => cat.id === product_category);
-                             if(_index < 0) {
-                                 this.categories.push({ id: category.id, name: category.name, items: [product] })
-                             }else {
-                                 this.categories[_index].items.push(product)
-                             }
-                            });
-                     })
+                        this.items.forEach((product) => {
+                            let product_category = product.category_id;
+                            let category = _.find(categories, cat => cat.id === product_category);
+                            let _index = _.findIndex(this.categories, cat => cat.id === product_category);
+                            if(_index < 0) {
+                                this.categories.push({ id: category.id, name: category.name, items: [product] })
+                            }else {
+                                this.categories[_index].items.push(product)
+                            }
+                        });
+
+                        this.mapCartStorage();
+
+                    });
             },
             refreshAt() {
                 return refreshAt(0,1,0); //Will refresh the page at 00:01:00am
@@ -509,16 +520,25 @@
                 } else if(serve >= "2") {
                     return "pessoas"
                 }
+            },
+            removeProductCategoryById(id) {
+                this.categories.some((category, index) => {
+                    category.items.some((product, _index) => {
+                        if(product.id === id){
+                            category.items.splice(_index, 1);
+                        }
+                    })
+                })
             }
         },
         watch:{
             'filterCategories.orderBy'(current) {
                 let type = (current ? 'asc' : 'desc');
                 this.categories = _.orderBy(this.categories, ['name'], [type])
+            },
+            categories(category) {
+                console.log(category);
             }
-        },
-        computed: {
-
         },
         created() {
             this.setNow();
@@ -536,7 +556,7 @@
             })
         },
         mounted() {
-          this.getProducts();
+            this.getProducts();
         },
         updated() {
             eventBus.$on('remove-item', (item) => window.location.reload())
@@ -550,7 +570,7 @@
             max-height: 45px;
             overflow: hidden;
             text-align: justify;
-            @media screen and (min-width: 768px) {  
+            @media screen and (min-width: 768px) {
                 max-width: 90%;
             }
         }
@@ -566,15 +586,15 @@
     /* Enter and leave animations can use different */
     /* durations and timing functions.              */
     .slide-fade-enter-active {
-      transition: all .3s ease;
+        transition: all .3s ease;
     }
     .slide-fade-leave-active {
-      transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
     .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active for <2.1.8 */ {
-      transform: translateY(20px);
-      opacity: 0;
+        /* .slide-fade-leave-active for <2.1.8 */ {
+        transform: translateY(20px);
+        opacity: 0;
     }
     .disabled {
         pointer-events: none;
@@ -582,9 +602,9 @@
     }
 
     .component-fade-enter-active, .component-fade-leave-active {
-      transition: opacity .5s ease;
+        transition: opacity .5s ease;
     }
     .component-fade-enter, .component-fade-leave-to {
-      opacity: 0;
+        opacity: 0;
     }
 </style>

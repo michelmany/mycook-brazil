@@ -71,6 +71,8 @@ class CartController extends Controller
      */
     public function addItemToCart()
     {
+        $i = 0;
+
         if(!Cache::has($this->getCartBySeller())) {
             Cache::put($this->getCartBySeller(), [
                 'items' => collect([])->push($this->request->item),
@@ -87,15 +89,9 @@ class CartController extends Controller
         // remove carrinho atual
         Cache::forget($this->getCartBySeller());
 
-        $myCart['items']->each(function ($product, $index) use ($myCart){
-            if($product['id'] !== $this->request->item['id']) {
-                $myCart['items']->push($this->request->item);
-            }else{
-                $myCart['items']->splice($index, 1);
-                T_BREAK;
-            }
-            return $myCart;
-        });
+        if(!$myCart['items']->where('id', $this->request->get('item')['id'])->first()) {
+            $myCart['items']->push($this->request->get('item'));
+        }
 
         // adiciona carrinho atualizado
         Cache::put($this->getCartBySeller(), $myCart, $this->expiresIn);
@@ -140,7 +136,7 @@ class CartController extends Controller
             $myCart['items']->splice($index,  1);
         }else{
             // atualiza item pelo indice
-            $myCart['items'][$index] = $this->request->item;
+            $myCart['items'][$index] = $this->request->get('item');
         }
 
         // remove carrinho atual

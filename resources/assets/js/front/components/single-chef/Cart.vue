@@ -271,7 +271,7 @@
                 })
             },
             addItemToCart(item) {
-               _.set(item.item, 'note', 'observações....')
+               _.set(item.item, 'note', 'observações....');
                axios.post('/moip/services/cart?seller='+this.pathname, item)
                     .then(res => console.log(''))
             },
