@@ -274,7 +274,7 @@
                _.set(item.item, 'note', 'observações....');
                axios.post('/moip/services/cart?seller='+this.pathname, item)
                     .then(res => {
-                        // window.location.reload();
+                        window.location.reload();
                         console.log('adicionado ao carrinho');
                     })
             },

@@ -141,7 +141,7 @@
         data() {
             return {
                 btnLabel: "Agendar entrega",
-                noItemsToShow: '',
+                noItemsToShow: false,
                 noItemTextMessage: "Nenhum produto cadastrado no cardápio!",
                 loading: false,
                 showDays: false,
@@ -580,20 +580,14 @@
                 }
             })
 
-            var self = this;
-
-            eventBus.$on('remove-item', (item) => {
-                // console.log(self.categories)
-                self.pushCategoriesBack(item);
-            })
-
-
+            // var self = this;
+            // eventBus.$on('remove-item', (item) => self.pushCategoriesBack(item))
         },
         mounted() {
             this.getProducts();    
         },
         updated() {
-
+            eventBus.$on('remove-item', (item) => window.location.reload())
         }
     }
 </script>
