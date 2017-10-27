@@ -103,7 +103,7 @@ class FrontendController extends Controller
     public function singleChef(Request $request, $id, $city = '', $slug = '')
     {
         $seller = User::findOrFail($id);
-        $addressSeller = Address::where('user_id', $id)->where('default', 1)->orderBy('id', 'desc')->first();
+        $addressSeller = Address::where('user_id', $id)->where('default', 1)->first();
 
         //moipseller - by César
         $moipSeller = MoipSeller::select('moipAccount as moipId')->where('user_id', $id)->first();
@@ -115,7 +115,7 @@ class FrontendController extends Controller
         }
 
         if ( Auth::check() ) {
-            $addressUser = $request->user()->addresses()->orderBy('id', 'desc')->first();
+            $addressUser = $request->user()->addresses()->where('default', 1)->first();
             $userLocal = new CalculateDistance($addressSeller->latitude, $addressSeller->longitude,
                         $addressUser->latitude, $addressUser->longitude, "K");
 
