@@ -1,4 +1,7 @@
 <template>
+<div>
+    Olá
+</div>
  <!--    <div class="main-content" id="dashboardPage">
         <div class="row">
             <div class="col-md-12 col-lg-6 col-xl-3">

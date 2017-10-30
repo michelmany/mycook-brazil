@@ -79,7 +79,7 @@
                             <a :href="'https://instagram.com/' + user.seller.instagram" target="_blank">
                                  <small>{{ user.seller.instagram }}</small>
                             </a>
-
+                            <hr>
                         </div>
                         <div v-if="user.seller.type_delivery">
                             <small>Tipos de entrega:</small> {{ user.seller.type_delivery | join(' - ') }}
@@ -107,7 +107,7 @@
             </div>
             <div class="card-block">
                 <div class="row">
-                    <div v-if="user.seller.fotos.length === 0" class="col-md-12">
+                    <div v-if="user.seller.fotos && user.seller.fotos.length === 0" class="col-md-12">
                         <p><small>Nenhuma imagem cadastrada</small></p>
                     </div>
                     <div class="col-md-4 image-wrapper" v-for="photo in user.seller.fotos" >
@@ -125,24 +125,40 @@
                 <div class="caption">
                     <h6><i class="fa fa-map-marker" aria-hidden="true"></i> Endereços</h6>
                 </div> 
-                <div class="actions">
+                <transition name="fade">
+                <div class="actions" v-if="showAddButton">
                     <router-link :to="'/admin/address/new/' + user.id + '/' + user.role" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> Adicionar Novo</router-link>
                 </div>
+            </transition>
             </div>
             <div class="card-block">
                 <div class="row">
                     <div v-if="user.addresses.length === 0" class="col-md-12">
                         <p><small>Nenhum endereço cadastrado</small></p>
                     </div>
-                    <div class="col-md-6" v-for="address in user.addresses">
-                        <table class="table table-bordered table-striped">
+                    <div class="col-md-6" v-for="(address, index) in user.addresses">
+                        <table class="table table-bordered">
+                            <thead class="thead-default">
+                              <tr>
+                                <th>
+                                    <a href="#" @click.prevent="removeAddress(address.id, index)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> Excluir</a>
+                                </th>
+                                <th>
+                                    <!-- <a href="#" @click.prevent="updateDefault(address, index)"><i class="fa fa-check-square-o"></i> Principal</a> -->
+                                </th>
+                              </tr>
+                            </thead>
                             <tbody>
                                 <tr>
-                                    <td>cep</td>
+                                    <td>Nome</td>
+                                    <td>{{ address.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>CEP</td>
                                     <td>{{ address.cep }}</td>
                                 </tr>
                                 <tr>
-                                    <td>endereço</td>
+                                    <td>Endereço</td>
                                     <td>{{ address.address }}</td>
                                 </tr>
                                 <tr>
@@ -151,18 +167,18 @@
                                 </tr>
                                 <tr>
                                     <td>Complemento</td>
-                                    <td>{{ address.complement }}</td>
+                                    <td>{{ address.complement ? address.complement : '-----' }}</td>
                                 </tr>
                                 <tr>
-                                    <td>bairro</td>
+                                    <td>Bairro</td>
                                     <td>{{ address.neighborhood }}</td>
                                 </tr>
                                 <tr>
-                                    <td>cidade</td>
+                                    <td>Cidade</td>
                                     <td>{{ address.city }}</td>
                                 </tr>
                                 <tr>
-                                    <td>estado</td>
+                                    <td>Estado</td>
                                     <td>{{ address.state }}</td>
                                 </tr>
                             </tbody>
@@ -178,26 +194,52 @@
     import { HttpService } from '../../../services/httpService';
     import AvatarUpload from '../../../components/AvatarUpload';
 
+    let httpService = new HttpService();
+
     export default {
         data: function () {
             return {
+                showAddButton: true,
                 user: {
-                  addresses: [],
-                  seller: {},
+                    addresses: [],
+                    seller: {},
                 }
             }
         },
         components: {
           avatar: AvatarUpload
         },
-        mounted() {
-            let httpService = new HttpService();
-            httpService.build('admin/v1/users/' + this.$route.params['id'])
-            .list()
+        methods: {
+            removeAddress(id, index) {
+                httpService.build('admin/v1/address')
+                .remove(id)
+                .then((res) => {
+                    toastr.success('Endereço excluído com sucesso!');
+                    this.user.addresses.splice(index, 1);
+                    this.showAddButton = true;
+                });
+            }
+        },
+        created() {
+            httpService.build('admin/v1/users')
+            .get(this.$route.params['id'])
             .then((res) => {
                 this.user = res.data;
                 this.user.seller = res.data.seller || {};
+
+                if (this.user.addresses.length > 0) {
+                    this.showAddButton = false;
+                }
             });
         }
     }
 </script>
+
+<style>
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0
+    }
+</style>

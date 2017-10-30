@@ -28,7 +28,7 @@
     export default {
         data: function () {
             return {
-                users: []
+                users: [],
             }
         },
         mounted() {
@@ -37,11 +37,16 @@
             .list({query: 'where[role]=vendedor'})
             .then((res) => {
                 this.users = res.data.data;
+                console.log(this.users[0].seller);
 
                 let data = [];
 
                 res.data.data.forEach((value) => {
-                    let action = `<a href="/painel/admin/sellers/${value.id}/ver" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>Detalhes</a>`;
+
+                    let action = `
+                        <a href="/painel/admin/sellers/${value.id}/ver" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>Detalhes</a>
+                        <a href="/painel/seller/cardapio/${value.seller.id}/" class="btn btn-success btn-xs"><i class="fa fa-eye"></i>Cardápio</a>
+                        `;
                     value.active = (value.active ? 'Ativo' : 'Inativo');
                     data.push([
                         value.id,
@@ -63,7 +68,7 @@
                         {title: "Nome"},
                         {title: "Email"},
                         {title: "Status"},
-                        {title: "Ação", width: "70px"},
+                        {title: "Ação", width: "160px"},
                     ],
                     fixedColumns: true
                 });

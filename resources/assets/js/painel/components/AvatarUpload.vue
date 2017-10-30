@@ -1,7 +1,20 @@
 <template>
   <div id="boxAvatarPreview">
-    <img class="rounded" id="avatarPreview" src="/assets/img/not-found-avatar.png" :src="this.url" v-if="this.url" @click="chooseFile()" :class="{'pointer': file === null}">
-    <img class="rounded" id="avatarPreview" src="/assets/img/not-found-avatar.png" v-else @click="chooseFile()" :class="{'pointer': file === null}">
+    <img class="rounded"
+         id="avatarPreview"
+         src="/assets/img/not-found-avatar.png"
+         :src="this.url"
+         v-if="this.url"
+         @click="chooseFile()"
+         :class="{'pointer': file === null}">
+
+    <img class="rounded"
+         id="avatarPreview"
+         src="/assets/img/not-found-avatar.png"
+         @click="chooseFile()"
+         :class="{'pointer': file === null}"
+         v-else>
+
     <input id="sender" type="button" value="enviar" v-if="file !== null" class="btn btn-primary pointer" @click="sendFile()">
     <input type="file" id="fileUpload" @change="selectedFile($event)">
   </div>
@@ -10,7 +23,8 @@
 <script>
   export default {
     props: [
-      'photoUrl'
+      'photoUrl',
+      'actionUrl'
     ],
     data: function () {
       return {
@@ -25,7 +39,9 @@
     methods: {
       chooseFile: function () {
         document.getElementById("fileUpload").click()
+        this.$bus.$emit('avatar choose')
       },
+
       selectedFile: function ($event) {
         if ($event.target.files.length > 0) {
           this.file = $event.target.files[0];
@@ -34,11 +50,12 @@
           reader.onload = function (e) {
             document.getElementById("avatarPreview").setAttribute('src', e.target.result);
           }
-          reader.readAsDataURL(this.file);
+          let readAsDataUrl = reader.readAsDataURL(this.file);
+          this.$bus.$emit('avatar select', readAsDataUrl)
         }
       },
       sendFile() {
-        let url = '/api/admin/v1/users/avatar/' + this.$route.params['id'];
+        let url = this.actionUrl ? this.actionUrl : '/api/admin/v1/users/avatar/' + this.$route.params['id'];
         let formData = new FormData();
         formData.append('avatar', this.file);
 
@@ -54,6 +71,7 @@
               document.getElementById("sender").setAttribute('disabled', false);
               document.getElementById("sender").setAttribute('value', 'Enviar');
             }, 500);
+              this.$bus.$emit('avatar send', formData)
             //this.file = null;
           });
       }

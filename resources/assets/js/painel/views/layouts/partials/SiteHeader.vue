@@ -3,6 +3,7 @@
         <a href="#" class="brand-main">
             <img src="/assets/img/logo_white.png" id="logo-desk" alt="Mycook Logo" class="hidden-sm-down">
             <img src="/assets/img/logo-mobile.png" id="logo-mobile" alt="Mycook Logo" class="hidden-md-up">
+            <!-- Parei aqui colocando condicional user.role então mostra os menus etc para vendedor -->
         </a>
 
         <a href="#" class="nav-toggle" @click="onNavToggle">
@@ -15,11 +16,18 @@
             <li>
                 <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <router-link to="/admin/buyers/new">Novo comprador</router-link>
-                    <router-link to="/admin/sellers/new">Novo vendedor</router-link>
-                    <div class="dropdown-divider"></div>
-                    <router-link to="/admin/users/new">Novo administrador</router-link>
-                    <div class="dropdown-divider"></div>
+                    <template v-if="user.role === 'admin'">
+                        <router-link to="/admin/buyers/new">Novo comprador</router-link>
+                        <router-link to="/admin/sellers/new">Novo vendedor</router-link>
+                        <div class="dropdown-divider"></div>
+                        <router-link to="/admin/users/new">Novo administrador</router-link>
+                        <div class="dropdown-divider"></div>
+                    </template>
+
+                    <template v-if="user.role === 'vendedor'">
+                        <router-link class="dropdown-item" :to="{ name: 'panel.seller.settings-moip' }">Moip</router-link>
+                        <div class="dropdown-divider"></div>
+                    </template>
                     <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
             </li>
@@ -31,13 +39,13 @@
                     <a class="dropdown-item" href="#"><i class="fa fa-comment"></i> A Comment has been posted.</a>
                 </div>
             </li> -->
-            <li v-if="user.avatar_full_url">
+<!--             <li v-if="user.avatar_full_url">
                 <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="avatar"><img :src="user.avatar_full_url" alt="Avatar"></a>
                 <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                     <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i> Configurações</router-link>
                     <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
-            </li>
+            </li> -->
         </ul>
     </header>
 </template>
@@ -64,14 +72,17 @@
                 Auth.logout().then(() => {
                     this.$router.replace('/login')
                 })
+            },
+            setUser() {
+                let user = Ls.get('auth.user');
+
+                if (user !== null) {
+                  this.user = JSON.parse(user);
+                }
             }
         },
       mounted() {
-        let user = Ls.get('auth.user');
-
-        if (user !== null) {
-          this.user = JSON.parse(user);
-        }
+        this.setUser()
       }
 
     }

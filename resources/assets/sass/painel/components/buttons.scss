@@ -34,6 +34,10 @@
     @include button-variant(#fff, $ls-color-primary, $ls-color-primary);
 }
 
+.btn-green {
+    @include button-variant(#fff, $ls-color-green, $ls-color-green);
+}
+
 .btn-outline-theme {
     @include button-outline-variant($ls-color-primary);
 }

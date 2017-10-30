@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-sm-6 text-sm-right">
-                <a href="#" class="forgot-link">Recuperar senha?</a>
+                  <router-link :to="{ name: 'recovery' }" class="forgot-link">Recuperar senha?</router-link>
             </div>
         </div>
         <button class="btn btn-theme btn-full btn-lg">Acessar</button>
@@ -41,14 +41,16 @@
         },
         methods: {
             validateBeforeSubmit(e){
-                this.$validator.validateAll();
-
-                if (!this.errors.any()) {
-                    Auth.login(this.loginData).then(() => {
-                        this.$router.push('/')
-                    })
-                }
-            }
-        },
+                this.$validator.validateAll().then((result) => { 
+                    if(result) {
+                        Auth.login(this.loginData).then(() => {
+                            this.$router.push('/')
+                        })
+                        return;
+                    }
+                    toastr.error('Favor preencher os campos obrigatórios', 'Atenção');
+                });
+            },
+        }
     }
 </script>

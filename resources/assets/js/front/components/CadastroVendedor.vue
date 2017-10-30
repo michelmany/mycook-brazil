@@ -296,39 +296,41 @@
         },
         methods: {
             validateBeforeSubmit() {
-                this.$validator.validateAll().then(() => {
-                    if (this.dropFilesLength >= 1) {
-                        this.loading = true;
-                        httpService.build('quero-vender').create({
-                          'user': this.user,
-                          'address': this.address,
-                        }).then((res) => {
-                            this.user.id = res.data[1]['id'];
-
-                            // facebook pixel code and Google Analytics
-                            fbq('track', 'CompleteRegistration');
-                            ga('send', 'CompleteRegistration');
-                            
-                            this.loading = false;
-                            this.$refs.formCadastroVendedor.className = "form_seller_hidden";
-                            this.$refs.salvoCadastroVendedor.className = "form-chef__thank-you form_seller_show";
-
-                            if(this.user.id != 0) {
-                                this.$refs.myVueDropzone.processQueue();
-                            }
-                        }).catch(() => {
-                            this.loading = false;
-                            toastr.error('Tivemos um erro ao tentar enviar seu cadastro. Por favor tente outra vez!', 'Erro');
-                        });
-
-                    } else {
-                        // Mostra o Warning Modal o usuário tentar enviar o form sem fotos.
-                        toastr.warning('Você precisa selecionar no mínimo uma imagem!', 'Atenção');
+                this.$validator.validateAll().then((result) => {
+                    if(result) {
+                        this.save();
+                        return;
                     }
-                }).catch(() => {
                     // Mostra o Warning Modal se tiver erro de validação de campos.
+                     this.modalErrors = true;
+                    
+                }).catch(() => {
                     this.modalErrors = true;
                 });
+            },
+            save() {
+                if (this.dropFilesLength >= 1) {
+                    this.loading = true;
+                    httpService.build('quero-vender').create({
+                      'user': this.user,
+                      'address': this.address,
+                    }).then((res) => {
+                        this.user.id = res.data[1]['id'];
+                        
+                        this.loading = false;
+                        this.$refs.formCadastroVendedor.className = "form_seller_hidden";
+                        this.$refs.salvoCadastroVendedor.className = "form-chef__thank-you form_seller_show";
+
+                        if(this.user.id != 0) {
+                            this.$refs.myVueDropzone.processQueue();
+                        }
+                    }).catch(() => {
+                        toastr.error('Tivemos um erro ao tentar enviar seu cadastro. Por favor tente outra vez!', 'Erro');
+                    });
+                } else {
+                    // Mostra o Warning Modal o usuário tentar enviar o form sem fotos.
+                    toastr.warning('Você precisa selecionar no mínimo uma imagem!', 'Atenção');
+                }
             },
             checkEmail(email) {
               if (email) {
@@ -366,8 +368,8 @@
             },
             dropShowError: function(file, error) {
                 // this.loading = false;
+                // this.dropErrorMessage = error;
                 // this.showErrorMessage = true;
-                this.dropErrorMessage = error;
                 console.log(this.dropErrorMessage);
             },
             dropFilesAdded: function(file) {

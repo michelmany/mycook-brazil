@@ -3,9 +3,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Buyer;
+use App\Models\Buyer;
+use App\Services\Moip\Customer\OrderService;
 use App\User;
+use App\Models\Address;
 use Illuminate\Http\Request;
+use Auth;
 
 class MeController
 {
@@ -22,6 +25,7 @@ class MeController
 
     public function profilePost(Request $request)
     {
+        // dd($request);
         $user = \Auth::user();
         $user = User::find($user->id);
 
@@ -31,12 +35,11 @@ class MeController
         $user->save();
 
         $buyer = $request->input('buyer');
-        $buyer['phone'] = implode($buyer['phone']);
-        Buyer::firstOrCreate(['user_id'=>$user->id], $buyer);
+        $buyer['phone'] = $request->input('buyer.phone');
+        $buyer['birth'] = $request->input('buyer.birth');
+        Buyer::updateOrCreate(['user_id'=>$user->id], $buyer);
 
-        return redirect()
-            ->route('profile')
-            ->with('success', 'Atualizado com sucesso');
+        return response()->json($user);
     }
 
     public function passwordPost(Request $request)
@@ -52,9 +55,7 @@ class MeController
             return $this->savePasswordIfConfirm($request, $user);
         }
 
-        return redirect()
-            ->route('profile')
-            ->with('error', 'A senha não confere');
+        return response()->json(['status'=>'ok', 'msg'=>'As senhas não conferem']);
     }
 
     public function avatarPost(Request $request)
@@ -71,10 +72,49 @@ class MeController
         return view('me.enderecos');
     }
 
-    public function addressesPost()
+    public function getAddressesByUserId(Request $request)
     {
-        return 'Salvando formulário de edição de endereço do usuário logado';
+        $result = $request->user()->addresses;
+        return response()->json($result);
     }
+
+    public function destroyAddress(Request $request, $id)
+    {
+        $address = Address::find($id);
+        if($address->default == true) {
+            $first = $request->user()->addresses()->first();
+            $first->update(['default' => true]);
+        }
+        $address->delete();
+        return response(null, 204);
+    }
+
+    public function addressesPost(Request $request)
+    {
+        $payload = $request->all();
+        $addresses = $request->user()->addresses();
+        // Todo: get long and lat
+        if($addresses->where('default', true)->first()){
+            $payload['default'] = false;
+        }
+        $save = $request->user()->addresses()->create($payload);
+        return response()->json($save);
+    }
+
+    public function updateAddrDefault(Request $request, $id)
+    {
+        $addresses = $request->user()->addresses();
+        $addresses->update(['default' => false]);
+        $current = $addresses->find($id);
+        if(!$current) {
+            return response()->json(['error' => 'Endereço não existe'], 412);
+        }
+        $current->update(['default' => $request->status]);
+        \Cache::flush();
+        return response(null, 204);
+    }
+
+
 
     public function score()
     {
@@ -87,12 +127,8 @@ class MeController
             $user->password = bcrypt($request->input('new_password'));
             $user->save();
 
-            return redirect()
-                ->route('profile')
-                ->with('success', 'Atualizado com sucesso');
+        return response()->json($user);
         }
-        return redirect()
-            ->route('profile')
-            ->with('error', 'As senhas não conferem');
+        return response()->json(['status'=>'ok', 'msg'=>'As senhas não conferem']);
     }
 }

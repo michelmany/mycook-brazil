@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Address;
-use App\Buyer;
-use App\FotoEstabelecimento;
+use App\Models\Address;
+use App\Models\Buyer;
+use App\Models\FotoEstabelecimento;
 use App\Mail\BuyerAdminRegisterMail;
 use App\Mail\BuyerRegisterMail;
 use App\Mail\SellerAdminRegisterMail;
 use App\Mail\SellerRegisterMail;
 use App\User;
-use App\Seller;
+use App\Models\Seller;
 use App\Http\Requests\BuyerRequest;
 use Illuminate\Http\Request;
 use Auth;
@@ -19,19 +19,29 @@ class UserController extends Controller
 {
     public function login(Request $request)
     {
+
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $request->input('remember'))) {
             $user = Auth::user();
+
+            if($request->has('intended')) {
+                return redirect()->to($request->get('intended'));
+            }
+
             if (!$user->addresses->first()) {
                 return redirect()->to('/minha-conta/enderecos');
             }
-            return redirect()->to('/list');
+            return redirect()->route('lista-chefs-page');
         }
-        return redirect()->route('authHome')->with('validation-error', 'Verifique seu e-mail e senha!');;
+        return redirect()->route('authHome')->with('validation-error', 'Verifique seu e-mail e senha!');
     }
 
     public function logout()
     {
         Auth::logout();
+
+        // Limpa cache do usuario
+        \Cache::flush();
+
         return redirect('/');
     }
 

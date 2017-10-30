@@ -1,3 +1,4 @@
+require("babel-polyfill");
 require('es6-promise').polyfill();
 window._ = require('lodash');
 
@@ -23,6 +24,7 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['Authorization'] = 'Token token="ded10e2a41749066811a3a3b1aa90e8a';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

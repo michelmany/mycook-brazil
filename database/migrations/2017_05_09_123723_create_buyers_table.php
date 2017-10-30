@@ -17,7 +17,9 @@ class CreateBuyersTable extends Migration
             $table->increments('id');
             $table->string('phone');
             $table->string('birth');
-            $table->string('user_id');
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('moipAccount')->nullable();
             $table->timestamps();
         });
     }

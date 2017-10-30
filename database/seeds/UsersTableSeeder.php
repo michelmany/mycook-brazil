@@ -12,28 +12,22 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'email' => 'erik.figueiredo@gmail.com',
-            'name' => 'Erik Figueiredo',
-            'cpf' => '12312312312',
-            'active' => true,
-            'role' => 'admin',
-            'password' => bcrypt('123456')
-        ]);
 
         User::create([
             'email' => 'michel@nitdesign.com.br',
             'name' => 'Michel Moraes',
-            'cpf' => '12312312312',
+            'cpf' => '62437163093',
             'active' => true,
             'role' => 'admin',
-            'password' => bcrypt('123456')
+            'password' => bcrypt('nit123456')
         ]);
 
         User::create([
             'email' => 'ale@nitdesign.com.br',
             'name' => 'Alexandra Carneiro',
             'role' => 'admin',
+            'cpf' => '33604894549',
+            'active' => true,
             'password' => bcrypt('nit123456')
         ]);
 
@@ -41,8 +35,35 @@ class UsersTableSeeder extends Seeder
             'email' => 'alfmussi@yahoo.com.br',
             'name' => 'Alfredo',
             'role' => 'admin',
-            'password' => bcrypt('alf12345')
+            'cpf' => '35676756802',
+            'active' => true,
+            'password' => bcrypt('nit123456')
         ]);
+        
+        User::create([
+            'email' => 'cesinhagutierres@gmail.com',
+            'name' => 'César Augusto',
+            'role' => 'vendedor',
+            'cpf' => '05070216147',
+            'password' => bcrypt('123456')
+        ]);
+
+        User::create([
+            'email' => 'rosinhagutierres@gmail.com',
+            'name' => 'Rose de Fatma',
+            'role' => 'vendedor',
+            'cpf' => '80845428187',
+            'password' => bcrypt('123456')
+        ]);
+
+        User::create([
+            'email' => 'fernando@fernando.com.br',
+            'name' => 'Fernando',
+            'role' => 'comprador',
+            'cpf' => '53551443734',
+            'password' => bcrypt('123456')
+        ]);
+
 
     }
 }

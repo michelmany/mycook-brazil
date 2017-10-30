@@ -1,0 +1,129 @@
+.cardapio {
+
+    &__image {
+        background-size: cover;
+        height: 140px;
+        background-position: center;
+        background-repeat: no-repeat;
+        @media screen and (min-width:992px) {
+            height: 160px;
+        }
+    }
+
+    &__item {
+        margin-bottom: 15px;
+        background: white;
+        padding-top: 20px;
+        max-width: 320px;
+        margin-right: auto;
+        margin-left: auto;
+        @media screen and (min-width:576px) {
+            max-width: 100%;
+        }
+    }
+
+    &__title {
+        
+    }
+
+    &__desc {
+        font-size: 14px;
+    }
+
+    &__footer {
+        background-color: #f4f5f7;
+        padding: 20px;
+        .btn {
+            margin-left: 10px;
+            margin-right: 10px;
+            width: 100%;
+            @media screen and (min-width:768px) {
+                margin: 0;
+                width: auto;
+            }
+        }
+    }
+
+    &__serve {
+        margin-top: 15px;
+    }
+
+    &__price {
+        color: $mc-color-gray--dark;
+        margin-bottom: 10px;
+        font-size: 18px;
+        margin-right: auto;
+        margin-left: auto;
+        @media screen and (min-width:768px) {
+            margin: 0;
+        }
+    }
+
+    &__time {
+        font-size: 14px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 10px;
+        @media screen and (min-width:768px) {
+            margin: 0;
+        }
+    }
+
+    &__days {
+        padding: 20px;
+        text-align: center;
+        li {
+            display: inline-block;
+            padding: 10px;
+            list-style-type: none;
+            text-align: center;
+            border: 1px solid #e6e6e6;
+            min-width: 70px;
+            min-height: 45px;
+            margin: 2px;
+            cursor: pointer;
+            width: 31%;
+            &:hover {
+                background-color: $mc-color-orange;
+                color: white;
+            }
+            &:first-of-type {
+                display: block;
+                width: 95.9%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            @media screen and (min-width:576px) {
+                &:first-of-type {
+                    width: 95.1%;
+                }
+            }
+            @media screen and (min-width:768px) {
+                min-width: 13.6%;
+                width: auto;
+                &:first-of-type {
+                    display: inline-block;
+                    width: auto;
+                }
+            }
+            @media screen and (min-width:992px) {
+                text-align: center;
+            }
+        }
+    }
+}
+
+.cart {
+    &__item {
+        @media screen and (max-width: 991px) {
+            font-size: 14px;
+        }
+        border-bottom: 1px solid #e2e2e2;
+        padding: 20px 0;
+    }
+    &__qty {
+        font-size: 12px;
+        color: #caa3a3;
+        margin-top: 15px;
+    }
+}

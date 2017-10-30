@@ -1,0 +1,36 @@
+.addresses {
+
+    .address {
+        &__item {
+            margin-bottom: 20px;
+            background: $mc-color-gray--light;
+            padding: 30px;
+            border: 1px solid darken($mc-color-gray--light, 6%);
+            &:first-of-type {
+                margin-top: 20px;
+            }
+            input#cep_field {
+                @media screen and (max-width:475px) {
+                    font-size: 15px;
+                    padding-left: 15px;
+                }
+            }
+        }
+        &__title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        &__nocep-link {
+            color: $mc-color-gray--dark;
+        }
+        &__address {
+
+        }
+        &__close-icon {
+            i {
+                font-size: 35px;
+            }
+        }
+    }
+
+}

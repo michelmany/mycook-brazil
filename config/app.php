@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -176,7 +176,12 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
 
+        // Add by Michel
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
+
+        // Add by Cesar
+        Artesaos\Moip\Providers\MoipServiceProvider::class,
     ],
 
     /*
@@ -225,10 +230,12 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-
+        
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Image' => Intervention\Image\Facades\Image::class,
 
+        // Add by Cesar
+        'Moip'    => Artesaos\Moip\Facades\Moip::class,
     ],
 
 ];
