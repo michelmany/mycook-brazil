@@ -71,16 +71,17 @@ Route::get('send_test_email', function(){
  | Default Routes
  */
 Route::group(['prefix' => '/'], function() {
-    Route::get('/', function () { return view('home'); })->name('home');
+    // Route::get('/home', function () { return view('home'); })->name('home');
+    Route::get('/', function () { return view('maintenance'); })->name('home');
     Route::get('entrar', function () { return view('entrar'); })->name('entrar');
-    Route::get('quero-vender', 'UserController@sellerRegister')->name('queroVender');
-    Route::post('quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
-    Route::get('sobre', function () { return view('sobre'); })->name('sobre');
-    Route::get('como-funciona', function () { return view('como-funciona');})->name('comoFunciona');
-    Route::get('contato', function () { return view('contato');})->name('contato');
-    Route::get('termos-condicoes', function () { return view('termos-condicoes'); })->name('termos');
-    Route::get('privacidade', function () { return view('privacidade'); })->name('privacidade');
-    Route::post('contato', 'FrontendController@contatoPost')->name('contatoPost');
+    // Route::get('quero-vender', 'UserController@sellerRegister')->name('queroVender');
+    // Route::post('quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
+    // Route::get('sobre', function () { return view('sobre'); })->name('sobre');
+    // Route::get('como-funciona', function () { return view('como-funciona');})->name('comoFunciona');
+    // Route::get('contato', function () { return view('contato');})->name('contato');
+    // Route::get('termos-condicoes', function () { return view('termos-condicoes'); })->name('termos');
+    // Route::get('privacidade', function () { return view('privacidade'); })->name('privacidade');
+    // Route::post('contato', 'FrontendController@contatoPost')->name('contatoPost');
 });
 
 Route::group(['prefix'=>'entrar'], function () {
