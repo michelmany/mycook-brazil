@@ -185,10 +185,11 @@
                                     v-on:vdropzone-files-added="dropFilesAdded"
                                     v-on:vdropzone-removed-file="dropFilesRemoved"
                                     v-on:vdropzone-sending="dropSending"
-                                    :useCustomDropzoneOptions="true"
-                                    :dropzoneOptions="dropOptions">
+                                    :max-number-of-files="6"
+                                    :use-custom-dropzone-options="true"
+                                    :dropzone-options="dropzoneOptions">
                                         <!-- Optional parameters if any! -->
-                                        <input type="hidden" name="token" :value="dropOptions.token" >
+                                        <input type="hidden" name="token" :value="dropzoneOptions.token">
                                     </dropzone>
                                 </div>
                                 <div class="modal-footer">
@@ -259,20 +260,23 @@
                 showErrorMessage: false,
                 dropErrorMessage: "",
                 dropFilesLength: 0,
-                dropOptions: {
-                  addRemoveLinks: true,
-                  acceptedFiles: '.jpg,.jpeg,.png,.gif',
-                  autoProcessQueue: false,
-                  thumbnailHeight: 205,
-                  thumbnailWidth: 205,
-                  maxFiles: 6,
-                  maxFileSizeInMB: 15,
-                  parallelUploads: 6,
-                  uploadMultiple: false,
-                  token: Laravel.csrfToken,
-                  dictDefaultMessage: '<i class="fa fa-cloud-upload"></i><br>Arraste e solte fotos aqui <br>ou <b>clique para enviar</b> <br><small>(Máximo 6 fotos)</small>',
-                  dictRemoveFile: 'Remover',
-                  dictMaxFilesExceeded: 'Limite de 6 imagens excedido!'
+                dropzoneOptions: {
+                    addRemoveLinks: true,
+                    acceptedFiles: 'image/jpeg, image/pjpeg, image/png',
+                    autoProcessQueue: false,
+                    thumbnailHeight: 205,
+                    thumbnailWidth: 205,
+                    maxFileSizeInMB: 15,
+                    parallelUploads: 6,
+                    uploadMultiple: false,
+                    token: Laravel.csrfToken,
+
+                    dictRemoveFile: 'Remover',
+                    dictMaxFilesExceeded: 'Limite de 6 imagens excedido!',
+                    language : {
+                        dictDefaultMessage: '<i class="fa fa-cloud-upload"></i><br>Arraste e solte fotos aqui <br>ou <b>clique para enviar</b> <br><small>(Máximo 6 fotos)</small>',
+                        dictRemoveFile: 'Remover'
+                    }
                 },
                 user: {
                     seller: {
@@ -281,13 +285,17 @@
                     },
                 },
                 address: {
+                    name: "Casa",
                     cep: '',
                     address: '',
                     number: '',
                     complement: '',
                     neighborhood: '',
                     city: '',
-                    state: ''
+                    state: '',
+                    latitude: "",
+                    longitude: "",
+                    default: 1
                 }
             }
         },
@@ -360,8 +368,32 @@
                         this.address.neighborhood = cep.bairro;
                         this.address.city = cep.localidade;
                         this.address.state = cep.uf;
+
+                        // get coordinates (lat and lng)
+                        this.getLocation();
+
                     })
                 }
+            },
+            getLocation() {
+                var address = this.address.address + ",+" + this.address.number + "+-+" + this.address.neighborhood + ",+" + this.address.city + "+-+" + this.address.state + ",+Brasil" || this.address.cep;
+
+                var addressUrl = address.replace(/ /g,"+");
+                var key = 'AIzaSyAwgqK1Q77MA7youjVulJUH7rsRC9ikOY8';
+
+                httpService.xmlHttpRequest('https://maps.googleapis.com/maps/api/geocode/json?address=' + addressUrl + '&sensor=true&key=' + key).then((res) => {
+
+                    // get coordinates
+                    let resObj = JSON.parse(res);
+                    if(resObj.status == "OK") {
+                        let location = resObj.results[0].geometry.location;
+                        this.address.latitude = location.lat;
+                        this.address.longitude = location.lng;
+                    } else {
+                        console.log('ERRO');
+                    }
+
+                })
             },
             dropShowSuccess: function(file, response) {
               console.log('A file was successfully uploaded');
@@ -403,7 +435,7 @@
     }
 </script>
 
-<style>
+<style lang="scss">
     .help.is-danger {
         color: red;
         margin-top: 5px;
@@ -411,6 +443,11 @@
     }
     .form-control.is-danger {
         border: 1px solid red;
+    }
+    .dz-message {
+        i.fa-cloud-upload {
+            font-size: 32px;
+        }
     }
     .dropzone .dz-preview .dz-image {
         width: 205px !important;
@@ -423,5 +460,8 @@
     .dropzone .dz-preview .dz-error-message {
         top: 60px!important;
         left: 30px!important;
+    }
+    .material-icons {
+        display: none;
     }
 </style>
