@@ -1,6 +1,5 @@
 <template>
     <form id="recoveryForm" method="post" @submit.prevent="validateBeforeSubmit">
-        <input type="hidden" name="_token" :value="csrf_token">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
             <input type="email" class="form-control form-control-lg form-control-danger" placeholder="Digite seu email" name="email"
                    v-model="loginData.email" v-validate data-vv-rules="required|email">
@@ -20,8 +19,7 @@
             return {
                 loginData: {
                     email: ''
-                },
-                csrf_token: Laravel.csrfToken,
+                }
             }
         },
         methods: {
