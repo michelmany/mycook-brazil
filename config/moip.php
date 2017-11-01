@@ -39,10 +39,10 @@ return [
     |
     */
     'marketplace' => [
-        'endpoint' => \Moip\Auth\Connect::ENDPOINT_SANDBOX,
+        // 'endpoint' => \Moip\Auth\Connect::ENDPOINT_SANDBOX,
         'id'  => getenv('MARKETPLACE_ID'),
         'name' => 'MyCook',
-        'description' => 'Plataforma Marketplace Delivery',
+        'description' => 'Delivery de comida caseira online',
         'token' => getenv('MARKETPLACE_TOKEN'),
         'secret'   => getenv('MARKETPLACE_SECRET'),
         'redirect' => getenv('APP_URL' ) . '/moip/marketplace/callback'
