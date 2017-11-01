@@ -60,6 +60,8 @@ mix.combine([
     pluginPath + 'timepicker/jquery.timepicker.js',
 
     // ** Additional Plugins **
+    pluginPath + 'ladda/spin.js',
+    pluginPath + 'ladda/ladda.js',
     pluginPath + 'toastr/toastr.js',
 
 ],'public/assets/js/plugins-front.js')

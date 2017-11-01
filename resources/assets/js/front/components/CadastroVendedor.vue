@@ -212,7 +212,8 @@
                 <div v-show="errors.has('termos')" class="help is-danger">É necessário concordar com os termos de contrato.</div>
             </div>
             <div class="submit-button text-center mt-3">
-                <button type="submit" class="btn btn-submit-orange btn-lg">Cadastrar</button>
+                <button type="submit" class="btn btn-submit-orange btn-lg ladda-button" data-style="zoom-out">
+                    <span class="ladda-label">Cadastrar</span></button>
             </div>
 
        </form>   
@@ -431,6 +432,8 @@
               cpfField.addEventListener('blur', ($event) => {
                 this.checkCpf(cpfField.value);
               });
+
+              Ladda.bind( '.ladda-button', { timeout: 6000 } );
           }
     }
 </script>
