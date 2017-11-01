@@ -1,5 +1,6 @@
 <template>
     <form id="recoveryForm" method="post" @submit.prevent="validateBeforeSubmit">
+        {{ csrf_field() }}
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
             <input type="email" class="form-control form-control-lg form-control-danger" placeholder="Digite seu email" name="email"
                    v-model="loginData.email" v-validate data-vv-rules="required|email">
