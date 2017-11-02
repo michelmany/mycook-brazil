@@ -8,7 +8,7 @@ use App\Models\Moip\MoipSeller;
 use App\Models\Seller;
 use App\Models\Social;
 use Illuminate\Notifications\Notifiable;
-use App\Notifications\myCustomResetPassword;
+use App\Notifications\MyCustomResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -111,7 +111,7 @@ class User extends Authenticatable
 
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new myCustomResetPassword($token));
+        $this->notify(new MyCustomResetPassword($token));
     }
 
 }
