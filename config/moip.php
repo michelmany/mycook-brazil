@@ -39,7 +39,7 @@ return [
     |
     */
     'marketplace' => [
-        'endpoint' => getenv('MARKETPLACE_ENDPOINT'),
+        'endpoint' => \Moip\Auth\Connect::ENDPOINT_PRODUCTION,
         'id'  => getenv('MARKETPLACE_ID'),
         'name' => 'MyCook',
         'description' => 'Delivery de comida caseira online',
