@@ -12,6 +12,7 @@ import BootstrapVue from 'bootstrap-vue'
 
 window.Vue = require('vue');
 
+
 Vue.use(BootstrapVue)
 
 export const eventBus = new Vue();
@@ -53,6 +54,7 @@ Vue.use(VeeValidate, {
 Vue.use(VTooltip)
 
 Vue.config.debug = true
+Vue.config.productionTip = false
 
 
 /**

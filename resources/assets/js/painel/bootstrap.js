@@ -19,6 +19,7 @@ window._ = require('lodash');
 
 window.Vue = require('vue');
 
+Vue.config.productionTip = false
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
