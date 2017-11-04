@@ -39,6 +39,7 @@ class ProductsObservable
 
         $img = \Image::make($model->photo->getPathname());
         // $img->fit(800, 600);
+        
         // prevent possible upsizing
         $img->resize(null, 400, function ($constraint) {
             $constraint->aspectRatio();

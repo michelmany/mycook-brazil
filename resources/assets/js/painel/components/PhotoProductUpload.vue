@@ -1,17 +1,18 @@
 <template>
     <div id="boxAvatarPreview">
-        <img v-if="this.url" 
-        class="rounded" 
-        id="photoPreview"
-        :src="this.url" 
-        @click="chooseFile()" 
-        :class="{'pointer': file === null}">
 
-        <img v-else
+        <img v-if="this.url === null"
         class="rounded"
         id="photoPreview"
         src="/assets/img/no-image-products.jpg" 
         @click="chooseFile()"
+        :class="{'pointer': file === null}">
+
+        <img v-else
+        class="rounded" 
+        id="photoPreview"
+        :src="this.url" 
+        @click="chooseFile()" 
         :class="{'pointer': file === null}">
 
         <input id="sender" type="button" value="Clique para enviar" v-if="file !== null" class="btn btn-primary pointer" @click="sendFile()">
