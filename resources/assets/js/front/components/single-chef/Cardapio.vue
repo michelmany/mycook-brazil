@@ -39,11 +39,12 @@
                         <!-- product filtered -->
                         <div class="cardapio__item" v-for="(item, index) in category.items" key="index" v-if="item.extras.length > 0">
                             <div class="row px-3">
-                                <div class="col-md-3 col-lg-5">
-                                    <div v-if="item.photo" class="cardapio__image mb-3" :style="{ backgroundImage: `url('${item.photo_full_url}')` }"></div>
+                                <div class="col-md-5">
+                                    <div v-if="item.photo" class="cardapio__image mb-3 mb-md-0" 
+                                    v-lazy:background-image="item.photo_full_url"></div>
                                     <div v-else class="cardapio__image mb-3" style="background-image: url('/assets/img/no-image_01.jpg')"></div>
                                 </div>
-                                <div class="col-md-9 col-lg-7">
+                                <div class="col-md-7">
                                     <div>
                                         <h5 class="cardapio__title text-uppercase">{{ item.name }}</h5>
                                         <div class="cardapio__desc">{{ item.desc }}</div>

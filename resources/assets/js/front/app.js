@@ -7,12 +7,15 @@
 
 require('./bootstrap');
 
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import BootstrapVue from 'bootstrap-vue'
-
 window.Vue = require('vue');
 
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload, {
+    loading: '../../../assets/img/image-loader.gif',
+})
 
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 export const eventBus = new Vue();

@@ -38,7 +38,12 @@ class ProductsObservable
         echo 'update: ' . $name = $name . '.' . $extension;
 
         $img = \Image::make($model->photo->getPathname());
-        $img->fit(200);
+        // $img->fit(800, 600);
+        // prevent possible upsizing
+        $img->resize(null, 400, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
 
         Storage::disk('s3')->put('avatar/products/' . $name, (string)$img->stream());
 

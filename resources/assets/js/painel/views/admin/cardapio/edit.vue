@@ -17,14 +17,14 @@
                                 <form id="formNewSeller">
 
                                     <div class="row">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-12 col-xl-6">
                                             <photo :photo-url="product.photo_full_url"></photo>
                                             <div class="caption mt-3">
-                                                <p><small>Envie uma logo ou foto<br>Tamanho ideal: 548x320 pixels</small></p>
+                                                <p><small>Envie uma imagem do produto<br>Tamanho ideal: 600x400 pixels</small></p>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-8 col-xl-6">
+                                        <div class="col-lg-12 col-xl-6">
 
                                             <div class="form-group row">
                                                 <label for="formNome" class="col-12 col-md-3 col-form-label">Nome</label>

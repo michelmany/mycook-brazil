@@ -1,8 +1,20 @@
 <template>
     <div id="boxAvatarPreview">
-        <img class="rounded" id="photoPreview" src="/assets/img/not-found-avatar.png" :src="this.url" v-if="this.url" @click="chooseFile()" :class="{'pointer': file === null}">
-        <img class="rounded" id="photoPreview" src="/assets/img/not-found-avatar.png" v-else @click="chooseFile()" :class="{'pointer': file === null}">
-        <input id="sender" type="button" value="enviar" v-if="file !== null" class="btn btn-primary pointer" @click="sendFile()">
+        <img v-if="this.url" 
+        class="rounded" 
+        id="photoPreview"
+        :src="this.url" 
+        @click="chooseFile()" 
+        :class="{'pointer': file === null}">
+
+        <img v-else
+        class="rounded"
+        id="photoPreview"
+        src="/assets/img/no-image-products.jpg" 
+        @click="chooseFile()"
+        :class="{'pointer': file === null}">
+
+        <input id="sender" type="button" value="Clique para enviar" v-if="file !== null" class="btn btn-primary pointer" @click="sendFile()">
         <input type="file" id="fileUpload" @change="selectedFile($event)">
     </div>
 </template>
@@ -10,7 +22,7 @@
 <script>
     export default {
         props: [
-            'photoUrl'
+        'photoUrl'
         ],
         data: function () {
             return {
@@ -25,6 +37,7 @@
         methods: {
             chooseFile: function () {
                 document.getElementById("fileUpload").click()
+                this.$bus.$emit('product_image choose')
             },
             selectedFile: function ($event) {
                 if ($event.target.files.length > 0) {
@@ -54,31 +67,36 @@
                         document.getElementById("sender").setAttribute('disabled', false);
                         document.getElementById("sender").setAttribute('value', 'Enviar');
                     }, 500);
-//this.file = null;
-});
+                        //this.file = null;
+                });
             }
         }
     }
 </script>
 
-<style>
+<style scoped lang="scss">
     #fileUpload {
         display: none;
     }
 
     #boxAvatarPreview {
         position: relative;
-        height:200px;
-        line-height:200px;
-        overflow:hidden;
-        text-align:center;
-        width:200px;
+        height: 145px;
+        line-height: 145px;
+        overflow: hidden;
+        text-align: center;
+        width: 342.5px;
+        max-width: 100%;
         background-color: #F8F8F8;
+        @media screen and (min-width: 375px) {
+            height: 200px;
+            line-height: 200px;
+        }
     }
 
     #boxAvatarPreview:after {
         display: block;
-        content: 'Enviar foto';
+        content: 'Imagem Produto';
         position: absolute;
         left: 10px;
         top: 10px;
@@ -93,10 +111,11 @@
         opacity: 1;
     }
 
-    #avatarPreview {
-        width: 200px;
+    #photoPreview {
+        width: 342.5px;
         height: auto;
         margin:-100% 0;
+        max-width: 100%;
     }
 
     #sender {
