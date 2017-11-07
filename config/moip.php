@@ -39,12 +39,17 @@ return [
     |
     */
     'marketplace' => [
-        'endpoint' => \Moip\Auth\Connect::ENDPOINT_PRODUCTION,
+        'endpoint' => \Moip\Auth\Connect::ENDPOINT_SANDBOX,
         'id'  => getenv('MARKETPLACE_ID'),
         'name' => 'MyCook',
         'description' => 'Delivery de comida caseira online',
         'token' => getenv('MARKETPLACE_TOKEN'),
         'secret'   => getenv('MARKETPLACE_SECRET'),
         'redirect' => getenv('APP_URL' ) . '/moip/marketplace/callback'
+    ],
+
+    'settings' => [
+        'percentage_rate' => 5.49, // porcentagem
+        'additional_rate' => 0.69 // valor
     ]
 ];
