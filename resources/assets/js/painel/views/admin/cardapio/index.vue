@@ -36,7 +36,7 @@
             listProducts() {
                 let httpService = new HttpService();
                 httpService.build('admin/v1/products')
-                .list({query: 'where[seller_id]='+this.seller_id})
+                .list({query: 'where[seller_id]='+this.seller_id+'&limit=200'})
                 .then((res) => {
                     this.products = res.data.data;
 
