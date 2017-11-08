@@ -62,6 +62,7 @@
                 window.axios.post(url, formData, {headers: {"Content-Type": "multipart/form-data"}})
                 .then(() => {
                     document.getElementById("sender").setAttribute('value', 'Enviado!');
+                    toastr.success('Imagem enviada com sucesso!');
 
                     setTimeout(() => {
                         this.file = null;

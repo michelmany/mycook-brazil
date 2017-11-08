@@ -202,6 +202,9 @@
                     });
                 },
                 save: function () {
+                    let product = this.product;
+                    delete product.photo;
+                    
                     httpService.build('admin/v1/products')
                     .update(this.$route.params['id'], this.product)
                     .then((res) => {
