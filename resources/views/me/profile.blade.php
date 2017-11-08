@@ -38,7 +38,7 @@
                     <div class="col-md-6">
                         <h5 class="mb-3 bg-faded p-3">Informações pessoais</h5>
 
-                        <profile-dados :user="{{ $user }}" :buyer="{{ $buyer }}"></profile-dados>
+                        <profile-dados :userdata="{{ $user }}"></profile-dados>
 
                     </div>
                     <div class="col-md-6">

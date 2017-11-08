@@ -116,7 +116,10 @@ class CheckoutService
     public function createCustomer()
     {
         if(!$this->buyer->phone) {
-            return response()->json(['error' => 'Informe seu telefone de contato'], 422);
+            return response()->json([
+                'error' => 'Adicione um telefone de contato em seu perfil para prosseguir',
+                '_link' => '/minha-conta/perfil'
+            ],422);
         }
 
         $phone_ddd = substr($this->buyer->phone, 0 ,2);

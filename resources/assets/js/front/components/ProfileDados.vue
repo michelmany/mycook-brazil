@@ -19,9 +19,9 @@
 
         <div class="form-group row">
             <div class="col-6">
-                <the-mask v-model="buyer.phone" placeholder="Seu telefone"
+                <the-mask v-model="user.buyer.phone" placeholder="Seu telefone"
                         :mask="['(##) ####-####', '(##) #####-####']" 
-                        v-validate="'min:10'" data-vv-as="telefone fixo" data-vv-name="phone"
+                        v-validate="'required|min:10'" data-vv-as="telefone" data-vv-name="phone"
                         :class="{'form-control': true, 'is-danger': errors.has('phone') }"
                         class="form-control form-control-lg input__entrar"/>
                 <div v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</div>
@@ -39,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            <the-mask v-model="buyer.birth" placeholder="Data de nascimento" 
+            <the-mask v-model="user.buyer.birth" placeholder="Data de nascimento" 
                 :mask="'##/##/####'"
                 v-validate="'min:8'"
                 data-vv-as="Data de nascimento" data-vv-name="birth"
@@ -67,11 +67,11 @@
     export default {
         data() {
             return {
-
+                user: {}
             }
         },
         props: [
-            'user', 'buyer'
+            'userdata'
         ],
         methods: {
             validateBeforeSubmit() {
@@ -86,7 +86,7 @@
             updateData() {
                 axios.post('perfil', {
                     'user': this.user,
-                    'buyer': this.buyer,
+                    'buyer': this.user.buyer,
                   })
                   .then(function (res) {
                     console.log(res);
@@ -98,8 +98,11 @@
                   });
             }
         },
-        mounted() {
-
+        created() {
+            if(this.$props.userdata.buyer === null) {
+                this.$props.userdata.buyer = {}
+            }
+            this.user = this.$props.userdata
         }
     }
 </script>

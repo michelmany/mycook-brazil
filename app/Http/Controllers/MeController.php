@@ -20,7 +20,8 @@ class MeController
         $passwordIsNull = empty($user->password);
         unset($user->password);
         $buyer = \Auth::user()->buyer()->first();
-        return view('me.profile', ['user'=>$user, 'buyer'=>$buyer, 'passwordIsNull'=>$passwordIsNull]);
+        $user->buyer = $buyer;
+        return view('me.profile', ['user'=>$user, 'passwordIsNull'=>$passwordIsNull]);
     }
 
     public function profilePost(Request $request)
