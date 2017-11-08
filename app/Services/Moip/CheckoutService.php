@@ -74,7 +74,7 @@ class CheckoutService
         $this->verifyBuyerProfile();
         $this->verifyAddress();
 
-        return $this->createCustomer();
+        return $this->findOrCreateCustomer();
     }
 
     /**
@@ -99,13 +99,6 @@ class CheckoutService
      */
     public function getAddress()
     {
-        // $pathname = str_finish('address', str_replace('/', '-', $this->request->pathname));
-
-        // if(Cache::has($pathname)) {
-        //     $address = Cache::get($pathname);
-
-        //     return Address::find($address['id']);
-        // }
         return $this->user->addresses()->where('default', true)->first();
     }
 
@@ -113,7 +106,7 @@ class CheckoutService
      * Create customer of order
      * @return \Illuminate\Http\JsonResponse
      */
-    public function createCustomer()
+    public function findOrCreateCustomer()
     {
         if(!$this->buyer->phone) {
             return response()->json([
@@ -162,8 +155,14 @@ class CheckoutService
      */
     public function createOrder(Customer $customer)
     {
+        /**
+         * Todo: valor do frete
+         */
+        $freteAmount = (float)$this->settingService->get('delivery_fee');
+
         try{
             $order = $this->moip->orders()->setOwnId(uniqid());
+
             if(count($this->request->items) <= 0){
                 return response()->json(['error' => 'Não existem produtos no carrinho.'], 422);
             }
@@ -172,7 +171,8 @@ class CheckoutService
                 $this->checkItem($item);
                 $order->addItem($item['name'], $item['qty'], $item['desc'], Utils::toCents((float)$item['price']));
             }
-            $order->setShippingAmount(Utils::toCents((float)$this->settingService->get('delivery_fee'))); //
+
+            $order->setShippingAmount($freteAmount);
 
             if(isset($this->request->additional[1])) {
                 $coupon = $this->request->additional[1];
@@ -183,15 +183,17 @@ class CheckoutService
             $order->setUrlSuccess(route('moip.payments.success'))
                   ->setUrlFailure(route('moip.payments.error'));
             $order
-                  ->setCustomer($customer)
-                  ->addReceiver($this->request->seller, 'SECONDARY', Utils::toCents((float)$this->request->total), null, true)
-                  ->create();
+                ->setCustomer($customer)
+                // Todo: implementações issue [https://mycook.mydonedone.com/issuetracker/projects/64131/issues/8]
+                ->addInstallmentCheckoutPreferences([1, 1])
+                ->addReceiver($this->request->seller, 'SECONDARY', Utils::toCents((float)$this->request->total), null, false)
+                ->create();
 
             $this->saveOrder($order);
             $this->clearCartCache();
             return response()->json($order->getLinks()->getCheckout('payCreditCard'), 201);
         }catch (\Exception $e) {
-            // dd($e);
+             dd($e);
             return response()->json(['error' => 'Pedido falhou, atualize a página e tente novamente', '__toString'=>$e->__toString()], 400);
         }
     }
@@ -204,6 +206,14 @@ class CheckoutService
      */
     private function saveOrder(Orders $order)
     {
+        /**
+         * Todo: simular desconto moip
+         */
+        $totalAmount = (float)$this->request->total;
+        $percentage_rate = config('moip.settings.percentage_rate');
+        $additional_rate = config('moip.settings.additional_rate');
+        $moipDiscount = ($percentage_rate * 100) / $totalAmount + $additional_rate;
+
         $items = [];
         foreach ($order->getItemIterator()->getArrayCopy() as $key => $item) {
             $items[$key] = [
@@ -223,7 +233,7 @@ class CheckoutService
             $orders->seller_id = $this->request->seller_id;
             $orders->buyer_id = $this->buyer->id;
             $orders->status = $order->getStatus();
-            $orders->items = array_merge($items, $this->request->additional);
+            $orders->items = array_merge($items, $this->request->additional, ['moip_rate' => $moipDiscount]);
 
             $orders->status_delivery = 0;
             $orders->amount = [
