@@ -77,17 +77,17 @@
                             </div>
                         </div>
                         <ul class="navbar-nav ml-auto hidden-lg-up">
-                            <li {{ (Request::is('/') ? 'class=active' : '') }}>
-                                <a class="nav-link" href="{{ route('home') }}">Perfil</a>
+                            <li {{ (Request::is('minha-conta/perfil') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('profile') }}">Perfil</a>
                             </li>
-                            <li {{ (Request::is('sobre') ? 'class=active' : '') }}>
+                            <li {{ (Request::is('minha-conta/enderecos') ? 'class=active' : '') }}>
                                 <a class="nav-link" href="{{ route('profile.adresses') }}">Meus endereços</a>
                             </li>
-                            <li {{ (Request::is('quero-vender') ? 'class=active' : '') }}>
-                                <a class="nav-link" href="{{ route('queroVender') }}">Avaliações</a>
+                            <li {{ (Request::is('minha-conta/avaliacoes') ? 'class=active' : '') }}>
+                                <a class="nav-link disabled" href="{{-- {{ route('profile.score') }} --}}">Avaliações</a>
                             </li>
-                            <li {{ (Request::is('como-funciona') ? 'class=active' : '') }}>
-                                <a class="nav-link" href="{{ route('comoFunciona') }}">Acompanhar pedidos</a>
+                            <li {{ (Request::is('minha-conta/pedidos') ? 'class=active' : '') }}>
+                                <a class="nav-link" href="{{ route('orders.list') }}">Acompanhar pedidos</a>
                             </li>
                             <li>
                                 <a class="nav-link" href="{{ route('logout') }}">Sair</a>
