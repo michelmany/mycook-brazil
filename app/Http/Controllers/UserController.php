@@ -61,7 +61,7 @@ class UserController extends Controller
         $buyer->phone = $request->input('phone');
         $buyer->birth = $request->input('birth');
 
-        $buyer->user()->associate($user);
+        $buyer->user()->associate($user)->save();
 
         \Mail::to(config('mail.contact'))->send(new BuyerAdminRegisterMail);
         \Mail::to($user->email)->send(new BuyerRegisterMail);
