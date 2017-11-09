@@ -30,7 +30,7 @@
             <div class="col-6">
                 <the-mask v-model="user.cpf" placeholder="Seu CPF" 
                     :mask="'###.###.###-##'"
-                    v-validate="'cpf|digits:11'" data-vv-as="CPF" data-vv-name="cpf"
+                    v-validate="'required|cpf|digits:11'" data-vv-as="CPF" data-vv-name="cpf"
                     :class="{'form-control': true, 'is-danger': errors.has('cpf') }"
                     id="cpfField"
                     class="form-control form-control-lg input__entrar"></the-mask>
@@ -96,6 +96,16 @@
                     console.log(error);
                     toastr.error('Não foi possível editar seus dados!', 'Erro de servidor');
                   });
+            },
+            checkCpf(cpf) {
+              if (cpf) {
+                  axios.post('/entrar/check-cpf', {cpf: cpf}).then((res) => {
+                    if (res.data.status === 'founded') {
+                      toastr.warning('Esse CPF já está cadastrado em nosso sistema!', 'Atenção');
+                      this.user.cpf = null;
+                    }
+                  });
+              }
             }
         },
         created() {
@@ -103,7 +113,14 @@
                 this.$props.userdata.buyer = {}
             }
             this.user = this.$props.userdata
+        },
+        mounted() {
+            let cpfField = document.getElementById('cpfField');
+            cpfField.addEventListener('blur', ($event) => {
+              this.checkCpf(cpfField.value);
+            });
         }
+
     }
 </script>
 <style lang="scss" scoped>

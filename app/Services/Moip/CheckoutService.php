@@ -108,6 +108,8 @@ class CheckoutService
      */
     public function findOrCreateCustomer()
     {
+        $this->verifyAddress();
+        
         if(empty($this->buyer->phone) || !isset($this->buyer->phone))  {
             return response()->json([
                 'error' => 'Adicione um telefone de contato em seu perfil para prosseguir',
