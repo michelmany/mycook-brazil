@@ -1,6 +1,8 @@
 <template>
     <div id="boxAvatarPreview">
 
+        <div class="placeholder-photo pointer" @click="chooseFile()"></div>
+
         <img v-if="this.url === null"
         class="rounded"
         id="photoPreview"
@@ -11,8 +13,9 @@
         <img v-else
         class="rounded" 
         id="photoPreview"
-        :src="this.url" 
-        @click="chooseFile()" 
+        src="/assets/img/no-image-products.jpg"
+        :src="this.url"
+        @click="chooseFile()"
         :class="{'pointer': file === null}">
 
         <input id="sender" type="button" value="Clique para enviar" v-if="file !== null" class="btn btn-primary pointer" @click="sendFile()">
@@ -77,6 +80,16 @@
 </script>
 
 <style scoped lang="scss">
+    
+    .placeholder-photo {
+        width: 100%;
+        height: 100%;
+        background: #dcd7d7;
+        position: absolute;
+        top: 0;
+        z-index: 0;
+    }
+
     #fileUpload {
         display: none;
     }
@@ -118,6 +131,8 @@
         height: auto;
         margin:-100% 0;
         max-width: 100%;
+        position: relative;
+        // z-index: 9;
     }
 
     #sender {
