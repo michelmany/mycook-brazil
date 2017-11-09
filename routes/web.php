@@ -71,8 +71,8 @@ Route::get('send_test_email', function(){
  | Default Routes
  */
 Route::group(['prefix' => '/'], function() {
-    // Route::get('/home', function () { return view('home'); })->name('home');
-    Route::get('/', function () { return view('maintenance'); })->name('home');
+    Route::get('/', function () { return view('home'); })->name('home');
+    // Route::get('/', function () { return view('maintenance'); })->name('home');
     Route::get('entrar', function () { return view('entrar'); })->name('entrar');
     Route::get('quero-vender', 'UserController@sellerRegister')->name('queroVender');
     Route::post('quero-vender', 'UserController@sellerRegisterPost')->name('queroVenderPost');
