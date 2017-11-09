@@ -108,7 +108,7 @@ class CheckoutService
      */
     public function findOrCreateCustomer()
     {
-        if(!$this->buyer->phone) {
+        if(empty($this->buyer->phone) || !isset($this->buyer->phone))  {
             return response()->json([
                 'error' => 'Adicione um telefone de contato em seu perfil para prosseguir',
                 '_link' => '/minha-conta/perfil'
