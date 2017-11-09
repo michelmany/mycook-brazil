@@ -172,7 +172,7 @@ class CheckoutService
                 $order->addItem($item['name'], $item['qty'], $item['desc'], Utils::toCents((float)$item['price']));
             }
 
-            $order->setShippingAmount($freteAmount);
+            $order->setShippingAmount(Utils::toCents($freteAmount));
 
             if(isset($this->request->additional[1])) {
                 $coupon = $this->request->additional[1];
@@ -186,7 +186,7 @@ class CheckoutService
                 ->setCustomer($customer)
                 // Todo: implementações issue [https://mycook.mydonedone.com/issuetracker/projects/64131/issues/8]
                 ->addInstallmentCheckoutPreferences([1, 1])
-                ->addReceiver($this->request->seller, 'SECONDARY', Utils::toCents((float)$this->request->total), null, false)
+                ->addReceiver($this->request->seller, 'SECONDARY', null, 78, false)
                 ->create();
 
             $this->saveOrder($order);
@@ -212,7 +212,7 @@ class CheckoutService
         $totalAmount = (float)$this->request->total;
         $percentage_rate = config('moip.settings.percentage_rate');
         $additional_rate = config('moip.settings.additional_rate');
-        $moipDiscount = ($percentage_rate * 100) / $totalAmount + $additional_rate;
+        $moipDiscount = ($percentage_rate * $totalAmount) / 100 + $additional_rate;
 
         $items = [];
         foreach ($order->getItemIterator()->getArrayCopy() as $key => $item) {
