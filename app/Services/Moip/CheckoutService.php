@@ -71,9 +71,6 @@ class CheckoutService
         $this->buyer = $this->user->buyer;
         $this->address = $this->getAddress();
 
-//        $this->verifyBuyerProfile();
-//        $this->verifyAddress();
-
         return $this->findOrCreateCustomer();
     }
 
@@ -163,6 +160,8 @@ class CheckoutService
          */
         $freteAmount = (float)$this->settingService->get('delivery_fee');
 
+        $moipDivision = $this->generateAmount();
+
         try{
             $order = $this->moip->orders()->setOwnId(uniqid());
 
@@ -189,7 +188,7 @@ class CheckoutService
                 ->setCustomer($customer)
                 // Todo: implementações issue [https://mycook.mydonedone.com/issuetracker/projects/64131/issues/8]
                 ->addInstallmentCheckoutPreferences([1, 1])
-                ->addReceiver($this->request->seller, 'SECONDARY', null, 78, false)
+                ->addReceiver($this->request->seller, 'SECONDARY', $moipDivision['secondary'], null, false)
                 ->create();
 
             $this->saveOrder($order);
@@ -199,6 +198,26 @@ class CheckoutService
             //dd($e);
             return response()->json(['error' => 'Pedido falhou, atualize a página e tente novamente', 'message' => $e->getMessage(), '__toString'=>$e->__toString()], 400);
         }
+    }
+
+    /**
+     * @return array
+     */
+    private function generateAmount()
+    {
+        $items = collect($this->request->items);
+        $total = collect([]);
+
+        $items->each(function($item, $key) use ($total) {
+            $total->push(['subtotal' => $item['qty'] * $item['price']]);
+        });
+
+        $totalOrder = $total->sum->subtotal;
+
+        return [
+            'primary' => Utils::toCents((22 * $totalOrder) / 100),
+            'secondary' => Utils::toCents((78 * $totalOrder) / 100)
+        ];
     }
 
     /**
