@@ -66,16 +66,14 @@
             </div>
         </div>
 
-        <div v-if="items.length > 0" class="card-footer text-muted">
-            <coupon :total="totalItems" @couponDiscount="couponDiscount" v-if="additional.length < 2"></coupon>
-
-            <div v-if="userIsLogged" class="btn-group" style="width: 100%;">
-                <!--<button class="btn btn-primary" :disabled="items.length <= 0"><i class="fa fa-cart-arrow-down"></i> Limpar </button>-->
-                <button class="btn btn-primary btn-block" :disabled="items.length <= 0" @click="createPayment()">Finalizar compra</button>
-            </div>
-
-            <a :href="'/entrar?intended='+pathname" class="btn btn-primary btn-block" v-else>Finalizar compra</a>
-
+        <div class="card-footer">
+            <coupon :total="totalItems" @couponDiscount="couponDiscount" v-if="items.length > 0 && additional.length < 2"></coupon>
+            <button type="submit" 
+                class="btn btn-primary btn-block ladda-button" 
+                :disabled="items.length <= 0" @click="createPayment()"
+                data-style="zoom-out">
+                <span class="ladda-label">Finalizar compra</span>
+            </button>
         </div>
 
         <!-- modal note -->
@@ -213,62 +211,67 @@
                      })
             },
             createPayment() {
-                toastr.info('Aguarde só um instante', 'Estamos Processando todas as Informações', {
-                    timeOut: 2000,
-                    onHidden: () => {
-                        const payload = {
-                            items: this.items,
-                            additional: this.additional,
-                            seller: this.chefMoipId,
-                            seller_id: this.chefId,
-                            total: parseFloat(this.total),
-                            courier: this.courier,
-                            pathname: this.pathname
-                        };
+                if(this.userIsLogged) {
+                    toastr.info('Aguarde só um instante', 'Estamos Processando todas as Informações', {
+                        timeOut: 2000,
+                        onHidden: () => {
+                            const payload = {
+                                items: this.items,
+                                additional: this.additional,
+                                seller: this.chefMoipId,
+                                seller_id: this.chefId,
+                                total: parseFloat(this.total),
+                                courier: this.courier,
+                                pathname: this.pathname
+                            };
 
-                        axios.post('/moip/marketplace/order/process', payload)
-                            .then(res => {
-                                toastr.success('Aguarde, iremos redireciona-lo','Seu Pedido foi Criado!', {
-                                    progressBar: true,
-                                    timeout: 2000,
-                                    onHidden: () => {
-                                        window.location.href = res.data;
-                                    }
-                                });
-                            })
-                            .catch(error => {
-                                // 400
-                                if(error.response.status === 400) {
-                                    toastr.warning(error.response.data.error, 'Impossivel Continuar',{
-                                        progressBar: true,
-                                        timeout: 2000,
-                                    })
-                                }
-                                // 422 and 412
-                                if(error.response.status === 422 || error.response.status === 412) {
-                                    toastr.error(error.response.data.error, 'Processo Necessário', {
+                            axios.post('/moip/marketplace/order/process', payload)
+                                .then(res => {
+                                    toastr.success('Aguarde, iremos redireciona-lo','Seu Pedido foi Criado!', {
                                         progressBar: true,
                                         timeout: 2000,
                                         onHidden: () => {
-                                            if(error.response.data._link){
+                                            window.location.href = res.data;
+                                        }
+                                    });
+                                })
+                                .catch(error => {
+                                    // 400
+                                    if(error.response.status === 400) {
+                                        toastr.warning(error.response.data.error, 'Impossivel Continuar',{
+                                            progressBar: true,
+                                            timeout: 2000,
+                                        })
+                                    }
+                                    // 422 and 412
+                                    if(error.response.status === 422 || error.response.status === 412) {
+                                        toastr.error(error.response.data.error, 'Processo Necessário', {
+                                            progressBar: true,
+                                            timeout: 2000,
+                                            onHidden: () => {
+                                                if(error.response.data._link){
+                                                    window.location.href = error.response.data._link
+                                                }
+                                            }
+                                        })
+                                    }
+                                    // 500
+                                    if(error.response.status === 500) {
+                                        toastr.error(error.response.data.error, 'Falha Interna', {
+                                            progressBar: true,
+                                            timeout: 2000,
+                                            onHidden: () => {
                                                 window.location.href = error.response.data._link
                                             }
-                                        }
-                                    })
-                                }
-                                // 500
-                                if(error.response.status === 500) {
-                                    toastr.error(error.response.data.error, 'Falha Interna', {
-                                        progressBar: true,
-                                        timeout: 2000,
-                                        onHidden: () => {
-                                            window.location.href = error.response.data._link
-                                        }
-                                    })
-                                }
-                            })
-                    }
-                })
+                                        })
+                                    }
+                                })
+                        }
+                    })
+                } else {
+                    window.location.href = '/entrar?intended='+this.pathname
+                }
+                
             },
             addItemToCart(item) {
                _.set(item.item, 'note', 'observações....');
@@ -288,6 +291,8 @@
 
             // get cart history
             this.getCart();
+
+            Ladda.bind( '.ladda-button', { timeout: 6000 } );
         },
         created() {
             this.$bus.$on('cartItems', (cartItems, cartData, item, selectedDateIndex, selectedTimes) => {
