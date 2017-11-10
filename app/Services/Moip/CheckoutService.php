@@ -71,8 +71,8 @@ class CheckoutService
         $this->buyer = $this->user->buyer;
         $this->address = $this->getAddress();
 
-        $this->verifyBuyerProfile();
-        $this->verifyAddress();
+//        $this->verifyBuyerProfile();
+//        $this->verifyAddress();
 
         return $this->findOrCreateCustomer();
     }
@@ -196,8 +196,8 @@ class CheckoutService
             $this->clearCartCache();
             return response()->json($order->getLinks()->getCheckout('payCreditCard'), 201);
         }catch (\Exception $e) {
-             dd($e);
-            return response()->json(['error' => 'Pedido falhou, atualize a página e tente novamente', '__toString'=>$e->__toString()], 400);
+            //dd($e);
+            return response()->json(['error' => 'Pedido falhou, atualize a página e tente novamente', 'message' => $e->getMessage(), '__toString'=>$e->__toString()], 400);
         }
     }
 
@@ -209,6 +209,8 @@ class CheckoutService
      */
     private function saveOrder(Orders $order)
     {
+        echo 'saving order... ';
+
         /**
          * Todo: simular desconto moip
          */
@@ -244,8 +246,9 @@ class CheckoutService
             ];
             $orders->_links = array_merge(['order' => $order->getLinks()->getSelf()], ['checkout' => $order->getLinks()->getAllCheckout()]);
             $orders->save();
+            echo 'order saved!';
         }catch (\Error $e) {
-            return response()->json(['error' => $e->__toString()], 400);
+            return response()->json(['error' => $e->__toString(), 'message' => $e->getMessage()], 400);
         }
 
         try {
@@ -255,12 +258,13 @@ class CheckoutService
             $orderDeliveryData->fulldate =  $this->request->courier['fulldate'];
             $orderDeliveryData->time = Carbon::parse($this->request->courier['time']);
             $orderDeliveryData->save();
+            echo 'order delivery saved... ';
         } catch (Exception $e) {
           $orders->delete();
           $orderDeliveryData->delete();
-          return response()->json(['error' => $e->__toString()], 400);
+            echo 'removing order and order_delivery.';
+            return response()->json(['error' => $e->__toString(), 'message' => $e->getMessage()], 400);
         }
-
     }
 
     /**
