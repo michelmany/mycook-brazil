@@ -109,10 +109,11 @@ class CheckoutService
     public function findOrCreateCustomer()
     {
         $this->verifyAddress();
-        
-        if(empty($this->buyer->phone) || !isset($this->buyer->phone))  {
+        $this->verifyBuyerProfile();
+
+        if(empty($this->user->cpf) || is_null($this->user->cpf) || empty($this->buyer->phone) || is_null($this->buyer->phone)) {
             return response()->json([
-                'error' => 'Adicione um telefone de contato em seu perfil para prosseguir',
+                'error' => 'Informe seu telefone e CPF em seu perfil para prosseguir',
                 '_link' => '/minha-conta/perfil'
             ],422);
         }
