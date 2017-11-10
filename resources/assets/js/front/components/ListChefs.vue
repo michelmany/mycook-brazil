@@ -4,7 +4,7 @@
         <vue-loading v-show="loading" type="bubbles" color="#F95700" :size="{ width: '50px', height: '50px' }" key="1"></vue-loading>
 
         <transition-group name="component-fade" mode="out-in">
-            <div class="row" v-if="chefs.length > 0" key="results">
+            <div class="row" v-if="hasChefs" key="results">
                 <div class="col-lg-6" v-for="(chef,index) in filteredChefs" :key="index">
                     <div class="chef-item__box" @click="goToSinglePage(chef.user_id)">
                         <div class="d-flex justify-content-start align-items-center">
@@ -21,12 +21,12 @@
                     </div>
                 </div>
             </div>
-            <div v-show="chefs.length == 0" key="no-results">
+            <div v-show="showAlert" key="no-results">
                 <div class="alert alert-warning" role="alert">
                     Não encontramos nenhum Chef em sua região. <a href="/">Clique aqui para adicionar novo endereço.</a>
                 </div>
             </div>
-            <div v-show="chefs.length > 0 && filteredChefs.length == 0" key="no-results">
+            <div v-show="hasChefs && filteredChefs.length == 0" key="no-results">
                 <div class="alert alert-warning" role="alert">
                     Desculpe, não encontramos nenhum Chef com este nome!
                 </div>
@@ -46,12 +46,13 @@
         data() {
             return {
                 loading: false,
-                chefs: {},
+                chefs: [],
                 data: [],
                 user: {},
                 address: {},
                 coordinates: {},
-                search: ''
+                search: '',
+                showAlert: false
             }
         },
         props: ["latitude", "longitude"],
@@ -65,6 +66,10 @@
                     // console.log(res.data)
                     this.loading = false
                     this.chefs = res.data
+
+                    if(this.chefs.length === 0) {
+                        this.showAlert = true
+                    }
 
                     if(res.data.length != 0) {
                         eventBus.$emit('has-chef', true);
@@ -112,8 +117,11 @@
         computed: {
             filteredChefs() {
                 var self = this;
+
+                // console.log(this.chefs);
+                var arr = _.values(this.chefs)
               
-                return this.chefs.filter(function(chef) {
+                return arr.filter(function(chef) {
                     if(!chef.custom_name || chef.custom_name == "null") {
                         return chef.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
                     } else {
@@ -121,6 +129,10 @@
                     }
                 });
                 
+            },
+            hasChefs() {
+                let arr = _.values(this.chefs);
+                return arr.length > 0;
             }
         },
         mounted() {
