@@ -18,6 +18,10 @@ class CreateOrderDeliveryDatasTable extends Migration
             $table->string('day');
             $table->string('fulldate');
             $table->timestamp('time');
+            $table->unsignedInteger('order_id');
+//            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->unsignedInteger('address_id');
+            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +33,12 @@ class CreateOrderDeliveryDatasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_delivery_datas');
+     //   Schema::dropIfExists('order_delivery_datas');
+
+        Schema::table('order_delivery_datas', function (Blueprint $table) {
+//            $table->dropForeign('order_delivery_datas_order_id_foreign');
+            $table->dropForeign('order_delivery_datas_address_id_foreign');
+            $table->dropIfExists();
+        });
     }
 }

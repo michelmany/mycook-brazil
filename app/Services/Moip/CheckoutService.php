@@ -205,11 +205,11 @@ class CheckoutService
      * Cadastra pedido no banco de dados
      *
      * @param Orders $order
-     * @return void
+     * @return mixed
      */
     private function saveOrder(Orders $order)
     {
-        echo 'saving order... ';
+//        echo 'saving order... ';
 
         /**
          * Todo: simular desconto moip
@@ -231,8 +231,7 @@ class CheckoutService
         }
 
         $orders = new Order();
-        $orderDeliveryData = new OrderDeliveryData();
-        
+
         try{    
             $orders->orderId = $order->getId();
             $orders->seller_id = $this->request->seller_id;
@@ -246,23 +245,37 @@ class CheckoutService
             ];
             $orders->_links = array_merge(['order' => $order->getLinks()->getSelf()], ['checkout' => $order->getLinks()->getAllCheckout()]);
             $orders->save();
-            echo 'order saved!';
+
+            $this->saveOrderDeliveryData($orders);
+//            echo 'order saved!';
         }catch (\Error $e) {
+            abort(400, $e->getMessage());
             return response()->json(['error' => $e->__toString(), 'message' => $e->getMessage()], 400);
         }
 
+    }
+
+    /**
+     * @param Order $order
+     * @return mixed
+     */
+    private function saveOrderDeliveryData(Order $order)
+    {
+        $orderDeliveryData = new OrderDeliveryData();
+
         try {
-            $orderDeliveryData->order()->associate($orders);
+            $orderDeliveryData->order()->associate($order);
             $orderDeliveryData->address_id = $this->address->id;
             $orderDeliveryData->day = MoipUtil::formatDate($this->request->courier['time'])->format('d');
             $orderDeliveryData->fulldate =  $this->request->courier['fulldate'];
             $orderDeliveryData->time = Carbon::parse($this->request->courier['time']);
             $orderDeliveryData->save();
-            echo 'order delivery saved... ';
+//            echo 'order delivery saved... ';
         } catch (Exception $e) {
-          $orders->delete();
-          $orderDeliveryData->delete();
-            echo 'removing order and order_delivery.';
+            $order->delete();
+            $orderDeliveryData->delete();
+//            echo 'removing order and order_delivery.';
+            abort(400, $e->getMessage());
             return response()->json(['error' => $e->__toString(), 'message' => $e->getMessage()], 400);
         }
     }
