@@ -87,6 +87,10 @@
                     this.loading = false
                     this.chefs = res.data
 
+                    if(this.chefs.length === 0) {
+                        this.showAlert = true
+                    }
+
                     if(res.data.length != 0) {
                         eventBus.$emit('has-chef', true);
                     }
