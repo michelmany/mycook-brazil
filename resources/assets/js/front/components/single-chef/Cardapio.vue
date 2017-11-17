@@ -48,7 +48,7 @@
                                     <div>
                                         <h5 class="cardapio__title text-uppercase">{{ item.name }}</h5>
                                         <div class="cardapio__desc">{{ item.desc }}</div>
-                                        <span class="cardapio__readmore" @click="expandReadMore(index)">Ler mais...</span>
+                                        <span class="cardapio__readmore" @click="expandReadMore(category.id, index)">Ler mais...</span>
 
                                         <div>
                                             <span class="cardapio__serve badge badge-primary" v-if="item.serve > 0">
@@ -480,9 +480,10 @@
 
                 }
             },
-            expandReadMore(index) {
-                var cardapioDesc = $('.cardapio__desc').get(index);
-                var cardapioReadMore = $('.cardapio__readmore').get(index);
+            expandReadMore(catId, itemIndex) {
+                let accordion_category = $("div").find(`[data-category='${catId}']`)
+                let cardapioDesc = accordion_category.find('.cardapio__desc').get(itemIndex)
+                let cardapioReadMore = accordion_category.find('.cardapio__readmore').get(itemIndex);
 
                 if( $(cardapioDesc).height() < 45 ) {
                     $(cardapioReadMore).css('display', 'none');
