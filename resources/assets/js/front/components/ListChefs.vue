@@ -164,11 +164,19 @@
 
 <style lang="scss">
 
+    .sweet-modal.sweet-alert .sweet-content {
+        padding-bottom: 15px;
+    }
+
     .sweet-modal .sweet-content + .sweet-buttons {
         @media screen and (max-width: 600px) {
-            position: fixed;
+            position: relative;
             text-align: center;
-            background-color: #efefef;
+            background-color: #fff;
+            bottom: 0;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            border-top: 0;
         }
     }
 
