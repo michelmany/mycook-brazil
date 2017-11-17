@@ -116,7 +116,7 @@
                 </div>
             </div>
 
-            <button slot="button" class="btn btn-submit-orange"
+            <button slot="button" class="btn btn-submit-green"
                     v-bind:disabled="cartData.time.length == 0"
                     v-bind:class="{ disabled: cartData.time.length == 0 }"
                     @click="continueToCart(currentModalTime.item, currentModalTime.index)">Continuar</button>
@@ -549,10 +549,10 @@
                 return refreshAt(0,1,0); //Will refresh the page at 00:01:00am
             },
             people(serve) {
-                // console.log(serve)
-                if(serve == "1") {
+                let qtd = parseInt(serve);
+                if(qtd === 1) {
                     return "pessoa"
-                } else if(serve >= "2") {
+                } else if(qtd >= 2) {
                     return "pessoas"
                 }
             },
