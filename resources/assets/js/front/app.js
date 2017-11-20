@@ -51,7 +51,8 @@ Validator.addLocale(Portuguese);
 
 Vue.use(VeeValidate, {
     locale: 'pt_BR',
-    dictionary: Dictionary
+    dictionary: Dictionary,
+    fieldsBagName: 'formFields'
 });
 
 Vue.use(VTooltip)
