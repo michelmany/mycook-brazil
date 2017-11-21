@@ -27,7 +27,7 @@ export default {
         all(store, payload) {
             httpService.list()
                 .then(res => {
-                    store.commit('SET_ORDERS', res.data.orders)
+                    store.commit('SET_ORDERS', _.filter(res.data.orders, {'status': 'PAID'}))
                 })
         },
         find(store, payload) {
