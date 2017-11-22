@@ -11,9 +11,6 @@
         <div class="card">
             <div class="card-block">
                 <div class="row d-flex align-items-center">
-                    <div class="col-lg-3" v-if="product.photo">
-                        <img :src="product.photo_full_url + '?s=200'" class="img-responsive">
-                    </div>
                     <div class="col-lg-8">
                         <h5>Tem certeza que quer excluir o produto <strong>{{ product.name }}</strong>?</h5>
                         <a href="" class="btn btn-success btn-lg" @click.prevent="remove()">SIM</a> 
