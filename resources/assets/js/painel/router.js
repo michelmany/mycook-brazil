@@ -258,7 +258,7 @@ const routes = [
                 name: 'panel.seller.cardapio-edit',
             },
             {
-                path: '/seller/cardapio/:id/delete',
+                path: '/seller/cardapio/:id/remove',
                 component: CardapioDelete,
                 name: 'panel.seller.cardapio-delete',
             },
