@@ -362,21 +362,29 @@
                 // console.log(date)
             },
             timeRangeAvailableForToday(item) {
-                var arr = item.extras[0].time;
-                var todayTime = arr.slice(-1)[0]; //get the last time
-                // console.log(todayTime);
-                if (item.extras[0] && item.extras[0].quantity > 0 && moment(todayTime).unix() > this.now ) {
-                    return item.extras[0].start_time + " às " + item.extras[0].end_time;
+                let extraHoje = item.extras[0];
+                let todayTime = _.last(extraHoje.time);
+
+                if (extraHoje && extraHoje.quantity > 0 && moment(todayTime).unix() > this.now ) {
+                    return extraHoje.start_time + " às " + extraHoje.end_time;
                 }
                 return "Indisponível";
             },
             dateRangeBadge(item) {
-                var dateRange = [];
+                let dateRange = [];
+                let extraHoje = item.extras[0];
+                let todayTime = _.last(extraHoje.time);
+
                 item.extras.forEach((extra) => {
-                    if(extra.quantity) {
+                    if(extra.quantity > 0) {
                         dateRange.push(extra.date);
                     }
                 })
+
+                if(moment(todayTime).unix() < this.now) {
+                    _.pull(dateRange, extraHoje.date);
+                }
+
                 return dateRange.join(", ");
             },
             pastTime(time) {
