@@ -70,8 +70,8 @@
                                         <div class="cardapio__days" v-show="index == itemIndex" v-if="showDays">
                                             <p>Selecione o dia desejado</p>
                                             <li v-for="(weekDay, dayIndex) in item.extras" class="text-uppercase"
-                                                v-bind:disabled="weekDay.quantity == 0 || pastTime(weekDay.time)"
-                                                v-bind:class="{ disabled: weekDay.quantity == 0 || pastTime(weekDay.time) }"
+                                                v-bind:disabled="checkQtyAndTimePast(weekDay.quantity, weekDay.time, dayIndex)"
+                                                v-bind:class="{ disabled: checkQtyAndTimePast(weekDay.quantity, weekDay.time, dayIndex) }"
                                                 @click="selectDate(weekDay, dayIndex, index, item)">{{ weekDay.date }}</li>
                                         </div>
                                     </transition>
@@ -146,6 +146,7 @@
                 noItemTextMessage: "Nenhum produto cadastrado no cardápio!",
                 loading: false,
                 showDays: false,
+                isDisabled: false,
                 isListFiltered: false,
                 selectedTimes: [],
                 itemIndex: '',
@@ -179,6 +180,18 @@
             }
         },
         props: ["chefId"],
+        computed: {
+            classDisabled() {
+                return {
+                    disabled: this.isDisabled
+                }
+            },
+            // isDisabled(evt) {
+            //     console.log(evt)
+            //     // return true
+            //     // !checkQty(weekDay.quantity) || checkPastTime(weekDay[0])
+            // }
+        },
         methods: {
             setNow() {
                 this.now = moment().unix()
@@ -193,6 +206,28 @@
                 }
 
                 // console.log(event)
+            },
+            checkQtyAndTimePast(qty, time, index) {
+                let lastTimeOfToday = _.last(time)
+                let lastTimeOfTodayUnix = moment(lastTimeOfToday).subtract(1, 'hours').unix()
+
+                // is disabled
+                if(qty == 0) {
+                    return true
+                }
+
+                // is disabled
+                if(index == 0 && lastTimeOfTodayUnix < this.now) {
+                    return true
+                }
+
+                // console.log(lastTimeOfToday)
+            },
+            checkPastTime(today) {
+                console.log(today)
+                // var todayTime = time.slice(-1)[0]; //get the last time
+                // todayTime = moment(todayTime).add(1, 'hours').unix()
+                // return todayTime < this.now
             },
             selectDate(weekday, dayIndex, index, item = '') {
                 this.setNow()
@@ -386,13 +421,6 @@
                 }
 
                 return dateRange.join(", ");
-            },
-            pastTime(time) {
-                var todayTime = time.slice(-1)[0]; //get the last time
-                if (moment(todayTime).unix() < this.now) {
-                    return true
-                }
-                return false
             },
             getProducts() {
                 this.loading = true;
