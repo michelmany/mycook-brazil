@@ -38,7 +38,7 @@
                 </div>
                 <div class="mt-3">
                     <button class="btn btn-link btn-lg" @click="backToHomeQuery()">Voltar</button>
-                    <button class="btn search__button" @click="getLocation()">Buscar</button>
+                    <button class="btn search__button" @click="validateBeforeSubmit()">Buscar</button>
                 </div>
             </div>
         </transition>
@@ -63,9 +63,10 @@ import { eventBus } from '../app';
         },
         methods: {
             validateBeforeSubmit() {
-                this.$validator.validateAll().then(() => {
-
-                    // this.getLocation()
+                this.$validator.validateAll().then((res) => {
+                    if(res) {
+                        this.getLocation()
+                    }
 
                 }).catch(() => {
                     toastr.warning('Digite seu CEP corretamente!', 'Atenção');
