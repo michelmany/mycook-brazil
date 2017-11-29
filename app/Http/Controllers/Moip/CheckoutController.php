@@ -61,6 +61,13 @@ class CheckoutController extends Controller
         $update->payment = $order->payment;
         $update->save();
 
+        if($order->status->origin === 'PAID') {
+            
+            Mail::to(config('mail.contact'))->send(new AdminOrderPaidMail($order));
+
+            // \Mail::to(config('mail.contact'))->send(new SellerAdminRegisterMail());
+        }
+
         return redirect()->route('orders.show', ['id' => $request->orderId]);
     }
 

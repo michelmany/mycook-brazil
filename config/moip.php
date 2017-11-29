@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     /*
@@ -39,7 +38,7 @@ return [
     |
     */
     'marketplace' => [
-        'endpoint' => \Moip\Auth\Connect::ENDPOINT_PRODUCTION,
+        'endpoint' => env('MARKETPLACE_ENDPOINT', \Moip\Auth\Connect::ENDPOINT_PRODUCTION),
         'id'  => getenv('MARKETPLACE_ID'),
         'name' => 'MyCook',
         'description' => 'Delivery de comida caseira online',
