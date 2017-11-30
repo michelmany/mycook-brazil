@@ -3,10 +3,18 @@
 namespace App\Http\Controllers\Moip;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AdminOrderPaidMail;
+use App\Models\Address;
 use App\Models\Order;
+use App\Models\OrderDeliveryData;
+use App\Models\Seller;
 use App\Services\Moip\CheckoutService;
 use App\Services\Moip\Customer\OrderService;
+use App\Support\Moip\Utils as MoipUtil;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 
 class CheckoutController extends Controller
 {
@@ -44,7 +52,7 @@ class CheckoutController extends Controller
     {
         $order = $this->orderService->formatOrderById($request->orderId);
 
-        $update = Order::where('orderId', $order->id)->first();
+        $update = Order::where('orderId', $order->id)->with('buyer')->first();
         $items = collect($update->items);
 
         $items->each(function($item) {
@@ -61,11 +69,31 @@ class CheckoutController extends Controller
         $update->payment = $order->payment;
         $update->save();
 
-        if($order->status->origin === 'PAID') {
-            
-            Mail::to(config('mail.contact'))->send(new AdminOrderPaidMail($order));
+        // get order details to send by email (time and address)
+        $details = OrderDeliveryData::where('order_id', $update->id)->first();
+        $buyer_address = Address::where('id', $details->address_id)->first();
+        $buyer = User::where('id', $buyer_address['user_id'])->first();
+        $seller = Seller::where('id', $update['seller_id'])->with('user')->first();
+        $buyer->ddd = substr($update->buyer['phone'], 0 ,2);
+        $buyer->phone = substr($update->buyer['phone'], 2);
+        $seller->ddd = substr($update->seller['phone'], 0 ,2);
+        $seller->phone = substr($update->seller['phone'], 2);
 
-            // \Mail::to(config('mail.contact'))->send(new SellerAdminRegisterMail());
+        $dt = MoipUtil::formatDate($details->time->toDateTimeString())->format('d/m/Y H:i');
+
+        //set order array
+        $order->time = $dt;
+        $order->buyer = collect($buyer);
+        $order->seller = collect($seller);
+        $buyer_address = collect($buyer_address);
+        unset($order->buyer['password']);
+
+        // dd($update->seller['user']['email']);
+
+        if($order->status->origin === 'PAID') {
+            \Mail::to(config('mail.contact'))
+            ->cc($update->seller['user']['email'])
+            ->send(new AdminOrderPaidMail($order, $buyer_address));
         }
 
         return redirect()->route('orders.show', ['id' => $request->orderId]);

@@ -11,16 +11,18 @@ class AdminOrderPaidMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $data;
+    public $order;
+    public $address;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($order, $address)
     {
-        $this->data = $data;
+        $this->order = $order;
+        $this->address = $address;
     }
 
     /**
