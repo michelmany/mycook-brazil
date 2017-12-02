@@ -15,7 +15,7 @@
 
         <transition name="fade" mode="in-out">
         <div role="tablist" v-if="categories.length > 0 && items.length > 0">
-            <b-card no-body class="mb-1" v-for="(category,index) in categories" :key="index" v-if="hasCategoryProduct">
+            <b-card no-body class="mb-1" v-for="(category,index) in categories" :key="index" v-if="hasCategoryProduct(category)">
                 <b-card-header header-tag="header" class="p-1" role="tab">
                     <div class="d-flex justify-content-end">
                         <div class="mr-auto p-2" style="line-height: 2.25">
