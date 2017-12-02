@@ -27,6 +27,13 @@
                                         <div class="col-lg-12 col-xl-6">
 
                                             <div class="form-group row">
+                                                <label for="formAtivo" class="col-12 col-md-3 col-form-label">Status</label>
+                                                <div class="col-12 col-md-9">
+                                                    <input type="checkbox" id="formAtivo" v-model="product.active"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
                                                 <label for="formNome" class="col-12 col-md-3 col-form-label">Nome</label>
                                                 <div class="col-12 col-md-9">
                                                     <input type="text" class="form-control" id="formNome"
@@ -206,7 +213,7 @@
                     delete product.photo;
                     
                     httpService.build('admin/v1/products')
-                    .update(this.$route.params['id'], this.product)
+                    .update(this.$route.params['id'], product)
                     .then((res) => {
                         // console.log(res)
                         toastr.success('Atualizado com sucesso!', 'Produto '+ this.product.name, {
@@ -223,6 +230,16 @@
                 }
             },
             mounted() {
+                let active = document.getElementById('formAtivo');
+
+                let switchery = new Switchery(active, {
+                    color: '#38A866'
+                });
+
+                switchery.element.addEventListener('change', () => {
+                  this.product.active = active.checked;
+                });
+
                 let httpService = new HttpService();
                 httpService.build('admin/v1/products/' + this.$route.params['id'])
                 .list()
@@ -231,7 +248,10 @@
                     if(this.product.extras.length > 0) {
                         this.isConfigured = true
                     }
-                    // this.user.buyer = res.data.buyer || {};
+                    if (!!res.data.active) {
+                        switchery.setPosition(true);
+                        switchery.handleOnchange(true);
+                    }
                 });
             }
         }

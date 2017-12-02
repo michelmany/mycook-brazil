@@ -15,7 +15,7 @@
 
         <transition name="fade" mode="in-out">
         <div role="tablist" v-if="categories.length > 0 && items.length > 0">
-            <b-card no-body class="mb-1" v-for="(category,index) in categories" :key="index" v-if="category.items.length > 0">
+            <b-card no-body class="mb-1" v-for="(category,index) in categories" :key="index" v-if="hasCategoryProduct">
                 <b-card-header header-tag="header" class="p-1" role="tab">
                     <div class="d-flex justify-content-end">
                         <div class="mr-auto p-2" style="line-height: 2.25">
@@ -23,9 +23,9 @@
                         </div>
                         <div class="p-2">
                             <span class="p-2 badge badge-default">
-                                {{ category.items.length >= 1 ?  category.items.length + ' produto(s)' : 'Vazio'  }}
+                                {{ productQtyLabel(category) }}
                             </span>
-                            <b-btn href="#" size="sm" v-b-toggle="'accordion_category_'+index" variant="secondary" v-on:click.native="filterProductByCategory(category)">
+                            <b-btn v-show="category.items" href="#" size="sm" v-b-toggle="'accordion_category_'+index" variant="secondary" v-on:click.native="filterProductByCategory(category)">
                                 <i class="fa fa-plus" :class="{'fa-plus': filterCategories.collapse.id === '',
                                                        'fa-minus': filterCategories.collapse.id === category.id}">
                                 </i>
@@ -37,7 +37,7 @@
                 <b-collapse :data-category="category.id" :id="'accordion_category_'+index" accordion="my-accordion" role="tabpanel">
                     <b-card-body>
                         <!-- product filtered -->
-                        <div class="cardapio__item" v-for="(item, index) in category.items" key="index" v-if="item.extras.length > 0">
+                        <div class="cardapio__item" v-for="(item, index) in category.items" key="index" v-if="item.active && item.extras.length > 0">
                             <div class="row px-3">
                                 <div class="col-md-5">
                                     <div v-if="item.photo" class="cardapio__image mb-3 mb-md-0" 
@@ -185,7 +185,7 @@
                 return {
                     disabled: this.isDisabled
                 }
-            },
+            }
             // isDisabled(evt) {
             //     console.log(evt)
             //     // return true
@@ -196,6 +196,13 @@
             setNow() {
                 this.now = moment().unix()
             },
+            hasCategoryProduct(category) {
+                return category.items.length > 0
+            },
+            productQtyLabel(category) {
+                let catLength = category.items.length;
+                return catLength == 1 ?  catLength + ' produto' : catLength + ' produtos'
+            },
             openDaysOrAddToCart(item, index, event) {
                 if (this.isListFiltered == false) {
                     this.itemIndex = index;
@@ -204,8 +211,6 @@
                     this.showDays = false;
                     this.addItem(item, index);
                 }
-
-                // console.log(event)
             },
             checkQtyAndTimePast(qty, time, index) {
                 let lastTimeOfToday = _.last(time)
@@ -444,15 +449,15 @@
                     .then((res) => {
                         this.loading = false;
                         this.items = res.data;
-                        this.removeItemNoExtra();
+                        this.removeItemNoExtraAndNoActive();
                         this.orderingWeekDays();
                         this.getRangeTime();
                         this.getCategories();
                     });
             },
-            removeItemNoExtra() {
+            removeItemNoExtraAndNoActive() {
                 this.items.forEach( (item, index) => {
-                    if (item.extras.length === 0) {
+                    if (item.extras.length === 0 || !item.active) {
                         this.items.splice(index, 1);
                     }
                 })
@@ -540,7 +545,7 @@
                     .then(response => {
                         let categories = response.data.categories;
 
-                        this.items.forEach((product) => {
+                        this.items.forEach((product) => {   
                             let product_category = product.category_id;
                             let category = _.find(categories, cat => cat.id === product_category);
                             let _index = _.findIndex(this.categories, cat => cat.id === product_category);
