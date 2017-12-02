@@ -51,7 +51,10 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $data['password'] = bcrypt($request->input('password'));
+        
+        if(isset($data['password'])) {
+            $data['password'] = bcrypt($request->input('password'));
+        }
         
         $result = $this->model->findOrFail($id);
         $result->update($data);

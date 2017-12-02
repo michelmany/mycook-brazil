@@ -192,7 +192,7 @@
                 let data = this.user;
                 delete data.avatar;
 
-                if (!data.password) {
+                if (data.password == null) {
                     delete data.password;
                 }
 
