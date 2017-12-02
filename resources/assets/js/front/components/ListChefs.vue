@@ -14,7 +14,6 @@
                             <div class="chef-item__text ">
                                 <div class="chef-item__title text-uppercase" v-if="chef.custom_name == 'null' || chef.custom_name == null">{{ chef.name }}</div>
                                 <div class="chef-item__title text-uppercase" v-else>{{ chef.custom_name }}</div>
-                                <div class="chef-item__distance"><small class="text-uppercase">{{ roundDistance(chef.distance) }}</small></div>
                             </div>
                             <div class="chef-item__icon-arrow ml-auto"><i class="fa fa-chevron-right"></i></div>
                         </div>

@@ -14,10 +14,11 @@
 
                 <div class="col-md-7">
                     <h3>{{ $seller->seller->data['title'] ?? $seller->name }}</h3>
+ {{--                    
                     @if ($seller->distance)
                         <div class="chef-item__distance"><small class="text-uppercase">A {{$seller->distance}} Km de distância</small></div>
                     @endif
-
+ --}}
                     <p class="text-justify">{{ $seller->seller->data['description'] ?? '......' }}</p>
                 </div>
 
